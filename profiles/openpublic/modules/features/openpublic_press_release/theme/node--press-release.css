@@ -1,0 +1,25 @@
+.node-type-press-release .date-tag {
+  margin: 5px 0 25px 0;
+  font-weight: normal;
+  font-size: 	1.167em;
+  color: #999;
+}
+.node-type-press-release .date-tag a {
+  font-weight: normal;
+ }
+
+.node-type-press-release .date-tag .field,
+.node-type-press-release .date-tag .field-items,
+.node-type-press-release .date-tag .field-item {
+  display: inline;
+  
+}
+
+
+
+
+
+
+
+
+

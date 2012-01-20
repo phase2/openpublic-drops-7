@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ * Sets variables to enable statistics counting.
+ */
+function openpublic_most_popular_install() {
+  if (module_exists('statistics')) {
+    variable_set('statistics_enable_access_log', 1);
+    variable_set('statistics_count_content_views', 1);
+  }
+  if (module_exists('combineblocks')) {
+    $combineblocks_sets = variable_get('combineblocks_sets', array());
+    $combineblocks_sets[] = array(
+      '#block-views-most-popular-content-block-1',
+      '#block-views-most-popular-content-block-2',
+    );
+    variable_set('combineblocks_sets', $combineblocks_sets);
+  }
+}

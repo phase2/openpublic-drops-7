@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_breaking_news.features.inc');
+include_once('openpublic_breaking_news.theme.inc');

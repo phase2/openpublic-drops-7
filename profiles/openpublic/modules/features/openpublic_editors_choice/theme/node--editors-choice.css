@@ -1,0 +1,10 @@
+.field-name-field-editors-choice-thumbnail {
+  margin: 0px 10px 10px 15px;
+  border: 4px solid #EAEAEA;
+  height: 80px;
+  float:left;
+}
+.field-name-field-editors-choice-node,
+.field-name-field-editors-choice-link {
+  clear: both;
+}

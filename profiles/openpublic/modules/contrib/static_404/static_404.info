@@ -1,0 +1,12 @@
+name = "Static 404"
+description = "Allows for faster delivery of 404 pages by statically generating them on a cron run"
+package = "OpenPublic"
+core = "7.x"
+version = "7.x-1.0"
+
+; Information added by drupal.org packaging script on 2011-08-16
+version = "7.x-1.0-beta2"
+core = "7.x"
+project = "static_404"
+datestamp = "1313510819"
+

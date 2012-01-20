@@ -1,0 +1,130 @@
+name = OpenPublic
+description = OpenPublic Distribution
+
+version = 7.x-1.0-beta4
+core = 7.x
+
+
+; Core
+
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = syslog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = overlay
+dependencies[] = field
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = rdf
+dependencies[] = statistics
+
+
+; Contrib
+
+dependencies[] = node_reference
+dependencies[] = nodeblock
+dependencies[] = context
+dependencies[] = context_ui
+dependencies[] = ctools
+dependencies[] = views_content
+;;dependencies[] = panels
+dependencies[] = date
+dependencies[] = diff
+dependencies[] = entity
+dependencies[] = features
+dependencies[] = follow
+dependencies[] = node_reference
+dependencies[] = nodequeue
+;;;dependencies[] = nodeblock
+dependencies[] = pathauto
+dependencies[] = strongarm
+dependencies[] = token
+dependencies[] = imce
+dependencies[] = views
+dependencies[] = views_ui
+;;;dependencies[] = akamai
+dependencies[] = xmlsitemap
+dependencies[] = wysiwyg
+dependencies[] = imce_wysiwyg
+;;;dependencies[] = password_policy
+dependencies[] = securepages
+dependencies[] = entitycache
+dependencies[] = addthis
+dependencies[] = twitter_pull
+dependencies[] = conditional_styles
+dependencies[] = field_group
+dependencies[] = recaptcha
+dependencies[] = password_policy
+dependencies[] = comment_notify
+dependencies[] = googleanalytics
+dependencies[] = boxes
+dependencies[] = context_field
+dependencies[] = entity_autocomplete
+dependencies[] = views_boxes
+dependencies[] = delta
+dependencies[] = delta_ui
+
+; Custom 
+
+;dependencies[] = context_no_title
+dependencies[] = context_breadcrumb_current_page
+dependencies[] = context_bool_field
+dependencies[] = defaultcontent
+dependencies[] = nodeconnect
+dependencies[] = openpublic_splash
+dependencies[] = apps
+
+;Features
+
+dependencies[] = phase2_blog
+dependencies[] = phase2_profile
+dependencies[] = phase2_document
+dependencies[] = openpublic_breaking_news
+dependencies[] = openpublic_comments
+dependencies[] = openpublic_press_release
+dependencies[] = openpublic_defaults
+dependencies[] = openpublic_home_page_feature
+dependencies[] = openpublic_most_popular
+dependencies[] = openpublic_person
+dependencies[] = openpublic_resources
+dependencies[] = openpublic_site_page
+dependencies[] = openpublic_services
+;;dependencies[] = openpublic_section_front
+;;dependencies[] = openpublic_faqs
+dependencies[] = openpublic_webform
+dependencies[] = openpublic_editors_choice
+dependencies[] = openpublic_demo_content
+dependencies[] = openpublic_captcha
+dependencies[] = openpublic_media_room
+
+
+; Media Package
+
+;dependencies[] = media_internet
+;dependencies[] = media_youtube
+;dependencies[] = styles
+;dependencies[] = file_styles
+;dependencies[] = plupload
+;dependencies[] = multiform
+;dependencies[] = media
+;;;dependencies[] = media_gallery
+
+
+files[] = openpublic.profile
+;files[] = openpublic.module
+
+;stylesheets[all][] = css/menu.css
+;scripts[] = js/menu.js

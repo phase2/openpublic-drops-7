@@ -1,0 +1,38 @@
+/* Add this widget */
+#addthis {
+  float: right;
+  margin: 4px 0 0;
+}
+
+/* Search */
+#search-box input#edit-submit {
+	background: #001523 url(sprite.png) repeat-x 0 -414px;
+	cursor: pointer;
+	margin: 0 0 0 25px;
+	color: #FFF;
+	padding: 10px 45px;
+	font-size: 1.417em;
+	line-height: 1.3em;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	border: 1px solid #01416d;
+}
+#search-box input#edit-submit:hover {
+	background: #001523 url(sprite.png) repeat-x -245px -414px;
+	border: 1px solid #0f5a8d;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.3);
+	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.3);
+	box-shadow: 0 3px 6px rgba(0,0,0,.3);
+}
+
+#edit-basic label {
+  display: none;
+}
+
+#search-box .search-advanced {
+  margin-top: 10px;
+}
+ul li.leaf {
+  list-style-position: inside;
+}

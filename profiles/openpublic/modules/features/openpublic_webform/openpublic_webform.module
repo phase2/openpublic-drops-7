@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_webform.features.inc');
+include_once('openpublic_webform.theme.inc');

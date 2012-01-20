@@ -1,0 +1,36 @@
+<?php
+
+function openpublic_breaking_news_install() {
+  openpublic_breaking_news_create_nodequeues();
+}
+
+/**
+ * Creates nodequeues.
+ * TODO: look it to doing this as a feature export
+ */
+function openpublic_breaking_news_create_nodequeues() {
+
+  $queue1 = (object) array(
+    'name' => 'breaking_news',
+    'title' => st('Breaking News Queue'),
+    'add_subqueue' => array(st('Breaking News Queue')),
+    'types' => array('event', 'issue_page', 'news', 'photo_gallery', 'press_release', 'site_page', 'story', 'video', 'blog_entry'),
+    'subqueue_title' => '',
+    'size' => 1,
+    'link' => '',
+    'link_remove' => '',
+    'owner' => 'nodequeue',
+    'show_in_links' => 0,
+    'show_in_tab' => 1,
+    'show_in_ui' => 1,
+    'i18n' => 1,
+    'reverse' => 0,
+    'reference' => 0,
+    'new' => 1,
+    'subqueues' => array(),
+    'roles' => array(),
+  );
+
+  $qid1 = nodequeue_save($queue1);
+
+}

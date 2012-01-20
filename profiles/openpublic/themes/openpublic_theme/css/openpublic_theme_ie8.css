@@ -1,0 +1,20 @@
+
+
+#header .site-name {
+   text-shadow: none;
+}
+
+#home-rotator { 
+  background: url(../img/bg-home-rotator3.png) transparent repeat-x 0 -5px;  padding-bottom: 0;
+  height: 318px;
+
+  }
+
+
+.home-rotator-slide {
+   background: url(../img/bg-home-rotator3.png) transparent repeat-x 0 -23px;
+   padding-bottom: 0;
+}
+
+.breaking-news {margin-top: 7px;}
+

@@ -1,0 +1,57 @@
+<?php
+// $Id: smartqueue.install,v 1.4 2010/10/07 02:50:35 ezrag Exp $
+
+/**
+ * @file
+ * Install, update and uninstall functions for the nodequeue module.
+ *
+ */
+
+function smartqueue_schema() {
+  $schema['smartqueue'] = array(
+    'description' => 'Table for smartqueues, storing global information for each queue.',
+    'fields' => array(
+      'qid' => array(
+        'description' => t('The primary identifier for a queue.'),
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE
+      ),
+      'use_parents' => array(
+        'description' => "Whether a queue is to use the terms' parents when displaying the queue selection.",
+        'type' => 'int',
+        'size' => 'tiny',
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('qid'),
+  );
+
+  return $schema;
+}
+
+function smartqueue_update_6003() {
+  $ret = array();
+  // Don't use hook_schema for database updates per http://drupal.org/node/150220.
+  $schema = array(
+    'description' => 'Table for smartqueues, storing global information for each queue.',
+    'fields' => array(
+      'qid' => array(
+        'description' => 'The primary identifier for a queue.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE
+      ),
+      'use_parents' => array(
+        'description' => "Whether a queue is to use the terms' parents when displaying the queue selection.",
+        'type' => 'int',
+        'size' => 'tiny',
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('qid'),
+  );
+  db_create_table('smartqueue', $schema);
+  update_sql('INSERT INTO {smartqueue} (qid) SELECT qid FROM {nodequeue_queue}');
+  return $ret;
+}

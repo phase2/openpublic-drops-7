@@ -1,0 +1,44 @@
+core = 7.x
+description = Base Theme for OpenPublic
+name = OpenPublic
+
+
+; Basic styles used in many places across the site
+stylesheets[all][]   = css/basics.css
+
+; CSS styles for default HTML elements.
+stylesheets[all][]   = css/editor.css
+
+
+; CSS file to style re-usable components that can appear under multiple mockups/contexts.
+stylesheets[all][]   = css/openpublic_theme.css
+
+; Print-version styles
+stylesheets[print][] = css/print.css
+
+; IE 8 and below stylesheet
+stylesheets-conditional[lte IE 8][all][] = css/openpublic_theme_ie8.css
+
+; IE 7 and below stylesheet
+stylesheets-conditional[lte IE 7][all][] = css/openpublic_theme_ie7.css
+
+
+scripts[] = js/theme-support.js
+
+regions[sidebar_first] = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[inner_first] = First Inner
+regions[inner_second] = Second Inner
+regions[content_prefix] = On Top of Content
+regions[content] = Content
+regions[content_suffix] = Underneath the Content
+regions[header] = Header
+regions[footer] = Footer
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+regions[help] = Help
+
+;features[] = favicon
+features[] = main_menu
+features[] = logo
+features[] = name

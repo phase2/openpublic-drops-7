@@ -1,0 +1,251 @@
+<?php
+
+/*
+ * implimentation of hook_install
+ *
+ * we are removing the default openomega as we set that in code
+ * we also enable the openomega so it can become default
+ */
+function openpublic_defaults_install() {
+  // we are setting this variables as the appear to get pulled
+  // before strongarm can set them
+  variable_set("theme_default", "openomega");
+  variable_set("admin_theme", "rubik");
+  variable_set("node_admin_theme", '1');
+  theme_enable(array("openomega"));
+
+  // Follow Module updates
+  if (module_exists('follow')) {
+    $follow_data = array();
+    $follow_options = array(
+      'query' => array(),
+      'fragment' => '',
+    );
+    $follow_data[] = array(
+      'name' => 'facebook',
+      'uid' => 0,
+      'path' => 'http://www.facebook.com/pages/Phase2-Technology/7553826753',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    $follow_data[] = array(
+      'name' => 'twitter',
+      'uid' => 0,
+      'path' => 'http://twitter.com/openpublic',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    $follow_data[] = array(
+      'name' => 'youtube',
+      'uid' => 0,
+      'path' => 'http://www.youtube.com',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    $follow_data[] = array(
+      'name' => 'linkedin',
+      'uid' => 0,
+      'path' => 'http://www.linkedin.com/company/phase2-technology',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    foreach ($follow_data as $data) {
+      drupal_write_record('follow_links', $data);
+    }
+  }
+  
+  // AddThis settings
+  if (module_exists('addthis')) {
+    $addthis = array(
+      'addthis_brand' => '',
+      'addthis_disable_flash' => 0,
+      'addthis_display_in_links' => 0,
+      'addthis_display_in_teasers' => 0,
+      'addthis_dropdown_disabled' => 0,
+      'addthis_image' => '/profiles/openpublic/modules/features/openpublic_defaults/theme/soc-media.gif',
+      'addthis_image_attributes' => 'alt="Email, Print, send to Twitter, send to Facebook, and more"',
+      'addthis_image_height' => 17,
+      'addthis_image_secure' => '/profiles/openpublic/modules/features/openpublic_defaults/theme/soc-media.gif',
+      'addthis_image_width' => 77,
+      'addthis_logo' => 'http://www.addthis.com/images/yourlogo.png',
+      'addthis_logo_background' => 'EFEFFF',
+      'addthis_logo_color' => '666699',
+      'addthis_offset_left' => 2,
+      'addthis_offset_top' => 2,
+      'addthis_options' => 'print, email, twitter, facebook, digg, delicious, myspace, google, live, favorites, more',
+      'addthis_username' => 'openpublic',
+      'addthis_widget_version' => 152,
+    );
+    foreach ($addthis as $key => $value) {
+      variable_set($key, $value);
+    }
+  }
+  
+  if (module_exists('wysiwyg')) {
+    openpublic_set_wysiwyg_settings();
+  }
+  
+  if (module_exists('password_policy')) {
+    openpublic_defaults_create_password_policy();
+  }
+  if (module_exists('openpublic_api')) {
+    $item =  array(
+      'module' =>  'openpublic_api',
+      'delta' =>  'api_status',
+      'theme' =>  'rubik',
+      'status' =>  1,
+      'weight' =>  0,
+      'region' =>  'dashboard_sidebar',
+      'custom' =>  0,
+      'pages' => NULL,
+      'visibility' =>  0,
+      'cache' =>  1,
+    );
+    $item = (object) $item;
+    drupal_write_record('block', $item);
+  }
+  if (module_exists('apps')) {
+    $item =  array(
+      'module' =>  'apps',
+      'delta' =>  'manage_apps__openpublic',
+      'theme' =>  'rubik',
+      'status' =>  1,
+      'weight' =>  1,
+      'region' =>  'dashboard_main',
+      'custom' =>  0,
+      'pages' => NULL,
+      'visibility' =>  0,
+      'cache' =>  1,
+    );
+    $item = (object) $item;
+    drupal_write_record('block', $item);
+  }
+}
+
+function openpublic_set_wysiwyg_settings() {
+  $settings = array(
+    'default' => 1,
+    'user_choose' => 1,
+    'show_toggle' => 1,
+    'theme' => 'advanced',
+    'language' => 'en',
+    'buttons' => array(
+      'default' => array(
+        'Bold' => 1,
+        'Italic' => 1,
+        'Underline' => 1,
+        'Strike' => 1,
+        'JustifyLeft' => 1,
+        'JustifyCenter' => 1,
+        'JustifyRight' => 1,
+        'BulletedList' => 1,
+        'NumberedList' => 1,
+        'Undo' => 1,
+        'Redo' => 1,
+        'Link' => 1,
+        'Unlink' => 1,
+        'Anchor' => 1,
+        'Image' => 1,
+        'Superscript' => 1,
+        'Subscript' => 1,
+        'Blockquote' => 1,
+        'HorizontalRule' => 1,
+        'Cut' => 1,
+        'Copy' => 1,
+        'Paste' => 1,
+        'PasteFromWord' => 1,
+        'RemoveFormat' => 1,
+        'SpecialChar' => 1,
+        'Format' => 1,
+        'Table' => 1,
+        'Maximize' => 1,
+      ),
+      'imce' => array(
+        'imce' => 1,
+      ),
+    ),
+    'toolbar_loc' => 'top',
+    'toolbar_align' => 'left',
+    'path_loc' => 'bottom',
+    'resizing' => 1,
+    'verify_html' => 1,
+    'preformatted' => 0,
+    'convert_fonts_to_spans' => 1,
+    'remove_linebreaks' => 1,
+    'apply_source_formatting' => 0,
+    'paste_auto_cleanup_on_paste' => 1,
+    'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
+    'css_setting' => 'self',
+    'css_path' => '%t/css/editor.css',
+    'css_classes' => '',
+  );
+  
+  $fields = array(
+    'format' => 'full_html',
+    'editor' => 'ckeditor',
+    'settings' => serialize($settings),
+  );
+
+  db_insert('wysiwyg')->fields($fields)->execute();
+  
+  db_update('filter_format')
+  ->condition('format', 'filtered_html')
+  ->fields(array('weight' => 1))
+  ->execute();
+  
+  db_update('filter_format')
+  ->condition('format', 'full_html')
+  ->fields(array('weight' => 0))
+  ->execute();
+
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ * Alter the installation form to set United States as the default country.
+ */
+function openpublic_defaults_form_install_configure_form_alter(&$form, $form_state) {
+  $form['server_settings']['site_default_country']['#default_value'] = 'US';
+}
+
+/**
+ * Installs the default password policy for all user roles
+ */
+function openpublic_defaults_create_password_policy() {
+  $policy = array(
+    'complexity' => 3,
+    'lowercase' => 1,
+    'uppercase' => 1,
+    'history' => 'all',
+    'length' => 8,
+    'username' => 1,
+  );
+
+  db_insert('password_policy')
+    ->fields(array(
+      'name' => 'OpenPublic',
+      'enabled' => 1,
+      'policy' => serialize($policy),
+      'expiration' => 90,
+      'weight' => 0,
+      )
+    )
+    ->execute();
+
+  // Can't be sure the user roles have installed yet, so we can't grab from the db.
+  $roles = array("2", "3");
+
+  foreach ($roles as $id) {
+    db_insert('password_policy_role')
+      ->fields(array(
+        'pid' => 1,
+        'rid' => $id,
+      )
+    )
+    ->execute();
+  }
+}

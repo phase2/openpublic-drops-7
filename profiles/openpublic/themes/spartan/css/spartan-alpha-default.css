@@ -1,0 +1,92 @@
+/**
+  *  This CSS file (THEME-alpha-default.css) contains styles that applies to ALL the responsive layouts
+  *  Unlike global.css (the global, including mobile layout CSS file), THEME-alpha-default.css is only
+  *  used on any size ABOVE mobile, which translates to all the responsive sizes of your mobile-first theme.
+  *
+  *  Any CSS included here will be used in your narrow, normal, wide, AND fluid grids, depending on which you 
+  *  have enabled in your theme settings. 
+  *  So this CSS will provide global styles for everything EXCEPT the default, mobile-first layout. 
+  */
+
+/* search form */
+.block-search-form {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 292px;
+}
+
+/*
+ * Home page rotator
+ */
+.view-home-page-feature-rotator {
+  margin-left: 0;
+  width: 100%;
+}
+
+#home-rotator {
+  width: 100%;
+  padding: 0;
+  min-height: 300px;
+}
+.home-top-intro {
+  /* This is only hidden actually during the fluid layout, 960 size overwrites it again to show the subtext */
+  font-size: 0;
+  text-align:center;
+  font-style: italic;
+}
+.block .content .home-top-intro h2 {
+  font-size: 28px;
+  text-transform:none;
+  padding:0;
+}
+.home-top-intro h2 a:link,.home-top-intro h2 a:visited {
+  font-size: 28px;
+}
+.home-rotator-slide {
+  width: 100%;
+  margin: 0;
+}
+
+.home-rotator-text-block {
+  float: left;
+  height: auto;
+  margin: 1% 0 1% 1%;
+  padding: 0;
+  width: 41.489361702128%;
+  height: 278px;
+}
+
+.home-rotator-photo {
+  float: right;
+  width: 55.31914893617%;
+  margin: 1% 1% 1% 0;
+  overflow: hidden;
+}
+.home-rotator-photo {
+  float: right;
+}
+.home-rotator-photo img, .home-rotator-slide img {
+    width:auto;
+    margin: 0;
+}
+
+/*
+ * Breaking News
+ */
+.breaking-news {
+  height: 45px;
+}
+
+.breaking-news .headline {
+  width:65%;
+}
+.breaking-news .breaking-news-header {
+  width: 185px;
+  margin: 6px 0 0 10px;
+  visibility: visible;
+}
+.breaking-news .headline a {
+  height: 11px;
+  padding: 13px 0;
+}

@@ -1,0 +1,100 @@
+.node-content .webform-client-form label {
+  float: left;
+  width : 150px;
+  text-align:right;
+  padding:7px;
+  color:#919191;
+}
+.node-content .webform-client-form .grippie,
+.node-content .webform-client-form textarea,
+.node-content .webform-client-form input, .webform-client-form select {
+  width : 260px;
+  background: -webkit-gradient(linear,lefttop,leftbottom,from(#fff), to(#fafafb));
+/* for webkit browsers */
+	background: -moz-linear-gradient(top,#fff,#fafafb);
+/* for firefox 3.6+ */
+padding: 4px 7px;
+	border: 1px solid #bcbcbc;
+	color: #666;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	width: 260px;
+	background: #fcfcfc;
+
+}
+
+.node-content .webform-client-form textarea {width: 275px;}
+
+.node-content .webform-client-form select {
+    width: 274px;
+  padding: 2px 0;
+  }
+  
+.node-content .webform-client-form .grippie {
+  visibility: hidden;
+  height: 1px; 
+  line-height: 1px;
+}
+
+.node-content #edit-submitted-contact-me label {width: auto; visibility: hidden; padding: 0; float: none;}
+
+.node-content .webform-client-form .form-checkbox {
+  width: auto;
+  border: none;
+}
+
+.node-content span.form-required {
+  color: #C40F42;
+  	font-size: 15px;
+}
+
+
+body.node-type-webform p {
+  margin: 15px 0;
+}
+
+body.node-type-webform h4 {
+  color: #004370;
+	font-size: 1.25em;
+	font-family: Arial, sans-serif;
+	font-weight: 700;
+	font-style: normal;
+	margin: 15px 0;
+}
+
+body.node-type-webform p.required-expla {
+  border-bottom: #EBEBEB 1px solid;
+  color:#999999;
+  font-size:0.917em;
+  font-style:italic;
+  line-height:normal;
+  margin: 15px 0 20px 0; 
+  padding:0 0 10px;
+}
+
+
+.node-content .webform-client-form input.form-submit {
+	background: #001523 url(sprite.png) repeat-x 0 -414px;
+	border: none;
+	cursor: pointer;
+	margin: 0 0 0 166px;
+	color: #FFF;
+	padding: 7px 35px;
+	font-size: 1.167em;
+	font-family: Arial, sans-serif;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #01416d;
+	float: left;
+	width: 120px;
+}
+
+.node-content .webform-client-form input.form-submit:hover {
+	background: #001523 url(sprite.png) repeat-x -245px -414px;
+	border: 1px solid #066c92;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.3);
+	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.3);
+	box-shadow: 0 3px 6px rgba(0,0,0,.3);
+}
+

@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_comments.features.inc');
+include_once('openpublic_comments.theme.inc');

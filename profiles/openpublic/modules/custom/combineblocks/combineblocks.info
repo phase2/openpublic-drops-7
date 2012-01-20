@@ -1,0 +1,4 @@
+
+name = "Combine Blocks"
+description = "Use js to combine two blocks in a tab view."
+core = 7.x

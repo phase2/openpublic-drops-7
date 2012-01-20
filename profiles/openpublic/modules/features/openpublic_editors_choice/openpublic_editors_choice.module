@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_editors_choice.features.inc');
+include_once('openpublic_editors_choice.theme.inc');

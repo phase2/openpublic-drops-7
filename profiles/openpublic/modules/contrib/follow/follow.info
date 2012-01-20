@@ -1,0 +1,3 @@
+name = Follow
+description = Add sitewide and per user links to social network profiles.
+core = 7.x

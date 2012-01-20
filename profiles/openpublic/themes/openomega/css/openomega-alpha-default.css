@@ -1,0 +1,161 @@
+/**
+  *  This CSS file (THEME-alpha-default.css) contains styles that applies to ALL the responsive layouts
+  *  Unlike global.css (the global, including mobile layout CSS file), THEME-alpha-default.css is only
+  *  used on any size ABOVE mobile, which translates to all the responsive sizes of your mobile-first theme.
+  *
+  *  Any CSS included here will be used in your narrow, normal, wide, AND fluid grids, depending on which you 
+  *  have enabled in your theme settings. 
+  *  So this CSS will provide global styles for everything EXCEPT the default, mobile-first layout. 
+  */
+
+
+/* search form */
+.block-search-form {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 292px;
+}
+
+.block-search-form .content {
+	border: 1px solid #0071a5;
+	margin: 35px 0 0 0;
+	padding: 2%;
+	width: 96%;
+}
+
+.block-search-form h2 {visibility: hidden; font-size: 1px; line-height: 0;} 
+form#search-block-form .form-text {
+	float: left;
+	background: url(../img/bg-form-field.png);
+	padding: 5px 10px;
+	border: 1px solid #CCC;
+	color: #999;
+	font-family: Georgia, serif;
+	font-size: 1.167em;
+	font-style: italic;
+	width: 60%;
+}
+
+form#search-block-form input.form-submit {
+	border: none;
+	cursor: pointer;
+	height: 30px;
+	line-height: 0;
+	float: right;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	-o-border-radius: 0;
+	border-radius: 0;
+}
+
+
+
+/*
+ * Home page rotator
+ */
+.view-home-page-feature-rotator {
+  margin-left: 0;
+  width: 100%;
+}
+
+#home-rotator {
+  width: 100%;
+  padding: 0;
+  min-height: 300px;
+}
+.home-top-intro {
+  /* This is only hidden actually during the fluid layout, 960 size overwrites it again to show the subtext */
+  font-size: 0;
+  text-align:center;
+  font-style: italic;
+}
+.block .content .home-top-intro h2 {
+  font-size: 28px;
+	font-family:Georgia, Times, serif;
+	text-transform:none;
+	padding:0;
+}
+.home-top-intro h2 a:link,.home-top-intro h2 a:visited {
+  font-size: 28px;
+  font-style:italic;
+}
+.home-rotator-slide {
+  width: 100%;
+  margin: 0;
+}
+
+.home-rotator-text-block {
+  background: url("../img/bg-home-rotator-text.jpg") no-repeat center center;
+  border: 1px solid #0071A5;
+  float: left;
+  height: auto;
+  margin: 1% 0 1% 1%;
+  padding: 0;
+  width: 41.489361702128%;
+  height: 278px;
+}
+
+.home-rotator-photo {
+  float: right;
+  width: 55.31914893617%;
+  margin: 1% 1% 1% 0;
+  overflow: hidden;
+}
+.home-rotator-photo {
+  float: right;
+}
+.home-rotator-photo img, .home-rotator-slide img {
+    width:auto;
+    margin: 0;
+}
+#home-top-numbers li a {
+  height: 18px;
+  background: url(../img/sprite.png) repeat-x 0 0;
+  width: 18px;
+  margin: 0 3px;
+}
+#home-top-numbers a.activeSlide {
+  background: url(../img/sprite.png) repeat-x -37px 0;
+}
+#home-top-numbers li a:hover,
+#home-top-numbers a.activeSlide:hover {
+  background: url(../img/sprite.png) repeat-x -79px 0;
+}
+/*
+ * Breaking News
+ */
+.breaking-news {
+  background:#fff url(../img/sprite.png) no-repeat 0 -200px;
+  height: 45px;
+}
+
+.breaking-news .headline {
+  width:65%;
+}
+.breaking-news .breaking-news-header {
+  width: 185px;
+  margin: 6px 0 0 10px;
+  visibility: visible;
+}
+.breaking-news .headline a {
+  height: 11px;
+  padding: 13px 0;
+}
+
+/*
+ * Footer
+ */
+#footer-logo-subscribe .site-name{
+  display: block;
+}
+#footer-logo-subscribe .logo{
+  display: block;
+}
+#footer-subscribe label {
+  display: none;
+}
+#footer-subscribe .form-item, 
+#footer-subscribe .form-actions {
+  margin: 1em 0;
+}

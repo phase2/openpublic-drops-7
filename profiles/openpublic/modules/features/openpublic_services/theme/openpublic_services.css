@@ -1,0 +1,90 @@
+#home-services-for-you {
+	z-index: 0;
+	position: relative;
+}
+#block-views-services-block-1 #home-services-for-you {
+	padding: 26px 0 10px;
+}
+#home-services-for-you h3 {
+	visibility: hidden;
+}
+#block-views-services-block-1 {
+  margin: 10px 0 0;
+  padding: 0;
+}
+#services-carousel {
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  height: 130px;
+  overflow: hidden;
+  width: 90% !important;
+}
+#services-carousel ul {
+  padding: 0;
+}
+#home-services-for-you li {
+	list-style-type: none;
+	float: left;
+	height: 130px;
+}
+.nav-button {
+  position: absolute;
+  top: 28px;
+  z-index: 100;
+}
+.nav-button a {
+	display: block;
+	margin-top: 18px;
+}
+#home-services-for-you #services-next {
+	right: 0;
+}
+#home-services-for-you li.entry {
+	width: 140px;
+	margin: 0 18px;
+}
+#home-services-for-you li.entry a {
+	display: block;
+}
+#home-services-for-you li.entry h4 {
+	margin: 5px 0 0;
+	font-size: 14px;
+}
+
+
+/* Node-related CSS */
+.view-id-services .photo {
+  display: inline;
+  float: left;
+  margin: 0 10px 10px 0;
+}
+  .view-id-services .photo img {
+    border: 2px solid #ccc;
+  }
+.view-id-services .view-content h4 {
+  color:#707071;
+  font-family: Arial, sans-serif;
+  font-size: 1.5em;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0 0 13px;
+}
+  .view-id-services .view-content h4 a {
+    font-weight: 700;
+    color: #00436f;
+    text-decoration: none;
+  }
+
+  
+.view-id-services .views-row {
+  clear: left;
+  border-bottom: 1px solid #E5E5E5;
+  margin: 20px 0 25px;
+  padding: 0 0 20px;
+}
+
+div.node .field-name-field-services-photo {
+  float: right;
+  margin: 0 0 0 18px;
+}

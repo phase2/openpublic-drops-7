@@ -1,0 +1,180 @@
+@charset "UTF-8";
+ 
+/* Handy font size definitions 
+font-size: .833em;   12px x .833   = 10px 
+font-size: .917em;   12px x .917   = 11px 
+font-size: 1em;      12px x 1      = 12px 
+font-size: 1.083em   12px x 1.083  = 13px 
+font-size: 1.167em;  12px x 1.167  = 14px
+font-size: 1.25em;   12px x 1.125  = 15px
+font-size: 1.417em;  12px x 1.417  = 17px
+font-size: 2em;      12px x 2    = 24px
+*/
+
+/******** DEFAULT HTML ELEMENT STYLING **********/
+
+body {
+  color: #333333;
+  font-family: Arial, sans-serif;
+  font-size:12px;
+}
+
+a:link, a:visited {
+  color:#00436F;
+  text-decoration:none;
+}
+
+a:hover, a:active, li a.active {
+  outline: none;
+  color: #1670ac;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+
+p {
+  color:#666666;
+  font-size:1.083em;
+}
+
+
+img, a img {
+  border: none;
+  outline: none;
+}
+
+dl {
+  margin: .5em 0 1em;
+  padding: 0;
+}
+dl dd {
+  margin: 0 0 .5em 1.5em;
+}
+
+
+label {
+  font-weight: bold; 
+  margin: 5px 0 0 0;
+  font-size: 1em;
+  color: #333;
+  font-family: Arial, sans-serif, helvetica;
+}
+
+input, select {margin: 5px 0;}
+
+h2 {
+  color:#999999;
+  font-family:Georgia,serif;
+  font-size:1.3em;
+  font-style:italic;
+  line-height:150%;
+  font-weight: normal;
+  margin: 0 0 15px 0;
+}
+
+h2 a,
+h2 a:link,
+h2 a:visited {
+   color: #999999;
+   text-decoration: underline;
+}
+
+h3 {
+  color: #000;
+  font-size:  1.167em;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+}
+
+h3 a,
+h3 a:link,
+h3 a:visited {
+   color: #000;
+   text-decoration: underline;
+}
+
+
+h4 {
+  font-size:  1.167em;
+  margin: 0 0 10px; 
+  color: #475058;
+  }
+  
+h4 a,
+h4 a:link,
+h4 a:visited {
+   color: #475058;
+   text-decoration: underline;
+}
+
+
+h5 {
+  font-size:  1.083em;
+  margin: 0 0 10px; 
+  color: #70787f;
+  }
+  
+h5 a,
+h5 a:link,
+h5 a:visited {
+  text-decoration: underline;
+  color: #70787f;
+  }
+  
+h6 {
+  font-size:  1.083em;
+  margin: 0 0 10px;
+  color: #9ba1a6;
+}
+
+h6 a,
+h6 a:link,
+h6 a:visited {
+  color: #9ba1a6;
+  text-decoration: underline;
+}
+  
+h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
+  text-decoration: none;
+  }
+
+address {
+  color: #000;
+}
+
+pre {
+  padding: 20px;
+  background: #ecf7fd;
+  border: 1px solid #d8f0fc;
+  margin: 20px 0;
+  overflow-x:scroll;
+}
+
+blockquote {
+  font-family: Georgia, serif;
+  font-size:    1.083em;
+  font-style: italic;
+  padding: 25px 30px 15px 30px;
+  background: url(../img/bg-quote.gif) ;
+  margin: 20px 0;
+}
+
+hr {}
+
+
+ul, ol {margin: 20px 0; padding: 0;}
+ul li, ol li {
+  color:#666666;
+  font-size:1.083em;
+  margin: 0 15px 5px 20px;
+}
+
+
+ol li {
+  margin: 0 15px 5px 25px;
+}

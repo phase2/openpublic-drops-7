@@ -1,0 +1,37 @@
+#right-rail #combinedblock {
+  background: #fff url("bg-fuz-2.png") repeat-x scroll 0 -6px;
+  border: 1px solid #ededed;
+  margin-bottom: 15px;
+}
+
+#combinedblock .combined-header h3 {
+  border-top: none;
+  border-bottom: medium none;
+  color: #067dab;
+  cursor: pointer;
+  font-family: Arial,sans-serif;
+  font-size: 1.12em;
+  font-style: normal;
+  font-weight: 400;
+  padding: 8px 10px;
+  text-align: center;
+  margin: 0;
+  background: none;
+}
+
+#combinedblock .combined-header h3.current,
+#combinedblock .combined-header h3:hover {
+  background: #0673ab none repeat scroll 0 0;
+  color: #fff;
+}
+
+#combinedblock .combined-header h3 a {
+  color: #0673ab;
+}
+
+#combinedblock li {
+  font-family:Arial,sans-serif;
+  font-style:normal;
+  list-style-type:none;
+  padding:7px 0 7px 19px;
+}

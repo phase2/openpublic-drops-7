@@ -1,0 +1,46 @@
+/* This file will hold styles that are loaded using the same media query as the normal grid. */
+
+/*
+ * Page backgrounds
+ */
+
+.breaking-news span.read-more {
+  display:block;
+}
+
+.home-top-intro {
+	text-indent:0;
+  font-size: 15px;
+  margin: 0 50px;
+}
+
+.block-breadcrumb {
+  
+}
+.block-addthis {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

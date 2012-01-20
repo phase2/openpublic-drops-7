@@ -1,0 +1,4 @@
+<?php
+
+include_once('phase2_blog.features.inc');
+include_once('phase2_blog.theme.inc');

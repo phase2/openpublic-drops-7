@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_home_page_feature.features.inc');
+include_once('openpublic_home_page_feature.theme.inc');

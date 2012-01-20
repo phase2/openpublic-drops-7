@@ -1,0 +1,7 @@
+.combined-header h3 {
+  opacity:.5;
+}
+.combined-header h3.current {
+  opacity:1;
+}
+

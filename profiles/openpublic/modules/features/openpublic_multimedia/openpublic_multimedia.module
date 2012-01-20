@@ -1,0 +1,4 @@
+<?php
+
+include_once(dirname(__FILE__) . '/openpublic_multimedia.features.inc');
+include_once(dirname(__FILE__) . '/openpublic_multimedia.theme.inc');

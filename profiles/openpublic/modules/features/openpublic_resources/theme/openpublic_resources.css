@@ -1,0 +1,22 @@
+/* Resources node related CSS */
+.view-id-resources .photo {
+  display: inline;
+  float: left;
+  margin: 0 10px 10px 0;
+}
+  
+.view-id-resources .view-content h4 {
+  color:#707071;
+  font-family: Arial, sans-serif;
+  font-size: 1.5em;
+  font-style: normal;
+  font-weight: 400;
+}
+.view-id-resources .view-content h4 a {
+  font-weight: 700;
+  color: #00436f;
+  text-decoration: none;
+}
+.view-id-resources .view-content .read-more {
+  clear: left;
+}

@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_person.features.inc');
+include_once('openpublic_person.theme.inc');

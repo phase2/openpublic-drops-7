@@ -1,0 +1,38 @@
+.home-rotator-slide {
+  margin: 0;
+  padding: 11px 11px 0 11px;
+  }
+  
+#home-top-numbers ul {
+  display: block;
+  margin: 0 0 0 160px;
+}
+
+.view-home-page-feature-rotator {
+  width: 957px;
+  margin-left: 0px;
+ 
+  }
+
+#home-rotator {background: none; height: 300px;}
+
+
+.home-rotator-slide {
+  background: url(../img/bg-home-rotator2.png) transparent repeat-x 0 -23px;
+  height: 310px;
+}
+
+.breaking-news {margin-top: 17px;}
+
+
+
+#header .site-name {
+   letter-spacing: -0.05em;
+     font-family: "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+  }
+  
+#header .site-name a{
+  text-shadow: none;
+}
+
+

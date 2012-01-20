@@ -1,0 +1,78 @@
+#footer-subscribe {
+  position: absolute;
+  right: -10px;
+  top: 5px;
+  padding: 10px 0 0;
+  width: 380px;
+}
+.logo-img {
+  float: left;
+  text-align:left;
+  margin-right: 20px;
+}
+.site-name-slogan {
+  float: left;
+  text-align: left;
+}
+/* show navigation that was hidden for mobile. */
+#region-menu {
+  display: block;
+}
+
+#stay-connected h3 {
+  padding: 15px;
+  border-bottom: 1px solid #2388af;
+  font-size: 2em;
+  
+  float: none;
+  margin-bottom: 10px;
+}
+#stay-connected ul {
+  padding: 15px;
+  padding-top: 0;
+  float: none;
+}
+
+.footer-utility li,
+.footer-nav ul.menu li {
+  float: left;
+  margin: 0 10px 15px 0;
+  font-family: Arial,sans-serif;
+  font-size: 1.083em;
+  letter-spacing: 0.02em;
+  text-shadow:0 2px 2px rgba(0,0,0,0.6);
+  text-transform: uppercase;
+  list-style: none;
+  list-style-image: none;
+  font-weight: bold;
+}
+
+.footer-nav ul.menu li li {
+	float: none;
+	margin-right: 0px;
+	font-weight: normal;
+	width: 115px;
+	font-family: Arial,sans-serif;
+	font-size: .9em;
+	letter-spacing: 0.02em;
+	margin: 10px 15px 10px 0;
+	margin-bottom: 0px;
+	text-shadow: none;
+	text-transform: none;
+}
+
+#footer-utility {
+  float: right;
+  padding: 20px 0 0;
+  text-align: left;
+  margin-bottom: 20px;
+}
+#footer-utility li {
+  font-family: Arial,sans-serif;
+  font-weight: 400;
+  margin: 0 0 10px;
+  padding-top: 0;
+  text-transform: uppercase;
+  float:none;
+  display: block;
+}

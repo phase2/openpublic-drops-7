@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function openpublic_person_install() {
+  openpublic_person_create_nodequeues();
+
+  // set the editors_choice to use custom settings
+  $settings = field_bundle_settings('node', 'profile');
+  $settings['view_modes']['editors_choice']['custom_settings'] = TRUE;
+  field_bundle_settings('node', 'profile', $settings);
+}
+
+/**
+ * Creates nodequeue for Leadership.
+ */
+function openpublic_person_create_nodequeues() {
+  $queue = (object) array(
+    'name' => 'leadership',
+    'title' => st('Leadership'),
+    'add_subqueue' => array(st('Leadership')),
+    'types' => array('profile', 'profile'),
+    'subqueue_title' => '',
+    'size' => 1,
+    'link' => 'Add to leadership list',
+    'link_remove' => 'Remove from leadership list',
+    'owner' => 'nodequeue',
+    'show_in_links' => 0,
+    'show_in_tab' => 1,
+    'show_in_ui' => 1,
+    'i18n' => 1,
+    'reverse' => 0,
+    'reference' => 0,
+    'new' => 1,
+    'subqueues' => array(),
+    'roles' => array(),
+  );
+  $qid1 = nodequeue_save($queue);
+}

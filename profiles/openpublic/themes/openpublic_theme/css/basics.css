@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+/* Handy font size definitions 
+font-size: .833em;   12px x .833   = 10px 
+font-size: .917em;   12px x .917   = 11px 
+font-size: 1em;      12px x 1      = 12px 
+font-size: 1.083em   12px x 1.083  = 13px 
+font-size: 1.167em;  12px x 1.167  = 14px
+font-size: 1.25em;   12px x 1.125  = 15px
+font-size: 1.417em;  12px x 1.417  = 17px
+font-size: 2em;      12px x 2       = 24px
+*/
+
+/************ Basic styles used in many places across the site *************/
+
+
+
+/** Clearfix */
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+	font-size:0;
+}
+.clearfix {
+  display: inline-block;
+}
+html[xmlns] .clearfix {
+  display: block;
+}
+* html .clearfix {
+  height: 1%;
+}
+/** End Clearfix */
+
+
+/** Accessible hidden/visible styles **/
+.element-hidden {
+  position:absolute;
+  z-index: 10;
+  left:-9999px;
+}
+
+.element-visible {
+  left: auto;
+}
+
+body           { margin:0; }
+.bold          { font-weight: bold; }
+.italic        { font-style: italic; }
+.underline     { border-bottom: 1px solid; }
+.highlight     { background: #ffc; }
+.img-left      { float: left; margin: 4px 10px 4px 0; }
+.img-right     { float: right; margin: 4px 0 4px 10px; }
+.nopadding     { padding: 0 }
+.noindent      { margin-left: 0; padding-left: 0 }
+.nobullet      { list-style: none; list-style-image: none; }
+
+.messages, .preview { margin: .75em 0; padding: .5em 1em; }
+.messages      { background-color: #fff; border: 1px solid #b8d3e5; }
+.messages ul   { margin: 0; }
+.preview       { background-color: #fcfce8; border: 1px solid #e5e58f; }
+.preview .node { background-color: #fcfce8; }
+
+span.clear     { clear: both; display: block; font-size: 0; height: 1px; line-height: 0; margin-bottom: -1px; }
+.clear         { clear: both; }
+.clear-block   { display: block; }
+.float-left    { float: left; }
+.float-right   { float: right; }
+
+.text-left     { text-align: left; }
+.text-right    { text-align: right; }
+.text-center   { text-align: center; }
+.text-justify  { text-align: justify; }
+
+tbody {border: none;}
+table {border-spacing: inherit;}

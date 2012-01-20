@@ -1,0 +1,81 @@
+/***** Homepage Rotator 
+*****/
+
+.view-home-page-feature-rotator {
+  width: 957px;
+  margin-left: 0px;
+}
+
+#home-rotator {
+  height: 300px;
+	padding: 11px;
+	border: 1px solid #000;
+}
+
+.home-rotator-text-block {
+  background: url(bg-home-rotator-text.jpg) no-repeat;
+  width: 390px;
+  float: left;
+  height: 290px;
+  padding: 0px;
+  margin-right: 10px;
+}
+
+.home-top-intro h2 {
+  font-weight: normal;
+  font-size: 28px;
+	text-indent:0;
+  line-height: 1.2em;
+}
+
+.home-top-intro h2 a {
+  display: block;
+  margin: 18px 0 10px 0;
+}
+
+.home-top-intro {
+  font-family: Georgia, serif;
+  font-size: 1.25em;
+  font-style: italic;
+  margin: 0 50px;
+  line-height: 1.3em;
+  height: 150px;
+  }
+  
+#home-top-read-more {
+  width: 112px;
+  text-align: center;
+  margin: 15px 0 15px 140px;
+}
+  
+#home-top-numbers {
+  font-family: Arial, sans-serif;
+  font-size: 1.167em;
+  text-align: center;
+}
+
+#home-top-numbers ul {
+	margin: 0 auto;
+	padding: 0;
+	display: table;
+}
+
+#home-top-numbers li {
+  list-style-type: none;
+  text-align: center;
+  display: inline;
+	margin:0;
+}
+
+#home-top-numbers li a {
+	display: inline;
+	float: left;
+	margin: 0 3px;
+}
+
+.home-rotator-slide {
+  display: none;
+  margin: 11px;
+}
+
+

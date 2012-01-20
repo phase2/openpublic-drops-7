@@ -1,0 +1,3 @@
+<?php
+
+include_once('openpublic_captcha.features.inc');

@@ -1,0 +1,4 @@
+<?php
+
+include_once('phase2_document.features.inc');
+include_once('phase2_document.theme.inc');

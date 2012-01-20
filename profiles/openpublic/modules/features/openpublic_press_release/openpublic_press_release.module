@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_press_release.features.inc');
+include_once('openpublic_press_release.theme.inc');

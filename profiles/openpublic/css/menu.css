@@ -1,0 +1,93 @@
+#navigation {
+  
+}
+
+
+#navigation ul.main-menu {
+  position: relative;
+  left: 0px;
+  margin-left: 0px;
+}
+
+
+.scrollBackButton, .scrollButton {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  width: 10px;
+  height: 11px;
+  }
+
+.scrollButton {
+  background: transparent url('../images/arrows.png') no-repeat -80px 10px;
+  right: -30px;
+  padding: 12px 5px 12px 5px;
+}
+
+.scrollButton:hover {
+  background: transparent url('../images/arrows.png') no-repeat -115px 10px;
+}
+
+.scrollBackButton {
+  background: transparent url('../images/arrows.png') no-repeat 2px 10px;
+  left: -30px;
+  padding: 12px 5px 12px 5px;
+}
+
+.scrollBackButton:hover {
+  background: transparent url('../images/arrows.png') no-repeat -38px 10px;
+}
+
+.scrollButton a:hover, .scrollBackButton a:hover {
+  text-decoration: none;
+}
+
+#footer-nav {
+  overflow: hidden;
+  width: 960px;
+  display: block;
+  position: relative;
+}
+
+#footer-nav ul {
+  width: 10000px;
+  position: relative; 
+}
+
+#footer-nav ul li ul {
+  width: auto;
+}
+
+.footerScrollBackButton, .footerScrollButton {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10000;
+  width: 10px;
+  height: 11px;
+  margin-top: 70px;
+  }
+
+.footerScrollButton {
+  background: transparent url('../images/arrows.png') no-repeat -80px 10px;
+  right: 30px;
+  padding: 12px 5px 12px 5px;
+}
+
+.footerScrollButton:hover {
+  background: transparent url('../images/arrows.png') no-repeat -115px 10px;
+}
+
+.footerScrollBackButton {
+  background: transparent url('../images/arrows.png') no-repeat 2px 10px;
+  left: 30px;
+  padding: 12px 5px 12px 5px;
+}
+
+.footerScrollBackButton:hover {
+  background: transparent url('../images/arrows.png') no-repeat -38px 10px;
+}
+
+
+.footerScrollButton a:hover, .footerScrollBackButton a:hover {
+  text-decoration: none;
+}

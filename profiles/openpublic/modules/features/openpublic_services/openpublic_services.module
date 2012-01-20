@@ -1,0 +1,4 @@
+<?php
+
+include_once('openpublic_services.features.inc');
+include_once('openpublic_services.theme.inc');

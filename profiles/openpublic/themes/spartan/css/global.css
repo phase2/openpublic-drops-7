@@ -1,0 +1,948 @@
+/* This file will hold the main styles for your website. */
+@charset "UTF-8";
+
+/* Handy font size definitions 
+font-size: .833em;   12px x .833   = 10px 
+font-size: .917em;   12px x .917   = 11px 
+font-size: 1em;      12px x 1      = 12px 
+font-size: 1.083em   12px x 1.083  = 13px 
+font-size: 1.167em;  12px x 1.167  = 14px
+font-size: 1.25em;   12px x 1.125  = 15px
+font-size: 1.417em;  12px x 1.417  = 17px
+font-size: 2em;      12px x 2       = 24px
+*/
+
+/************ Basic styles used in many places across the site *************/
+
+/** Accessible hidden/visible styles **/
+.element-hidden {
+  position:absolute;
+  z-index: 10;
+  left:-9999px;
+}
+
+.element-visible {
+  left: auto;
+}
+
+body           { margin:0; }
+.bold          { font-weight: bold; }
+.italic        { font-style: italic; }
+.underline     { border-bottom: 1px solid; }
+.highlight     { background: #ffc; }
+.img-left      { float: left; margin: 4px 10px 4px 0; }
+.img-right     { float: right; margin: 4px 0 4px 10px; }
+.nopadding     { padding: 0 }
+.noindent      { margin-left: 0; padding-left: 0 }
+.nobullet      { list-style: none; list-style-image: none; }
+
+.messages, .preview { margin: .75em 0; padding: .5em 1em; }
+.messages      { background-color: #fff; border: 1px solid #b8d3e5; }
+.messages ul   { margin: 0; }
+.preview       { background-color: #fcfce8; border: 1px solid #e5e58f; }
+.preview .node { background-color: #fcfce8; }
+
+span.clear     { clear: both; display: block; font-size: 0; height: 1px; line-height: 0; margin-bottom: -1px; }
+.clear         { clear: both; }
+.clear-block   { display: block; }
+.float-left    { float: left; }
+.float-right   { float: right; }
+
+.text-left     { text-align: left; }
+.text-right    { text-align: right; }
+.text-center   { text-align: center; }
+.text-justify  { text-align: justify; }
+
+tbody {border: none;}
+table {border-spacing: inherit;}
+
+/******** DEFAULT HTML ELEMENT STYLING **********/
+
+body {
+  color: #333333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size:12px;
+}
+a:hover, a:active {
+  text-decoration: underline;
+}
+p {
+  color:#666666;
+  font-size:13px;
+	line-height:22px;
+}
+img, a img {
+  border: none;
+  outline: none;
+}
+dl {
+  margin: .5em 0 1em;
+  padding: 0;
+}
+dl dd {
+  margin: 0 0 .5em 1.5em;
+}
+
+
+label {
+  font-weight: bold; 
+  margin: 5px 0 0 0;
+  font-size: 1em;
+  color: #333;
+}
+
+input, select {margin: 5px 0;}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing:0;
+  margin: 0;
+  padding: 0;
+  font-family: Arial,Helvetica,sans-serif;
+}
+h1 {
+  font-size:24px;
+}
+h2,
+.block .content h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0 0 15px;
+	padding:0;
+}
+
+
+
+h3 {
+  color: #000;
+  font-size:  14px;
+  margin: 0 0 10px 0;
+}
+
+h4 {
+  font-size: 13px;
+  font-weight: bolder;
+  letter-spacing: 0.4px;
+  margin: 0 0 5px;
+	line-height:normal;
+}
+
+h5 {
+  font-size:13px;
+  margin: 0 0 10px; 
+}
+  
+h6 {
+  font-size:13px;
+  margin: 0 0 10px;
+}
+
+address {
+  color: #000;
+}
+
+pre {
+  padding: 20px;
+  background: #eee;
+  border: 1px solid #aaa;
+  margin: 20px 0;
+  overflow-x:scroll;
+  font-family: "Courier New", Courier, monospace;
+}
+
+blockquote {
+  font-family: Georgia, serif;
+  font-size:13px;
+  font-style: italic;
+  padding: 25px 30px 15px 30px;
+  background: #eee;
+  margin: 20px 0;
+}
+
+hr {}
+
+
+ul, ol {
+	margin: 20px 0; 
+	padding: 0;
+}
+ul li, ol li {
+  color:#666666;
+  font-size:13px;
+  margin: 0 15px 5px 20px;
+}
+.node ol, .node ul {
+  padding-left: 0;
+}
+ol li {
+  margin: 0 15px 5px 25px;
+}
+ul.tabs li {
+	margin:0;
+}
+
+
+/* Custom Global Styles */
+
+.zone-branding {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.zone-header,
+.zone-preface,
+.zone-content {
+  background: #FFF;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+img.photo {
+  float: left;
+  margin: 0 10px 10px 0;
+}
+.panel-separator {
+  margin: 25px 0;
+  border-bottom: 1px solid #666;
+}
+
+/* site title */
+.site-name-slogan .site-name {
+  font-size: 4.6em;
+  font-weight: normal;
+}
+.site-name-slogan .site-name a {
+  display: block;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: normal;
+  padding: 5px 0 0;
+}
+
+/*
+ * Font styles
+ */
+.front .view-id-blogs .views-field-entity-id,
+.block-views-press-releases-block-1 .views-field-entity-id {
+  color: #666666;
+  font-size: 12px;
+  line-height: 1.4em;
+  padding-bottom: 15px;
+}
+.date-tag {
+  color: #999999;
+  font-size: 0.917em;
+  margin: 4px 0 5px;
+}
+h1#page-title {
+  font-size: 24px;
+  line-height: 130%;
+  margin: 17px 0 15px;
+  padding: 0;
+}
+.view-id-blogs .view-content .date-tag .date,
+.views-field-created {
+  font-size: 11px;
+  font-weight: bold;
+	color:#999999;
+}
+
+/* 
+ * Blocks
+ */
+.block {
+	margin:0 0 10px;
+	padding:0 15px 15px;
+	border: 1px solid #000;
+}
+.block-without-title {
+  padding:15px;
+}
+.block h2.block-title,
+.block-twitter-pull .content h2 {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 10px 0 30px;
+	font-style:normal;
+}
+.block-twitter-pull .content h2 {
+	margin:0;
+}
+.views-row {
+  border-bottom: 1px solid #E5E5E5;
+  margin: 0 0 20px;
+  padding: 0 0 5px;
+}
+
+/*
+ * Multimedia view
+ */
+.view-media-gallery td {
+    padding-right: 10px;
+    vertical-align: top;
+}
+.view-media-gallery td.col-1,
+.view-media-gallery td.col-2,
+.view-media-gallery td.col-3 {
+    float: none;
+    width: 180px;
+}
+.view-media-gallery table {
+	border:none;
+}
+
+/*
+ * Removing default block styles for custom blocks
+ */
+#block-system-main,
+#block-search-form,
+#block-views-f357e00a950996a5a5f114f3de9b7a5f,
+#block-views-breaking-news-block-1,
+#block-views-services-block-1,
+#block-nodeblock-footer-info,
+#block-delta-blocks-breadcrumb,
+#block-addthis-addthis,
+#block-openpublic-defaults-openpublic-utility-menu,
+#block-openpublic-defaults-openpublic-footer-utility-menu,
+#combinedblock,
+.block-messages,
+.block-delta-blocks-messages {
+	background:none;
+	padding:0;
+	margin:0;
+	border:none;
+}
+#block-addthis-addthis {
+	text-align:right;
+}
+#block-addthis-addthis h2.block-title {
+	display:none;
+}
+
+
+/*
+ * Breaking news
+ */
+.breaking-news {
+  border: 1px solid #000;
+}
+.breaking-news .breaking-news-header {
+  float: left;
+  margin: 6px 30px 0 0;
+  border: 0 0 0 0;
+  border-top : 0;
+  padding : 0 0 0 0;
+}
+.breaking-news span.read-more {
+  font-size: 15px;
+  display:none;
+}
+
+.breaking-news span.read-more:hover {
+  text-decoration: none;
+}
+
+.breaking-news span.read-more a {
+  font-size: inherit;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/*
+ * Breadcrumbs
+ */
+.breadcrumb {
+  margin: 0 3px 0 0;
+}
+.breadcrumb li {
+	margin:0;
+}
+.breadcrumb a {
+    margin-right: 4px;
+}
+.breadcrumb a:after {
+    content:" \00BB";
+		font-style:normal;
+}
+.breadcrumb li.last a:after {
+    content:"";
+}
+
+/*
+ * Twitter Pull
+ */
+.tweets-pulled-listing h2 {
+	margin:0;
+}
+.tweets-pulled-listing {
+	margin:0;
+}
+.tweets-pulled-listing li {
+	margin:0 0 10px;
+	font-size:11px;
+	line-height:13px;
+}
+
+
+
+/* search form */
+.block-search-form {
+	position: relative;
+	right: 0;
+	top: 0;
+	width: 98%;
+}
+
+.block-search-form h2 {visibility: hidden; font-size: 1px; line-height: 0;} 
+
+/* navigation */
+#navigation {
+  overflow: hidden;
+  position: relative;
+}
+
+.navigation ul {
+	position: relative;
+	display: block;
+	margin: 0;
+}
+.navigation ul li {
+  float: left;
+  font-size: 1.25em;
+  list-style-type: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.navigation li a {
+  display: block;
+  padding: 13px 20px;
+  text-align: center;
+	border: 1px solid #000;
+}
+
+
+/******* Drop-down Navigation ******/
+
+.navigation li ul {
+	background: #FFF;
+	margin: 0;
+	padding: 5px;
+	width: 200px;
+	height: auto;
+	position: absolute;
+	left: -999em;
+	z-index: 1000;
+	border:1px solid #000;
+}
+
+.navigation ul li:hover > ul {
+	display: block;
+	left: 0;
+}
+
+.navigation li ul li {
+	float: none;
+	margin: 0;
+	padding: 0;
+	text-transform: none;
+	font-weight: 400;
+	font-size: 12px;
+	list-style-image: none;
+}
+
+.navigation li ul li a,
+.navigation li.active-trail ul li a,
+.navigation li:hover ul li a {
+	text-align: left;
+	display: block;
+	padding: 9px 16px 9px 16px;
+	border: none;
+}
+
+.navigation li ul li a:hover,
+.navigation li.active-trail ul li a.active {
+	padding: 9px 16px 9px 16px;
+	border: none;
+}
+
+
+
+/** 
+  *  Overrides for OpenPublic Content Rotator
+  *
+  *  Setting up core feature rotator to be fluid width
+  *  This will setup the following layouts/switches for the rotator:
+  *  -- Mobile Version (Text and Image stacked, not inline)
+  *  -- Fluid Version (Inline using %'s)
+  *  -- 960px Version (same as fluid)
+  */
+
+.view-home-page-feature-rotator {
+  margin-left: 0;
+  width: 100%;
+}
+
+#home-rotator {
+  padding: 0;
+  border:none;
+  clear: both;
+  min-height:500px;
+}
+
+  .home-rotator-slide {
+    width: 100%;
+    height: 96%;
+    margin: 0;
+    clear: both;
+  }
+
+    .home-rotator-text-block {
+      background: none;
+      margin: 2%;
+      padding: 0;
+      width: 96%;
+      height: auto;
+      float: none;
+    }
+
+    .home-rotator-photo {
+      overflow: hidden;
+    }
+
+#home-top-read-more {
+  margin: 0 auto 15px;
+  text-align: center;
+  width: 112px;
+}
+
+.home-top-intro {
+  font-style: normal;
+  height: auto;
+  line-height: 20px;
+  margin: 0;
+  font-size: 12px;
+}
+
+.home-top-intro h2 {
+  text-indent:0;
+  font-size: 28px;
+  text-transform:none;
+  padding:0;
+}
+.home-top-intro h2 a:link,.home-top-intro h2 a:visited {
+  font-size: 18px;
+  font-style:normal;
+}
+#home-top-read-more a {
+  display: block;
+  width: 116px;
+  height: 38px;
+}
+
+.home-rotator-photo img,
+.home-rotator-slide img {
+  display: block;
+  margin: 10px auto 0;
+  width: 96%;
+}
+
+
+#footer-logo-subscribe .logo{
+	float: left;
+	margin: 0 6px 0 5px;
+}
+
+#footer-logo-subscribe .site-name a{
+  font-size: 2em;
+}
+#footer-logo-subscribe {
+  clear: both;
+  padding: 15px 0px 9px 0;
+}
+
+#footer-subscribe {
+  position: relative;
+  padding: 10px 0 0;
+  width: 380px;
+}
+
+#footer-subscribe .form-item,
+#footer-subscribe .form-actions {
+  float:left;
+}
+#footer-subscribe label {
+  float: left;
+  padding: 8px 8px 0 0;
+	margin:0;
+}
+#footer-subscribe label .form-required {
+  display:none
+}
+#footer-subscribe input {
+  float: left;
+}
+#footer-subscribe .form-text {
+	width:180px;
+}
+#footer-subscribe input.form-submit {
+  float: left;
+}
+
+/***** Footer Nav *****/
+#footer-nav {
+  width: 100%;
+}
+.footer-nav {
+  clear: both;
+  margin: 0 0 30px 0;
+  padding: 20px 0 0;
+}
+.footer-nav ul {
+	margin:0;
+	display: block;
+}
+.footer-nav ul:after {
+  content: ".";
+  font-size: 0;
+  height: 0;
+}
+.footer-nav ul li.expanded,
+.footer-nav ul li.leaf {
+  list-style-type: none;
+  list-style-image: none;
+}
+.footer-utility li,
+.footer-nav li {
+  float: left;
+  margin: 0 10px 15px 0;
+  font-size: 1.083em;
+  letter-spacing: 0.02em;
+  list-style: none;
+  list-style-image: none;
+  font-weight: bold;
+}
+
+.footer-nav li li {
+	float: none;
+	margin-right: 0px;
+	font-weight: normal;
+	width: 115px;
+	font-size: .9em;
+	letter-spacing: 0.02em;
+	margin: 10px 15px 10px 0;
+	margin-bottom: 0px;
+	text-shadow: none;
+	text-transform: none;
+}
+.region-footer-first .block-footer-info {
+  clear: both;
+}
+.region-footer-first h2.block-title {
+  display:none;
+}
+.region-footer-first .address-location {
+  clear: both;
+  margin-top: 1px;
+  font-size: 0.917em;
+  padding: 15px 0 25px;
+  text-align: center;
+}
+
+/***** Utility Nav *****/
+ul#user-menu {
+	font-size: .917em;
+	padding: 7px 0;
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+}
+
+ul#user-menu li {
+	display: inline;
+	margin: 0 10px 0 0;
+}
+
+#user-menu li.active a {
+	padding-left: 22px;
+}
+
+
+#footer-utility {
+float: right;
+padding: 20px 0 0;
+}
+#footer-utility li {
+  font-weight: 400;
+  margin: 0 0 10px;
+  padding-top: 0;
+  text-transform: uppercase;
+  float:none;
+}
+
+
+.block-openpublic-defaults-current-navigation {
+  padding: 0;
+  
+}
+.block-openpublic-defaults-current-navigation h2.block-title {
+  padding: 10px 0 15px 15px; 
+}
+
+
+.view-most-popular-content ul {
+  margin-top: 0;
+}
+.view-most-popular-content li.views-row {
+  border-bottom: 0;
+  margin: 0 15px 5px 0;
+  padding-left: 0;
+}
+
+#stay-connected {
+  padding: 0;
+}
+#stay-connected h3 {
+  font-size: 16px;
+  text-transform: none;
+  font-weight: normal;
+  padding: 10px 0 30px;
+}
+#stay-connected ul {
+  padding: 15px;
+  padding-top: 0;
+}
+
+
+#region-content .region-inner {
+  padding: 15px;
+  padding-top: 0;
+}
+
+.node-content .submitted {
+  color: #999999;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0 0 15px;
+}
+div.node div.field-name-field-resource-photo {
+  float: right;
+  margin: 0 0 0 18px;
+}
+
+
+
+
+/***************************
+ * Documents view
+ ***************************/
+
+.view-id-documents .views-field-uri {
+	float:right;
+}
+
+#related-terms li.section-title {
+	color: #666;
+	font-weight: 700;
+}
+.view-id-documents h3 {
+	text-transform:none;
+	font-size:17px;
+}
+.view-id-documents h3 a,
+
+.view-id-documents .field-name-body {
+	width:490px;
+}
+.view-id-documents .download-info {
+	font-size:10px;
+}
+.view-id-documents .views-row {
+	border-bottom:1px solid #ddd;
+	padding-top:20px;
+}
+/***************************
+ * Documents detail page
+ ***************************/
+.node-type-document .block-system-main .views-row {
+	border-bottom:none;
+	min-height:0;
+	font-size:16px;
+	color:#999;
+	padding:0 0 30px;
+	font-style:italic;
+}
+.node-type-document .exec {
+	background:none;
+}
+.node-type-document .views-field-title-1,
+.node-type-document .views-field-entity-id,
+.node-type-document .views-field-entity-id div {
+	display:inline;
+}
+
+
+
+
+/******* Staff Directory
+*******/
+
+.staff-position {
+  color: #999;
+  font-size: 1.167em;
+  font-style: italic;
+  margin: 0 0 10px 0;
+}
+
+.staff-photo {
+  float: left;
+  width: 120px;
+}
+
+.staff-info {width: 400px; float: left;}
+
+.staff-photo img {
+  border: 4px solid #dcdcde;
+}
+
+.staff-photo img:hover {
+  border: 4px solid #efefef;
+}
+.staff-page .views-row p {
+  line-height: 150%;
+  margin-bottom: 0;
+}
+
+/******* Comments
+********/
+
+#main #comments h3 {
+  border: none;
+  color: #666;
+  font-size: 1.667em;
+  font-weight: bold;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+#comments .header {
+  border-bottom: 1px solid #CCC;
+  padding: 0 0 15px;
+}
+
+#comments h2 {
+  color: #666;
+  font-size: 1.667em;
+  margin: 0;
+  padding: 0;
+}
+
+.login-to-comment {
+  float: right;
+  width: 300px;
+  text-align: right;
+  padding: 8px 0 0;
+  font-size: 1.167em;
+  color: #666;
+}
+
+#comments .comment-header {
+  margin: 0 0 10px;
+}
+
+#comments .author {
+  color: #1a92bf;
+  font-weight: 700;
+  font-size: 1.5em;
+  display: inline;
+}
+
+#comments h4 {
+  display: inline;
+  font-size: 1.5em;
+}
+
+#comments p {
+  color: #666;
+  line-height: 1.3em;
+  margin: 0 0 15px;
+}
+
+#comments .post-date-reply {
+}
+
+.comment-entry {
+  padding: 20px 20px 20px 0;
+}
+#comments article {
+	margin-bottom:15px;
+	padding-bottom:15px;
+}
+#comments footer {
+	float:left;
+	margin-right:25px;
+}
+#comments footer time {
+  font-size: 1.167em;
+  font-weight: 700;
+  color: #666;
+  margin: 8px 0 0;
+}
+#comments header {
+	margin-bottom:10px;
+}
+
+#comments a.like {
+  margin: 4px 0 0 5px;
+  display: block;
+  float: left;
+}
+
+#comments .indented {
+  padding-left: 35px;
+  background: #eee;
+}
+
+.comment-form .form-type-item label {
+  display: block;
+  float: left;
+  margin-top: 0;
+}
+.comment-form .form-type-textfield label {
+  display: block;
+  float: left;
+  margin-top: 7px;
+}
+.page-comment-reply a.reply {
+  display:none;
+}
+#edit-actions {
+  text-align:right;
+}
+#edit-actions input {
+  margin-left:10px;
+}
+.post-date {
+  text-align:right;
+}
+ul.inline li.comment-add {
+  margin:0;
+  padding:0;
+}
+.comment-form .form-text,
+.comment-form .form-textarea {
+  border: 1px solid #ccc;
+  padding: 2px 4px;
+}
+.comment-form .form-type-textfield input, .comment-form .form-item .username {
+  float: right;
+  width: 75%;
+}
+.comment-form .form-item {
+  overflow: hidden;
+}
+#edit-comment-body fieldset {
+  border: 1px solid #ccc;
+  border-top: 0 none;
+}

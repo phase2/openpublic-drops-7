@@ -1,0 +1,41 @@
+Welcome to OpenPublic
+
+
+OpenPublic is a Drupal-based content management system (CMS) born from a decade
+of work building secure, scalable, transparent websites for all sectors of
+government. It is a community-driven platform supported by a network of
+innovative open source contributors committed to Open Government.
+
+OpenPublic was built for the public sector, but is not limited in any way as to
+who can or should use it. The features and content types are built to meet the
+common needs of government agencies, organizations, municipalities, and states,
+but OpenPublic is regularly used to create sites too for nonprofit
+organizations, foreign governments, and other initiatives. 
+
+INSTALLATION
+
+OpenPublic is available as a full drupal site in tgz and zip format at:
+
+  http://openpublicapp.com/openpublic_download
+
+Those familiar with drush make can find a build-openpublic.make file available
+in this folder that can be used to build OpenPublic with a command such as:
+
+drush make --prepare-install build-openpublic.make INSTALL_PATH
+
+Please consult:
+  http://drupalcode.org/project/drush_make.git/blob_plain/refs/heads/6.x-2.x:/README.txt
+for more information about using this.
+
+DOCUMENTATION
+
+User Documentation for OpenPublic can be found here:
+  http://docs.openpublicapp.com
+
+More information about OpenPublic can be found here:
+
+Drupal.org Project site:     http://drupal.org/project/openpublic
+OpenPublic home page:        http://openpublicapp.com/
+OpenPublic Community site:   http://community.openpublicapp.com/
+
+

@@ -1,0 +1,8 @@
+<?php
+
+function combineblocks_init() {
+  drupal_add_js(drupal_get_path('module', 'combineblocks'). '/combineblocks.js');
+  drupal_add_css(drupal_get_path('module', 'combineblocks'). '/combineblocks.css');
+  $sets = variable_get('combineblocks_sets', array());
+  drupal_add_js(array('combineblocks_sets'=>$sets), 'setting');
+}

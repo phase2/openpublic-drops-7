@@ -1,0 +1,273 @@
+<?php
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+function openpublic_install() {
+  openpublic_add_default_text_formats_and_perms();
+
+  // Allow visitor account creation with administrative approval.
+  variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+  //openpublic_create_basic_roles_perms();
+  
+  openpublic_enable_admin_theme ();
+
+  // set various system variables
+  variable_set('pathauto_node_pattern', '[node:type]/[node:title]');
+  variable_set('pathauto_node_blog_entry_pattern', 'blog/[node:created:custom:Y-m-d]/[node:title]');
+  variable_set('pathauto_punctuation_underscore', '1');
+  //variable_set('statistics_count_content_views', '1');
+}
+
+
+function openpublic_create_basic_roles_perms() {
+  // Create a default role for site administrators, with all available permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'Editor';
+  $admin_role->weight = 3;
+  user_role_save($admin_role);
+  $permissions = array(
+    'access administration pages',
+    'access all views',
+    'access all webform results',
+    'access content overview',
+    'access contextual links',
+    'access dashboard',
+    'access overlay',
+    'access own webform results',
+    'access own webform submissions',
+    'access site in maintenance mode',
+    'access site reports',
+    'access statistics',
+    'access toolbar',
+    'access user profiles',
+    'administer comments',
+    'administer menu',
+    'administer nodequeue',
+    'administer search',
+    'administer shortcuts',
+    'administer taxonomy',
+    'administer url aliases',
+    'bypass node access',
+    'create author content',
+    'create blog_entry content',
+    'create home_page_feature content',
+    'create press_release content',
+    'create resource content',
+    'create section_front content',
+    'create services content',
+    'create site_page content',
+    'create url aliases',
+    'create webform content',
+    'customize shortcut links',
+    'delete all webform submissions',
+    'delete any author content',
+    'delete any blog_entry content',
+    'delete any home_page_feature content',
+    'delete any press_release content',
+    'delete any resource content',
+    'delete any section_front content',
+    'delete any services content',
+    'delete any site_page content',
+    'delete any webform content',
+    'delete own author content',
+    'delete own blog_entry content',
+    'delete own home_page_feature content',
+    'delete own press_release content',
+    'delete own resource content',
+    'delete own section_front content',
+    'delete own services content',
+    'delete own site_page content',
+    'delete own webform content',
+    'delete own webform submissions',
+    'delete revisions',
+    'display source code',
+    'edit all webform submissions',
+    'edit any author content',
+    'edit any blog_entry content',
+    'edit any home_page_feature content',
+    'edit any press_release content',
+    'edit any resource content',
+    'edit any section_front content',
+    'edit any services content',
+    'edit any site_page content',
+    'edit any user follow links',
+    'edit any webform content',
+    'edit own author content',
+    'edit own blog_entry content',
+    'edit own comments',
+    'edit own follow links',
+    'edit own home_page_feature content',
+    'edit own press_release content',
+    'edit own resource content',
+    'edit own section_front content',
+    'edit own services content',
+    'edit own site_page content',
+    'edit own webform content',
+    'edit own webform submissions',
+    'edit site follow links',
+    'manipulate all queues',
+    'manipulate queues',
+    'revert revisions',
+    'search content',
+    'skip comment approval',
+    'use advanced search',
+    'use text format filtered_html',
+    'use text format full_html',
+    'view addthis',
+    'view date repeats',
+    'view own unpublished content',
+    'view pane admin links',
+    'view post access counter',
+    'view revisions',
+    'view the administration theme',
+  );
+  user_role_grant_permissions($admin_role->rid, $permissions);
+  // Set this as the editor role.
+  variable_set('user_editor_role', $admin_role->rid);
+
+}
+
+/**
+* Set Rubik as the Admin Theme
+*/
+function openpublic_enable_admin_theme () {
+  // Enable the admin theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', 'seven')
+    ->execute();
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', 'rubik')
+    ->execute();
+  variable_set('admin_theme', 'rubik');
+  variable_set('node_admin_theme', '1');
+}
+
+
+function openpublic_add_default_text_formats_and_perms() {
+  // Add text formats.
+  $filtered_html_format = array(
+    'format' => 'filtered_html',
+    'name' => 'Filtered HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // HTML filter.
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $filtered_html_format = (object) $filtered_html_format;
+  filter_format_save($filtered_html_format);
+
+  $full_html_format = array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'weight' => 1,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $full_html_format = (object) $full_html_format;
+  filter_format_save($full_html_format);
+  
+  // Enable default permissions for system roles.
+  $filtered_html_permission = filter_permission_name($filtered_html_format);
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'access comments', $filtered_html_permission));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'access comments', 'post comments', 'skip comment approval', $filtered_html_permission));
+
+  // Create a default role for site administrators, with all available permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'administrator';
+  $admin_role->weight = 2;
+  user_role_save($admin_role);
+  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+    ->execute();
+}
+
+/**
+ * Helper function to pre-configure Secure Pages settings. It 
+ * checks to see if the module exists, and then checks to make 
+ * sure that SSL is configured for this server. If so, then it
+ * sets the appropriate default system variables.
+ */
+function openpublic_configure_securepages() {
+  return;
+  if (function_exists('securepages_test')) {
+    if (securepages_test()) {
+      variable_set('securepages_enable', '0');
+      variable_set('securepages_basepath', '');
+      variable_set('securepages_basepath_ssl', '');
+      variable_set('securepages_ignore', SECUREPAGES_IGNORE);
+      variable_set('securepages_pages', SECUREPAGES_PAGES);
+      variable_set('securepages_secure', '1');
+      variable_set('securepages_switch', TRUE);
+      variable_set('https', TRUE);
+    }
+  }
+}
+
+function openpublic_configure_commentnotify() {
+  $content_types = array_combine(array_keys(node_type_get_types()), array_keys(node_type_get_types()));
+  variable_set('comment_notify_node_types', $content_types);
+}
+
+function openpublic_install_tasks() {
+  $task['secure_pages'] = array(
+    'display_name' => st('Install configurations for Secure Pages'),
+    'display' => FALSE,
+    'type' => 'normal',
+    'run' => INSTALL_TASK_RUN_IF_REACHED,
+    'function' => 'openpublic_configure_securepages',
+  );
+  $task['comment_notify'] = array(
+    'display_name' => st('Install configurations for Comment Notify'),
+    'display' => FALSE,
+    'type' => 'normal',
+    'run' => INSTALL_TASK_RUN_IF_REACHED,
+    'function' => 'openpublic_configure_commentnotify',
+  );
+  return $task;
+}
