@@ -67,6 +67,11 @@ function context_field_access_loader($entity) {
     return FALSE;
   }
   else {
+    // TODO: at some point we'll need to alter the path and not use node/%node/context_field
+    // given that path-based contexts set for node/%node will not trigger correctly there
+    if (arg(2) != 'context_field' && context_active_contexts() == array()) {
+      return FALSE;
+    }
     return TRUE;
   }
 }
@@ -180,7 +185,7 @@ function context_field_field_instance_settings_form($field, $instance) {
     '#type' => 'checkboxes',
     '#title' => 'Allowed Block Groups',
     '#options' => $options,
-    '#description' => 'Use this field to limit the kinds of blocks that can be add to the context for the ui',
+    '#description' => t('Use this field to limit the kinds of blocks that can be added to the context through the UI'),
     '#default_value' => $settings['allowed_blocks'],
   );
 
@@ -200,8 +205,8 @@ function context_field_field_instance_settings_form($field, $instance) {
     '#type' => 'radios',
     '#title' => 'Default Context Use',
     '#options' => array(
-      0 => "Clone Default context on Entity Creation",
-      1 => "Always use Default Context",
+      0 => t("Clone Default context on Entity Creation"),
+      1 => t("Always use Default Context"),
     ),
     '#default_value' => $settings['use_default'],
   );
@@ -382,9 +387,11 @@ function context_field_field_widget_form(&$form, &$form_state, $field, $instance
         '#type' => 'textfield',
         '#autocomplete_path' => "context_field/autocomplete/context/$cat",
         '#default_value' => $default_value,
+        '#description' => $instance['description'],
       );
       return $field_form;
     break;
+    
     case 'context_field_select' :
       $contexts = context_load();
       $context_options[''] = "No Context Selected";
@@ -400,16 +407,9 @@ function context_field_field_widget_form(&$form, &$form_state, $field, $instance
         '#title' => $instance['label'],
         '#type' => 'select',
         '#options' => $context_options,
-       '#autocomplete_path' => "context_field/autocomplete/context/tesme",
-       // '#ajax' => array(
-       //   'callback' => 'context_field_select_callback',
-       //   'wrapper' => 'context_field_wrapper',
-       //   'method' => 'replace',
-       //   'effect' => 'fade',
-       // ),
+        '#autocomplete_path' => "context_field/autocomplete/context/tesme",
         '#default_value' => isset($items[$delta]['context']) ? $items[$delta]['context'] : '',
-        //'#prefix' => "<div id = 'context_field_wrapper'>",
-        //'#suffix' => "</div>",
+        '#description' => $instance['description'],
       );
       // if someone want to create a new field turn the box into a textfield
       /*
@@ -438,6 +438,7 @@ function context_field_field_widget_form(&$form, &$form_state, $field, $instance
       */
       return $field_form;
     break;
+    
     case 'context_field':
     case 'context_field_default':
       if($instance['widget']['settings']['form_element']['user_toggle']) {
@@ -492,15 +493,14 @@ function context_field_field_insert($entity_type, $entity, $field, $instance, $l
   $default_name = $instance['settings']['default_context'];
   switch ($instance['widget']['type']) {
     case 'context_field_autocomplete' :
-      foreach($items as $id =>$value) {
+      foreach ($items as $id => $value) {
         $string = $items[$id]['context'];
         if (preg_match("/\[(.*)\]/", $string, $matches)) {
           $items[$id]['context'] = $matches[1];
         }
-        elseif(!empty($string) && $instance['widget']['settings']['form_element']['allow_create']) {
+        elseif (!empty($string) && $instance['widget']['settings']['form_element']['allow_create']) {
           $items[$id]['context'] = preg_replace("/[^a-z0-9_]+/", "_", strtolower($string));
-
-          $context = context_load($item[$id]['context']);
+          $context = context_load($items[$id]['context']);
           if (is_array($context)) {
             $cat = $instance['widget']['settings']['form_element']['category'];
             context_field_clone_default($default_name, $items[$id]['context'], $string, $cat );
@@ -508,8 +508,10 @@ function context_field_field_insert($entity_type, $entity, $field, $instance, $l
         }
       }
     break;
+    
     case 'context_field_default' :
     break;
+      
     case 'context_field' :
       //set the context name to a entity spacific name
       $custom_name = "context_field-{$entity_type}-{$id}";
@@ -517,7 +519,7 @@ function context_field_field_insert($entity_type, $entity, $field, $instance, $l
       $context = context_load($custom_name);
       // If user toggle is enabled then we need to create or delete the 
       // context bases on the setting of the context
-      if($instance['widget']['settings']['form_element']['user_toggle']) {
+      if ($instance['widget']['settings']['form_element']['user_toggle']) {
         if ($items[0]['context']) {
           //set the context to our custom name
           $items[0]['context'] = $custom_name;
@@ -560,7 +562,7 @@ function context_field_field_load($entity_type, &$entities, $field, $instances, 
       case 'context_field_default' :
         foreach ($items as $id => $item) {
            
-          if(!$instance['widget']['settings']['form_element']['user_toggle'] || (isset($items[$id][0]['context']) && $items[$id][0]['context'])) {
+          if (!$instance['widget']['settings']['form_element']['user_toggle'] || (isset($items[$id][0]['context']) && $items[$id][0]['context'])) {
             $context = $instance['settings']['default_context'];
             $items[$id] = array(0 => array('context' => $context));
           }

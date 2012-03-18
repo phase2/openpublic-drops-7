@@ -40,8 +40,10 @@
       $('#context_field-context-ui').show();
     }
     
-    // Trigger Edit mode (init)
-    $('#context-ui-editor .links a.edit').first().click();
+    // Trigger Edit mode if there is only one context
+    if ($('.ui-dialog-content form .links a.edit').size() == 1) {
+    	$('.ui-dialog-content form .links a.edit').first().click();
+    }
     
     // Conceal Section title, subtitle and class
     $('div.context-block-browser').nextAll('.form-item').hide();
