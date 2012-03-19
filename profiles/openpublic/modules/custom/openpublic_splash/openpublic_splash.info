@@ -7,3 +7,10 @@ dependencies[] = context
 package = OpenPublic
 core = 7.x
 files[] = openpublic_splash.module
+
+; Information added by drupal.org packaging script on 2012-03-19
+version = "7.x-1.0-beta8"
+core = "7.x"
+project = "openpublic"
+datestamp = "1332125749"
+

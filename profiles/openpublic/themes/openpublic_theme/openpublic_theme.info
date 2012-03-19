@@ -42,3 +42,10 @@ regions[help] = Help
 features[] = main_menu
 features[] = logo
 features[] = name
+
+; Information added by drupal.org packaging script on 2012-03-19
+version = "7.x-1.0-beta8"
+core = "7.x"
+project = "openpublic"
+datestamp = "1332125749"
+

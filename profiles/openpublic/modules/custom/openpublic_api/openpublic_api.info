@@ -3,3 +3,10 @@ name = OpenPublic API
 description = Adds a block showing the current status of 3rd party api config
 package = OpenPublic
 core = 7.x
+
+; Information added by drupal.org packaging script on 2012-03-19
+version = "7.x-1.0-beta8"
+core = "7.x"
+project = "openpublic"
+datestamp = "1332125749"
+

@@ -1,0 +1,124 @@
+--- context_ui.module
++++ context_ui.module
+@@ -85,6 +85,18 @@
+     'type' => MENU_LOCAL_TASK,
+     'weight' => 3,
+   );
++  $items['context-ui/activate'] = array(
++    'title' => 'Activate Context UI',
++    'access arguments' => TRUE,
++    'page callback' => 'context_ui_activate',
++    'type' => MENU_CALLBACK
++  );
++  $items['context-ui/deactivate'] = array(
++    'title' => 'deactivate Context UI',
++    'access arguments' => TRUE,
++    'page callback' => 'context_ui_deactivate',
++    'type' => MENU_CALLBACK
++  );
+   return $items;
+ }
+ 
+@@ -259,6 +271,12 @@
+       }
+     }
+   }
++  $form['context_ui_dialog_enabled'] = array(
++    '#type' => 'checkbox',
++    '#title' => t('Use Context Editor Dialog'),
++    '#default_value' => context_ui_dialog_is_enabled(),
++    '#description' => t('When enabled all contextual links will have a Edit Layout link that will refresh the page with the context editor in a dialog box.'),
++  );
+   $form = system_settings_form($form);
+   $form['#submit'][] = 'context_ui_settings_submit';
+   return $form;
+@@ -271,3 +289,89 @@
+ function context_ui_settings_submit($form, &$form_state) {
+   variable_set('menu_rebuild_needed', TRUE);
+ }
++
++
++/**
++ * context_ui_dialog_is_enabled test if the dialog is enabled
++ */
++function context_ui_dialog_is_enabled() {
++
++  return variable_get("context_ui_dialog_enabled", FALSE);
++}
++
++/**
++ * implements hook_page_alter()
++ *
++ * If we have the dialog enabled and active build the dialog 
++ * and add to the page
++ */
++function context_ui_page_alter(&$page) {
++  $contexts = context_active_contexts();
++  if (
++  context_ui_dialog_is_enabled()  &&
++  context_isset('context_ui', 'context_ui_editor_present')
++  ) {
++    $contexts = context_active_contexts();
++    $form = drupal_get_form('context_ui_editor', $contexts);
++    //$form = drupal_get_form('context_ui_editor', array($context));
++    $path = drupal_get_path("module", 'context_ui');
++    drupal_add_library('system', 'ui.dialog');
++    drupal_add_js($path . '/context_ui_dialog.js', array('type' => 'file', 'weight' => 50)); 
++    drupal_add_css($path . '/context_ui_dialog.css');
++
++    $page['content']['context_ui_editor'] = array(
++      0 => array(
++        '#type' => 'markup',
++        '#markup' => '<div style="display:none;" id="context_ui_dialog-context-ui">' . drupal_render($form) . '</div>',
++      ),
++    );
++  }
++}
++
++/**
++ * implements hook_menu_contextual_links_alter()
++ *
++ * we we have the dialog enabled lets add a link to all contextual links
++ * to activate it.
++ */
++function context_ui_menu_contextual_links_alter(&$links, $router_item, $root_path) {
++  if(context_ui_dialog_is_enabled()  &&
++     !context_isset('context_ui', 'context_ui_editor_present')) {
++    $links['layout'] = array(
++      'href' => 'context-ui/activate',
++      'title' => t('Configure Layout'),
++      'localized_options' => array(
++        'query' =>  array('destination'=> $_GET['q']),
++        'options' => array('html' => FALSE, 'attributes' => array()),
++      ),
++    );
++  }
++}
++
++/**
++ * page call back activating the context_ui inline editor dialog
++ */
++function context_ui_activate() {
++  $_SESSION['context_ui_active'] = TRUE;
++  drupal_goto($_GET['destination']);
++}
++
++/**
++ * page call back deactivating the context_ui inline editor dialog
++ */
++function context_ui_deactivate() {
++  $_SESSION['context_ui_active'] = FALSE;
++  drupal_goto($_GET['destination']);
++}
++
++/**
++ * implements hook_init()
++ *
++ * if the session say we should have an active dialog set a context variable to tell everything else
++ */
++function context_ui_init() {
++  $active = isset($_SESSION['context_ui_active']) && $_SESSION['context_ui_active'];
++  if($active) {
++    context_set('context_ui', 'context_ui_editor_present', TRUE);
++  }
++}

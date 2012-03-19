@@ -6,3 +6,10 @@ files[] = securepages.admin.inc
 files[] = securepages.install
 files[] = securepages.module
 files[] = securepages.test
+
+
+; Information added by drush on 2012-03-19
+version = ""
+project = "securepages"
+datestamp = "1332129814"
+

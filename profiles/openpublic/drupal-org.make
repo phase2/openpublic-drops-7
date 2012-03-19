@@ -161,7 +161,7 @@ projects[colorbox][subdir] = contrib
 projects[colorbox][version] = 1.2
 
 projects[apps][subdir] = contrib
-projects[apps][version] = 1.0-beta4
+projects[apps][version] = 1.0-beta5
 
 libraries[ckeditor][download][type] = get
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.5/ckeditor_3.5.tar.gz
