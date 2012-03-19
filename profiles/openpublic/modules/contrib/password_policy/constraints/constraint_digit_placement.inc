@@ -15,7 +15,7 @@
  * Description of the constraint.
  */
 function password_policy_constraint_digit_placement_description() {
-  return array('name' => t('Digit Placement'), 'description' => t('Minimum number of digits in the password to allow a digit in the first or last position in the password (e.g. 2abcdefg and abcdefg4 are unacceptable passwords, while 2qpcxrm3 and 99qpcxrm are allowed passwords when 2 is set here).'));
+  return array('name' => t('Digit Placement'), 'description' => t('Minimum number of digits necessary in the password overall, to allow digits as the first or last characters in the password. For example, set to 2, the passwords 2abcdefg and abcdefg4 are unacceptable, while 2qpcxrm3 and 9qpcx9rm are allowed. This is intended to prevent changing passwords by incrementing a single digit, such as password1, password2, password3.'));
 }
 
 /**

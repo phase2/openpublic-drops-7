@@ -29,8 +29,7 @@ class context_field_context_condition extends context_condition {
     $form['context_field_category'] = array(
       '#type' => 'textfield',
       '#title' => 'Category',
-
-        '#default_value' => isset($defaults['context_field_category']) ? $defaults['context_field_category'] : '',
+      '#default_value' => isset($defaults['context_field_category']) ? $defaults['context_field_category'] : '',
     );
     return $form;
   }
@@ -49,7 +48,7 @@ class context_field_context_condition extends context_condition {
   function execute($context_name) {
     //If the context exist lets met its context_field condition
     $contexts = $this->get_contexts();
-    if($context = isset($contexts[$context_name]) ? $contexts[$context_name] : FALSE) {
+    if ($context = isset($contexts[$context_name]) ? $contexts[$context_name] : FALSE) {
       $this->condition_met($context, 'context_field');
     }
   }

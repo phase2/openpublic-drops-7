@@ -9,6 +9,10 @@
   text-decoration: underline;
 }
 
+#views-ui-add-form.views-admin fieldset fieldset.container-inline > .fieldset-wrapper {
+  padding: 10px 9px 9px;
+}
+
 #views-ui-edit-form div div.views-displays div.views-display-top ul.tabs.secondary.views-ui-render-add-view-button-processed-processed {
    position: relative;
 }
@@ -26,6 +30,11 @@
    float: left;
 }
 
+#edit-options .collapsible {
+  float: none;
+  width: 100%;
+}
+
 .views-displays {
    clear: both;
 }
@@ -36,6 +45,10 @@
 
 .views-admin a:hover {
    text-decoration: none;
+}
+
+.views-attachment .options-set label {
+  font-weight: bold;
 }
 
 .views-display-setting .views-ajax-link {
@@ -103,6 +116,7 @@ select.form-select {
   border-top-color: #999;
   background: #fff;
   color: #333;
+  width: auto;
 }
 
 input.form-text:focus,
@@ -136,4 +150,16 @@ select.form-select:focus {
 
 #edit-display-preview-controls .form-item {
   margin-bottom: 0;
+}
+#edit-options-exception.collapsible {
+    margin-top: 0;
+}
+.views-ui-dialog fieldset,
+.views-ui-dialog fieldset.collapsed,
+.views-ui-dialog fieldset.collapsible {
+    padding-top:0;
+}
+#edit-options-default-action {
+  float: none;
+  margin-bottom: 10px;
 }
