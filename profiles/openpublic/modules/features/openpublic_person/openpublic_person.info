@@ -19,14 +19,14 @@ features[field][] = "node-profile-field_profile_social_media"
 features[field][] = "node-profile-field_profile_staff"
 features[views_view][] = "profiles"
 name = "Openpublic Person"
-package = "Features"
+package = "OpenPublic"
 php = "5.2.4"
 project = "openpublic_person"
 version = "7.x-1.0"
 
-; Information added by drupal.org packaging script on 2012-03-19
-version = "7.x-1.0-beta8"
+; Information added by drupal.org packaging script on 2012-10-05
+version = "7.x-1.0-beta11"
 core = "7.x"
 project = "openpublic"
-datestamp = "1332125749"
+datestamp = "1349470914"
 

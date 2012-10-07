@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_strongarm().
+ * Implements hook_strongarm().
  */
 function openpublic_editors_choice_strongarm() {
   $export = array();
@@ -14,7 +14,7 @@ function openpublic_editors_choice_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_editors_choice';
-  $strongarm->value = '';
+  $strongarm->value = 'edit-comment';
   $export['additional_settings__active_tab_editors_choice'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -28,7 +28,7 @@ function openpublic_editors_choice_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_anonymous_editors_choice';
-  $strongarm->value = 0;
+  $strongarm->value = '0';
   $export['comment_anonymous_editors_choice'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -49,7 +49,7 @@ function openpublic_editors_choice_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_editors_choice';
-  $strongarm->value = '2';
+  $strongarm->value = '0';
   $export['comment_editors_choice'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -99,6 +99,13 @@ function openpublic_editors_choice_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'nodeblock_editors_choice';
+  $strongarm->value = '1';
+  $export['nodeblock_editors_choice'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_options_editors_choice';
   $strongarm->value = array(
     0 => 'status',
@@ -119,13 +126,6 @@ function openpublic_editors_choice_strongarm() {
   $strongarm->name = 'node_submitted_editors_choice';
   $strongarm->value = 0;
   $export['node_submitted_editors_choice'] = $strongarm;
-
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'nodeblock_editors_choice';
-  $strongarm->value = '1';
-  $export['nodeblock_editors_choice'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

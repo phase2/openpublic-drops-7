@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_field_default_fields().
+ * Implements hook_field_default_fields().
  */
 function openpublic_editors_choice_field_default_fields() {
   $fields = array();
@@ -107,6 +107,7 @@ function openpublic_editors_choice_field_default_fields() {
         'rel' => '',
         'target' => 'default',
         'title' => 'required',
+        'title_maxlength' => 255,
         'title_value' => '',
         'url' => 0,
       ),
@@ -123,14 +124,14 @@ function openpublic_editors_choice_field_default_fields() {
           'label' => 'hidden',
           'module' => 'link',
           'settings' => array(),
-          'type' => 'default',
+          'type' => 'link_default',
           'weight' => '3',
         ),
         'editors_choice' => array(
           'label' => 'hidden',
           'module' => 'link',
           'settings' => array(),
-          'type' => 'default',
+          'type' => 'link_default',
           'weight' => '3',
         ),
         'teaser' => array(
@@ -155,9 +156,11 @@ function openpublic_editors_choice_field_default_fields() {
         ),
         'enable_tokens' => 1,
         'title' => 'optional',
+        'title_maxlength' => 255,
         'title_value' => '',
         'url' => 0,
         'user_register_form' => FALSE,
+        'validate_url' => 1,
       ),
       'widget' => array(
         'active' => 0,

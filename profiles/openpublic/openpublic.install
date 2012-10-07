@@ -6,12 +6,17 @@
  * Perform actions to set up the site for this profile.
  */
 function openpublic_install() {
+  // set the time limit to unlimited for install
+  drupal_set_time_limit(0);
   openpublic_add_default_text_formats_and_perms();
 
   // Allow visitor account creation with administrative approval.
   variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
   //openpublic_create_basic_roles_perms();
-  
+ 
+  //turn on the context_ui dialog
+  variable_set('context_ui_dialog_enabled', TRUE);
+
   openpublic_enable_admin_theme ();
 
   // set various system variables
@@ -35,7 +40,6 @@ function openpublic_create_basic_roles_perms() {
     'access content overview',
     'access contextual links',
     'access dashboard',
-    'access overlay',
     'access own webform results',
     'access own webform submissions',
     'access site in maintenance mode',
@@ -254,7 +258,7 @@ function openpublic_configure_commentnotify() {
   variable_set('comment_notify_node_types', $content_types);
 }
 
-function openpublic_install_tasks() {
+function openpublic_install_tasks($install_state) {
   $task['secure_pages'] = array(
     'display_name' => st('Install configurations for Secure Pages'),
     'display' => FALSE,
@@ -269,5 +273,32 @@ function openpublic_install_tasks() {
     'run' => INSTALL_TASK_RUN_IF_REACHED,
     'function' => 'openpublic_configure_commentnotify',
   );
+
+  require_once(drupal_get_path('module', 'apps') . '/apps.profile.inc');
+  $server = array(
+    'machine name' => 'openpublic',
+    'default apps' => array(
+      'openpublic_demo_content',
+      'openpublic_password'
+    ),
+    'required apps' => array(
+      'openpublic_demo_content',
+      'openpublic_password'
+    ),
+    'default content callback' => '',
+  );
+  $task = $task + apps_profile_install_tasks($install_state, $server);
+
+
+  require_once(drupal_get_path('module', 'apps') . '/apps.profile.inc');
+  $task = array_merge($task, apps_profile_install_tasks($install_state, $server ));
   return $task;
+}
+
+/**
+ * Enable the context ui dialog
+ */
+function openpublic_update_7001() {
+  //TODO: It is worth looking at this being a feature export variable
+  variable_set('context_ui_dialog_enabled', TRUE);
 }

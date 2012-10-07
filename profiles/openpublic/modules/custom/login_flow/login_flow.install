@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ * Defines the table to hold temporary user blocks (since the user table does not support this)
+ */
+function login_flow_schema(){
+  //maybe to make this update proof add:
+  //$user_schema = drupal_get_schema('users');
+  //then grab $user_schema['fields']['uid']; out of it.
+
+  //if there is an entry in this table, they should be blocked temporarily
+  $schema['flood_temp_block'] = array(
+    'description' => 'The temporarily blocked user queue',
+    'fields' => array(
+      'uid' => array(
+        'description' => 'The uid',
+        'type' => 'int',
+        'length' => 10,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'time_blocked' => array(
+        'description' => 'The time this user was blocked temporarily',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('uid'),
+  );
+
+  return $schema;
+}

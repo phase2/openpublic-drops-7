@@ -241,7 +241,8 @@ function theme_password_policy_admin_list($variables) {
     'header' => $header, 
     'rows' => $rows, 
     'attributes' => array('id' => 'password-policy-order'),
-    'empty' => t('No policies have been created.'),
+    'empty' => t('There are currently no policies. <a href="!url">Add a new one</a>.',
+      array('!url' => url('admin/config/people/password_policy/add'))),
   ));
   $output .= drupal_render_children($form);
 
@@ -520,7 +521,7 @@ function password_policy_password_change_settings_submit($form, &$form_state) {
   $selected_roles = array();
   variable_set('password_policy_new_login_change', $form_state['values']['password_policy_new_login_change']);
   if ($form_state['values']['password_policy_new_login_change'] == 1) {
-    watchdog('password policy', t('New user accounts must change password on new login enabled by !admin', array('!admin' => $user->name)), array(), WATCHDOG_NOTICE);
+    watchdog('password_policy', t('New user accounts must change password on new login enabled by !admin', array('!admin' => $user->name)), array(), WATCHDOG_NOTICE);
   }
   ($form_state['values']['password_policy_new_login_change']) ? drupal_set_message(t('New users will be required to change their password on first-time login.')) : drupal_set_message(t('New users will not be required to change their pasword on first-time login.'));
   foreach ($form_state['values']['password_policy_force_change_roles'] as $role) {
@@ -561,7 +562,7 @@ function password_policy_password_change_settings_submit($form, &$form_state) {
     }
     $list = implode(', ', $list);
     drupal_set_message(t('Users in the following roles will be required to immediately change their password: %list', array('%list' => $list)), 'status');
-    watchdog('password policy', t('!admin has flagged users in the following roles to immediately change their password: %list', array('%list' => $list, '!admin' => $user->name)), array(), WATCHDOG_NOTICE);
+    watchdog('password_policy', t('!admin has flagged users in the following roles to immediately change their password: %list', array('%list' => $list, '!admin' => $user->name)), array(), WATCHDOG_NOTICE);
   }
   else {
     drupal_set_message(t('No roles were selected.'));

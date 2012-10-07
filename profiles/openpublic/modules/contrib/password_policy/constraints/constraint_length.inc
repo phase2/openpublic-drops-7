@@ -11,7 +11,7 @@
  * Description of the constraint.
  */
 function password_policy_constraint_length_description() {
-  return array('name' => t('Length'), 'description' => t('Password must be longer than the specified minimum length.'));
+  return array('name' => t('Length'), 'description' => t('Password must be equal to or longer than the specified minimum length.'));
 }
 
 /**
@@ -24,7 +24,7 @@ function password_policy_constraint_length_error($constraint) {
 /**
  * Password validation.
  */
-function password_policy_constraint_length_validate($password, $constraint, $uid) {
+function password_policy_constraint_length_validate($password, $constraint, $account) {
   $length = drupal_strlen($password);
   return $length >= $constraint;
 }
@@ -32,7 +32,7 @@ function password_policy_constraint_length_validate($password, $constraint, $uid
 /**
  * Javascript portion.
  */
-function password_policy_constraint_length_js($constraint, $uid) {
+function password_policy_constraint_length_js($constraint, $account) {
   $s = '';
   $s .= "  if (!value.length || value.length<$constraint) {\n";
   $s .= "    strength=\"low\";\n";

@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  */
 function phase2_profile_ctools_plugin_api() {
   list($module, $api) = func_get_args();
@@ -19,7 +19,7 @@ function phase2_profile_ctools_plugin_api() {
 }
 
 /**
- * Implementation of hook_image_default_styles().
+ * Implements hook_image_default_styles().
  */
 function phase2_profile_image_default_styles() {
   $styles = array();
@@ -40,6 +40,7 @@ function phase2_profile_image_default_styles() {
           'width' => '95',
           'height' => '95',
         ),
+        'dimensions callback' => 'image_resize_dimensions',
         'weight' => '1',
       ),
     ),
@@ -61,6 +62,7 @@ function phase2_profile_image_default_styles() {
           'width' => '80',
           'height' => '80',
         ),
+        'dimensions callback' => 'image_resize_dimensions',
         'weight' => '1',
       ),
     ),
@@ -70,7 +72,7 @@ function phase2_profile_image_default_styles() {
 }
 
 /**
- * Implementation of hook_node_info().
+ * Implements hook_node_info().
  */
 function phase2_profile_node_info() {
   $items = array(

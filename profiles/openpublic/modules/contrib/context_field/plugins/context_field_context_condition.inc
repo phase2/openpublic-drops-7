@@ -29,6 +29,7 @@ class context_field_context_condition extends context_condition {
     $form['context_field_category'] = array(
       '#type' => 'textfield',
       '#title' => 'Category',
+      '#description' => t('The category of contexts for which you\'d like to utilize this context. For example, a category named blog for blog related contexts, which would differ from the contexts that could be used for basic pages.'),
       '#default_value' => isset($defaults['context_field_category']) ? $defaults['context_field_category'] : '',
     );
     return $form;

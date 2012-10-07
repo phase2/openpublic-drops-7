@@ -29,27 +29,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'views',
   );
 
-  // Exported permission: access all webform results
-  $permissions['access all webform results'] = array(
-    'name' => 'access all webform results',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'webform',
-  );
-
-  // Exported permission: access comments
-  $permissions['access comments'] = array(
-    'name' => 'access comments',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-    ),
-    'module' => 'comment',
-  );
-
   // Exported permission: access content
   $permissions['access content'] = array(
     'name' => 'access content',
@@ -89,41 +68,6 @@ function openpublic_defaults_user_default_permissions() {
       1 => 'editor',
     ),
     'module' => 'dashboard',
-  );
-
-  // Exported permission: access overlay
-  $permissions['access overlay'] = array(
-    'name' => 'access overlay',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'overlay',
-  );
-
-  // Exported permission: access own webform results
-  $permissions['access own webform results'] = array(
-    'name' => 'access own webform results',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'editor',
-      3 => 'staff',
-    ),
-    'module' => 'webform',
-  );
-
-  // Exported permission: access own webform submissions
-  $permissions['access own webform submissions'] = array(
-    'name' => 'access own webform submissions',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'editor',
-      3 => 'staff',
-    ),
-    'module' => 'webform',
   );
 
   // Exported permission: access site in maintenance mode
@@ -176,16 +120,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'user',
   );
 
-  // Exported permission: administer CAPTCHA settings
-  $permissions['administer CAPTCHA settings'] = array(
-    'name' => 'administer CAPTCHA settings',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'captcha',
-  );
-
   // Exported permission: administer actions
   $permissions['administer actions'] = array(
     'name' => 'administer actions',
@@ -231,26 +165,6 @@ function openpublic_defaults_user_default_permissions() {
       1 => 'editor',
     ),
     'module' => 'block',
-  );
-
-  // Exported permission: administer comment notify
-  $permissions['administer comment notify'] = array(
-    'name' => 'administer comment notify',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'comment_notify',
-  );
-
-  // Exported permission: administer comments
-  $permissions['administer comments'] = array(
-    'name' => 'administer comments',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'comment',
   );
 
   // Exported permission: administer content types
@@ -327,16 +241,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'imce',
   );
 
-  // Exported permission: administer menu
-  $permissions['administer menu'] = array(
-    'name' => 'administer menu',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'menu',
-  );
-
   // Exported permission: administer modules
   $permissions['administer modules'] = array(
     'name' => 'administer modules',
@@ -394,16 +298,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'panels',
   );
 
-  // Exported permission: administer password policies
-  $permissions['administer password policies'] = array(
-    'name' => 'administer password policies',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'password_policy',
-  );
-
   // Exported permission: administer pathauto
   $permissions['administer pathauto'] = array(
     'name' => 'administer pathauto',
@@ -421,16 +315,6 @@ function openpublic_defaults_user_default_permissions() {
       0 => 'administrator',
     ),
     'module' => 'user',
-  );
-
-  // Exported permission: administer recaptcha
-  $permissions['administer recaptcha'] = array(
-    'name' => 'administer recaptcha',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'recaptcha',
   );
 
   // Exported permission: administer search
@@ -584,28 +468,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'user',
   );
 
-  // Exported permission: create blog_entry content
-  $permissions['create blog_entry content'] = array(
-    'name' => 'create blog_entry content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: create document content
-  $permissions['create document content'] = array(
-    'name' => 'create document content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: create editors_choice content
   $permissions['create editors_choice content'] = array(
     'name' => 'create editors_choice content',
@@ -650,17 +512,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: create press_release content
-  $permissions['create press_release content'] = array(
-    'name' => 'create press_release content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: create profile content
   $permissions['create profile content'] = array(
     'name' => 'create profile content',
@@ -694,17 +545,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: create site_page content
-  $permissions['create site_page content'] = array(
-    'name' => 'create site_page content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: create url aliases
   $permissions['create url aliases'] = array(
     'name' => 'create url aliases',
@@ -713,16 +553,6 @@ function openpublic_defaults_user_default_permissions() {
       1 => 'editor',
     ),
     'module' => 'path',
-  );
-
-  // Exported permission: create webform content
-  $permissions['create webform content'] = array(
-    'name' => 'create webform content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
   );
 
   // Exported permission: customize shortcut links
@@ -735,35 +565,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'shortcut',
   );
 
-  // Exported permission: delete all webform submissions
-  $permissions['delete all webform submissions'] = array(
-    'name' => 'delete all webform submissions',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'webform',
-  );
-
-  // Exported permission: delete any blog_entry content
-  $permissions['delete any blog_entry content'] = array(
-    'name' => 'delete any blog_entry content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete any document content
-  $permissions['delete any document content'] = array(
-    'name' => 'delete any document content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
 
   // Exported permission: delete any editors_choice content
   $permissions['delete any editors_choice content'] = array(
@@ -805,16 +606,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete any press_release content
-  $permissions['delete any press_release content'] = array(
-    'name' => 'delete any press_release content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: delete any profile content
   $permissions['delete any profile content'] = array(
     'name' => 'delete any profile content',
@@ -845,45 +636,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete any site_page content
-  $permissions['delete any site_page content'] = array(
-    'name' => 'delete any site_page content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete any webform content
-  $permissions['delete any webform content'] = array(
-    'name' => 'delete any webform content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete own blog_entry content
-  $permissions['delete own blog_entry content'] = array(
-    'name' => 'delete own blog_entry content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete own document content
-  $permissions['delete own document content'] = array(
-    'name' => 'delete own document content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
 
   // Exported permission: delete own editors_choice content
   $permissions['delete own editors_choice content'] = array(
@@ -925,16 +677,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own press_release content
-  $permissions['delete own press_release content'] = array(
-    'name' => 'delete own press_release content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: delete own profile content
   $permissions['delete own profile content'] = array(
     'name' => 'delete own profile content',
@@ -965,36 +707,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own site_page content
-  $permissions['delete own site_page content'] = array(
-    'name' => 'delete own site_page content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete own webform content
-  $permissions['delete own webform content'] = array(
-    'name' => 'delete own webform content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: delete own webform submissions
-  $permissions['delete own webform submissions'] = array(
-    'name' => 'delete own webform submissions',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'webform',
-  );
-
   // Exported permission: delete revisions
   $permissions['delete revisions'] = array(
     'name' => 'delete revisions',
@@ -1005,52 +717,7 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete terms in 1
-  $permissions['delete terms in 1'] = array(
-    'name' => 'delete terms in 1',
-    'roles' => array(),
-  );
 
-  // Exported permission: delete terms in 2
-  $permissions['delete terms in 2'] = array(
-    'name' => 'delete terms in 2',
-    'roles' => array(),
-  );
-
-  // Exported permission: delete terms in 3
-  $permissions['delete terms in 3'] = array(
-    'name' => 'delete terms in 3',
-    'roles' => array(),
-  );
-
-  // Exported permission: edit all webform submissions
-  $permissions['edit all webform submissions'] = array(
-    'name' => 'edit all webform submissions',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'webform',
-  );
-
-  // Exported permission: edit any blog_entry content
-  $permissions['edit any blog_entry content'] = array(
-    'name' => 'edit any blog_entry content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit any document content
-  $permissions['edit any document content'] = array(
-    'name' => 'edit any document content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
 
   // Exported permission: edit any editors_choice content
   $permissions['edit any editors_choice content'] = array(
@@ -1092,16 +759,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit any press_release content
-  $permissions['edit any press_release content'] = array(
-    'name' => 'edit any press_release content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: edit any profile content
   $permissions['edit any profile content'] = array(
     'name' => 'edit any profile content',
@@ -1132,16 +789,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit any site_page content
-  $permissions['edit any site_page content'] = array(
-    'name' => 'edit any site_page content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: edit any user follow links
   $permissions['edit any user follow links'] = array(
     'name' => 'edit any user follow links',
@@ -1150,50 +797,6 @@ function openpublic_defaults_user_default_permissions() {
       1 => 'editor',
     ),
     'module' => 'follow',
-  );
-
-  // Exported permission: edit any webform content
-  $permissions['edit any webform content'] = array(
-    'name' => 'edit any webform content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit own blog_entry content
-  $permissions['edit own blog_entry content'] = array(
-    'name' => 'edit own blog_entry content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit own comments
-  $permissions['edit own comments'] = array(
-    'name' => 'edit own comments',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'editor',
-      3 => 'staff',
-    ),
-    'module' => 'comment',
-  );
-
-  // Exported permission: edit own document content
-  $permissions['edit own document content'] = array(
-    'name' => 'edit own document content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
   );
 
   // Exported permission: edit own editors_choice content
@@ -1249,17 +852,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own press_release content
-  $permissions['edit own press_release content'] = array(
-    'name' => 'edit own press_release content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
-  );
-
   // Exported permission: edit own profile content
   $permissions['edit own profile content'] = array(
     'name' => 'edit own profile content',
@@ -1293,36 +885,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own site_page content
-  $permissions['edit own site_page content'] = array(
-    'name' => 'edit own site_page content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit own webform content
-  $permissions['edit own webform content'] = array(
-    'name' => 'edit own webform content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'node',
-  );
-
-  // Exported permission: edit own webform submissions
-  $permissions['edit own webform submissions'] = array(
-    'name' => 'edit own webform submissions',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'webform',
-  );
-
   // Exported permission: edit site follow links
   $permissions['edit site follow links'] = array(
     'name' => 'edit site follow links',
@@ -1331,34 +893,6 @@ function openpublic_defaults_user_default_permissions() {
       1 => 'editor',
     ),
     'module' => 'follow',
-  );
-
-  // Exported permission: edit terms in 1
-  $permissions['edit terms in 1'] = array(
-    'name' => 'edit terms in 1',
-    'roles' => array(),
-  );
-
-  // Exported permission: edit terms in 2
-  $permissions['edit terms in 2'] = array(
-    'name' => 'edit terms in 2',
-    'roles' => array(),
-  );
-
-  // Exported permission: edit terms in 3
-  $permissions['edit terms in 3'] = array(
-    'name' => 'edit terms in 3',
-    'roles' => array(),
-  );
-
-  // Exported permission: force password change
-  $permissions['force password change'] = array(
-    'name' => 'force password change',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'password_policy',
   );
 
   // Exported permission: manage features
@@ -1410,17 +944,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'googleanalytics',
   );
 
-  // Exported permission: post comments
-  $permissions['post comments'] = array(
-    'name' => 'post comments',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-    ),
-    'module' => 'comment',
-  );
-
   // Exported permission: revert revisions
   $permissions['revert revisions'] = array(
     'name' => 'revert revisions',
@@ -1451,28 +974,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'user',
   );
 
-  // Exported permission: skip CAPTCHA
-  $permissions['skip CAPTCHA'] = array(
-    'name' => 'skip CAPTCHA',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'captcha',
-  );
-
-  // Exported permission: skip comment approval
-  $permissions['skip comment approval'] = array(
-    'name' => 'skip comment approval',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'comment',
-  );
-
   // Exported permission: switch shortcut sets
   $permissions['switch shortcut sets'] = array(
     'name' => 'switch shortcut sets',
@@ -1481,16 +982,6 @@ function openpublic_defaults_user_default_permissions() {
       1 => 'editor',
     ),
     'module' => 'shortcut',
-  );
-
-  // Exported permission: unblock expired accounts
-  $permissions['unblock expired accounts'] = array(
-    'name' => 'unblock expired accounts',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-    ),
-    'module' => 'password_policy',
   );
 
   // Exported permission: use PHP for tracking visibility
@@ -1549,28 +1040,6 @@ function openpublic_defaults_user_default_permissions() {
     'module' => 'panels',
   );
 
-  // Exported permission: use text format filtered_html
-  $permissions['use text format filtered_html'] = array(
-    'name' => 'use text format filtered_html',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-    ),
-    'module' => 'filter',
-  );
-
-  // Exported permission: use text format full_html
-  $permissions['use text format full_html'] = array(
-    'name' => 'use text format full_html',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
-    ),
-    'module' => 'filter',
-  );
-
   // Exported permission: view addthis
   $permissions['view addthis'] = array(
     'name' => 'view addthis',
@@ -1594,7 +1063,7 @@ function openpublic_defaults_user_default_permissions() {
       3 => 'editor',
       4 => 'staff',
     ),
-    'module' => 'date',
+    'module' => 'date_repeat_field',
   );
 
   // Exported permission: view own unpublished content

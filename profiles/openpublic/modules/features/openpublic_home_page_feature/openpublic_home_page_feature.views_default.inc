@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_views_default_views().
+ * Implements hook_views_default_views().
  */
 function openpublic_home_page_feature_views_default_views() {
   $export = array();
@@ -177,6 +177,18 @@ function openpublic_home_page_feature_views_default_views() {
     'leadership' => 0,
   );
   $handler->display->display_options['block_description'] = 'Home Page Features Carousel';
+  $translatables['home_page_feature_rotator'] = array(
+    t('Defaults'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('queue'),
+    t('Block'),
+    t('Home Page Features Carousel'),
+  );
   $export['home_page_feature_rotator'] = $view;
 
   return $export;

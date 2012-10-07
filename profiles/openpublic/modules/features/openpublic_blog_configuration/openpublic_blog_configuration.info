@@ -1,0 +1,21 @@
+name = "Openpublic Blog Configuration"
+description = "Contains the permissions for the OpenPublic Blog Content type."
+core = "7.x"
+package = "Features"
+php = "5.2.4"
+version = "7.x-1.0"
+project = "openpublic_blog_configuration"
+dependencies[] = "features"
+dependencies[] = "phase2_blog"
+features[user_permission][] = "create blog_entry content"
+features[user_permission][] = "delete any blog_entry content"
+features[user_permission][] = "delete own blog_entry content"
+features[user_permission][] = "edit any blog_entry content"
+features[user_permission][] = "edit own blog_entry content"
+
+; Information added by drupal.org packaging script on 2012-10-05
+version = "7.x-1.0-beta11"
+core = "7.x"
+project = "openpublic"
+datestamp = "1349470914"
+

@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_views_default_views().
+ * Implements hook_views_default_views().
  */
 function openpublic_resources_views_default_views() {
   $export = array();
@@ -223,6 +223,23 @@ function openpublic_resources_views_default_views() {
   $handler->display->display_options['fields']['view_node']['empty_zero'] = 0;
   $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   $handler->display->display_options['path'] = 'resources';
+  $translatables['resources'] = array(
+    t('Defaults'),
+    t('More resources'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('Front page resources'),
+    t('Resources'),
+    t('more'),
+    t('Resources page'),
+    t('Read more'),
+  );
   $export['resources'] = $view;
 
   return $export;

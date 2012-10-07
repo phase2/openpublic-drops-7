@@ -29,9 +29,9 @@ function password_policy_constraint_history_error($constraint) {
 /**
  * Password validation.
  */
-function password_policy_constraint_history_validate($password, $constraint, $uid) {
+function password_policy_constraint_history_validate($password, $constraint, $account) {
   require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
-  $old_passwords = _password_policy_constraint_history_old_passwords($constraint, $uid);
+  $old_passwords = _password_policy_constraint_history_old_passwords($constraint, $account->uid);
   foreach($old_passwords as $pw) {
     $hash = _password_crypt('sha512', $password, $pw);
     if($hash == $pw) {
@@ -45,9 +45,9 @@ function password_policy_constraint_history_validate($password, $constraint, $ui
 /**
  * Javascript portion.
  */
-function password_policy_constraint_history_js($constraint, $uid) {
+function password_policy_constraint_history_js($constraint, $account) {
   drupal_add_js(drupal_get_path('module', 'password_policy') .'/constraints/scripts/webtoolkit.md5.js');
-  $pass = _password_policy_constraint_history_old_passwords($constraint, $uid);
+  $pass = _password_policy_constraint_history_old_passwords($constraint, $account->uid);
   $s = '';
   $s .= "  var num=0;\n";
   $s .= "  var pass=new Array(\"". implode('","', $pass) ."\");\n";

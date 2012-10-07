@@ -1,0 +1,280 @@
+<?php
+  $form['user_failed_login_user_window_temporary'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Window to use for Temporary Block',
+    '#default_value' => variable_get('user_failed_login_user_window_temporary', 86400),
+  );
+
+
+/**
+ * implements hook_menu()
+ */
+function login_flow_menu() {
+  $menu["admin/config/people/login-flow"] =  array(
+    'title' => t("Login Flow"),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('login_flow_config_form'),
+    'description' => 'Configure Login Flow',
+    'access arguments' => array('administer users'),
+  );
+  return $menu;
+}
+
+
+function login_flow_config_form($form, $form_state) {
+  $form = array();
+  $form['user_failed_login_identifier_uid_only'] = array(
+    '#type' => 'checkbox',
+    '#title' =>'Do not count by ip but my user only',
+    '#default_value' => variable_get('user_failed_login_identifier_uid_only', 0),
+  );
+  $form['user_failed_login_user_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Permanent ban threshold',
+    '#default_value' => variable_get('user_failed_login_user_limit', 5),
+  );
+  $form['big_window'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Window to use for Permanent Ban',
+    '#default_value' => variable_get('big_window', 315569260),
+  );
+  $form['user_failed_login_user_limit_temporary'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Temporary ban threshold',
+    '#default_value' => variable_get('user_failed_login_user_limit_temporary', 3),
+  );
+  $form['user_failed_login_user_window_temporary'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Window to use for Temporary Block',
+    '#default_value' => variable_get('user_failed_login_user_window_temporary', 86400),
+  );
+  $form['user_temporary_block_window'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Length of time a user is temporary blocked',
+    '#default_value' => variable_get('user_temporary_block_window', 1200),
+  );
+  $form = system_settings_form($form);
+  return $form;
+}
+
+/**
+ * Implements hook_form_alter().
+ * Hijacks the user validation so we can add a temporary ban and perma ban at different flood levels
+ *
+ */
+function login_flow_form_user_login_alter(&$form, &$form_state) {
+  //lets hijack the user login validation
+  $form['#validate'] = array('login_flow_name_validate', 'login_flow_authenticate_validate', 'login_flow_final_validate');
+}
+
+/**
+ * A FAPI validate handler. Sets an error if supplied username has been blocked.
+ */
+function login_flow_name_validate($form, &$form_state) {
+  if (isset($form_state['values']['name']) && user_is_blocked($form_state['values']['name'])) {
+    // Blocked in user administration.
+    form_set_error('name', t('The username %name has not been activated or is blocked.', array('%name' => $form_state['values']['name'])));
+  }
+}
+
+/**
+ * A validate handler on the login form. Check supplied username/password
+ * against local users table. If successful, $form_state['uid']
+ * is set to the matching user ID.
+ *
+ * The base code this is derived from is in user.module (user_authenticate_validate)
+ */
+function login_flow_authenticate_validate($form, &$form_state) {
+  $password = trim($form_state['values']['pass']);
+  if (!empty($form_state['values']['name']) && !empty($password)) {
+    // Do not allow any login from the current user's IP if the limit has been reached.
+    if (!flood_is_allowed('failed_login_attempt_ip', variable_get('user_failed_login_ip_limit', 100), variable_get('user_failed_login_ip_window', 3600))) {
+      $form_state['flood_control_triggered'] = 'ip';
+      return;
+    }
+    $account = db_query("SELECT * FROM {users} WHERE name = :name AND status = 1", array(':name' => $form_state['values']['name']))->fetchObject();
+    if ($account) {
+      if (variable_get('user_failed_login_identifier_uid_only', TRUE)) {
+        // Register flood events based on the uid only, so they apply for any
+        // IP address. This is the most secure option.
+        $identifier = $account->uid;
+      }
+      else {
+        // The default identifier is a combination of uid and IP address. This
+        // is less secure but more resistant to denial-of-service attacks that
+        // could lock out all users with public user names.
+        $identifier = $account->uid . '-' . ip_address();
+      }
+      $form_state['flood_control_user_identifier'] = $identifier;
+
+      // Don't allow login if the limit for this user has been reached.
+      // Default is to allow 5 failed attempts within 10 years.
+      if (!flood_is_allowed('failed_login_attempt_user', variable_get('user_failed_login_user_limit', 5), variable_get('big_window', 315569260), $identifier)) {
+        $form_state['flood_control_triggered'] = 'user';
+        
+        //block the user
+        $account_obj = user_load($account->uid);
+        if(!$account_obj){ return; }
+        $account_obj = user_save($account_obj, array('status' => 0)); 
+        
+        return;
+      }
+
+      //temporarily block if we're at 3 attempts within the hour
+      $flood_count = flood_count('failed_login_attempt_user', variable_get('user_failed_login_user_window_temporary', 86400), $identifier);
+      if($flood_count == variable_get('user_failed_login_user_limit_temporary', 3)-1 && $flood_count != 0 ) {
+        //temporarily block them
+        $result = login_flow_temp_block($account->uid);
+        if($result){
+          $form_state['flood_control_temporary_block'] = TRUE;
+        }
+        return;
+      }
+    }
+    // We are not limited by flood control, so try to authenticate.
+    // Set $form_state['uid'] as a flag for user_login_final_validate().
+    $form_state['uid'] = user_authenticate($form_state['values']['name'], $password);
+  }
+}
+
+/**
+ * The final validation handler on the login form.
+ *
+ * Sets a form error if user has not been authenticated, or if too many
+ * logins have been attempted. This validation function should always
+ * be the last one.
+ */
+function login_flow_final_validate($form, &$form_state) {
+  if (empty($form_state['uid'])) {
+    // Always register an IP-based failed login event.
+    flood_register_event('failed_login_attempt_ip', variable_get('user_failed_login_ip_window', 86400));
+    // Register a per-user failed login event.
+    if (isset($form_state['flood_control_user_identifier'])) {
+      flood_register_event('failed_login_attempt_user', variable_get('user_failed_login_user_window', 86400), $form_state['flood_control_user_identifier']);
+    }
+
+    if (isset($form_state['flood_control_temporary_block'])){
+      form_set_error('name', t('Sorry, there have been too many failed login attempts for this account. It is temporarily blocked. Try again later or contact an administrator.'));
+    }
+
+    if (isset($form_state['flood_control_triggered'])) {
+      if ($form_state['flood_control_triggered'] == 'user') {
+        form_set_error('name', format_plural(variable_get('user_failed_login_user_limit', 5), 'Sorry, there has been more than one failed login attempt for this account. It is currently blocked. Contact your administrator.', 'Sorry, there have been more than @count failed login attempts for this account. It is currently blocked. Contact your administrator.'));
+      }
+      else {
+        // We did not find a uid, so the limit is IP-based.
+        form_set_error('name', t('Sorry, too many failed login attempts from your IP address. This IP address blocked. Contact your administrator to have it unblocked'));
+      }
+    }
+    else {
+      form_set_error('name', t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>', array('@password' => url('user/password'))));
+      watchdog('user', 'Login attempt failed for %user.', array('%user' => $form_state['values']['name']));
+    }
+  }
+  elseif (isset($form_state['flood_control_user_identifier'])) {
+    // Clear past failures for this user so as not to block a user who might
+    // log in and out more than once in an hour.
+    flood_clear_event('failed_login_attempt_user', $form_state['flood_control_user_identifier']);
+  }
+}
+
+
+/**
+ * Temporarily blocks a user.
+ * @param $userid a user ID to block
+ * @return bool TRUE if user is blocked, FALSE if user record doesn't exist
+ */
+function login_flow_temp_block($userid){
+  //block user
+  $account = user_load($userid);
+  if(!$account){ return FALSE; }
+  $account = user_save($account, array('status' => 0));
+
+  //add to temp block queue
+  $count = db_select('flood_temp_block')
+    ->fields('flood_temp_block', array('uid'))
+    ->condition('uid', $userid)
+    ->execute();
+
+  $res = $count->fetchAssoc();
+
+  if(!$res){
+     $res = db_insert('flood_temp_block')
+       ->fields(array('uid','time_blocked'), array($userid, REQUEST_TIME))
+       ->execute();
+
+  }
+  return TRUE;
+}
+
+function login_flow_unblock($userid){
+  //unblock from user table
+  $account = user_load($userid);
+  if(!$account){ return FALSE; }
+  $account = user_save($account, array('status' => 1)); 
+
+  login_flow_remove_from_table($userid); //this is probably redundant
+}
+
+function login_flow_remove_from_table($userid){
+  if(!is_numeric($userid)){ return FALSE; }
+
+  $res = db_delete('flood_temp_block')
+    ->condition('uid', $userid)
+    ->execute(); 
+  return $res;
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * clears out temporarily blocked users
+ */
+function login_flow_cron() {
+  //get all uid's to be unblocked
+  $window = variable_get('user_temporary_block_window', 1200);
+  if(!is_numeric($window)){
+    $window = 1200;
+  }
+
+  $uids = db_query("SELECT uid FROM {flood_temp_block} WHERE time_blocked < :timestamp", array(
+    ':timestamp' => REQUEST_TIME - $window))
+    ->fetchAllKeyed();
+
+  foreach($uids as $userid => $emp ){
+    login_flow_unblock($userid); //unfortunately this results in a query, but it should be quick (delete from)
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ *
+ * Used to remove users from the temp ban and empty their flood if they've been set to active
+ */
+function login_flow_user_update(&$edit, $account, $category){
+  if( $edit['original']->status != 1  && isset($edit['status']) && $edit['status'] == 1 ){
+    //status has been updated
+    login_flow_remove_from_table( $edit['original']->uid );
+
+    //if we know an administrator did this (rather than cron) clear their flood events
+    global $user;
+    if($user->uid != 0){
+      flood_clear_event('failed_login_attempt_user', $edit['original']->uid);  
+    }
+  }
+}
+
+//helpers
+//modified version of flood_allowed
+function flood_count($name, $window = 3600, $identifier = NULL) {
+  if (!isset($identifier)) {
+    $identifier = ip_address();
+  }
+  $number = db_query("SELECT COUNT(*) FROM {flood} WHERE event = :event AND identifier = :identifier AND timestamp > :timestamp", array(
+    ':event' => $name,
+    ':identifier' => $identifier,
+    ':timestamp' => REQUEST_TIME - $window))
+    ->fetchField();
+
+  return $number;
+}

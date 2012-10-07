@@ -5,9 +5,17 @@
  */
 
 /**
- * Implementation of hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  */
 function openpublic_home_page_feature_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "context" && $api == "context") {
+    return array("version" => "3");
+  }
+  list($module, $api) = func_get_args();
+  if ($module == "delta" && $api == "delta") {
+    return array("version" => "3");
+  }
   list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
@@ -15,7 +23,7 @@ function openpublic_home_page_feature_ctools_plugin_api() {
 }
 
 /**
- * Implementation of hook_views_api().
+ * Implements hook_views_api().
  */
 function openpublic_home_page_feature_views_api() {
   list($module, $api) = func_get_args();
@@ -25,7 +33,7 @@ function openpublic_home_page_feature_views_api() {
 }
 
 /**
- * Implementation of hook_image_default_styles().
+ * Implements hook_image_default_styles().
  */
 function openpublic_home_page_feature_image_default_styles() {
   $styles = array();
@@ -46,6 +54,7 @@ function openpublic_home_page_feature_image_default_styles() {
           'width' => '520',
           'height' => '280',
         ),
+        'dimensions callback' => 'image_resize_dimensions',
         'weight' => '1',
       ),
     ),
@@ -55,7 +64,7 @@ function openpublic_home_page_feature_image_default_styles() {
 }
 
 /**
- * Implementation of hook_node_info().
+ * Implements hook_node_info().
  */
 function openpublic_home_page_feature_node_info() {
   $items = array(

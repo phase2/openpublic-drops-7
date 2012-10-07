@@ -391,6 +391,7 @@ h1#page-title {
 .connect-block li.twitter a { background: url("../img/sprite-sm.png") no-repeat 0 0;}
 .connect-block li.last-fm a { background: url("../img/sprite-sm.png") no-repeat 0 -87px;}
 .connect-block li.rss a { background: url("../img/sprite-sm.png") no-repeat -293px 0;}
+.connect-block li.this-site a { background: url("../img/sprite-sm.png") no-repeat -293px 0;}
 .connect-block li.vimeo a { background: url("../img/sprite-sm.png") no-repeat -73px -87px;}
 .connect-block li.virb a {  background: url("../img/sprite-sm.png") no-repeat -145px -87px;}
 .connect-block li.picasa a {  background: url("../img/sprite-sm.png") no-repeat -220px -87px;}

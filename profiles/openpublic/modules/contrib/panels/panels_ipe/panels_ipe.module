@@ -39,7 +39,7 @@ function panels_ipe_theme() {
       'variables' => array('output' => NULL, 'pane' => NULL, 'display' => NULL, 'renderer' => NULL),
     ),
     'panels_ipe_region_wrapper' => array(
-      'variables' => array('output' => NULL, 'region_id' => NULL, 'display' => NULL, 'renderer' => NULL),
+      'variables' => array('output' => NULL, 'region_id' => NULL, 'display' => NULL, 'controls' => NULL, 'renderer' => NULL),
     ),
     'panels_ipe_add_pane_button' => array(
       'variables' => array('region_id' => NULL, 'display' => NULL, 'renderer' => NULL),
@@ -52,9 +52,6 @@ function panels_ipe_theme() {
     ),
     'panels_ipe_toolbar' => array(
       'variables' => array('buttons' => NULL),
-    ),
-    'panels_ipe_edit_button' => array(
-      'variables' => array('class' => array(), 'text' => NULL),
     ),
   );
 }
@@ -88,11 +85,26 @@ function theme_panels_ipe_pane_wrapper($vars) {
 
   if (ctools_content_editable($content_type, $subtype, $pane->configuration)) {
     $links['edit'] = array(
-      'title' => isset($content_type['edit text']) ? $content_type['edit text'] : t('Settings'),
+      'title' => isset($content_type['edit text']) ? '<span>' . $content_type['edit text'] . '</span>' : '<span>' . t('Settings') . '</span>',
       'href' => $renderer->get_url('edit-pane', $pane->pid),
+      'html' => TRUE,
       'attributes' => array(
-        'class' => 'ctools-use-modal',
+        'class' => array('ctools-use-modal', 'panels-ipe-hide-bar'),
+        'title' => isset($content_type['edit text']) ? $content_type['edit text'] : t('Settings'),
         // 'id' => "pane-edit-panel-pane-$pane->pid",
+      ),
+    );
+  }
+
+  // Add option to configure style in IPE
+  if (user_access('administer panels styles')) {
+    $links['style'] = array(
+      'title' => '<span>' . t('Style') . '</span>',
+      'href' => $renderer->get_url('style-type', 'pane', $pane->pid),
+      'html' => TRUE,
+      'attributes' => array(
+        'class' => array('ctools-use-modal', 'panels-ipe-hide-bar'),
+        'title' => t('Style'),
       ),
     );
   }
@@ -100,11 +112,13 @@ function theme_panels_ipe_pane_wrapper($vars) {
   // Deleting is managed entirely in the js; this is just an attachment point
   // for it
   $links['delete'] = array(
-    'title' => t('Delete'),
+    'title' => '<span>' . t('Delete') . '</span>',
     'href' => '#',
+    'html' => TRUE,
     'attributes' => array(
       'class' => 'pane-delete',
       'id' => "pane-delete-panel-pane-$pane->pid",
+      'title' => t('Delete'),
     ),
   );
 
@@ -114,29 +128,47 @@ function theme_panels_ipe_pane_wrapper($vars) {
 
   $links = theme('links', array('links' => $links, 'attributes' => $attributes));
   if (!empty($pane->locks['type']) && $pane->locks['type'] == 'immovable') {
-    $links .= '<div class="panels-ipe-dragbar panels-ipe-nodraghandle">&nbsp;</div>';
+    $links = '<div class="panels-ipe-dragbar panels-ipe-nodraghandle clearfix">' . $links . '</div>';
   }
   else {
-    $links .= '<div class="panels-ipe-dragbar panels-ipe-draghandle">&nbsp;</div>';
+    $links = '<div class="panels-ipe-dragbar panels-ipe-draghandle clearfix">' . $links . '<span class="panels-ipe-draghandle-icon"><span class="panels-ipe-draghandle-icon-inner"></span></span></div>';
   }
 
-
-  $handlebar = '<div class="panels-ipe-handlebar-wrapper panels-ipe-on clearfix">' . $links . '</div>';
+  $handlebar = '<div class="panels-ipe-handlebar-wrapper panels-ipe-on">' . $links . '</div>';
   return $handlebar . $output;
 }
 
 function theme_panels_ipe_region_wrapper($vars) {
-  return $vars['output'];
+  return $vars['controls'] . $vars['output'];
 }
 
 function theme_panels_ipe_add_pane_button($vars) {
   $region_id = $vars['region_id'];
   $display = $vars['display'];
   $renderer = $vars['renderer'];
+  $link = '';
 
-  $attributes = array('class' => 'ctools-use-modal');
-  $link = l(t('Add new pane'), $renderer->get_url('select-content', $region_id), array('attributes' => $attributes));
-  return '<div class="panels-ipe-newblock panels-ipe-on panels-ipe-portlet-static">' . $link . '</div>';
+  // Add option to configure style in IPE
+  if (user_access('administer panels styles')) {
+    $link .= ' ' . l('<span>' . t('Region style') . '</span>', $renderer->get_url('style-type', 'region', $region_id), array(
+      'attributes' => array(
+        'class' => array('ctools-use-modal', 'style', 'panels-ipe-hide-bar'),
+        'title' => t('Region style'),
+      ),
+      'html' => TRUE,
+    ));
+  }
+
+  // Add option to add items in the IPE
+  $link .= ' ' . l('<span>' . t('Add new pane') . '</span>', $renderer->get_url('select-content', $region_id), array(
+      'attributes' => array(
+        'class' => array('ctools-use-modal', 'add', 'panels-ipe-hide-bar'),
+        'title' => t('Add new pane'),
+      ),
+      'html' => TRUE,
+  ));
+
+  return '<div class="panels-ipe-newblock panels-ipe-on">' . $link . '</div>';
 }
 
 /**
@@ -184,25 +216,16 @@ function theme_panels_ipe_toolbar($vars) {
     // Controls in this container will appear when the IPE is not on.
     $output .= '<div class="panels-ipe-button-container clearfix">';
     foreach ($ipe_buttons as $button) {
-      $output .= $button;
+      $output .= is_string($button) ? $button : drupal_render($button);
     }
     $output .= '</div>';
 
     // Controls in this container will appear when the IPE is on. It is usually
     // filled via AJAX.
     $output .= '<div class="panels-ipe-form-container clearfix"></div>';
-
+    $output .= '</div>';
   }
 
-  $output .= "</div>";
-
-  return $output;
-}
-
-function theme_panels_ipe_edit_button($vars) {
-  $class = $vars['class'];
-  $output  = "<div class='$class panels-ipe-pseudobutton'>";
-  $output .= "  <span>" . $vars['text'] . "</span>";
   $output .= "</div>";
 
   return $output;

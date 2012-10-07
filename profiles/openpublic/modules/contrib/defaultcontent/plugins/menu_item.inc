@@ -2,22 +2,23 @@
 /**
  * @file
  *
- * is an alter plugin for defaultcontent
+ * Is an alter plugin for defaultcontent
  *
- * Handles the exporting and importing menu items attach to 
+ * Handles the exporting and importing menu items attach to
  * a node
  */
+
 $plugin = array();
 
 /**
- * handles the exporting of menu links attached to nodes
+ * Handles the exporting of menu links attached to nodes
  *
- * we convert the menu item to use a machine name path and then 
+ * We convert the menu item to use a machine name path and then
  * load it in to the export array
  */
 function menu_item_export_alter(&$node, &$export) {
   menu_node_prepare($node);
-  if(isset($node->menu['link_path']) && $node->menu['link_path']) {
+  if (isset($node->menu['link_path']) && $node->menu['link_path']) {
     module_load_include('inc', 'features', 'includes/features.menu');
     $identifier = $node->menu['menu_name'] . ":" . $node->menu['link_path'];
     if ($link = features_menu_link_load($identifier)) {
@@ -29,19 +30,18 @@ function menu_item_export_alter(&$node, &$export) {
       $link['link_path'] = defaultcontent_alter_path($link['link_path']);
       $link['identifier'] = defaultcontent_alter_identifier($identifier);
       $export->link = $link;
-    
     }
   }
   unset($node->menu);
 }
 
 /**
- * handles the importing of menu item after the node is loaded
+ * Handles the importing of menu item after the node is loaded
  *
- * convert the menu item path from machine to nid and save
+ * Convert the menu item path from machine to nid and save
  */
 function menu_item_post_import($node) {
-  if(isset($node->nid) && ($nid = $node->nid) && (isset($node->link))) {
+  if (isset($node->nid) && ($nid = $node->nid) && (isset($node->link))) {
     defaultcontent_import_menu_link($node->link['identifier'], $node->link);
   }
 }

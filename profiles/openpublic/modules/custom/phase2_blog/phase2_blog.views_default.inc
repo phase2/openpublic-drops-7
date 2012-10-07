@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_views_default_views().
+ * Implements hook_views_default_views().
  */
 function phase2_blog_views_default_views() {
   $export = array();
@@ -281,6 +281,25 @@ function phase2_blog_views_default_views() {
     'page_1' => 'page_1',
     'default' => 0,
     'block_1' => 0,
+  );
+  $translatables['blogs'] = array(
+    t('Defaults'),
+    t('More blog posts'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('Posted by [entity_id_1] on [created]'),
+    t('Read full blog post'),
+    t('Blog entry list page'),
+    t('Blog'),
+    t('more'),
+    t('Front page blogs'),
+    t('Feed'),
   );
   $export['blogs'] = $view;
 

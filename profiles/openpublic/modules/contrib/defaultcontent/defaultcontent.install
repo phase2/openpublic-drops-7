@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file
+ *
+ * Installation file for Default Content module
+ */
+
+/**
+ * Implements hook_install().
+ */
 function defaultcontent_install() {
   //drupal_install_schema('defaultcontent');
   db_update('system')
@@ -11,6 +20,9 @@ function defaultcontent_install() {
     ->execute();
 }
 
+/**
+ * Implements hook_schema().
+ */
 function defaultcontent_schema() {
   $schema['defaultcontent'] = array(
     'description' => 'Store state of default content nodes',
@@ -33,10 +45,13 @@ function defaultcontent_schema() {
   return $schema;
 }
 
-function defaultcontent_uninstall(){
+/**
+ * Implements hook_uninstall().
+ */
+function defaultcontent_uninstall() {
   // Remove module variables.
   $result = db_query("SELECT name FROM {variable} WHERE name LIKE 'defaultcontent_%'");
-  foreach($result as $record) {
+  foreach ($result as $record) {
     variable_del($record->name);
   }
 }

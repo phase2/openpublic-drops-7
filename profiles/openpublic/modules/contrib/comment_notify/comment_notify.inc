@@ -136,7 +136,7 @@ function comment_notify_add_notification($cid, $notify, $notify_hash) {
   return (bool)db_insert('comment_notify')
     ->fields(array(
       'cid' => $cid,
-      'notify' => $notify,
+      'notify' => $notify === NULL ? 0 : $notify,
       'notify_hash' => $notify_hash,
     ))
     ->execute();
@@ -164,7 +164,7 @@ function comment_notify_remove_all_notifications($cid) {
 function comment_notify_update_notification($cid, $notify) {
   return (bool)db_update('comment_notify')
     ->fields(array(
-      'notify' => $notify,
+      'notify' => $notify === NULL ? 0 : $notify,
     ))
     ->condition('cid', $cid)
     ->execute();
@@ -221,7 +221,7 @@ function comment_notify_mark_comment_as_notified($comment) {
 /**
  * Unsubscribe all comment notification requests associated with an email.
  *
- * If the email belongs to a user, it will unsubscribe all of their comment notify records.
+ * If the email belongs to a user, it will unsubscribe all of their Comment Notify records.
  * If it does not, then it will unsubscribe all anonymous users.
  *
  * @param string $mail
@@ -280,7 +280,7 @@ function comment_notify_unsubscribe_by_hash($hash) {
  */
 function comment_notify_variable_registry_get($name) {
   $variables = array();
-  $variables['author_subject'] = '[site:name] :: new comment for your post.';
+  $variables['author_subject'] = t('[site:name] :: new comment for your post.');
   $variables['available_alerts'] = array(COMMENT_NOTIFY_NODE, COMMENT_NOTIFY_COMMENT);
   $variables['default_anon_mailalert'] = COMMENT_NOTIFY_NODE;
   $variables['node_notify_default_mailtext'] = AUTHOR_MAILTEXT;

@@ -1,0 +1,17 @@
+core = "7.x"
+dependencies[] = "features"
+dependencies[] = "menu"
+features[menu_custom][] = "menu-utility"
+features[menu_links][] = "menu-utility:<front>"
+features[menu_links][] = "menu-utility:user"
+features[menu_links][] = "menu-utility:user/logout"
+name = "OpenPublic Utility Menu"
+package = "Defaults"
+php = "5.2.4"
+
+; Information added by drupal.org packaging script on 2012-10-05
+version = "7.x-1.0-beta11"
+core = "7.x"
+project = "openpublic"
+datestamp = "1349470914"
+

@@ -24,24 +24,25 @@ function password_policy_constraint_complexity_error($constraint) {
 /**
  * Password validation.
  */
-function password_policy_constraint_complexity_validate($password, $constraint, $uid) {
-  $length = drupal_strlen($password);
+function password_policy_constraint_complexity_validate($password, $constraint, $account) {
+  $chars = drupal_strlen($password);
   $num = 0;
   $upper = 0;
   $lower = 0;
   $digit = 0;
   $punct = 0;
-  for ($i = 0; $i < $length; $i++) {
-    if (ctype_upper($password[$i])) {
+  for ($i = 0; $i < $chars; ++$i) {
+    $char = drupal_substr($password, $i, 1);
+    if (ctype_upper($char)) {
       $upper = 1;
     }
-    elseif (ctype_lower($password[$i])) {
+    elseif (ctype_lower($char)) {
       $lower = 1;
     }
-    elseif (ctype_digit($password[$i])) {
+    elseif (ctype_digit($char)) {
       $digit = 1;
     }
-    elseif (ctype_punct($password[$i])) {
+    elseif (ctype_punct($char)) {
       $punct = 1;
     }
   }
@@ -52,7 +53,7 @@ function password_policy_constraint_complexity_validate($password, $constraint, 
 /**
  * Javascript portion.
  */
-function password_policy_constraint_complexity_js($constraint, $uid) {
+function password_policy_constraint_complexity_js($constraint, $account) {
   $s = '';
   $s .= "  var i=0;\n";
   $s .= "  var num=0;\n";

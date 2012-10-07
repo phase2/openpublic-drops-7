@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_views_default_views().
+ * Implements hook_views_default_views().
  */
 function openpublic_multimedia_views_default_views() {
   $export = array();
@@ -280,6 +280,31 @@ function openpublic_multimedia_views_default_views() {
   $handler->display->display_options['fields']['entity_id_1']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['entity_id_1']['hide_empty'] = 0;
   $handler->display->display_options['fields']['entity_id_1']['empty_zero'] = 0;
+  $translatables['media_gallery'] = array(
+    t('Defaults'),
+    t('Multimedia'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Updated date'),
+    t('Media'),
+    t('Body'),
+    t('Gallery Media Teaser'),
+    t(' '),
+    t('<a href =\'node/!'),
+    t('node/!2'),
+    t('All'),
+    t('Gallery'),
+    t('Feature Image'),
+    t('image'),
+    t('Multimedia Content pane'),
+    t('Nid'),
+    t('node/[nid]'),
+    t('View panes'),
+  );
   $export['media_gallery'] = $view;
 
   return $export;

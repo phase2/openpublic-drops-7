@@ -1,0 +1,15 @@
+name = "openpublic_filters"
+core = "7.x"
+package = "Features"
+php = "5.2.4"
+dependencies[] = "features"
+dependencies[] = "openpublic_defaults"
+features[user_permission][] = "use text format filtered_html"
+features[user_permission][] = "use text format full_html"
+
+; Information added by drupal.org packaging script on 2012-10-05
+version = "7.x-1.0-beta11"
+core = "7.x"
+project = "openpublic"
+datestamp = "1349470914"
+

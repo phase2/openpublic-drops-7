@@ -24,12 +24,13 @@ function password_policy_constraint_alphanumeric_error($constraint) {
 /**
  * Password validation.
  */
-function password_policy_constraint_alphanumeric_validate($password, $constraint, $uid) {
-  $length = drupal_strlen($password);
+function password_policy_constraint_alphanumeric_validate($password, $constraint, $account) {
+  $chars = drupal_strlen($password);
   $num = 0;
-  for ($i = 0; $i < $length; $i++) {
-    if (ctype_alnum($password[$i]))
+  for ($i = 0; $i < $chars; ++$i) {
+    if (ctype_alnum(drupal_substr($password, $i, 1))) {
       $num++;
+    }
   }
   return $num >= $constraint;
 }
@@ -37,7 +38,7 @@ function password_policy_constraint_alphanumeric_validate($password, $constraint
 /**
  * Javascript portion.
  */
-function password_policy_constraint_alphanumeric_js($constraint, $uid) {
+function password_policy_constraint_alphanumeric_js($constraint, $account) {
   $s = '';
   $s .= "  var i=0;\n";
   $s .= "  var num=0;\n";

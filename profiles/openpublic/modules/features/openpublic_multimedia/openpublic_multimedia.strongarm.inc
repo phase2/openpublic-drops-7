@@ -1,7 +1,11 @@
 <?php
+/**
+ * @file
+ * openpublic_multimedia.strongarm.inc
+ */
 
 /**
- * Implementation of hook_strongarm().
+ * Implements hook_strongarm().
  */
 function openpublic_multimedia_strongarm() {
   $export = array();
@@ -31,14 +35,14 @@ function openpublic_multimedia_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_anonymous_media_gallery';
-  $strongarm->value = 0;
+  $strongarm->value = '0';
   $export['comment_anonymous_media_gallery'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_anonymous_photo';
-  $strongarm->value = 0;
+  $strongarm->value = '0';
   $export['comment_anonymous_photo'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -87,14 +91,14 @@ function openpublic_multimedia_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_media_gallery';
-  $strongarm->value = '2';
+  $strongarm->value = '0';
   $export['comment_media_gallery'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_photo';
-  $strongarm->value = '2';
+  $strongarm->value = '0';
   $export['comment_photo'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -142,6 +146,38 @@ function openpublic_multimedia_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'menu_options_media_gallery';
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
+  $export['menu_options_media_gallery'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_options_photo';
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
+  $export['menu_options_photo'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_parent_media_gallery';
+  $strongarm->value = 'main-menu:0';
+  $export['menu_parent_media_gallery'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_parent_photo';
+  $strongarm->value = 'main-menu:0';
+  $export['menu_parent_photo'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_options_media_gallery';
   $strongarm->value = array(
     0 => 'status',
@@ -156,6 +192,20 @@ function openpublic_multimedia_strongarm() {
     0 => 'status',
   );
   $export['node_options_photo'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_preview_media_gallery';
+  $strongarm->value = '1';
+  $export['node_preview_media_gallery'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_preview_photo';
+  $strongarm->value = '1';
+  $export['node_preview_photo'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

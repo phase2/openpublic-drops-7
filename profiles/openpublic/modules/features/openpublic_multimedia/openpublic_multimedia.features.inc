@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  */
 function openpublic_multimedia_ctools_plugin_api() {
   list($module, $api) = func_get_args();
@@ -15,7 +15,7 @@ function openpublic_multimedia_ctools_plugin_api() {
 }
 
 /**
- * Implementation of hook_views_api().
+ * Implements hook_views_api().
  */
 function openpublic_multimedia_views_api() {
   list($module, $api) = func_get_args();
@@ -25,7 +25,7 @@ function openpublic_multimedia_views_api() {
 }
 
 /**
- * Implementation of hook_image_default_styles().
+ * Implements hook_image_default_styles().
  */
 function openpublic_multimedia_image_default_styles() {
   $styles = array();
@@ -46,6 +46,7 @@ function openpublic_multimedia_image_default_styles() {
           'width' => '165',
           'height' => '125',
         ),
+        'dimensions callback' => 'image_resize_dimensions',
         'weight' => '1',
       ),
     ),
@@ -55,7 +56,7 @@ function openpublic_multimedia_image_default_styles() {
 }
 
 /**
- * Implementation of hook_node_info().
+ * Implements hook_node_info().
  */
 function openpublic_multimedia_node_info() {
   $items = array(
