@@ -11,4 +11,4 @@ projects[drupal][patch][] = http://drupal.org/files/1369024-theme-inc-add-messag
 projects[drupal][patch][] = http://drupal.org/files/1369584-form-error-link-from-message-to-element-D7.patch
 
 projects[openpublic][type] = profile
-projects[openpublic][version] = 1.0-beta11
+projects[openpublic][version] = 7.x-1.0-beta12

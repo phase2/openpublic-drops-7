@@ -8,8 +8,8 @@ files[] = securepages.module
 files[] = securepages.test
 
 
-; Information added by drush on 2012-10-06
+; Information added by drush on 2012-10-19
 version = ""
 project = "securepages"
-datestamp = "1349571508"
+datestamp = "1350659929"
 

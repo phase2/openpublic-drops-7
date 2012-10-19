@@ -723,23 +723,33 @@
 				if (frameBorder in iframe) {
 					iframe[frameBorder] = 0;
 				}
+				
 				if (allowTransparency in iframe) {
 					iframe[allowTransparency] = "true";
 				}
-				// give the iframe a unique name to prevent caching
-				iframe.name = prefix + (+new Date());
-				if (settings.fastIframe) {
-					complete();
-				} else {
-					$(iframe).one('load', complete);
-				}
-				iframe.src = settings.href;
+
 				if (!settings.scrolling) {
 					iframe.scrolling = "no";
 				}
-				$(iframe).addClass(prefix + 'Iframe').appendTo($loaded).one(event_purge, function () {
-					iframe.src = "//about:blank";
-				});
+				
+				$(iframe)
+					.attr({
+						src: settings.href,
+						name: (new Date()).getTime(), // give the iframe a unique name to prevent caching
+						'class': prefix + 'Iframe',
+						allowFullScreen : true, // allow HTML5 video to go fullscreen
+						webkitAllowFullScreen : true,
+						mozallowfullscreen : true
+					})
+					.one('load', complete)
+					.one(event_purge, function () {
+						iframe.src = "//about:blank";
+					})
+					.appendTo($loaded);
+				
+				if (settings.fastIframe) {
+					$(iframe).trigger('load');
+				}
 			} else {
 				complete();
 			}
