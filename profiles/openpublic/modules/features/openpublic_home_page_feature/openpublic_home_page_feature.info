@@ -43,9 +43,9 @@ features[variable][] = "show_diff_inline_home_page_feature"
 features[views_view][] = "home_page_feature_rotator"
 files[] = "theme/home-page-rotator.css"
 
-; Information added by drupal.org packaging script on 2012-10-05
-version = "7.x-1.0-beta11"
+; Information added by drupal.org packaging script on 2012-10-19
+version = "7.x-1.0-beta12"
 core = "7.x"
 project = "openpublic"
-datestamp = "1349470914"
+datestamp = "1350615414"
 
