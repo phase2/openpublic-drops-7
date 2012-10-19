@@ -9,8 +9,8 @@ files[] = context.module
 files[] = tests/context_ui.test
 
 
-; Information added by drush on 2012-10-06
+; Information added by drush on 2012-10-19
 version = ""
 project = "context"
-datestamp = "1349571518"
+datestamp = "1350667264"
 

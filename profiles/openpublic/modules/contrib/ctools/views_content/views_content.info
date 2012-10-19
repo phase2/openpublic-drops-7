@@ -10,8 +10,8 @@ files[] = plugins/views/views_content_plugin_display_panel_pane.inc
 files[] = plugins/views/views_content_plugin_style_ctools_context.inc
 
 
-; Information added by drush on 2012-10-06
+; Information added by drush on 2012-10-19
 version = ""
 project = "ctools"
-datestamp = "1349571553"
+datestamp = "1350667290"
 
