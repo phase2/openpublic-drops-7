@@ -39,9 +39,9 @@ features[variable][] = "nodeblock_editors_choice"
 features[variable][] = "show_diff_inline_editors_choice"
 features[variable][] = "show_preview_changes_editors_choice"
 
-; Information added by drupal.org packaging script on 2012-10-05
-version = "7.x-1.0-beta11"
+; Information added by drupal.org packaging script on 2012-10-19
+version = "7.x-1.0-beta12"
 core = "7.x"
 project = "openpublic"
-datestamp = "1349470914"
+datestamp = "1350615414"
 

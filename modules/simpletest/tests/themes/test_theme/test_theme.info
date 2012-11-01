@@ -18,8 +18,8 @@ stylesheets[all][] = system.base.css
 settings[theme_test_setting] = default value
 
 
-; Information added by drush on 2012-10-06
+; Information added by drush on 2012-10-19
 version = "master-dev"
 project = "drupal"
-datestamp = "1349571493"
+datestamp = "1350668688"
 

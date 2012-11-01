@@ -72,7 +72,7 @@ projects[addthis][subdir] = contrib
 projects[addthis][version] = 2.1-beta1
 
 projects[twitter_pull][subdir] = contrib
-projects[twitter_pull][version] = 1.0-rc2
+projects[twitter_pull][version] = 1.0-rc3
 projects[twitter_pull][patch][] = http://drupal.org/files/twitter_pull-lazyload_block-1693132-3.patch
 
 projects[conditional_styles][subdir] = contrib
@@ -146,7 +146,7 @@ projects[captcha][subdir] = contrib
 projects[captcha][patch][] = http://drupal.org/files/issues/825088-19-captcha_ctools_export.patch
 
 projects[recaptcha][subdir] = contrib
-projects[recaptcha][version] = 1.7
+projects[recaptcha][version] = 1.8
 
 projects[link][subdir] = contrib
 projects[link][version] = 1.0
