@@ -11,9 +11,9 @@ files[] = plugins/boxes_simple.inc
 files[] = plugins/spaces_controller_boxes.inc
 files[] = tests/boxes.test
 
-; Information added by drupal.org packaging script on 2012-05-01
-version = "7.x-1.0"
+; Information added by drupal.org packaging script on 2013-01-23
+version = "7.x-1.1"
 core = "7.x"
 project = "boxes"
-datestamp = "1335895551"
+datestamp = "1358977511"
 

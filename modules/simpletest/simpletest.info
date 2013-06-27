@@ -50,17 +50,14 @@ files[] = tests/upgrade/upgrade.trigger.test
 files[] = tests/upgrade/upgrade.translatable.test
 files[] = tests/upgrade/upgrade.upload.test
 files[] = tests/upgrade/upgrade.user.test
-<<<<<<< HEAD
-
-
-; Information added by drush on 2012-10-19
-version = "master-dev"
-project = "drupal"
-datestamp = "1350668688"
-
-=======
 files[] = tests/upgrade/update.aggregator.test
 files[] = tests/upgrade/update.trigger.test
 files[] = tests/upgrade/update.field.test
 files[] = tests/upgrade/update.user.test
->>>>>>> 72faeeff1c9356221694d1351cdb2000ab3c5d1c
+
+
+; Information added by drush on 2013-06-27
+version = "master-dev"
+project = "drupal"
+datestamp = "1372359793"
+

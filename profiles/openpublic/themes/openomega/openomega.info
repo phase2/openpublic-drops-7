@@ -426,9 +426,9 @@ settings[alpha_region_footer_second_css] = ''
 settings[alpha_region_footer_second_equal_height_element] = '0'
 settings[alpha_region_footer_second_equal_height_container] = '0'
 
-; Information added by drupal.org packaging script on 2012-10-19
-version = "7.x-1.0-beta12"
+; Information added by drupal.org packaging script on 2012-12-11
+version = "7.x-1.0"
 core = "7.x"
-project = "openpublic"
-datestamp = "1350615414"
+project = "openomega"
+datestamp = "1355246944"
 

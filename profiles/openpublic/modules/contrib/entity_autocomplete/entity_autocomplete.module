@@ -1,145 +1,242 @@
 <?php
+/**
+ * @file
+ * Provides functionalities for entity fields autocompletion.
+ */
 
 /**
- * Implement hook_permission().
+ * Implements hook_permission().
+ *
  */
 function entity_autocomplete_permission() {
   return array(
     'use entity autocomplete' => array(
       'title' => t('Use Entity Autocomplete'),
-      'description' => t('Access this autocomplete path. Warning: gives visibility to all entities.'),
+      'description' => t('Access any entity autocomplete path. Warning: gives visibility to all entities.'),
     ),
   );
 }
 
 /**
- * Implementation of hook_menu()
+ * Implements hook_menu().
  */
 function entity_autocomplete_menu() {
-  $items['entity-autocomplete'] = array(
-    'title' => 'Node Autocomplete',
-    'access arguments' => array('use entity autocomplete'),
-    'access callback' => 'user_access',
+  $items = array();
+
+  $items['entity-autocomplete/%'] = array(
+    'title' => 'Entity Autocomplete',
     'page callback' => 'entity_autocomplete',
-    'type' => MENU_CALLBACK
-  );
-  $items['entity-autocomplete/bundle'] = array(
-    'title' => 'Node Autocomplete',
+    'page arguments' => array(2, 1, NULL),
     'access arguments' => array('use entity autocomplete'),
-    'access callback' => 'user_access',
-    'page callback' => 'entity_autocomplete_by_bundle',
     'type' => MENU_CALLBACK
   );
+
+  $items['entity-autocomplete/bundle/%/%entity_autocomplete_bundles'] = array(
+    'title' => 'Entity Autocomplete',
+    'page callback' => 'entity_autocomplete',
+    'page arguments' => array(4, 2, 3),
+    'access arguments' => array('use entity autocomplete'),
+    'type' => MENU_CALLBACK
+  );
+
   return $items;
 }
+
 /**
- * Autocomplete callback for all entity types
+ * Returns a bundles list from bundles path part.
  */
-function entity_autocomplete($type, $string = '') {
-  $entity_type = entity_get_info($type);
-  $table = $entity_type['base table'];
-  $id_field = $entity_type['entity keys']['id'];
-  $label_field = $entity_type['entity keys']['label'];
-
-  $matches = array();
-  if ($string) {
-    $query = db_select($table, 'n');
-    $query->addField('n', $id_field, 'id');
-    $query->addField('n', $label_field, 'label');
-    $query->condition('n.'.$label_field, '%' . $string . '%', 'LIKE');
-
-    $result = $query->execute();
-    $data = array();
-    foreach ($result->fetchAll() as $entity) {
-      $label = check_plain($entity->label);
-      $label .= ' [id:' . $entity->id . ']';
-      $matches[$label] = $label;
-    }
-  }
-  drupal_json_output($matches);
+function entity_autocomplete_bundles_load($bundles) {
+  return empty($bundles) ? NULL : explode('+', $bundles);
 }
 
 /**
- * Autocomplete callback for all entity types restricted by bundle
+ * Autocomplete callback for all entity types.
  */
-function entity_autocomplete_by_bundle($type, $bundles_in, $string = '') {
-  
-  $entity_type = entity_get_info($type);
-  $table = $entity_type['base table'];
-  $id_field = $entity_type['entity keys']['id'];
-  $label_field = $entity_type['entity keys']['label'];
-  $bundle_field = $entity_type['entity keys']['bundle'];
-
+function entity_autocomplete($string, $entity_type, $bundles = NULL) {
+  $info = entity_get_info($entity_type);
+  $table = $info['base table'];
   $matches = array();
-  if ($string) {
-    //Handle taxonomy seperately as its bundles work differently
-    if($type == 'taxonomy_term') {
-      $vocabs = taxonomy_get_vocabularies();
-      $vids = array();
-      foreach($vocabs as $vid=>$vocab){
-        $vids[$vocab->machine_name] = $vid;
+
+  if (drupal_strlen($string)) {
+    $query = db_select($table);
+    $query->addField($table, $info['entity keys']['id'], 'id');
+    $query->addField($table, $info['entity keys']['label'], 'label');
+    $query->condition($info['entity keys']['label'], '%' . db_like($string) . '%', 'LIKE');
+
+    if ($bundles) {
+      $bundle_field = $info['entity keys']['bundle'];
+
+      if ($entity_type == 'taxonomy_term') {
+        $vids = array_map(create_function('$v', 'return $v->vid;'), taxonomy_vocabulary_get_names());
+        $bundles = array_intersect_key($vids, array_flip($bundles));
+        $bundle_field = 'vid';
       }
 
-      $bundles = array();
-      foreach(explode("+", $bundles_in) as $bundle) {
-        if(isset($vids[$bundle])) {
-          $bundles[] = "'$vids[$bundle]'";
-        }
-      }
-
-      $bundle_field = 'vid';
-    } else {
-      $bundles = array();
-      foreach(explode("+", $bundles_in) as $bundle) {
-        $bundles[] = "'$bundle'";
-      }
-     
+      $query->condition($bundle_field, $bundles);
     }
-    $bundle_string = implode(',', $bundles);
-    $query = db_select($table, 'n');
-    $query->addField('n', $id_field, 'id');
-    $query->addField('n', $label_field, 'label');
-    $query->condition('n.'.$label_field, '%' . $string . '%', 'LIKE');
-    
-    if ($bundle_string) {
-      $query->where("n.$bundle_field in ($bundle_string)");
-    }  
+
     $result = $query->execute();
-    $data = array();
-    foreach ($result->fetchAll() as $entity) {
+
+    while ($entity = $result->fetch()) {
       $label = entity_autocomplete_get_label($entity->label, $entity->id);
       $matches[$label] = $label;
     }
   }
-  drupal_json_output($matches);
 
+  drupal_json_output($matches);
 }
 
-/* function to properly build the label to be return to the calling textbox
- * makign sure it is 128 chars max in length
+/**
+ *  Build a label smaller than 128 chars.
  */
 function entity_autocomplete_get_label($label, $id){
   $label = check_plain($label);
-  $max = 123;
   $ref_id = ' [id:' . $id . ']';
   $ref_id_length = strlen($ref_id);
-  if (strlen($label) >= ( $max - $ref_id_length )) {
-    $label = substr_replace($label, ' ...', ($max - $ref_id_length));
+
+  if (drupal_strlen($label) >= ( 128 - $ref_id_length )) {
+    $label = drupal_substr($label, (124 - $ref_id_length)) . ' ...';
   }
+
   return $label . $ref_id;
 }
 
-/*
- * function to extract an id from a string return from one of the autocomplete callbacks
+/**
+ * Extract an ID from a string returned by one of the autocomplete callbacks.
  *
- * PARAM value: a string of the form "title [id:ID]" or an int
- * RETURN an int of the id
+ * @param $value
+ *   A string of the form "title [id:ID]" or an integer.
+ * @return
+ *   The extracted ID.
  */
 function entity_autocomplete_get_id($value) {
-  if(is_numeric($value)) {
-    return $value;
+  return is_numeric($value) ? $value : preg_replace('/.*\[id:(.*)\].*/', '${1}', $value);
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function entity_autocomplete_element_info() {
+  return array(
+    'entity_autocomplete' => array(
+      '#input' => TRUE,
+      '#size' => 60,
+      '#maxlength' => 128,
+      '#autocomplete_path' => FALSE,
+      '#entity_type' => 'node',
+      '#bundles' => array(),
+      '#process' => array('entity_autocomplete_element_process'),
+      '#element_validate' => array('entity_autocomplete_element_validate'),
+      '#value_callback' => 'entity_autocomplete_element_value',
+      '#theme' => 'textfield',
+      '#theme_wrappers' => array('form_element'),
+    ),
+  );
+}
+
+/**
+ * Determines the value for an entity autocomplete form element.
+ * 
+ * @param $form
+ *   The form element whose value is being populated.
+ * @param $input
+ *   The incoming input to populate the form element. If this is FALSE,
+ *   the element's default value should be returned.
+ *
+ * @return
+ *   The data that will appear in the $element_state['values'] collection
+ *   for this element. Return nothing to use the default.
+ */
+function entity_autocomplete_element_value($element, $input = FALSE) {
+  if (FALSE === $input) {
+    return isset($element['#default_value']) ? $element['#default_value'] : '';
   }
-  else{
-    return preg_replace("/.*\[id:(.*)\].*/", '${1}', $value);
+  else {
+    return isset($input) && strlen($input) ? entity_autocomplete_get_id($input) : '';
+  }
+}
+
+/**
+ * Form element processing handler for the #autocomplete_path property.
+ */
+function entity_autocomplete_element_process($element, $form_state) {
+  if (user_access('use entity autocomplete')) {
+    $parts = array('entity-autocomplete', $element['#entity_type']);
+  
+    if ($element['#bundles']) {
+      array_splice($parts, 1, 0, 'bundle');
+      $parts[] = implode('+', (array) $element['#bundles']);
+    }
+    
+    $element['#autocomplete_path'] = implode('/', $parts);
+    
+    // Try to display the full entity label.
+    if (!empty($element['#value']) && is_numeric($element['#value'])) {
+      $element['#value'] = entity_autocomplete_element_label($element['#value'], $element['#entity_type']);
+    }
+  }
+  
+  return $element;
+}
+
+/**
+ * Retrieve entity label from its ID.
+ */
+function entity_autocomplete_element_label($entity_id, $entity_type) {
+  $labels = &drupal_static(__FUNCTION__, array());
+  
+  if (!isset($labels[$entity_type][$entity_id])) {
+    $labels[$entity_type][$entity_id] = $entity_id;
+    
+    if ($info = entity_get_info($entity_type)) {
+      $table = $info['base table'];
+      $query = db_select($table);
+      $query->addField($table, $info['entity keys']['label'], 'label');
+      $query->condition($info['entity keys']['id'], $entity_id);
+      
+      if ($row = $query->execute()->fetch()) {
+        $labels[$entity_type][$entity_id] = entity_autocomplete_get_label($row->label, $entity_id);
+      }
+    }
+  }
+  
+  return $labels[$entity_type][$entity_id];
+}
+
+/**
+ * Validate an entity autocomplete element.
+ */
+function entity_autocomplete_element_validate($element, &$form_state, $form) {
+  if (!empty($element['#value'])) {
+    $info = entity_get_info($element['#entity_type']);
+    $table = $info['base table'];
+    $id_field = $info['entity keys']['id'];
+    
+    $query = db_select($table);
+    $query->addField($table, $id_field);
+    $query->condition($id_field, entity_autocomplete_get_id($element['#value']));
+    
+    if ($element['#bundles']) {
+      $bundle_field = $info['entity keys']['bundle'];
+      $bundles = (array) $element['#bundles'];
+      
+      // Handle taxonomy seperately as its bundles work differently.
+      if ($element['#entity_type'] === 'taxonomy_term') {
+        $vids = array();
+        
+        foreach(taxonomy_get_vocabularies() as $vid => $vocab){
+          $vids[$vocab->machine_name] = $vid;
+        }
+
+        $bundles = array_intersect_key($vids, array_flip($bundles));
+        $bundle_field = 'vid';
+      }
+      
+      $query->condition($bundle_field, $bundles);
+    }
+    
+    if (!$query->execute()->fetch()) {
+      form_error($element, t('The specified entity %value does not match requirements.', array('%value' => $element['#value'])));
+    } 
   }
 }

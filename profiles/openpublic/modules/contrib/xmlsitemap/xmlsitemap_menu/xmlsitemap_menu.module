@@ -18,7 +18,7 @@ function xmlsitemap_menu_entity_info_alter(&$info) {
       'entity keys' => array(
         'id' => 'mlid',
         'bundle' => 'menu_name',
-        'label' => 'title',
+        'label' => 'link_title',
         'revision' => '',
       ),
       'load hook' => NULL,

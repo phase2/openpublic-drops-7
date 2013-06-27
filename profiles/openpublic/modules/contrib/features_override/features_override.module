@@ -5,7 +5,7 @@
  * Module file for features overrides.
  * Includes core/contrib hook implementations.
  */
- 
+
 // Key to use when marking properties for recursion.
 define('FEATURES_OVERRIDE_RECURSION_MARKER', 'features_override_recursion_marker');
 
@@ -69,9 +69,9 @@ function features_override_menu_alter(&$items) {
     'type' => MENU_LOCAL_TASK,
     'file' => 'features_override.admin.inc',
     'module' => 'features_override',
-  );  
+  );
 }
- 
+
 /**
  * Implements hook_features_override_ignore().
  */
@@ -84,6 +84,8 @@ function features_override_features_override_ignore($component) {
       $ignores['current_display'] = 0;
       $ignores['display_handler'] = 0;
       $ignores['handler'] = 2;
+      $ignores['query'] = 0;
+      $ignores['localization_plugin'] = 0;
       // Views automatically adds these two on export to set values.
       $ignores['api_version'] = 0;
       $ignores['disabled'] = 0;

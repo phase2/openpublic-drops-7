@@ -60,6 +60,13 @@ function securepages_settings($form, &$form_state) {
     '#rows' => 5,
     '#description' => t("The pages listed here will be ignored and be either returned in http or https. Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are '<em>blog</em>' for the blog page and '<em>blog/*</em>' for every personal blog. '<em>&lt;front&gt;</em>' is the front page."),
   );
+  $form['securepages_roles'] = array(
+    '#type' => 'checkboxes',
+    '#title' => 'User roles',
+    '#description' => t('Users with the chosen role(s) are always redirected to https, regardless of path rules.'),
+    '#options' => array_map('check_plain', user_roles(TRUE)),
+    '#default_value' => variable_get('securepages_roles', array()),
+  );
   $form['#submit'] = array('securepages_settings_submit');
   return system_settings_form($form);
 }
@@ -71,4 +78,3 @@ function securepages_settings_submit() {
   // The page cache needs to be cleared, since cached redirects may be stale after changing securepages settings.
   cache_clear_all('*', 'cache_page', TRUE);
 }
-

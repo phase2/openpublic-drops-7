@@ -21,8 +21,9 @@ stylesheets[all][] = base.css
 stylesheets[screen][] = drupal.css
 
 
-; Information added by drush on 2012-10-19
-version = ""
+; Information added by drush on 2013-06-27
+version = "7.x-3.0-beta4+6-dev"
+core = "7.x"
 project = "tao"
-datestamp = "1350668695"
+datestamp = "1372359803"
 

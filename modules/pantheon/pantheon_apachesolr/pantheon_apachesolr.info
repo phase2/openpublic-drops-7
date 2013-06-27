@@ -7,3 +7,10 @@ files[] = Pantheon_Apache_Solr_Service.php
 files[] = Pantheon_Search_Api_Solr_Service.php
 core = 7.x
 php = 5.2
+
+
+; Information added by drush on 2013-06-27
+version = "master-dev"
+project = "drupal"
+datestamp = "1372359793"
+

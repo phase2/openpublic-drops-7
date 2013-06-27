@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Dummy module implementing a form to test Entity Autocomplete form element.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function entity_autocomplete_test_menu() {
+  $items = array();
+  
+  $items['entity_autocomplete_test/%'] = array(
+    'title' => 'Entity Autocomplete form test',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('entity_autocomplete_test_form', 1, array(), 2),
+    'access arguments' => array('use entity autocomplete'),
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  
+  $items['entity_autocomplete_test/bundle/%/%entity_autocomplete_bundles'] = array(
+    'title' => 'Entity Autocomplete form test',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('entity_autocomplete_test_form', 2, 3, 4),
+    'access arguments' => array('use entity autocomplete'),
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  
+  return $items;
+}
+
+/**
+ * Form builder; test form for Entity Autocomplete FAPI element().
+ *
+ * @see entity_autocomplete_test_form_submit()
+ * @ingroup forms
+ */
+function entity_autocomplete_test_form($form, &$form_state, $entity_type, $bundles, $default_value = NULL) {
+  $form['entity_autocomplete'] = array(
+    '#type' => 'entity_autocomplete',
+    '#title' => t('Entity Autocomplete test field'),
+    '#entity_type' => $entity_type,
+    '#bundles' => $bundles,
+    '#default_value' => $default_value,
+  );
+  
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Test'),
+  );
+  
+  return $form;
+}
+
+/**
+ * Form submission handler; test form for Entity Autocomplete FAPI element().
+ *
+ * @see entity_autocomplete_test_form()
+ */
+function entity_autocomplete_test_form_submit($form, &$form_state) {
+  drupal_set_message(t('The form was successfully submitted. Field value is: @value.', array('@value' => $form_state['values']['entity_autocomplete'])));
+}

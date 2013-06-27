@@ -12,8 +12,8 @@ required = TRUE
 stylesheets[all][] = theme/field.css
 
 
-; Information added by drush on 2012-10-19
+; Information added by drush on 2013-06-27
 version = "master-dev"
 project = "drupal"
-datestamp = "1350668688"
+datestamp = "1372359793"
 

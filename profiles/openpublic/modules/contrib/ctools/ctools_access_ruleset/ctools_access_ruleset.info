@@ -5,8 +5,9 @@ package = Chaos tool suite
 dependencies[] = ctools
 
 
-; Information added by drush on 2012-10-19
-version = ""
+; Information added by drush on 2013-06-27
+version = "7.x-1.0-rc2+2-dev"
+core = "7.x"
 project = "ctools"
-datestamp = "1350668722"
+datestamp = "1372359810"
 

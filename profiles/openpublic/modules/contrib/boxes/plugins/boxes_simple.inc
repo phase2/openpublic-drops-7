@@ -49,7 +49,7 @@ class boxes_simple extends boxes_box {
     return array(
       'delta' => $this->delta, // Crucial.
       'title' => $title,
-      'subject' => $title,
+      'subject' => check_plain($title),
       'content' => $content,
     );
   }

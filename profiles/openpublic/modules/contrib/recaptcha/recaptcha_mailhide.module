@@ -15,15 +15,15 @@ function recaptcha_mailhide_help($path, $arg) {
       $output .= t('reCAPTCHA');
       break;
     case 'admin/modules#description':
-      $output .= t('Uses the <a href="@url" target="_blank">reCAPTCHA</a> web service to protect email addresses.', array('@url' => url('http://www.google.com/recaptcha')));
+      $output .= t('Uses the <a href="@url" target="_blank">reCAPTCHA</a> web service to protect email addresses.', array('@url' => url('https://www.google.com/recaptcha')));
       break;
     case 'admin/help#recaptcha':
       $output .= '<p>' .
-        t('Uses the reCAPTCHA web service to protect email addresses. For more information on what reCAPTCHA Mailhide is, visit <a href="@url" target="_blank">the official website</a>.', array('@url' => url('http://www.google.com/recaptcha/mailhide/'))) .
+        t('Uses the reCAPTCHA web service to protect email addresses. For more information on what reCAPTCHA Mailhide is, visit <a href="@url" target="_blank">the official website</a>.', array('@url' => url('https://www.google.com/recaptcha/mailhide/'))) .
         '</p><h3>' .
         t('Configuration') .
         '</h3><p>' .
-        t('Head over to the <a href="@inputformats">input format settings</a> and add the <a href="@url" target="_blank">reCAPTCHA Mailhide</a> input filter to hide posted emails.', array('@inputformats' => url('admin/settings/filter'), '@url' => url('http://www.google.com/recaptcha/mailhide/'))) .
+        t('Head over to the <a href="@inputformats">input format settings</a> and add the <a href="@url" target="_blank">reCAPTCHA Mailhide</a> input filter to hide posted emails.', array('@inputformats' => url('admin/settings/filter'), '@url' => url('https://www.google.com/recaptcha/mailhide/'))) .
         '</p>';
       break;
   }
@@ -45,7 +45,9 @@ function recaptcha_mailhide_filter_info() {
   return $filters;
 }
 
-// Filter callbacks
+/**
+ * Filter callbacks.
+ */
 function _filter_recaptcha_mailhide($text, $filter, $format) {
   global $_recaptcha_mailhide_public_key, $_recaptcha_mailhide_private_key, $_recaptcha_mailhide_nokey_warn;
   _recaptcha_mailhide_load_library();
@@ -71,20 +73,20 @@ function _filter_recaptcha_mailhide_settings($form, &$form_state, $filter, $form
     '#title' => t('Public Key'),
     '#default_value' => $public,
     '#maxlength' => 50,
-    '#description' => t('Your public Mailhide key obtained from <a href="@url" target="_blank">reCAPTCHA</a>.', array('@url' => 'http://www.google.com/recaptcha/mailhide/apikey')),
+    '#description' => t('Your public Mailhide key obtained from <a href="@url" target="_blank">reCAPTCHA</a>.', array('@url' => 'https://www.google.com/recaptcha/mailhide/apikey')),
     );
   $settings['recaptcha_mailhide_private_key'] = array(
     '#type' => 'textfield',
     '#title' => t('Private Key'),
     '#default_value' => $private,
     '#maxlength' => 50,
-    '#description' => t('Your private Mailhide key obtained from <a href="@url" target="_blank">reCAPTCHA</a>.', array('@url' => 'http://www.google.com/recaptcha/mailhide/apikey')),
+    '#description' => t('Your private Mailhide key obtained from <a href="@url" target="_blank">reCAPTCHA</a>.', array('@url' => 'https://www.google.com/recaptcha/mailhide/apikey')),
     );
   return $settings;
 }
 
 function _filter_recaptcha_mailhide_tips($filter, $format, $long = FALSE) {
-  return t('E-Mail addresses are hidden with <a href="@url" target="_blank">reCAPTCHA Mailhide</a>.', array('@url' => 'http://www.google.com/recaptcha/mailhide/'));
+  return t('E-Mail addresses are hidden with <a href="@url" target="_blank">reCAPTCHA Mailhide</a>.', array('@url' => 'https://www.google.com/recaptcha/mailhide/'));
 }
 
 /**

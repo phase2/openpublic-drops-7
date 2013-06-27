@@ -35,13 +35,17 @@ function features_overrides_features_export_options() {
       $identifier = "{$component}.{$key}";
       $identifier_spaced = "{$component} {$key} ";
       $main_links[features_override_encode_string($identifier)] = url('admin/structure/features/features_override/' . $component . '/' . $key);
-      foreach ($element['additions'] as $change_key => $changes) {
-        $options[$identifier . '.' . $change_key] = $identifier_spaced . ' addition: of ' . features_override_export_keys($changes['keys']);
-        $sub_links[features_override_encode_string($identifier . '.' . $change_key)] = url('admin/structure/features/features_override/' . $component . '/' . $key, array('query' => array('key' => $change_key)));
+      if (!empty($element['additions'])) {
+        foreach ($element['additions'] as $change_key => $changes) {
+          $options[$identifier . '.' . $change_key] = $identifier_spaced . ' addition: of ' . features_override_export_keys($changes['keys']);
+          $sub_links[features_override_encode_string($identifier . '.' . $change_key)] = url('admin/structure/features/features_override/' . $component . '/' . $key, array('query' => array('key' => $change_key)));
+        }
       }
-      foreach ($element['deletions'] as $change_key => $changes) {
-        $options[$identifier . '.' . $change_key] = $identifier_spaced . ' deletion of ' . features_override_export_keys($changes['keys']);
-        $sub_links[features_override_encode_string($identifier . '.' . $change_key)] = url('admin/structure/features/features_override/' . $component . '/' . $key, array('query' => array('key' => $change_key)));
+      if (!empty($element['deletions'])) {
+        foreach ($element['deletions'] as $change_key => $changes) {
+          $options[$identifier . '.' . $change_key] = $identifier_spaced . ' deletion of ' . features_override_export_keys($changes['keys']);
+          $sub_links[features_override_encode_string($identifier . '.' . $change_key)] = url('admin/structure/features/features_override/' . $component . '/' . $key, array('query' => array('key' => $change_key)));
+        }
       }
     }
   }

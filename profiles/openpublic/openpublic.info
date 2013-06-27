@@ -67,7 +67,7 @@ dependencies[] = twitter_pull
 dependencies[] = conditional_styles
 dependencies[] = field_group
 dependencies[] = recaptcha
-dependencies[] = password_policy
+;dependencies[] = password_policy
 dependencies[] = comment_notify
 dependencies[] = googleanalytics
 dependencies[] = boxes
@@ -116,7 +116,7 @@ dependencies[] = openpublic_menu_utility
 dependencies[] = openpublic_menu_footer
 dependencies[] = openpublic_pages
 dependencies[] = openpublic_accessibility
-dependencies[] = openpublic_password
+;dependencies[] = openpublic_password
 dependencies[] = openpublic_filters
 dependencies[] = openpublic_blog_configuration
 
@@ -143,9 +143,10 @@ files[] = openpublic.profile
 ;stylesheets[all][] = css/menu.css
 ;scripts[] = js/menu.js
 
-; Information added by drupal.org packaging script on 2012-10-19
-version = "7.x-1.0-beta12"
+
+; Information added by drush on 2013-06-27
+version = "7.x-1.0-beta18+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1350615414"
+datestamp = "1372359795"
 

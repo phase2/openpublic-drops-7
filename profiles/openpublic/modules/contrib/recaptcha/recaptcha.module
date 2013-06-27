@@ -16,11 +16,11 @@ function recaptcha_help($path, $arg) {
       break;
     case 'admin/modules#description':
     case 'admin/user/captcha/recaptcha':
-      $output .= t('Uses the <a href="@url" target="_blank">reCAPTCHA</a> web service to improve the CAPTCHA system and protect email addresses.', array('@url' => url('http://www.google.com/recaptcha')));
+      $output .= t('Uses the <a href="@url" target="_blank">reCAPTCHA</a> web service to improve the CAPTCHA system and protect email addresses.', array('@url' => url('https://www.google.com/recaptcha')));
       break;
     case 'admin/help#recaptcha':
       $output .= '<p>' .
-        t('Uses the reCAPTCHA web service to improve the CAPTCHA module and protect email addresses. For more information on what reCAPTCHA is, visit <a href="@url" target="_blank">the official website</a>.', array('@url' => url('http://www.google.com/recaptcha'))) .
+        t('Uses the reCAPTCHA web service to improve the CAPTCHA module and protect email addresses. For more information on what reCAPTCHA is, visit <a href="@url" target="_blank">the official website</a>.', array('@url' => url('https://www.google.com/recaptcha'))) .
         '</p><h3>' .
         t('Configuration') .
         '</h3><p>' .
@@ -49,7 +49,7 @@ function recaptcha_menu() {
 }
 
 /**
- * Implements hook_perm().
+ * Implements hook_permission().
  */
 function recaptcha_permission() {
   return array(
@@ -85,7 +85,6 @@ function recaptcha_captcha() {
         fclose($connect);
 
         // Retrieve configuration variables.
-        $recaptcha_secure_connection = variable_get('recaptcha_secure_connection', FALSE);
         $recaptcha_theme = variable_get('recaptcha_theme', 'red');
         $recaptcha_tabindex = variable_get('recaptcha_tabindex', NULL);
         $recaptcha_public_key = variable_get('recaptcha_public_key', FALSE);
@@ -105,21 +104,22 @@ function recaptcha_captcha() {
           $conf['cache'] = unserialize(db_query("SELECT value FROM {variable} WHERE name = 'cache'")->fetchField());
         }
 
+        $recaptcha_options = array(
+          'theme' => $recaptcha_theme,
+        );
+
+        // Localization support.
+        global $language;
+        if (isset($language->language)) {
+          // reCAPTCHA uses two-character language codes, so 'pt-br' must be
+          // passed as 'pt'; cf. https://developers.google.com/recaptcha/docs/customization#i18n
+          $recaptcha_options['lang'] = drupal_substr($language->language, 0, 2);
+        }
+
         // Construct the Javascript, but only display it once.
         static $_recaptcha_jsadded = FALSE;
         if ($_recaptcha_jsadded == FALSE && $recaptcha_ajax_api == FALSE) {
           $_recaptcha_jsadded = TRUE;
-          $recaptcha_options = array(
-            'theme' => $recaptcha_theme,
-          );
-
-          // Localization support.
-          global $language;
-          if (isset($language->language)) {
-            // reCAPTCHA uses two-character language codes, so 'pt-br' must be
-            // passed as 'pt'; cf. http://code.google.com/apis/recaptcha/docs/customization.html#i18n
-            $recaptcha_options['lang'] = drupal_substr($language->language, 0, 2);
-          }
 
           // Add support to display the custom theme.
           if ($recaptcha_theme == 'custom') {
@@ -144,7 +144,7 @@ function recaptcha_captcha() {
           $recaptcha_public_key .= '&nocookie=1';
         }
 
-        $html = recaptcha_get_html($recaptcha_public_key, NULL, $recaptcha_secure_connection);
+        $html = recaptcha_get_html($recaptcha_public_key, NULL, TRUE);
         $captcha['form']['captcha_response'] = array(
           '#type' => 'hidden',
           '#value' => 'reCAPTCHA',
@@ -163,13 +163,34 @@ function recaptcha_captcha() {
             '#type' => 'item',
             '#markup' => '<div id="recaptcha_ajax_api_container">' . $html . '</div>',
           );
-          $js = "(function ($) { $(function() { Recaptcha.create('$recaptcha_public_key', 'recaptcha_ajax_api_container', {theme: '$recaptcha_theme'});});})(jQuery);";
           drupal_add_js('https://www.google.com/recaptcha/api/js/recaptcha.js', array('type' => 'external'));
-          drupal_add_js($js, array('type' => 'inline'));
+          $recaptcha_options['public_key'] = $recaptcha_public_key;
+          $recaptcha_options['container'] = 'recaptcha_ajax_api_container';
+          drupal_add_js(array('recaptcha' => $recaptcha_options), 'setting');
+          drupal_add_js(drupal_get_path('module', 'recaptcha') . '/recaptcha.js');
         }
       }
       return $captcha;
   }
+}
+
+/**
+ * @return boolean
+ *   Whether or not the reCAPTCHA server is up.
+ */
+function _recaptcha_test_recaptcha_server() {
+  $test = TRUE;
+  $fs = @fsockopen(RECAPTCHA_VERIFY_SERVER, 80, $errno, $errstr, 10);
+  if (!$fs) {
+    $test = FALSE;
+    drupal_set_message(t('Unable to connect with the reCAPTCHA server (@server): @errno: @errstr', array(
+      '@server' => RECAPTCHA_VERIFY_SERVER,
+      '@errno' => $errno,
+      '@errstr' => $errstr,
+    )), 'error');
+  }
+  fclose($fs);
+  return $test;
 }
 
 /**
@@ -179,7 +200,7 @@ function recaptcha_captcha_validation($solution = NULL, $response = NULL) {
   global $user;
   $recaptcha_private_key = variable_get('recaptcha_private_key', FALSE);
   $ip_address = ip_address();
-  if ($recaptcha_private_key && $ip_address && $response === 'reCAPTCHA' && !empty($_POST['recaptcha_challenge_field']) && !empty($_POST['recaptcha_response_field'])) {
+  if ($recaptcha_private_key && $ip_address && $response === 'reCAPTCHA' && !empty($_POST['recaptcha_challenge_field']) && !empty($_POST['recaptcha_response_field']) && _recaptcha_test_recaptcha_server()) {
     $resp = recaptcha_check_answer(
       $recaptcha_private_key,
       $ip_address,

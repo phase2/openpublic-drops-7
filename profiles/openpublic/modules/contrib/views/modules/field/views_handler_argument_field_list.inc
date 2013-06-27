@@ -55,18 +55,4 @@ class views_handler_argument_field_list extends views_handler_argument_numeric {
       return check_plain($value);
     }
   }
-
-  function title_query() {
-    $titles = array();
-    foreach ($this->value as $value) {
-      if (array_key_exists($value, $this->allowed_values) && !empty($this->options['summary']['human'])) {
-        $titles[] = check_plain($this->allowed_values[$value]);
-      }
-      else {
-        $titles[] = check_plain($value);
-      }
-    }
-    return $titles;
-  }
-
 }

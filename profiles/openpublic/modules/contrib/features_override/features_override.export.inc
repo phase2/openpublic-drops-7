@@ -39,11 +39,16 @@ function features_override_parse_identifier($identifier) {
  *   A string representation of the keys.
  */
 function features_override_make_key($keys) {
-  $return_keys = array();
-  foreach ($keys as $key) {
-    $return_keys[] = $key['key'];
-  }
+  if (is_array($keys)) {
+    $return_keys = array();
+    foreach ($keys as $key) {
+      $return_keys[] = $key['key'];
+    }
   return implode('|', $return_keys);
+  }
+  else {
+    return $keys;
+  }
 }
 
 /**
@@ -78,7 +83,8 @@ function features_override_get_overrides($component_key = FALSE, $element_key = 
     module_load_include('inc', 'features', 'features.export');
     features_include();
     foreach (features_get_components() as $component => $info) {
-      if (empty($info['default_hook']) || $component == 'features_override_items' || $component == 'features_overrides' || !features_get_default_alter_hook($component) | !features_hook($component, 'features_export_render')) {
+      if (empty($info['default_hook']) || $component == 'features_override_items' || $component == 'features_overrides' 
+        || !features_get_default_alter_hook($component) || !features_hook($component, 'features_export_render')) {
         continue;
       }
 
@@ -141,8 +147,9 @@ function features_override_module_component_overrides($module, $component, $rese
   $normal = features_get_normal($component, $module, $reset);
 
   // This indicates it is likely not controlled by features, so fetch manually.
-  if (!$normal) {
-    $code = array_pop(features_invoke($component, 'features_export_render', $module, array_keys($default), NULL));
+  if (!$normal && is_array($default)) {
+    $export = features_invoke($component, 'features_export_render', $module, array_keys($default), NULL);
+    $code = array_pop($export);
     if (!$code) {
       return FALSE;
     }
@@ -160,8 +167,8 @@ function features_override_module_component_overrides($module, $component, $rese
   _features_override_sanitize($normal);
   _features_override_sanitize($default);
   // make a deep copy of data to prevent problems when removing recursion later
-  $default_copy = unserialize(serialize($default)); 
-  $normal_copy = unserialize(serialize($normal)); 
+  $default_copy = unserialize(serialize($default));
+  $normal_copy = unserialize(serialize($normal));
 
   $ignore_keys = features_get_ignore_keys($component);
   // remove keys to be ignored
@@ -244,35 +251,36 @@ function _features_override_sanitize(&$array) {
  *   The keys for this level.
  */
 function _features_override_set_additions(&$default, &$normal, &$additions, $ignore_keys = array(), $level = 0, $keys = array()) {
-  $object = is_object($normal);
-  foreach ($normal as $key => $value) {
-    if (isset($ignore_keys[$key]) && ($level == $ignore_keys[$key])) {
-      continue;
-    }
-    if ($object) {
-      if (!is_object($default) || !property_exists($default, $key) || (is_scalar($value) && ($default->$key !== $value))) {
-        $_keys = array_merge($keys, array(array('type' => 'object', 'key' => $key)));
-        $additions[features_override_make_key($_keys)] = array(
-          'keys' => $_keys,
-          'value' => $value,
-          'original' => (is_scalar($value) && isset($default->$key)) ? $default->$key : '',
-        );
+  if (is_object($normal) || is_array($normal)) {
+    foreach ($normal as $key => $value) {
+      if (isset($ignore_keys[$key]) && ($level == $ignore_keys[$key])) {
+        continue;
       }
-      elseif (property_exists($default, $key) && ($default->$key !== $value)) {
-        _features_override_set_additions($default->$key, $value, $additions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'object', 'key' => $key))));
+      if (is_object($normal)) {
+        if (!is_object($default) || !property_exists($default, $key) || (is_scalar($value) && ($default->$key !== $value))) {
+          $_keys = array_merge($keys, array(array('type' => 'object', 'key' => $key)));
+          $additions[features_override_make_key($_keys)] = array(
+            'keys' => $_keys,
+            'value' => $value,
+            'original' => (is_scalar($value) && isset($default->$key)) ? $default->$key : '',
+          );
+        }
+        elseif (property_exists($default, $key) && ($default->$key !== $value)) {
+          _features_override_set_additions($default->$key, $value, $additions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'object', 'key' => $key))));
+        }
       }
-    }
-    elseif (is_array($normal)) {
-      if (!is_array($default) || !array_key_exists($key, $default) || (is_scalar($value) && ($default[$key] !== $value))) {
-        $_keys = array_merge($keys, array(array('type' => 'array', 'key' => $key)));
-        $additions[features_override_make_key($_keys)] = array(
-          'keys' => $_keys,
-          'value' => $value,
-          'original' => (is_scalar($value) && isset($default[$key])) ? $default[$key] : '',
-        );
-      }
-      elseif (array_key_exists($key, $default) && (!is_null($value) && ($default[$key] !== $value))) {
-        _features_override_set_additions($default[$key], $value, $additions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'array', 'key' => $key))));
+      elseif (is_array($normal)) {
+        if (!is_array($default) || !array_key_exists($key, $default) || (is_scalar($value) && ($default[$key] !== $value))) {
+          $_keys = array_merge($keys, array(array('type' => 'array', 'key' => $key)));
+          $additions[features_override_make_key($_keys)] = array(
+            'keys' => $_keys,
+            'value' => $value,
+            'original' => (is_scalar($value) && isset($default[$key])) ? $default[$key] : '',
+          );
+        }
+        elseif (array_key_exists($key, $default) && (!is_null($value) && ($default[$key] !== $value))) {
+          _features_override_set_additions($default[$key], $value, $additions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'array', 'key' => $key))));
+        }
       }
     }
   }
@@ -295,33 +303,33 @@ function _features_override_set_additions(&$default, &$normal, &$additions, $ign
  *   The keys for this level.
  */
 function _features_override_set_deletions(&$default, &$normal, &$deletions, $ignore_keys = array(), $level = 0, $keys = array()) {
-  $object = is_object($default);
-
-  foreach ($default as $key => $value) {
-    if (isset($ignore_keys[$key]) && ($level == $ignore_keys[$key])) {
-      continue;
-    }
-
-    if ($object) {
-      if (!property_exists($normal, $key)) {
-        $_keys = array_merge($keys, array(array('type' => 'object', 'key' => $key)));
-        $deletions[features_override_make_key($_keys)] = array(
-          'keys' => $_keys,
-        );
+  if (is_object($default) || is_array($default)) {
+    foreach ($default as $key => $value) {
+      if (isset($ignore_keys[$key]) && ($level == $ignore_keys[$key])) {
+        continue;
       }
-      elseif (property_exists($normal, $key) && (is_array($value) || is_object($value))) {
-        _features_override_set_deletions($value, $normal->$key, $deletions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'object', 'key' => $key))));
+  
+      if (is_object($default) && is_object($normal)) {
+        if (!property_exists($normal, $key)) {
+          $_keys = array_merge($keys, array(array('type' => 'object', 'key' => $key)));
+          $deletions[features_override_make_key($_keys)] = array(
+            'keys' => $_keys,
+          );
+        }
+        elseif (property_exists($normal, $key) && (is_array($value) || is_object($value))) {
+          _features_override_set_deletions($value, $normal->$key, $deletions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'object', 'key' => $key))));
+        }
       }
-    }
-    else {
-      if (!array_key_exists($key, $normal)) {
-        $_keys = array_merge($keys, array(array('type' => 'array', 'key' => $key)));
-        $deletions[features_override_make_key($_keys)] = array(
-          'keys' => $_keys,
-        );
-      }
-      elseif (array_key_exists($key, $normal) && (is_array($value) || is_object($value))) {
-        _features_override_set_deletions($value, $normal[$key], $deletions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'array', 'key' => $key))));
+      elseif (is_array($default) && is_array($normal)) {
+        if (!array_key_exists($key, $normal)) {
+          $_keys = array_merge($keys, array(array('type' => 'array', 'key' => $key)));
+          $deletions[features_override_make_key($_keys)] = array(
+            'keys' => $_keys,
+          );
+        }
+        elseif (array_key_exists($key, $normal) && (is_array($value) || is_object($value))) {
+          _features_override_set_deletions($value, $normal[$key], $deletions, $ignore_keys, $level+1, array_merge($keys, array(array('type' => 'array', 'key' => $key))));
+        }
       }
     }
   }
@@ -338,12 +346,14 @@ function _features_override_set_deletions(&$default, &$normal, &$deletions, $ign
  */
 function features_override_export_keys($keys) {
   $line = '';
-  foreach ($keys as $key) {
-    if ($key['type'] == 'object') {
-      $line .= "->{$key['key']}";
-    }
-    else {
-      $line .= "['{$key['key']}']";
+  if (is_array($keys)) {
+    foreach ($keys as $key) {
+      if ($key['type'] == 'object') {
+        $line .= "->{$key['key']}";
+      }
+      else {
+        $line .= "['{$key['key']}']";
+      }
     }
   }
   return $line;
@@ -357,7 +367,7 @@ function features_override_export_keys($keys) {
  */
 function features_override_remove_recursion(&$item) {
   _features_override_remove_recursion($item);
-  _features_override_remove_recursion_markers($item);  
+  _features_override_remove_recursion_markers($item);
 }
 
 
@@ -422,9 +432,9 @@ function _features_override_remove_recursion_markers(&$item) {
  * @param $item
  *   An object or array passed by reference.
  * @param $ignore_keys
- *   Array of keys to be ignored. Values are the level of the key. 
+ *   Array of keys to be ignored. Values are the level of the key.
  * @param $level
- *   Level of key to remove.  Up to 2 levels deep because $item can still be 
+ *   Level of key to remove.  Up to 2 levels deep because $item can still be
  *   recursive
  */
 function _features_override_remove_ignores(&$item, $ignore_keys, $level = -1) {
@@ -544,7 +554,7 @@ function features_override_features_export_render_deletion($alter, $element, $co
 
 /**
  * Encodes a string for use as option.
- 
+
  * @see features_dom_encode_options()
  * @param $string
  *   A string to encode.

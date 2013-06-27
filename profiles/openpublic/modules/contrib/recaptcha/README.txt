@@ -4,7 +4,7 @@ reCAPTCHA for Drupal
 The reCAPTCHA module uses the reCAPTCHA web service to
 improve the CAPTCHA system and protect email addresses. For
 more information on what reCAPTCHA is, please visit:
-    http://www.google.com/recaptcha
+    https://www.google.com/recaptcha
 
 
 INSTALLATION
@@ -25,7 +25,7 @@ CONFIGURATION
        admin/config/people/captcha/recaptcha
 
 3. Register for a public and private reCAPTCHA key at:
-       http://www.google.com/recaptcha/whyrecaptcha
+       https://www.google.com/recaptcha/whyrecaptcha
 
 4. Input the keys into the reCAPTCHA settings. The rest of
    the settings should be fine as their defaults.
@@ -54,7 +54,7 @@ you use that input filter:
 
 4. Click on the Configure tab and put in a public and
    private Mailhide key obtained from:
-       http://www.google.com/recaptcha/mailhide/apikey
+       https://www.google.com/recaptcha/mailhide/apikey
 
 5. Use the Rearrange tab to rearrange the weight of the
    filter depending on what filters already exist.  Make
@@ -62,7 +62,7 @@ you use that input filter:
 
 Note: You will require the installation of the mcrypt
       PHP module in your web server for Mailhide to work:
-         http://uk2.php.net/manual/en/ref.mcrypt.php
+         http://php.net/manual/en/ref.mcrypt.php
 
 
 MULTI-DOMAIN SUPPORT
@@ -95,13 +95,7 @@ If you don't implement this function, it is still quite
 easily customizable through manipulating the CSS.
 
 For more information on this, visit:
-http://code.google.com/apis/recaptcha/docs/customization.html
-
-
-CHANGELOG
----------
-
-http://drupal.org/project/cvs/147903?branch=DRUPAL-7--1
+https://developers.google.com/recaptcha/docs/customization
 
 
 THANK YOU
@@ -109,4 +103,4 @@ THANK YOU
 
  * Thank you goes to the reCAPTCHA team for all their
    help, support and their amazing Captcha solution
-       http://www.google.com/recaptcha
+       https://www.google.com/recaptcha

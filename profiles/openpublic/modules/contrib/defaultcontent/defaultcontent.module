@@ -383,6 +383,16 @@ function defaultcontent_features_api() {
 }
 
 /**
+ * Implements hook_features_pipe_COMPONENT_alter() for the 'content' component.
+ */
+function defaultcontent_features_pipe_content_alter(&$pipe, $data, $export) {
+  // Ensure that this module is listed as a dependency.
+  if (empty($pipe['dependencies']) || !in_array($pipe['dependencies'], 'defaultcontent')) {
+    $pipe['dependencies'][] = 'defaultcontent';
+  }
+}
+
+/**
  * Implements hook_ctools_plugin_type().
  */
 function defaultcontent_ctools_plugin_type() {
@@ -463,9 +473,9 @@ function defaultcontent_context_block_info_alter(&$blocks) {
  */
 function defaultcontent_context_plugins() {
   $plugins = array();
-    $plugins['defaultcontent_condition'] = array(
-      'handler' => array(
-      'path' => drupal_get_path('module', 'defaultcontent') .'/plugins',
+  $plugins['defaultcontent_condition'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'defaultcontent') .'/context/plugins',
       'file' => 'defaultcontent_condition.inc',
       'class' => 'defaultcontent_condition',
       'parent' => 'context_condition',
@@ -493,7 +503,7 @@ function defaultcontent_context_registry() {
  * Implements hook_node_view().
  */
 function defaultcontent_node_view($node, $view_mode, $langcode) {
-  if ($plugin = context_get_plugin('condition', 'defaultcontent')) {
+  if (module_exists('context') && $plugin = context_get_plugin('condition', 'defaultcontent')) {
     $plugin->execute($node);
   } 
 }

@@ -29,12 +29,6 @@ function recaptcha_admin_settings() {
     '#description' => t('The private key given to you when you <a href="@url" target="_blank">registered at reCAPTCHA.net</a>.', array('@url' => url(recaptcha_get_signup_url($_SERVER['SERVER_NAME'], variable_get('site_name', ''))))),
     '#required' => TRUE,
   );
-  $form['recaptcha_secure_connection'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Secure Connection'),
-    '#default_value' => variable_get('recaptcha_secure_connection', FALSE),
-    '#description' => t('Connect to the reCAPTCHA server using a secure connection.'),
-  );
   $form['recaptcha_ajax_api'] = array(
     '#type' => 'checkbox',
     '#title' => t('AJAX API'),

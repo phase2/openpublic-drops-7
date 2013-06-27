@@ -355,6 +355,7 @@ function xmlsitemap_settings_form($form, &$form_state) {
   );
 
   $entities = xmlsitemap_get_link_info(NULL, TRUE);
+  module_load_all_includes('inc', 'xmlsitemap');
   foreach ($entities as $entity => $entity_info) {
     $form[$entity] = array(
       '#type' => 'fieldset',

@@ -8,9 +8,10 @@ name = "openpublic_media_room"
 package = "OpenPublic"
 php = "5.2.4"
 
-; Information added by drupal.org packaging script on 2012-10-19
-version = "7.x-1.0-beta12"
+
+; Information added by drush on 2013-06-27
+version = "7.x-1.0-beta18+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1350615414"
+datestamp = "1372359795"
 
