@@ -279,11 +279,9 @@ function openpublic_install_tasks($install_state) {
     'machine name' => 'openpublic',
     'default apps' => array(
       'openpublic_demo_content',
-      'openpublic_password'
     ),
     'required apps' => array(
       'openpublic_demo_content',
-      'openpublic_password'
     ),
     'default content callback' => '',
   );
