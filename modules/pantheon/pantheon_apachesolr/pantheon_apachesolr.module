@@ -13,10 +13,18 @@ function pantheon_apachesolr_menu() {
     'description'        => 'Configure Pantheon\'s Apache Solr, including selecting your schema.xml.',
     'page callback'      => 'drupal_get_form',
     'page arguments'     => array('pantheon_apachesolr_settings'),
-    'access arguments'   => array('administer search'),
+    'access arguments'   => array('access administration pages'),
     'weight'             => -8,
   );
   return $items;
+}
+
+function pantheon_apachesolr_search_api_service_info_alter(array &$service_info) {
+  // Change the Search API Solr Service class to our custom class. This approach is used for
+  // Search API RC4 and greater which no longer uses the SolrPHP Client library.
+  if (!function_exists('_search_api_solr_solrphpclient_path')) {
+    $service_info['search_api_solr_service']['class'] = 'PantheonApachesolrSearchApiSolrService';
+  }
 }
 
 function pantheon_apachesolr_curlopts() {
