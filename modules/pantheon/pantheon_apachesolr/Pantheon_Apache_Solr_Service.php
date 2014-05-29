@@ -62,7 +62,7 @@
  * methods for pinging, adding, deleting, committing, optimizing and searching.
  */
 
-class PantheonApacheSolrService {
+class PantheonApacheSolrService implements DrupalApacheSolrServiceInterface{
   /**
    * How NamedLists should be formatted in the output.  This specifically effects facet counts. Valid values
    * are 'map' (default) or 'flat'.
@@ -267,6 +267,7 @@ class PantheonApacheSolrService {
      '@deletes_total' => '',
      '@schema_version' => '',
      '@core_name' => '',
+     '@index_size' => '',
     );
 
     if (!empty($stats)) {
@@ -286,6 +287,8 @@ class PantheonApacheSolrService {
       $summary['@schema_version'] = trim($schema[0]);;
       $core = $stats->xpath('/solr/core[1]');
       $summary['@core_name'] = trim($core[0]);
+      $size_xpath = $stats->xpath('//stat[@name="indexSize"]');
+      $summary['@index_size'] = trim(current($size_xpath));
     }
 
     return $summary;
@@ -331,11 +334,7 @@ class PantheonApacheSolrService {
     // Pantheon-specific URL settings.
     // Note: we don't pass a port at this time, because the parent This data
     // is added later in the _makeHttpRequest() method.
-    // TODO: get $host from variable_get('pantheon_hyperion_host', 'index.live.getpantheon.com')
-    $host = variable_get('pantheon_hyperion_host', FALSE);
-    if (!$host) {
-      $host = 'index.'. variable_get('pantheon_tier', 'live') .'.getpantheon.com';
-    }
+    $host = variable_get('pantheon_index_host', 'index.'. variable_get('pantheon_tier', 'live') .'.getpantheon.com');
     $path = 'sites/self/environments/'. variable_get('pantheon_environment', 'dev') .'/index';
     $url = 'https://'. $host .'/'. $path;
 
@@ -356,7 +355,7 @@ class PantheonApacheSolrService {
   }
 
   /**
-   * Check the reponse code and thow an exception if it's not 200.
+   * Check the response code and throw an exception if it's not 200.
    *
    * @param stdClass $response
    *   response object.
@@ -409,7 +408,20 @@ class PantheonApacheSolrService {
    * Central method for making a GET operation against this Solr Server
    */
   protected function _sendRawGet($url, $options = array()) {
-    $response = $this->_makeHttpRequest($url, $options);
+    $cache_id = hash('sha1', $url);
+
+    # Check if this query is cached
+    $query_cache = cache_get($cache_id, 'solr_query_cache');
+    if (!$query_cache) {
+      $response = $this->_makeHttpRequest($url, $options);
+
+      // Solr query cache expiration in second(s)
+      $solr_cache_ttl = REQUEST_TIME + variable_get('solr_cache_ttl', 15);
+      cache_set($cache_id, $response, 'solr_query_cache', $solr_cache_ttl);
+    }
+    else {
+      $response = $query_cache->data;
+    }
     return $this->checkResponse($response);
   }
 
@@ -434,33 +446,34 @@ class PantheonApacheSolrService {
   protected function _makeHttpRequest($url, $options = array()) {
     // Hacking starts here.
     // $result = drupal_http_request($url, $headers, $method, $content);
+    static $ch;
     $client_cert = '../certs/binding.pem';
-    $port = 449;
-    $ch = curl_init();
-    // Janktastic, but the parent PHPSolrClient library assumes http
-    // $url = str_replace('http://', 'https://', $url);
-    curl_setopt($ch, CURLOPT_SSLCERT, $client_cert);
+    $port = variable_get('pantheon_index_port', 449);
 
-    // set URL and other appropriate options
-    $opts = array(
-      CURLOPT_URL => $url,
-      CURLOPT_HEADER => 1,
-      CURLOPT_PORT => $port,
-      CURLOPT_RETURNTRANSFER => 1,
-      CURLOPT_HTTPHEADER => array('Content-type:text/xml;', 'Expect:'),
-    );
-    curl_setopt_array($ch, $opts);
+    if (!isset($ch)) {
+      $ch = curl_init();
 
-    // If we are doing a delete request...
+      // The parent PHPSolrClient library assumes http
+      // $url = str_replace('http://', 'https://', $url);
+
+      // These options only need to be set once
+      curl_setopt($ch, CURLOPT_SSLCERT, $client_cert);
+      $opts = pantheon_apachesolr_curlopts();
+      $opts[CURLOPT_PORT] = $port;
+      curl_setopt_array($ch, $opts);
+    }
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    // If we are doing a DELETE request...
     if (isset($options['method'])) {
       if ($options['method'] == 'DELETE') {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
       }
-      // If we are doing a put request...
+      // If we are doing a PUT request...
       if ($options['method'] == 'PUT') {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
       }
-      // If we are doing a put request...
+      // If we are doing a POST request...
       if ($options['method'] == 'POST') {
         curl_setopt($ch, CURLOPT_POST, 1);
       }
@@ -839,7 +852,7 @@ class PantheonApacheSolrService {
    *
    * @throws Exception If an error occurs during the service call
    */
-  public function search($query = '', $params = array(), $method = 'GET') {
+  public function search($query = '', array $params = array(), $method = 'GET') {
     if (!is_array($params)) {
       $params = array();
     }
@@ -874,5 +887,20 @@ class PantheonApacheSolrService {
     else {
       throw new Exception("Unsupported method '$method' for search(), use GET or POST");
     }
+  }
+  
+  /**
+   * Get the current solr version.
+   *
+   * @return int
+   *   Does not give a more detailed version; if needed use $system_info.
+   */
+  public function getSolrVersion() {
+    $system_info = $this->getSystemInfo();
+    // Get the solr version number.
+    if (isset($system_info->lucene->{'solr-spec-version'})) {
+      return $system_info->lucene->{'solr-spec-version'}[0];
+    }
+    return 0;
   }
 }
