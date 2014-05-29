@@ -25,7 +25,15 @@ features[variable][] = "node_preview_faqs"
 features[variable][] = "show_diff_inline_faqs"
 features[views_view][] = "faq"
 name = "FAQs"
-package = "Features"
+package = "OpenPublic"
 php = "5.2.4"
 project = "openpublic_faqs"
 version = "7.x-1.0"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

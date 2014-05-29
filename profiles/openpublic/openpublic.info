@@ -24,7 +24,6 @@ dependencies[] = syslog
 dependencies[] = search
 dependencies[] = shortcut
 dependencies[] = toolbar
-dependencies[] = overlay
 dependencies[] = field
 dependencies[] = field_ui
 dependencies[] = file
@@ -45,6 +44,7 @@ dependencies[] = date
 dependencies[] = diff
 dependencies[] = entity
 dependencies[] = features
+dependencies[] = features_override
 dependencies[] = follow
 dependencies[] = node_reference
 dependencies[] = nodequeue
@@ -67,7 +67,7 @@ dependencies[] = twitter_pull
 dependencies[] = conditional_styles
 dependencies[] = field_group
 dependencies[] = recaptcha
-dependencies[] = password_policy
+;dependencies[] = password_policy
 dependencies[] = comment_notify
 dependencies[] = googleanalytics
 dependencies[] = boxes
@@ -76,6 +76,8 @@ dependencies[] = entity_autocomplete
 dependencies[] = views_boxes
 dependencies[] = delta
 dependencies[] = delta_ui
+dependencies[] = context_condition_admin_theme
+dependencies[] = libraries
 
 ; Custom 
 
@@ -106,10 +108,22 @@ dependencies[] = openpublic_services
 ;;dependencies[] = openpublic_faqs
 dependencies[] = openpublic_webform
 dependencies[] = openpublic_editors_choice
-dependencies[] = openpublic_demo_content
+;dependencies[] = openpublic_demo_content
 dependencies[] = openpublic_captcha
 dependencies[] = openpublic_media_room
+dependencies[] = openpublic_menu
+dependencies[] = openpublic_menu_utility
+dependencies[] = openpublic_menu_footer
+dependencies[] = openpublic_pages
+dependencies[] = openpublic_accessibility
+;dependencies[] = openpublic_password
+dependencies[] = openpublic_filters
+dependencies[] = openpublic_blog_configuration
 
+;Defaults
+
+dependencies[] = openpublic_comments_default
+dependencies[] = openpublic_webform_defaults
 
 ; Media Package
 
@@ -128,3 +142,11 @@ files[] = openpublic.profile
 
 ;stylesheets[all][] = css/menu.css
 ;scripts[] = js/menu.js
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

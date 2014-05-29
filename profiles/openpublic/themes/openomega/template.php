@@ -38,14 +38,7 @@ function openomega_preprocess_region(&$vars) {
   switch($vars['region']) {
     // menu region
     case 'menu':
-      $footer_menu_cache = cache_get("footer_menu_data:". $language->language) ;
-		  if ($footer_menu_cache) {
-		    $footer_menu = $footer_menu_cache->data;
-		  }
-		  else {
-		    $footer_menu = menu_tree_output(_openomega_menu_build_tree('main-menu', array('max_depth'=>2)));
-		    cache_set("footer_menu_data:" .$language->language, $footer_menu);
-		  }
+      $footer_menu = menu_tree_output(_openomega_menu_build_tree('main-menu', array('max_depth'=>2)));
 		  //set the active trail
 		  $active_trail = menu_get_active_trail();
 		  foreach($active_trail as $trail) {
@@ -57,14 +50,7 @@ function openomega_preprocess_region(&$vars) {
     break;
     // default footer content
     case 'footer_first':
-      $footer_menu_cache = cache_get("footer_menu_data:". $language->language) ;
-		  if ($footer_menu_cache) {
-		    $footer_menu = $footer_menu_cache->data;
-		  }
-		  else {
-		    $footer_menu = menu_tree_output(_openomega_menu_build_tree('main-menu', array('max_depth'=>2)));
-		    cache_set("footer_menu_data", $footer_menu);
-		  }
+		  $footer_menu = menu_tree_output(_openomega_menu_build_tree('main-menu', array('max_depth'=>2)));
 		  //set the active trail
 		  $active_trail = menu_get_active_trail();
 		  foreach($active_trail as $trail) {

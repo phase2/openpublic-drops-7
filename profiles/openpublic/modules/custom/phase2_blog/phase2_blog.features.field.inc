@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_field_default_fields().
+ * Implements hook_field_default_fields().
  */
 function phase2_blog_field_default_fields() {
   $fields = array();
@@ -87,7 +87,7 @@ function phase2_blog_field_default_fields() {
   $fields['node-blog_entry-field_blog_author'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_blog_author',
@@ -107,7 +107,18 @@ function phase2_blog_field_default_fields() {
       'module' => 'node_reference',
       'settings' => array(
         'referenceable_types' => array(
+          'blog_entry' => 0,
+          'document' => 0,
+          'editors_choice' => 0,
+          'home_page_feature' => 0,
+          'media_gallery' => 0,
+          'photo' => 0,
+          'press_release' => 0,
           'profile' => 'profile',
+          'resource' => 0,
+          'services' => 0,
+          'site_page' => 0,
+          'webform' => 0,
         ),
         'view' => array(
           'args' => array(),
@@ -174,10 +185,10 @@ function phase2_blog_field_default_fields() {
       ),
       'module' => 'list',
       'settings' => array(
-		'allowed_values' => array(
-			0 => '',
-			1 => '',
-		),
+        'allowed_values' => array(
+          0 => '',
+          1 => '',
+        ),
         'allowed_values_function' => '',
       ),
       'translatable' => '1',
@@ -220,7 +231,7 @@ function phase2_blog_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );
@@ -285,7 +296,7 @@ function phase2_blog_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '5',
+        'weight' => '3',
       ),
     ),
   );
@@ -358,7 +369,7 @@ function phase2_blog_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '2',
+        'weight' => '5',
       ),
     ),
   );

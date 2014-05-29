@@ -5,3 +5,10 @@ package = Testing
 files[] = field_test.entity.inc
 version = VERSION
 hidden = TRUE
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

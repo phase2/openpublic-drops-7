@@ -247,7 +247,7 @@ function xmlsitemap_link_frontpage_settings(&$form) {
  */
 function xmlsitemap_xmlsitemap_link_alter(&$link) {
   // Alter the frontpage priority.
-  if ($link['type'] == 'frontpage' || $link['loc'] == '' || $link['loc'] == drupal_get_normal_path(variable_get('site_frontpage', 'node'))) {
+  if ($link['type'] == 'frontpage' || $link['loc'] == '' || $link['loc'] == variable_get('site_frontpage', 'node')) {
     $link['priority'] = variable_get('xmlsitemap_frontpage_priority', 1.0);
     $link['changefreq'] = variable_get('xmlsitemap_frontpage_changefreq', XMLSITEMAP_FREQUENCY_DAILY);
   }

@@ -24,3 +24,10 @@ dependencies[] = overlay
 dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

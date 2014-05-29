@@ -5,3 +5,10 @@ version = VERSION
 core = 7.x
 files[] = statistics.test
 configure = admin/config/system/statistics
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

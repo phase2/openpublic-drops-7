@@ -176,6 +176,10 @@ Drupal.flexible.splitter = function($splitter) {
   function splitterMove(event) {
     var diff = splitter.startX - event.pageX;
     var moved = 0;
+
+    if (event.keyCode == 37) diff = 10;
+    if (event.keyCode == 39) diff = -10;
+
     // Bah, javascript has no logical xor operator
     if ((splitter.left_unit && !splitter.right_unit) ||
       (!splitter.left_unit && splitter.right_unit)) {
@@ -293,6 +297,12 @@ Drupal.flexible.splitter = function($splitter) {
     return false;
   };
 
+  function splitterKeyPress(event) {
+    splitterStart(event);
+    splitterMove(event);
+    splitterEnd(event);
+  };
+
   function splitterEnd(event) {
     if (splitter.left_unit) {
       splitter.left_box.remove();
@@ -357,7 +367,8 @@ Drupal.flexible.splitter = function($splitter) {
   splitter.right = $(splitter.right_class);
 
   $splitter
-    .bind("mousedown", splitterStart);
+    .bind("mousedown", splitterStart)
+    .bind("keydown", splitterKeyPress);
 
 };
 

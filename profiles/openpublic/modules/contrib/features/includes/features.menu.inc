@@ -93,7 +93,7 @@ function menu_custom_features_export_render($module, $data) {
       ->fetchAssoc();
     if ($row) {
       $export = features_var_export($row, '  ');
-      $code[] = "  // Exported menu: {$menu_name}";
+      $code[] = "  // Exported menu: {$menu_name}.";
       $code[] = "  \$menus['{$menu_name}'] = {$export};";
       $translatables[] = $row['title'];
       $translatables[] = $row['description'];
@@ -110,14 +110,14 @@ function menu_custom_features_export_render($module, $data) {
 }
 
 /**
- * Implements hook_features_export_revert().
+ * Implements hook_features_revert().
  */
 function menu_custom_features_revert($module) {
   menu_custom_features_rebuild($module);
 }
 
 /**
- * Implements hook_features_export_rebuild().
+ * Implements hook_features_rebuild().
  */
 function menu_custom_features_rebuild($module) {
   if ($defaults = features_get_default('menu_custom', $module)) {
@@ -135,7 +135,8 @@ function menu_links_features_export_options() {
   // Need to set this to TRUE in order to get menu links that the
   // current user may not have access to (i.e. user/login)
   $menu_admin = TRUE;
-  $menu_links = menu_parent_options(menu_get_menus(), array('mlid' => 0));
+  $use_menus = array_intersect_key(menu_get_menus(), array_flip(array_filter(variable_get('features_admin_menu_links_menus', array_keys(menu_get_menus())))));
+  $menu_links = menu_parent_options($use_menus, array('mlid' => 0));
   $options = array();
   foreach ($menu_links as $key => $name) {
     list($menu_name, $mlid) = explode(':', $key, 2);
@@ -222,14 +223,14 @@ function menu_links_features_export_render($module, $data) {
 }
 
 /**
- * Implements hook_features_export_revert().
+ * Implements hook_features_revert().
  */
 function menu_links_features_revert($module) {
   menu_links_features_rebuild($module);
 }
 
 /**
- * Implements hook_features_export_rebuild().
+ * Implements hook_features_rebuild().
  */
 function menu_links_features_rebuild($module) {
   if ($menu_links = features_get_default('menu_links', $module)) {

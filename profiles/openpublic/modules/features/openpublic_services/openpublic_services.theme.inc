@@ -10,9 +10,9 @@ function openpublic_services_theme($existing, $type, $theme, $path) {
   $keys['views_view_unformatted__services__block_1'] = 'views_view_unformatted';
   $keys['views_view_fields__services__block_1'] = 'views_view_fields';
   
-  foreach($keys as $key => $original) {
+  foreach ($keys as $key => $original) {
     $path = 'theme/' . str_replace('_', '-', $key); 
-    $themes[$key] = array (
+    $themes[$key] = array(
       'arguments' => array(),
       'template' => $path,
       'original hook' => $original,

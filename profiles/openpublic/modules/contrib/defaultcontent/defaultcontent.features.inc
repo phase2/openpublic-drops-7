@@ -1,24 +1,23 @@
 <?php
 /**
  * @file
- * 
+ *
  * Handles all features exporting functionality
  */
 
-/*
- * implementation of hook_features_export_options
+/**
+ * Implements hook_features_export_options().
  */
 function content_features_export_options() {
-  
- $options = array();
- foreach(defaultcontent_get_default() as $record) {
-   $options[$record->name] = $record->name;
- }
- return $options;
+  $options = array();
+  foreach (defaultcontent_get_default() as $record) {
+    $options[$record->name] = $record->name;
+  }
+  return $options;
 }
 
-/*
- * implementation of hook_features_export
+/**
+ * Implements hook_features_export().
  */
 function content_features_export($data, &$export, $module_name) {
   foreach ($data as $component) {
@@ -27,32 +26,35 @@ function content_features_export($data, &$export, $module_name) {
   return array();
 }
 
-/*
- * implementation of hook_features_export_render
+/**
+ * Implements hook_features_export_render().
  */
 function content_features_export_render($module_name, $data, $export = NULL) {
-  $code = "\$content = array();\n";
-  foreach($data as $name) {
+  $code = "  \$content = array();\n";
+  asort($data);
+  foreach ($data as $name) {
     if ($node = defaultcontent_get_node($name)) {
-      $code .= "\$content['$name'] = ". defaultcontent_export_node($node) .";\n";
+      $code .= "\n";
+      $code .= "  \$content['$name'] = " . defaultcontent_export_node($node) . ";\n";
     }
   }
+  $code .= "\n";
   $code .= "return \$content;";
-  return array("content_defaults"=>$code);
+  return array('content_defaults' => $code);
 }
 
-/*
- * implementation of hook_features_rebuild
+/**
+ * Implements hook_features_rebuild().
  */
-function content_features_rebuild($module_name) { 
+function content_features_rebuild($module_name) {
   return content_features_revert($module_name);
 }
 
-/*
- * implementation of hook_features_revert
+/**
+ * Implements hook_features_revert().
  */
 function content_features_revert($module_name) {
-  $components = module_invoke($module_name ,'content_defaults');
+  $components = module_invoke($module_name, 'content_defaults');
   usort($components, 'defaultcontent_import_sort');
   if (!empty($components)) {
     foreach ($components as $component) {
@@ -75,36 +77,34 @@ function content_features_revert($module_name) {
   return TRUE;
 }
 
-
 /**
- * Implementation of hook_features_export_options().
+ * Implements hook_features_export_options().
  */
 function content_menu_links_features_export_options() {
   module_load_include('inc', 'features', 'includes/features.menu');
   $options = menu_links_features_export_options();
-  foreach($options as $identifier => $title) {
+  foreach ($options as $identifier => $title) {
     $identifier = defaultcontent_alter_identifier($identifier);
     $options_prime[$identifier] = $title;
   }
   return $options_prime;
 }
+
 /**
- * Implementation of hook_features_export().
+ * Implements hook_features_export().
  */
 function content_menu_links_features_export($data, &$export, $module_name = '') {
-  
   module_load_include('inc', 'features', 'includes/features.menu');
   $export['dependencies']['features'] = 'features';
   $export['dependencies']['menu'] = 'menu';
   $export['dependencies']['defaultcontent'] = 'defaultcontent';
-  foreach($data as $identifier) {
+  foreach ($data as $identifier) {
     $export['features']['content_menu_links'][$identifier] = $identifier;
   }
-
 }
 
 /**
- * Implementation of hook_features_export_render()
+ * Implements hook_features_export_render().
  */
 function content_menu_links_features_export_render($module, $data) {
   module_load_include('inc', 'features', 'includes/features.menu');
@@ -125,7 +125,7 @@ function content_menu_links_features_export_render($module, $data) {
       $link['link_path'] = defaultcontent_alter_path($link['link_path']);
 
       $code[] = "  // Exported menu link: {$identifier}";
-      $code[] = "  \$menu_links['{$identifier}'] = ". features_var_export($link, '  ') .";";
+      $code[] = "  \$menu_links['{$identifier}'] = " . features_var_export($link, '  ') . ";";
       $translatables[] = $link['link_title'];
     }
   }
@@ -140,22 +140,19 @@ function content_menu_links_features_export_render($module, $data) {
 }
 
 /**
- * Implementation of hook_features_export_revert().
+ * Implements hook_features_export_revert().
  */
 function content_menu_links_features_revert($module) {
   content_menu_links_features_rebuild($module);
 }
 
 /**
- * Implementation of hook_features_export_rebuild().
+ * Implements hook_features_export_rebuild().
  */
 function content_menu_links_features_rebuild($module) {
   if ($menu_links = features_get_default('content_menu_links', $module)) {
-    foreach($menu_links as $key => $link) {
+    foreach ($menu_links as $key => $link) {
       defaultcontent_import_menu_link($key, $link);
     }
   }
 }
-
-
-

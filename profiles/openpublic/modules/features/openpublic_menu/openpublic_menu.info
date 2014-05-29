@@ -1,0 +1,26 @@
+core = "7.x"
+dependencies[] = "defaultcontent"
+dependencies[] = "features"
+dependencies[] = "menu"
+features[menu_custom][] = "main-menu"
+features[menu_links][] = "main-menu:blogs"
+features[menu_links][] = "main-menu:documents"
+features[menu_links][] = "main-menu:media-room"
+features[menu_links][] = "main-menu:multimedia"
+features[menu_links][] = "main-menu:press-releases"
+features[menu_links][] = "main-menu:resources"
+features[menu_links][] = "main-menu:services"
+features[menu_links][] = "main-menu:staff-directory"
+features[menu_links][] = "main-menu:staff-directory/leadership"
+features[user_permission][] = "administer menu"
+name = "OpenPublic Menu"
+package = "Defaults"
+php = "5.2.4"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

@@ -89,9 +89,6 @@ function openpublic_defaults_install() {
     openpublic_set_wysiwyg_settings();
   }
   
-  if (module_exists('password_policy')) {
-    openpublic_defaults_create_password_policy();
-  }
   if (module_exists('openpublic_api')) {
     $item =  array(
       'module' =>  'openpublic_api',
@@ -212,40 +209,3 @@ function openpublic_defaults_form_install_configure_form_alter(&$form, $form_sta
   $form['server_settings']['site_default_country']['#default_value'] = 'US';
 }
 
-/**
- * Installs the default password policy for all user roles
- */
-function openpublic_defaults_create_password_policy() {
-  $policy = array(
-    'complexity' => 3,
-    'lowercase' => 1,
-    'uppercase' => 1,
-    'history' => 'all',
-    'length' => 8,
-    'username' => 1,
-  );
-
-  db_insert('password_policy')
-    ->fields(array(
-      'name' => 'OpenPublic',
-      'enabled' => 1,
-      'policy' => serialize($policy),
-      'expiration' => 90,
-      'weight' => 0,
-      )
-    )
-    ->execute();
-
-  // Can't be sure the user roles have installed yet, so we can't grab from the db.
-  $roles = array("2", "3");
-
-  foreach ($roles as $id) {
-    db_insert('password_policy_role')
-      ->fields(array(
-        'pid' => 1,
-        'rid' => $id,
-      )
-    )
-    ->execute();
-  }
-}

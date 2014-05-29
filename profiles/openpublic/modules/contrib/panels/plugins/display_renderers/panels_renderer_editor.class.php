@@ -13,6 +13,13 @@ class panels_renderer_editor extends panels_renderer_standard {
    */
   var $commands = array();
   var $admin = TRUE;
+
+  /**
+   * Set to true if edit links (for panes and regions) should not be displayed.
+   * This can be used for special edit modes such as layout change and layout
+   * builder that do not actually have real content.
+   */
+  var $no_edit_links = FALSE;
   // -------------------------------------------------------------------------
   // Display edit rendering.
 
@@ -260,6 +267,9 @@ class panels_renderer_editor extends panels_renderer_standard {
    * Render the links to display when editing a region.
    */
   function get_region_links($region_id) {
+    if (!empty($this->no_edit_links)) {
+      return '';
+    }
     $links = array();
     $links[] = array(
       'title' => t('Add content'),
@@ -291,6 +301,9 @@ class panels_renderer_editor extends panels_renderer_standard {
    * Render the links to display when editing a pane.
    */
   function get_pane_links($pane, $content_type) {
+    if (!empty($this->no_edit_links)) {
+      return '';
+    }
     $links = array();
 
     if (!empty($pane->shown)) {
@@ -556,18 +569,8 @@ class panels_renderer_editor extends panels_renderer_standard {
       $output = t('There are no content types you may add to this display.');
     }
     else {
-      $output = '<div class="panels-add-content-modal">';
-      $selector = $this->render_category_selector($categories, $category, $region);
-
-      $content = !empty($categories[$category]['content']) ? $categories[$category]['content'] : array();
-      $center = $this->render_category($content, $category, $region);
-
-      $output .= '<div class="panels-section-column panels-section-column-categories">'
-        . '<div class="inside">' . $selector . '</div></div>';
-      $output .= $center;
-      $output .= '</div>'; // panels-add-content-modal
+      $output = theme('panels_add_content_modal', array('renderer' => $this, 'categories' => $categories, 'category' => $category, 'region' => $region));
     }
-
     $this->commands[] = ctools_modal_command_display($title, $output);
   }
 
@@ -643,94 +646,6 @@ class panels_renderer_editor extends panels_renderer_standard {
       $output[$category] = $categories[$category];
     }
 
-    return $output;
-  }
-
-  /**
-   * Render a single link to add a content type.
-   */
-  function render_add_content_link($region, $content_type) {
-    $title = filter_xss_admin($content_type['title']);
-    $description = isset($content_type['description']) ? $content_type['description'] : $title;
-    $icon = ctools_content_admin_icon($content_type);
-    $url = $this->get_url('add-pane', $region, $content_type['type_name'], $content_type['subtype_name']);
-
-    $output = '<div class="content-type-button clearfix">';
-    $output .= ctools_ajax_image_button($icon, $url, $description, 'panels-modal-add-config');
-    $output .= '<div>' . ctools_ajax_text_button($title, $url, $description, 'panels-modal-add-config') . '</div>';
-    $output .= '</div>';
-
-    return $output;
-  }
-
-  /**
-   * Render the selector widget in the add content modal to select categories.
-   */
-  function render_category_selector($categories, $category, $region) {
-    $output = '<div class="panels-categories-box">';
-
-    // Render our list of categories in column 0.
-    foreach ($categories as $key => $category_info) {
-      if ($key == 'root') {
-        continue;
-      }
-
-      $class = 'panels-modal-add-category';
-      if ($key == $category) {
-        $class .= ' active';
-      }
-
-      $url = $this->get_url('select-content', $region, $key);
-      $output .= ctools_ajax_text_button($category_info['title'], $url, '', $class);
-    }
-
-    $output .= '</div>'; // panels-categories-box
-
-    if (!empty($categories['root'])) {
-      foreach ($categories['root']['content'] as $content_type) {
-        $output .= $this->render_add_content_link($region, $content_type);
-      }
-    }
-
-    return $output;
-  }
-
-  /**
-   * Render all of the content links in a category.
-   */
-  function render_category($content, $category, $region) {
-    if (empty($category) || empty($content) || $category == 'root') {
-      $output = '<div class="panels-categories-description">';
-      $output .= t('Content options are divided by category. Please select a category from the left to proceed.');
-      $output .= '</div>';
-    }
-    else {
-      $titles = array_keys($content);
-      natcasesort($titles);
-
-      // Fill out the info for our current category.
-      $columns = 2;
-      $col[1] = '';
-      $col[2] = '';
-
-      $col_size = count($titles) / $columns;
-      $count = 0;
-      foreach ($titles as $title) {
-        $which = floor($count++ / $col_size) + 1; // we leave 0 for the categories.
-        $col[$which] .= $this->render_add_content_link($region, $content[$title]);
-      }
-
-      $output = '<div class="panels-section-columns">';
-      foreach ($col as $id => $column) {
-        $output .= '<div class="panels-section-column panels-section-column-' . $id . '">'
-        . '<div class="inside">' . $column . '</div></div>';
-      }
-      $output .= '</div>'; // columns
-    }
-
-    if ($messages = theme('status_messages')) {
-      $output = '<div class="messages">' . $messages . '</div>' . $output;
-    }
     return $output;
   }
 
@@ -1047,6 +962,7 @@ class panels_renderer_editor extends panels_renderer_standard {
     $form_state = array(
       'display' => &$this->display,
       'style' => $style,
+      'pane' => ($type == 'pane') ? $this->display->content[$pid] : NULL,
       'title' => $title,
       'ajax' => TRUE,
       'type' => $type,

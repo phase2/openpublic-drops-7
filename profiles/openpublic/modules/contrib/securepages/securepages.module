@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Provide method of creating allowing certain pages to only viewable from
- * https pages
+ * Allows certain pages to be viewable only via HTTPS.
  */
 
 /**
- * Defaults for securepages_pages and securepages_ignore.
+ * Defines defaults for SECUREPAGES_PAGES.
  */
 define('SECUREPAGES_PAGES',
 'node/add*
@@ -19,19 +18,26 @@ admin
 admin/*'
 );
 
-define('SECUREPAGES_IGNORE',
-'*/autocomplete/*
-*/ajax/*
-batch'
-);
+/**
+ * Defines defaults for SECUREPAGES_IGNORE.
+ */
+define('SECUREPAGES_IGNORE', '');
+
+/**
+ * Defines defaults for SECUREPAGES_FORMS.
+ */
+define('SECUREPAGES_FORMS', 'user_login
+user_login_block');
 
 /**
  * Implements hook_init().
  */
 function securepages_init() {
+  global $is_https;
+
   // Special path for verifying SSL status.
-  if ($_GET['q'] == 'admin/structure/securepages/test') {
-    if (securepages_is_secure()) {
+  if ($_GET['q'] == 'admin/config/system/securepages/test') {
+    if ($is_https) {
       header('HTTP/1.1 200 OK');
     }
     else {
@@ -40,7 +46,7 @@ function securepages_init() {
     exit();
   }
 
-  if (variable_get('securepages_enable', 0) && basename($_SERVER['PHP_SELF']) == 'index.php') {
+  if (variable_get('securepages_enable', 0) && basename($_SERVER['PHP_SELF']) == 'index.php' && php_sapi_name() != 'cli') {
     securepages_redirect();
   }
 }
@@ -51,7 +57,7 @@ function securepages_init() {
 function securepages_menu() {
   $items = array();
 
-  $items['admin/structure/securepages'] = array(
+  $items['admin/config/system/securepages'] = array(
     'title' => 'Secure Pages',
     'description' => 'Configure which pages are and are not to be viewed in SSL',
     'page callback' => 'drupal_get_form',
@@ -68,29 +74,50 @@ function securepages_menu() {
  * Implements hook_form_alter().
  */
 function securepages_form_alter(&$form, &$form_state, $form_id) {
+  global $is_https, $user, $language;
+
   if (!variable_get('securepages_enable', 0)) {
     return;
   }
 
   if (isset($form['#action']) && securepages_can_alter_url($form['#action'])) {
     // Remove the base_path, and extract the path component.
-    $url = substr($form['#action'], strlen(base_path()));
+    $url = substr(rawurldecode($form['#action']), strlen(base_path()));
+
+    // Filter out any language prefixes as it will be automatically added to
+    // the URL again.
+    if (!empty($language->prefix) && preg_match('/^' . $language->prefix . '/', $url) > 0) {
+      $url = preg_replace('/^' . $language->prefix . '\//', '', $url);
+    }
+
     $url = drupal_parse_url($url);
     $path = drupal_get_normal_path($url['path']);
 
     $page_match = securepages_match($path);
-    if ($page_match && !securepages_is_secure()) {
+    $role_match = securepages_roles($user);
+    if ($role_match) {
+      if (!$is_https) {
+        $form['#https'] = TRUE;
+      }
+      return;
+    }
+
+    if (isset($form['#https'])) {
+      // if the #https is set don't reset it as module that set it knows better.
+    }
+    elseif ($page_match && !$is_https) {
       $form['#https'] = TRUE;
     }
-    elseif ($page_match === 0 && securepages_is_secure() && variable_get('securepages_switch', FALSE)) {
+    elseif ($page_match === 0 && $is_https && variable_get('securepages_switch', FALSE)) {
       $url['https'] = FALSE;
       $url['absolute'] = TRUE;
       $form['#action'] = url($url['path'], $url);
     }
   }
 
-  // If the user/login block matches, also secure the login block.
-  if (securepages_match('user/login') && $form_id == 'user_login_block' && !securepages_is_secure()) {
+  // Check to see if this form needs to be secured.
+  $secure_form = securepages_match_form($form_id, $form_state['build_info']['args']);
+  if (!$is_https && $secure_form) {
     $form['#https'] = TRUE;
   }
 }
@@ -99,64 +126,77 @@ function securepages_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_drupal_goto_alter().
  */
 function securepages_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  global $is_https, $user;
+
   if (!variable_get('securepages_enable', 0)) {
     return;
   }
-  if (securepages_match($path)) {
-    if (!securepages_is_secure()) {
+  if (securepages_match($path) || securepages_roles($user)) {
+    if (!$is_https) {
       $options['https'] = TRUE;
     }
   }
-  elseif (securepages_is_secure() && variable_get('securepages_switch', FALSE)) {
+  elseif ($is_https && variable_get('securepages_switch', FALSE)) {
     $options['https'] = FALSE;
   }
 }
 
 /**
- * Check the current page and see if we need to redirect to the secure or
+ * Checks the current page and see if we need to redirect to the secure or
  * insecure version of the page.
  */
 function securepages_redirect() {
-  global $base_url;
+  global $base_url, $is_https, $user;
+
   $path = isset($_GET['q']) ? $_GET['q'] : '';
   $page_match = securepages_match($path);
+  $role_match = securepages_roles($user);
 
   if ($_POST) {
     // If something has been posted to here then ignore the rules.
   }
-  elseif ($page_match && !securepages_is_secure()) {
+  elseif ($role_match && !$is_https) {
+    securepages_log('Switch User to secure', $path);
     securepages_goto(TRUE);
   }
-  elseif ($page_match === 0 && securepages_is_secure() && variable_get('securepages_switch', FALSE)) {
+  elseif ($page_match && !$is_https) {
+    securepages_log('Switch Path to secure', $path);
+    securepages_goto(TRUE);
+  }
+  elseif ($page_match === 0 && $is_https && variable_get('securepages_switch', FALSE) && !$role_match) {
+    securepages_log('Switch Path to insecure (Path: "@path")', $path);
     securepages_goto(FALSE);
   }
 
-  // Correct the base_url so that everything comes from https.
-  if (securepages_is_secure()) {
+  // Correct the base_url so that everything comes from HTTPS.
+  if ($is_https) {
     $base_url = securepages_baseurl();
   }
 }
 
 /**
- * securepage_goto()
- *
  * Redirects the current page to the secure or insecure version.
  *
  * @param $secure
- *  Determine which version of the set to move to.
+ *   Determines which version of the set to move to.
  */
 function securepages_goto($secure) {
-  $url = substr(request_uri(), strlen(base_path()));
-  $url = drupal_parse_url($url);
+
+  $url['path'] = drupal_is_front_page() ? '' : $_GET['q'];
+  $url['query'] = $_GET;
+  unset($url['query']['q']);
   $url['https'] = $secure;
   $url['base_url'] = securepages_baseurl($secure);
   $url['absolute'] = TRUE;
+  $url['external'] = FALSE; // prevent an open redirect
 
   // Check for the overlay.  Attempting to switch protocols during an XHR
   // isn't allowed by the browser's same-origin policy, so we must close the overlay.
-  if (isset($_GET['render']) && $_GET['render'] == 'overlay') {
-    unset($url['query']['render']);
+  if (module_exists('overlay') && overlay_get_mode() == 'child') {
     overlay_close_dialog($url['path'], $url);
+  }
+  elseif (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+    return;
   }
   else {
     // Setting the redirect headers manually allows them to be cached.
@@ -176,38 +216,46 @@ function securepages_goto($secure) {
 }
 
 /**
- * securepages_match()
- *
- * check the page past and see if it should be secure or insecure.
+ * Checks the page past and see if it should be secure or insecure.
  *
  * @param $path
- *  the page of the page to check.
+ *   The page of the page to check.
  *
  * @return
- *  0 - page should be insecure.
- *  1 - page should be secure.
- *  NULL - do not change page.
+ *   - 0: Page should be insecure.
+ *   - 1: Page should be secure.
+ *   - NULL: Do not change page.
  */
 function securepages_match($path) {
-  /**
-   * Check to see if the page matches the current settings
-   */
-  $secure = variable_get('securepages_secure', 1);
-  $pages = variable_get('securepages_pages', SECUREPAGES_PAGES);
-  $ignore = variable_get('securepages_ignore', SECUREPAGES_IGNORE);
+  global $is_https;
 
+  $secure = variable_get('securepages_secure', 1);
+  $pages = drupal_strtolower(variable_get('securepages_pages', SECUREPAGES_PAGES));
+  $ignore = drupal_strtolower(variable_get('securepages_ignore', SECUREPAGES_IGNORE));
+  $path = drupal_strtolower(trim($path, '/'));
+
+  $path_alias = NULL;
+
+  // Checks to see if the page matches the current settings.
   if ($ignore) {
-    $regexp = '/^(' . preg_replace(array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'), array('|', '.*', '\1' . preg_quote(variable_get('site_frontpage', 'node'), '/') . '\2'), preg_quote($ignore, '/')) . ')$/';
-    if (preg_match($regexp, $path)) {
-      return securepages_is_secure() ? 1 : 0;
+    $result = drupal_match_path($path, $ignore);
+    if (!$result && function_exists('drupal_get_path_alias')) {
+      $path_alias = drupal_get_path_alias($path);
+      $result = drupal_match_path($path_alias, $ignore);
+    }
+    if ($result) {
+      securepages_log('Ignored path (Path: "@path", Line: @line, Pattern: "@pattern")', $path, $ignore);
+      return $is_https ? 1 : 0;
     }
   }
   if ($pages) {
-    $regexp = '/^(' . preg_replace(array('/(\r\n?|\n)/', '/\\\\\*/', '/(^|\|)\\\\<front\\\\>($|\|)/'), array('|', '.*', '\1' . preg_quote(variable_get('site_frontpage', 'node'), '/') . '\2'), preg_quote($pages, '/')) . ')$/';
-    $result = preg_match($regexp, $path);
-    if (function_exists('drupal_get_path_alias')) {
-      $path_alias = drupal_get_path_alias($path);
-      $result |= preg_match($regexp, $path_alias);
+    $result = drupal_match_path($path, $pages);
+    if (!$result && function_exists('drupal_get_path_alias')) {
+      $path_alias = isset($path_alias) ? drupal_get_path_alias($path) : $path_alias;
+      $result = drupal_match_path($path_alias, $pages);
+    }
+    if (!($secure xor $result)) {
+      securepages_log('Secure path (Path: "@path", Line: @line, Pattern: "@pattern")', $path, $pages);
     }
     return !($secure xor $result) ? 1 : 0;
   }
@@ -217,14 +265,35 @@ function securepages_match($path) {
 }
 
 /**
- * Secure Pages SSL Test
+ * Checks if the user is in a role that is always forced onto HTTPS.
+ *
+ * @param $account
+ *   A valid user object.
+ *
+ * @return
+ *   The number of roles set on the user that require HTTPS enforcing.
+ */
+function securepages_roles($account) {
+  // All rids are in the settings, so first we need to filter out the ones
+  // that aren't enabled. Otherwise this would match positive against all
+  // roles a user has set.
+
+  $roles = array_filter(variable_get('securepages_roles', array()));
+  $matches = array_intersect_key($account->roles, $roles);
+  return count($matches);
+}
+
+/**
+ * Secure Pages SSL Test.
  */
 function securepages_test() {
+  global $is_https;
+
   // If we are in an SSL page then assume that SSL is configured correctly.
-  if (securepages_is_secure()) {
+  if ($is_https) {
     return TRUE;
   }
-  $url = 'https://' . preg_replace(';^http[s]?://;s', '', url('admin/structure/securepages/test', array('absolute' => TRUE)));
+  $url = 'https://' . preg_replace(';^http[s]?://;s', '', url('admin/config/system/securepages/test', array('absolute' => TRUE)));
 
   $response = drupal_http_request($url);
 
@@ -232,14 +301,7 @@ function securepages_test() {
 }
 
 /**
- * Check if the current page is SSL
- */
-function securepages_is_secure() {
-  return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? TRUE : FALSE;
-}
-
-/**
- * Return the secure base path
+ * Returns the secure base path.
  */
 function securepages_baseurl($secure = TRUE) {
   global $base_url;
@@ -260,7 +322,10 @@ function securepages_baseurl($secure = TRUE) {
 }
 
 /**
- * Check the url and make sure that it is a url that can be altered.
+ * Checks the URL to make sure it is a URL that can be altered.
+ *
+ * @param $url
+ *   URL to check.
  */
 function securepages_can_alter_url($url) {
   global $base_path, $base_url;
@@ -277,9 +342,60 @@ function securepages_can_alter_url($url) {
     return FALSE;
   }
 
-  if (strlen($base_path) > 1 && substr($base_url, -1) != substr($path, 1, strlen($base_path))) {
+  if (strlen($base_path) > 1 && substr($base_url, -1) != substr($url['path'], 1, strlen($base_path))) {
     return FALSE;
   }
 
   return TRUE;
+}
+
+/**
+ * Check form Id to see if this form should be secured.
+ */
+function securepages_match_form($form_id, $args = array()) {
+  $forms = & drupal_static(__FUNCTION__);
+  if (drupal_match_path($form_id, variable_get('securepages_forms', SECUREPAGES_FORMS))) {
+    securepages_log('Secure Form (Form: "@path", Line: @line, Pattern: "@pattern")', $form_id, variable_get('securepages_forms', SECUREPAGES_FORMS));
+    return TRUE;
+  }
+
+  if (!isset($forms)) {
+    $forms = module_invoke_all('forms', $form_id, $args);
+  }
+
+  if (isset($forms[$form_id])) {
+    $form_definition = $forms[$form_id];
+
+    if (drupal_match_path($form_definition['callback'], variable_get('securepages_forms', SECUREPAGES_FORMS))) {
+      securepages_log('Secure Form (Path: "@path", Line: @line, Pattern: "@pattern")', $form_definition['callback'], variable_get('securepages_forms', SECUREPAGES_FORMS));
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+function securepages_log($text, $path, $pattern = NULL) {
+  if (variable_get('securepages_debug', 0)) {
+    $options = array(
+      '@path' => $path,
+      '@line' => t('NF'),
+      '@pattern' => '',
+    );
+    if ($pattern) {
+      if (!drupal_match_path($path, $pattern) && function_exists('drupal_get_path_alias')) {
+        $path = drupal_get_path_alias($path);
+      }
+
+      $pattern_parts = explode("\n", $pattern);
+      foreach ($pattern_parts as $line => $part) {
+        if (drupal_match_path($path, $part)) {
+          $options['@line'] = $line+1;
+          $options['@pattern'] = $part;
+          break;
+        }
+      }
+    }
+    drupal_set_message(t('SP: ' . $text, $options), 'warning', FALSE);
+  }
 }

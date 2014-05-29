@@ -1,0 +1,19 @@
+name = "OpenPublic Footer Menu"
+package = "OpenPublic"
+description = "Includes the Footer utility menu."
+php = "5.2.0"
+project = "openpublic_home_page_feature"
+version = "7.x-1.0"
+core = "7.x"
+dependencies[] = "features"
+dependencies[] = "menu"
+features[menu_custom][] = "menu-footer-utility"
+
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

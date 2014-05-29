@@ -17,10 +17,10 @@
 
 <div id='navigation'><div class='limiter clearfix'>
   <?php if (isset($main_menu)) : ?>
-    <?php print theme('links', array('links' => $main_menu, 'attributes' => array('class' => 'links main-menu'))) ?>
+    <?php print theme('links__system_main_menu', array('links' => $main_menu, 'attributes' => array('class' => 'links main-menu'), 'heading' => array('text' => t('Main menu'), 'level' => 'h2', 'class' => array('element-invisible')))) ?>
   <?php endif; ?>
   <?php if (isset($secondary_menu)) : ?>
-    <?php print theme('links', array('links' => $secondary_menu, 'attributes' => array('class' => 'links secondary-menu'))) ?>
+    <?php print theme('links__system_secondary_menu', array('links' => $secondary_menu, 'attributes' => array('class' => 'links secondary-menu'), 'heading' => array('text' => t('Secondary menu'), 'level' => 'h2', 'class' => array('element-invisible')))) ?>
   <?php endif; ?>
 </div></div>
 
@@ -33,7 +33,7 @@
 <div id='page'><div class='limiter clearfix'>
 
   <?php if ($page['sidebar_first']): ?>
-    <div id='left' class='clearfix'><?php print render($page['sidebar_first']) ?></div>
+    <div id='sidebar-first' class='clearfix'><?php print render($page['sidebar_first']) ?></div>
   <?php endif; ?>
 
   <div id='main-content' class='clearfix'>
@@ -48,7 +48,7 @@
   </div>
 
   <?php if ($page['sidebar_second']): ?>
-    <div id='right' class='clearfix'><?php print render($page['sidebar_second']) ?></div>
+    <div id='sidebar-second' class='clearfix'><?php print render($page['sidebar_second']) ?></div>
   <?php endif; ?>
 
 </div></div>

@@ -13,8 +13,8 @@ function openpublic_home_page_feature_theme($existing, $type, $theme, $path) {
   // — Row-level theme for stories
   $key = 'views_view_fields__home_page_feature_rotator__block';
   $tpl_path = 'theme/' . str_replace('_', '-', $key); 
-  $themes[$key] = array (
-    'arguments' => array('view' => Null, 'options' => Null, 'row' => Null),
+  $themes[$key] = array(
+    'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
     'template' => $tpl_path,
     'original hook' => 'views_view_fields',
     
@@ -28,8 +28,8 @@ function openpublic_home_page_feature_theme($existing, $type, $theme, $path) {
   //display
   $key = 'views_view__home_page_feature_rotator__block';
   $tpl_path = 'theme/' . str_replace('_', '-', $key); 
-  $themes[$key] = array (
-    'arguments' => array('view' => Null),
+  $themes[$key] = array(
+    'arguments' => array('view' => NULL),
     'template' => $tpl_path,
     'original hook' => 'views_view',
     
@@ -43,8 +43,8 @@ function openpublic_home_page_feature_theme($existing, $type, $theme, $path) {
   //style
   $key = 'views_view_unformatted__home_page_feature_rotator__block';
   $tpl_path = 'theme/' . str_replace('_', '-', $key); 
-  $themes[$key] = array (
-    'arguments' => array('view' => Null, 'options' => Null, 'rows' => Null, 'title' => Null),
+  $themes[$key] = array(
+    'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
     'template' => $tpl_path,
     'original hook' => 'views_view_unformatted',
     
@@ -66,7 +66,7 @@ function openpublic_home_page_feature_preprocess_views_view_fields__home_page_fe
   drupal_add_css(drupal_get_path("module", 'openpublic_home_page_feature') . "/theme/home-page-rotator.css", 'file');
   drupal_add_js(drupal_get_path("module", 'openpublic_home_page_feature') . "/theme/jquery.cycle.min.js", 'file');
   $result_count = sizeof($vars['view']->result);
-  if($result_count > 1) {
+  if ($result_count > 1) {
     drupal_add_js('
       function homepage_feature_rotator_rotate_slide(slide_no) {
         jQuery("#home-rotator").cycle("pause");
@@ -124,7 +124,7 @@ function openpublic_home_page_feature_preprocess_views_view_fields__home_page_fe
     $vars['main_image'] = l($vars['main_image'], $vars['read_more'], array('html' => TRUE));
   }
 
-  if($result_count < 2) {
+  if ($result_count < 2) {
     $nav = '';
   }
   $vars['rotator_nav'] = $nav;

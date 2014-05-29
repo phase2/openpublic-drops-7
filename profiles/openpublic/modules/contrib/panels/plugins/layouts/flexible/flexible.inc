@@ -255,7 +255,11 @@ function panels_flexible_panels($display, $settings, $layout) {
   $items = array();
   panels_flexible_convert_settings($settings, $layout);
   foreach ($settings['items'] as $id => $item) {
-    if ($item['type'] == 'region') {
+    // Remove garbage values.
+    if (!isset($item['type'])) {
+      unset($items[$id]);
+    }
+    else if ($item['type'] == 'region') {
       $items[$id] = $item['title'];
     }
   }
@@ -593,7 +597,8 @@ function panels_flexible_render_splitter($renderer, $left_id, $right_id) {
     $right_class = $left_class;
   }
 
-  $output = '<div class="panels-flexible-splitter flexible-splitter-for-' . $left_class . '">';
+  $output = '<div tabindex="0"
+    class="panels-flexible-splitter flexible-splitter-for-' . $left_class . '">';
 
   // Name the left object
   $output .= '<span class="panels-flexible-splitter-left">';

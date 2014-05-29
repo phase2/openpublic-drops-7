@@ -150,17 +150,9 @@ function _image_captcha_check_setup($check_fonts=TRUE) {
   // Start clean.
   $status = 0;
   // Check if we can use the GD library.
-  // Note that we are only checking
-  // for the existence of the imagejpeg function.
-  // We could also check for imagepng, which can also be used
-  // (optionally) for the image CAPTCHA by the site admin.
-  // However, this incurs extra complexity in the setup checking
-  // (more constants to define) and in the caller functions
-  // (more situations to check for).
-  // We take this shortcut (only checking for imagejpeg) because
-  // it's probably pretty safe to assume that imagepng
-  // is available when imagejpeg is available.
-  if (!function_exists('imagejpeg')) {
+  // We need at least the imagepng function (for font previews on the settings page).
+  // Note that the imagejpg function is optionally also used, but not required.
+  if (!function_exists('imagepng')) {
     $status = $status | IMAGE_CAPTCHA_ERROR_NO_GDLIB;
   }
   if (!function_exists('imagettftext')) {
@@ -237,7 +229,13 @@ function image_captcha_captcha($op, $captcha_type='', $captcha_sid=NULL) {
         // Generate image source URL (add timestamp to avoid problems with
         // client side caching: subsequent images of the same CAPTCHA session
         // have the same URL, but should display a different code).
-        $img_src = check_url(url("image_captcha/$captcha_sid/" . REQUEST_TIME));
+        $options = array(
+          'query' => array(
+            'sid' => $captcha_sid,
+            'ts' => REQUEST_TIME,
+          ),
+        );
+        $img_src = check_url(url("image_captcha", $options));
         list($width, $height) = _image_captcha_image_size($code);
         // TODO: start using a theming funtion for generating the image markup?
         $result['form']['captcha_image'] = array(

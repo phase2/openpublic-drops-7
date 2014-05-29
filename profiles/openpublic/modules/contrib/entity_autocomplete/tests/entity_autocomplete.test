@@ -1,0 +1,199 @@
+<?php
+
+/**
+ * @file
+ * Tests suite for Entity Autocomplete module.
+ */
+
+/**
+ * Performs functional tests on advanced functionalities, such as
+ * administrative UI, etc.
+ *
+ * @see DrupalWebTestCase
+ */
+class EntityAutocompleteWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * A dummy node creator.
+   *
+   * @var StdClass
+   */
+  protected $author;
+
+  /**
+   * A list of existing terms.
+   *
+   * @var array
+   */
+  protected $terms = array();
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Entity Autocomplete',
+      'description' => 'Runs functional tests against Entity Autocomplete module.',
+      'group' => 'Entity Autocomplete',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('entity_autocomplete', 'entity_autocomplete_test', 'node', 'taxonomy');
+
+    // Create and log in a privileged user.
+    $this->privileged_user = $this->drupalCreateUser(array('use entity autocomplete', 'access site in maintenance mode'));
+    $this->drupalLogin($this->privileged_user);
+
+    // Create a node author.
+    $this->author = $this->drupalCreateUser(array('access comments', 'post comments', 'create article content', 'edit own comments'));
+  }
+
+  /**
+   * Returns a new vocabulary with random properties.
+   */
+  public function createVocabulary($settings = array()) {
+    $settings += array(
+      'name'         => $this->randomName(),
+      'description'  => $this->randomName(),
+      'machine_name' => drupal_strtolower($this->randomName()),
+      'help'         => '',
+      'weight'       => mt_rand(0, 10),
+    );
+
+    $settings = (object) $settings;
+    taxonomy_vocabulary_save($settings);
+    return $settings;
+  }
+
+  /**
+   * Returns a new term with random properties in vocabulary $vid.
+   */
+  public function createTerm($vocabulary, $settings = array()) {
+    static $format;
+
+    if (!isset($format)) {
+      // Use the first available text format.
+      $format = db_query_range('SELECT format FROM {filter_format}', 0, 1)->fetchField();
+    }
+
+    $settings += array(
+      'name'        => $this->randomName(),
+      'description' => $this->randomName(),
+      'format'      => $format,
+      'vid'         => $vocabulary->vid,
+      'weight'      => mt_rand(0, 10),
+    );
+
+    $settings = (object) $settings;
+    taxonomy_term_save($settings);
+    return $settings;
+  }
+
+  /**
+   * Count the number of results from Drupal current page.
+   */
+  protected function countResult() {
+    $result = drupal_json_decode($this->drupalGetContent());
+    return isset($result) && is_array($result) ? count($result) : -1;
+  }
+
+  /**
+   * Tests autocomplete callback.
+   *
+   * @see entity_autocomplete()
+   */
+  public function testEntityAutocompleteCallback() {
+    $tests = array();
+
+    // Define specific strings for various bundles. Disallowed characters are:
+    // f g i k l n o r s t (used by "Look for string", see below).
+    $entities = array(
+      'bundle_1' => array('cheap', 'Cheap', 'deep'),
+      'bundle_2' => array('cheap', '@'),
+    );
+
+    foreach ($entities as $bundle => $strings) {
+      if (!node_type_get_type($bundle)) {
+        $this->drupalCreateContentType(array('type' => $bundle, 'name' => ucfirst($bundle)));
+      }
+
+      $vocabulary = $this->createVocabulary(array('machine_name' => $bundle));
+      $tests += array_fill_keys(array_unique(array_map('strtolower', $strings)), array('bundle_1' => 0, 'bundle_2' => 0));
+
+      foreach ($strings as $string) {
+        $tests[strtolower($string)][$bundle]++;
+        $title = "Check for $string string!";
+        $this->drupalCreateNode(array('type' => $bundle, 'title' => $title, 'uid' => $this->author->uid));
+        $this->createTerm($vocabulary, array('name' => $title));
+      }//end foreach
+    }//end foreach
+
+
+    foreach ($tests as $string => $bundles) {
+      $all = array_sum($bundles);
+      $bundles_path = implode('+', array_keys($bundles));
+
+      foreach (array('node', 'taxonomy_term') as $entity_type) {
+        $this->drupalGet("entity-autocomplete/$entity_type/$string");
+        $this->assertEqual($this->countResult(), $all);
+
+        $this->drupalGet("entity-autocomplete/bundle/$entity_type/$bundles_path/$string");
+        $this->assertEqual($this->countResult(), $all);
+
+        foreach ($bundles as $bundle => $occurrence) {
+          $this->drupalGet("entity-autocomplete/bundle/$entity_type/$bundle/$string");
+          $this->assertEqual($this->countResult(), $occurrence);
+        }//end foreach
+      }//end foreach
+    }//end foreach
+  }
+
+  /**
+   * Tests label creation and ID extraction.
+   */
+  public function testLabelAndID() {
+    $node = $this->drupalCreateNode(array('type' => 'article', 'title' => $this->randomName(140), 'uid' => $this->author->uid));
+    $label = entity_autocomplete_get_label($node->title, $node->nid);
+    $this->assertTrue(strlen($label) <= 128, 'The label length is smaller than 128 characters.');
+    $this->assertEqual(entity_autocomplete_get_id($label), $node->nid, 'Extracted ID from autocomplete label is correct.');
+  }
+  
+  /**
+   * Tests FAPI element.
+   */
+  public function testAutocompleteElement() {
+    foreach (array('page', 'article') as $bundle) {
+      if (!node_type_get_type($bundle)) {
+        $this->drupalCreateContentType(array('type' => $bundle, 'name' => ucfirst($bundle)));
+      }
+    }//end foreach
+    
+    $node = $this->drupalCreateNode(array('type' => 'page', 'uid' => $this->author->uid));
+    $label = entity_autocomplete_get_label($node->title, $node->nid);
+    $unexisting_nid = 1;
+    
+    while ($node->nid == $unexisting_nid) {
+      $unexisting_nid++;
+    }
+    
+    // Check element in the form.
+    $this->drupalGet('entity_autocomplete_test/node');
+    $this->assertFieldByName('entity_autocomplete', '');
+    
+    $this->drupalGet("entity_autocomplete_test/node/$node->nid");
+    $this->assertFieldByName('entity_autocomplete', $label, t('Field value is properly built when entity exists.'));
+    
+    $this->drupalGet("entity_autocomplete_test/node/$unexisting_nid");
+    $this->assertFieldByName('entity_autocomplete', $unexisting_nid, t('Field value is kept raw when entity does not exist.'));
+    
+    // Check element validation.
+    $this->drupalPost('entity_autocomplete_test/node', array('entity_autocomplete' => $unexisting_nid), t('Test'));
+    $this->assertRaw(t('The specified entity %value does not match requirements.', array('%value' => $unexisting_nid)), t('Unexisting entity ID throws an error.'));
+    
+    $this->drupalPost('entity_autocomplete_test/bundle/node/article', array('entity_autocomplete' => $node->nid), t('Test'));
+    $this->assertRaw(t('The specified entity %value does not match requirements.', array('%value' => $label)), t('Existing entity ID for wrong bundle throws an error.'));
+    
+    // Check element submission.
+    $this->drupalPost('entity_autocomplete_test/node', array('entity_autocomplete' => $node->nid), t('Test'));
+    $this->assertText(t('The form was successfully submitted. Field value is: @value.', array('@value' => $node->nid)));
+  }
+
+}

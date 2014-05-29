@@ -37,7 +37,7 @@ function panels_theme() {
 
   $theme = array();
   $theme['panels_layout_link'] = array(
-    'variables' => array('title' => NULL, 'id' => NULL, 'image' => NULL, 'link' => NULL),
+    'variables' => array('title' => NULL, 'id' => NULL, 'image' => NULL, 'link' => NULL, 'class' => NULL),
   );
   $theme['panels_layout_icon'] = array(
     'variables' => array('id' => NULL, 'image' => NULL, 'title' => NULL),
@@ -74,6 +74,20 @@ function panels_theme() {
     'path' => drupal_get_path('module', 'panels') . '/templates',
     'file' => '../includes/callbacks.inc',
     'template' => 'panels-dashboard-block',
+  );
+
+  $theme['panels_add_content_modal'] = array(
+    'variables' => array('renderer' => NULL, 'categories' => array(), 'region' => NULL, 'category' => NULL, 'column_count' => 2),
+    'path' => drupal_get_path('module', 'panels') . '/templates',
+    'file' => '../includes/add-content.inc',
+    'template' => 'panels-add-content-modal',
+  );
+
+  $theme['panels_add_content_link'] = array(
+    'variables' => array('renderer' => NULL, 'region' => NULL, 'content_type' => NULL),
+    'path' => drupal_get_path('module', 'panels') . '/templates',
+    'file' => '../includes/add-content.inc',
+    'template' => 'panels-add-content-link',
   );
 
   // We don't need layout and style themes in maintenance mode.
@@ -150,7 +164,8 @@ function panels_menu() {
   $items['panels/ajax'] = array(
     'access arguments' => array('access content'),
     'page callback' => 'panels_ajax_router',
-    'theme callback' => 'panels_ajax_theme_callback',
+    'theme callback' => 'ajax_base_page_theme',
+    'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
 
@@ -268,6 +283,10 @@ function panels_permission() {
     'use panels in place editing' => array(
       'title' => t("Use the Panels In-Place Editor"),
       'description' => t("Allows a user to utilize Panels' In-Place Editor."),
+    ),
+    'change layouts in place editing' => array(
+      'title' => t("Change layouts with the Panels In-Place Editor"),
+      'description' => t("Allows a user to change layouts with the IPE."),
     ),
     'administer advanced pane settings' => array(
       'title' => t("Configure advanced settings on Panel panes"),
@@ -763,6 +782,7 @@ function panels_new_pane($type, $subtype, $set_defaults = FALSE) {
   $pane->type = $type;
   $pane->subtype = $subtype;
   if ($set_defaults) {
+    ctools_include('content');
     $content_type = ctools_get_content_type($type);
     $content_subtype = ctools_content_get_subtype($content_type, $subtype);
     $pane->configuration = ctools_content_get_defaults($content_type, $content_subtype);
@@ -1108,8 +1128,9 @@ function theme_panels_layout_icon($vars) {
 function theme_panels_layout_link($vars) {
   $title = $vars['title'];
   $image = $vars['image'];
+  $class = $vars['class'];
 
-  $output = '<div class="layout-link">';
+  $output = '<div class="' . implode(' ', $class) . '">';
   $output .= $vars['image'];
   $output .= '<div>' . $vars['title'] . '</div>';
   $output .= '</div>';
@@ -1120,16 +1141,23 @@ function theme_panels_layout_link($vars) {
  * Print the layout link. Sends out to a theme function.
  * @layout
  */
-function panels_print_layout_link($id, $layout, $link, $options = array()) {
+function panels_print_layout_link($id, $layout, $link, $options = array(), $current_layout = FALSE) {
   if (isset($options['query']['q'])) {
     unset($options['query']['q']);
+  }
+
+  // Setup classes for layout link, including current-layout information
+  $class = array('layout-link');
+  if ($current_layout == $id) {
+    $options['attributes']['class'][] = 'current-layout-link';
+    $class[] = 'current-layout';
   }
 
   ctools_add_css('panels_admin', 'panels');
   $file = $layout['path'] . '/' . $layout['icon'];
   $image = l(theme('image', array('path' => $file)), $link, array('html' => true) + $options);
   $title = l($layout['title'], $link, $options);
-  return theme('panels_layout_link', array('title' => $title, 'image' => $image));
+  return theme('panels_layout_link', array('title' => $title, 'image' => $image, 'class' => $class));
 }
 
 
@@ -1176,7 +1204,7 @@ function template_preprocess_panels_pane(&$vars) {
   $vars['classes_array'] = array();
   $vars['admin_links'] = '';
 
-  if (user_access('access contextual links')) {
+  if (module_exists('contextual') && user_access('access contextual links')) {
     $links = array();
     // These are specified by the content.
     if (!empty($content->admin_links)) {
@@ -1185,12 +1213,17 @@ function template_preprocess_panels_pane(&$vars) {
 
     // Take any that may have been in the render array we were given and
     // move them up so they appear outside the pane properly.
-    if (is_array($content->content) && isset($content->content['#contextual_links']) && module_exists('contextual')) {
+    if (is_array($content->content) && isset($content->content['#contextual_links'])) {
       $element = array(
         '#type' => 'contextual_links',
         '#contextual_links' => $content->content['#contextual_links'],
       );
       unset($content->content['#contextual_links']);
+
+      // Add content to $element array
+      if (is_array($content->content)) {
+        $element['#element'] = $content->content;
+      }
 
       $element = contextual_pre_render_links($element);
       $links += $element['#links'];
@@ -1243,7 +1276,7 @@ function template_preprocess_panels_pane(&$vars) {
 
   // Add template file suggestion for content type and sub-type.
   $vars['theme_hook_suggestions'][] = $base . $delimiter . $content->type;
-  $vars['theme_hook_suggestions'][] = $base . $delimiter . $content->type . $delimiter . $content->subtype;
+  $vars['theme_hook_suggestions'][] = $base . $delimiter . strtr($content->type, '-', '_') . $delimiter . strtr($content->subtype, '-', '_');
 
   $vars['pane_prefix'] = !empty($content->pane_prefix) ? $content->pane_prefix : '';
   $vars['pane_suffix'] = !empty($content->pane_suffix) ? $content->pane_suffix : '';
@@ -1267,18 +1300,6 @@ function template_preprocess_panels_pane(&$vars) {
 }
 
 /**
- * Menu theme callback.
- *
- * This simply ensures that Panels ajax calls are rendered in the same
- * theme as the original page to prevent .css file confusion.
- */
-function panels_ajax_theme_callback() {
-  if (!empty($_POST['ajax_page_state']['theme'])) {
-    return $_POST['ajax_page_state']['theme'];
-  }
-}
-
-/**
  * Route Panels' AJAX calls to the correct object.
  *
  * Panels' AJAX is controlled mostly by renderer objects. This menu callback
@@ -1298,9 +1319,6 @@ function panels_ajax_router() {
   $args = func_get_args();
   if (count($args) < 3) {
     return MENU_NOT_FOUND;
-  }
-  if (!empty($_POST['ajax_page_state']['theme'])) {
-    $GLOBALS['custom_theme'] = $_POST['ajax_page_state']['theme'];
   }
 
   ctools_include('display-edit', 'panels');
@@ -1342,10 +1360,14 @@ function panels_ajax_router() {
   $output = call_user_func_array(array($renderer, $method), $args);
 
   if (empty($output) && !empty($renderer->commands)) {
-    print ajax_render($renderer->commands);
-    ajax_footer();
+    return array(
+      '#type' => 'ajax',
+      '#commands' => $renderer->commands,
+    );
   }
-  return $output;
+  else {
+    return $output;
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -1697,6 +1719,13 @@ function panels_print_layout($layout, $content, $meta = 'standard') {
   return $renderer->render();
 }
 
+/**
+ * Filter callback for array_filter to remove builders from a list of layouts.
+ */
+function _panels_builder_filter($layout) {
+  return empty($layout['builder']);
+}
+
 // --------------------------------------------------------------------------
 // Deprecated functions
 //
@@ -1708,4 +1737,22 @@ function panels_print_layout($layout, $content, $meta = 'standard') {
 function panels_get_path($file, $base_path = FALSE, $module = 'panels') {
   $output = $base_path ? base_path() : '';
   return $output . drupal_get_path('module', $module) . '/' . $file;
+}
+
+/**
+ * Remove default sidebar related body classes and provide own css classes
+ */
+function panels_preprocess_html(&$vars) {
+  $panel_body_css = &drupal_static('panel_body_css');
+  if (!empty($panel_body_css['body_classes_to_remove'])) {
+    $classes_to_remove = explode(' ', $panel_body_css['body_classes_to_remove']);
+    foreach ($vars['classes_array'] as $key => $css_class) {
+      if (in_array($css_class, $classes_to_remove)) {
+        unset($vars['classes_array'][$key]);
+      }
+    }
+  }
+  if (!empty($panel_body_css['body_classes_to_add'])) {
+    $vars['classes_array'][] = check_plain($panel_body_css['body_classes_to_add']);
+  }
 }

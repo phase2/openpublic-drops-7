@@ -8,10 +8,17 @@ dependencies[] = "views"
 description = "Comment settings for OpenPublic"
 features[ctools][] = "context:context:3"
 features[ctools][] = "views:views_default:3.0"
-features[user_permission][] = "subscribe to comments"
 features[views_view][] = "openpublic_recent_comments"
 name = "OpenPublic Comments"
-package = "Features"
+package = "OpenPublic"
 php = "5.2.4"
 project = "openpublic_comments"
 version = "7.x-1.0"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

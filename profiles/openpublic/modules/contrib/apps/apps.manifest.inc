@@ -5,38 +5,54 @@
  *
  */
 
-define ("ENABLED", 1);
-define ("DISABLED", 0);
-define ("INCOMPATABLE", -1);
-define ("INSTALLABLE", 2);
-
-
+/**
+ * Return all local apps for the specified server.
+ *
+ * @param string $server
+ *    A machine name for a server
+ * @return array An array of apps
+ */
 function apps_server_local($server) {
   $apps = array();
-  $infos = system_rebuild_module_data();
-  foreach($infos as $module => $info) {
-    if(isset($info->info['apps']['server'])) {
-      if($info->info['apps']['server'] = $server['name']) {
-        foreach($info->info['apps']['manifests'] as $mfile) {
-          $mfile = drupal_get_path("module", $module) . "/" .$mfile;
-          $app = drupal_parse_info_file($mfile);
-          foreach($app['screenshots'] as $id=>$image) {
-            $app['screenshots'][$id] = url(dirname($mfile) . "/" . $image);
-          }
-            $app['logo'] = url(dirname($mfile) . "/" . $app['logo']);
-          $apps[] = $app;
+  $modules = system_rebuild_module_data();
+  foreach ($modules as $module => $info) {
+    // If an app is not limited to a specific server, or the limiting server is this server.
+    if (isset($info->info['apps']) && (!isset($info->info['apps']['server']) || $info->info['apps']['server'] == $server['name'])) {
+      $manifest = $info->info['apps'];
+      $app_path = drupal_get_path('module', $module);
+
+      // Set some defaults, if needed
+      $manifest['machine_name'] = $module;
+      $manifest['local'] = TRUE;
+      if (!isset($manifest['name'])) {
+        $manifest['name'] = $info->info['name'];
+      }
+      if (!isset($manifest['description'])) {
+        $manifest['description'] = $info->info['description'];
+      }
+      if (!isset($manifest['version'])) {
+        $manifest['version'] = $info->info['version'];
+      }
+      if (isset($manifest['screenshots'])) {
+        foreach ($manifest['screenshots'] as $id => $image) {
+          $manifest['screenshots'][$id] = url($app_path . '/' . $image);
         }
       }
+      if (isset($manifest['logo'])) {
+        $manifest['logo'] = url($app_path . '/' . $manifest['logo']);
+      }
+      $apps[$module] = $manifest;
     }
   }
   return $apps;
 }
-/*
- * returns all servers/server defined by the current profile
- * PARAM server_name: the  name of a server
- * RETURN : an array of server arrays one server array if $server_name has a value
+
+/**
+ * Returns all app servers configured to work for the current site.
  *
- * TODO: Turn Store Objects in to Object instead of arrays OPIC-372
+ * @param $server_name
+ *      Optional. The name of a specific server to return
+ * @return array An array of servers, or one server array if $server_name has a valid value
  */
 function apps_servers($server_name = FALSE) {
   $servers_cache = cache_get('apps_servers');
@@ -55,10 +71,10 @@ function apps_servers($server_name = FALSE) {
     }
   }
   // if we have the dev console turned on add it as a server
-  if (variable_get('apps_enable_developement_console', FALSE)) {
+  if (variable_get('apps_enable_dev_console', FALSE)) {
     $servers['development'] = array(
       'name' => 'development',
-      'description' => 'Local Apps in Developement',
+      'description' => 'Local Apps in Development',
       'title' => 'Development',
       'manifest' => FALSE,
       'featured app' => FALSE,
@@ -75,12 +91,18 @@ function apps_servers($server_name = FALSE) {
   }
   return FALSE;
 }
+
 /**
- * retrieve apps from the manifest 
- * PARAM $server: a server object return from apps_servers
- * PARAM $condition: and array of key and values to match in the app arrays
- * PARAM $add_theme: if True apps_apps_add_theme will be called when done getting apps
- * RETURN : an array of app info arrays
+ * Retrieve apps from the server manifest.
+ *
+ * @param $server
+ *    A server object return from apps_servers
+ * @param $condition
+ *    An array of key/values to filter the apps
+ * @param $add_theme
+ *    If TRUE apps_apps_add_theme will be called when done getting apps
+ * @return
+ *    An array of app info arrays
  */
 function apps_apps($server, $condition = array(), $add_theme=FALSE) { 
   if (!is_array($server)) {
@@ -88,7 +110,7 @@ function apps_apps($server, $condition = array(), $add_theme=FALSE) {
   }
   $manifest = apps_manifest($server);
   if (isset($manifest['error'])) {
-    $e= new Exception($manifest['error']);
+    $e = new Exception($manifest['error']);
     $e->request = $manifest['request'];
     throw $e;
   }
@@ -99,10 +121,7 @@ function apps_apps($server, $condition = array(), $add_theme=FALSE) {
       unset($apps[$id]);
     }
   }
-  if (empty($apps)) {
-    $apps = array('#markup' => '<div class="messages">' . t('No applications currently available.') . '</div>');
-  }
-  elseif ($add_theme) {
+  if (!empty($apps) && $add_theme) {
     apps_apps_add_theme($apps);
   }
   return $apps;
@@ -139,82 +158,97 @@ function apps_client_id() {
 }
 
 /**
- * Request manifest and media assets from the app server
- * PARAM $server: a server object return from apps_servers
- * RETURN : an array represntation of the json manifest, with images
- * relpaced by file objects
+ * Request manifest and media assets from the app server.
  *
- * TODO: Handle lack of server presense OPIC-374
+ * @param $server
+ *    A server array
+ * @return
+ *    An array representation of the json manifest, with images
+ *    replaced by file objects.
  */
-function apps_request_manifest($server) { 
-  //$manifest_cache = cache_get("apps_manifest_{$server['name']}");
-  $manifest_cache = false;
-  $manifest = $manifest_cache ? $manifest_cache->data : FALSE;
+function apps_request_manifest($server) {
+  if ($cache = cache_get("apps_manifest_{$server['name']}")) {
+    return $cache->data;
+  }
 
-  if(!$manifest) {
-    if(!$server['manifest']) {
-       $apps = apps_server_local($server);
-       $manifest = $server;
-       $manifest['apps'] = $apps;
-       apps_request_manifest_image_process($manifest);
-       return $manifest;
-    }
-    $info =  drupal_parse_info_file(dirname(__file__) . '/apps.info');
-    $rest_data = array(
-      'client_id' => apps_client_id(),
-      'apps_version' => $info['version'],
-      'format' => 'json',
-    ) + $server;
-    //I would like to do a post request but it is not happening
-    //$request = drupal_http_request($server['manifest'], array('method' => 'POST', 'data' => drupal_http_build_query($rest_data)));
-    $request = drupal_http_request($server['manifest'] . "?" . drupal_http_build_query($rest_data));
+  // Gather all local apps
+  $local_apps = apps_server_local($server);
+  $manifest = $server;
+  $manifest['apps'] = $local_apps;
+  apps_request_manifest_image_process($manifest);
 
-    if (isset($request->error)) {
-      $manifest = array(
-        'error' =>"Manifest: {$server['manifest']} {$request->error}",
-        'request' => $request,
-        'apps' => array(),
-      );
+  // If there is no remote server, or we're in offline mode, stop here
+  if (!$server['manifest'] || variable_get('apps_offline_mode', FALSE)) {
+    return $manifest;
+  }
+
+  // Now process remote apps
+  $info =  drupal_parse_info_file(dirname(__FILE__) . '/apps.info');
+  $rest_data = array(
+    'client_id' => apps_client_id(),
+    'apps_version' => $info['version'],
+    'format' => 'json',
+  ) + $server;
+
+  $url = url($server['manifest'], array('query' => $rest_data));
+  $request = drupal_http_request($url);
+
+  if (isset($request->error)) {
+    $msg = t("Manifest error from @server: @error", array('@server' => $server['title'], '@error' => $request->error));
+    watchdog("apps", $msg);
+    drupal_set_message($msg, 'warning');
+  }
+  else if ($remote_manifest = json_decode($request->data, TRUE)) {
+    // Translate index to machine name
+    foreach ($remote_manifest['apps'] as $index => $app) {
+      // If it is already a local app, note the remote version
+      if (array_key_exists($app['machine_name'], $manifest['apps'])) {
+        $manifest['apps'][$app['machine_name']]['remote manifest'] = $app;
+      }
+      // else translate index to machine name
+      else {
+        $remote_manifest['apps'][$app['machine_name']] = $app;
+        $remote_manifest['apps'][$app['machine_name']]['remote'] = TRUE;
+      }
+      unset($remote_manifest['apps'][$index]);
     }
-    else if ($manifest = json_decode($request->data, TRUE)) {
-      // add any local apps
-      //$manifest['apps'] = $manifest['apps'] + $apps;
-      apps_request_manifest_image_process($manifest);
-      cache_set("apps_manifest_{$server['name']}", $manifest, 'cache', time() + 60 +30);
-    }
-    else {
-      $manifest = array(
-        'error' =>"Manifest: {$server['manifest']} json not parsable",
-        'request' => $request,
-        'apps' => array(),
-      );
-    }
+    apps_request_manifest_image_process($remote_manifest);
+    $manifest['apps'] = array_merge($remote_manifest['apps'], $manifest['apps']);
+    cache_set("apps_manifest_{$server['name']}", $manifest, 'cache', REQUEST_TIME + 60 +30);
+  }
+  else {
+    $msg = t("Manifest JSON from @server not parsable", array('@server' => $server['title']));
+    watchdog("apps", $msg);
+    drupal_set_message($msg, 'warning');
   }
 
   return $manifest;
 }
 
-/*
- * Downloads images so that they can be sized with image styles
+/**
+ * Process images (logo and screenshots) so that they can be sized with image styles
+ *
+ * @param array $manifest
+ *    An app manifest for a server
  */
 function apps_request_manifest_image_process(&$manifest) {
-  foreach($manifest['apps'] as $id => $app) {
-    
-    //Get Logo
-    $logo_uri = $app['logo'];
-    $logo = (array) apps_retrieve_app_image($app['logo'], "{$app['name']} Logo");
+  foreach ($manifest['apps'] as $id => &$app) {
+    if (isset($app['logo'])) {
+      $logo = apps_retrieve_app_image($id, $app['logo'], t("@name Logo", array('@name' => $app['name'])));
+      $app['logo'] = !empty($logo) ? $logo : FALSE;
+    }
 
-    $manifest['apps'][$id]['logo'] = !empty($logo) ? $logo : FALSE;
+    if (isset($app['screenshots'])) {
+      foreach ($app['screenshots'] as $index => $url) {
+        $name = isset($app['name']) ? $app['name'] : $manifest['name'];
+        $screenshot = apps_retrieve_app_image($id, $url, t("@name Screenshot @index", array('@name' => $name, '@index' => $index)));
 
-    //Get screenshots
-    foreach ($app['screenshots'] as $ss_id => $ss) {
-      $screenshot =  (array) apps_retrieve_app_image($ss, "{$app['name']} Screenshot $id");
-      
-      if(!empty($screenshot)) {
-        $manifest['apps'][$id]['screenshots'][$ss_id] = $screenshot; 
-      }
-      else {
-        unset($manifest['apps'][$id]['screenshots'][$ss_id]); 
+        if (!empty($screenshot)) {
+          $app['screenshots'][$index] = $screenshot;
+        }
+        else {
+          unset($app['screenshots'][$index]);
+        }
       }
     }
   }
@@ -222,27 +256,30 @@ function apps_request_manifest_image_process(&$manifest) {
 }
 
 /**
- * Download a image from the manifest 
+ * Retrieve the image from the manifest
  *
- * PARAM url: the url of the image
- * PARAM title: the title of the image
- * PARAM alt: the alt text of the image
- * RETURN : a file object for the download file or FALSE if no image was downloaded
- *
+ * @param string $app
+ *    The app machine name
+ * @param string $url
+ *    The url of the image
+ * @param string $title
+ *    The title of the image
+ * @param string $alt
+ *    The alt text of the image
+ * @return array A file object for the download file or FALSE if no image was downloaded
  */
-function apps_retrieve_app_image($url, $title = FALSE, $alt = FALSE) {
-  //allow for local files from the development server type
+function apps_retrieve_app_image($app, $url, $title = '', $alt = '') {
+  // Allow for local files
   $check = parse_url($url);
   if(!$check || !isset($check['host']) || !$check['host']){
-    $url = url($url, array('absolute'=>TRUE));
+    $url = url($url, array('absolute' => TRUE));
   }
-  
-  //to prevent strict warning need to store this in a variable
+
   $url_parts = explode("/", parse_url($url, PHP_URL_PATH));
-  
   $file_name = array_pop($url_parts);
-  
-  $uri = file_build_uri("apps/$file_name");
+
+  $dir = "apps/$app";
+  $uri = file_build_uri("$dir/$file_name");
   $current = FALSE;
   
   $fids = db_select('file_managed', 'f')
@@ -254,35 +291,40 @@ function apps_retrieve_app_image($url, $title = FALSE, $alt = FALSE) {
   if (!empty($fids) && isset($fids[0]) && is_numeric($fids[0])) {
     $current = file_load($fids[0]);
   }
-   //check to see if the remote file is newer than the one that we have
-  if($current){
-    $remote = get_headers($url, 1); //get the remote headers
-    $remote_timestamp = strtotime($remote['Last-Modified']);
-    
-    if($remote_timestamp <= $current->timestamp && $remote['Content-Length'] == $current->filesize){
-      //TODO make this a file 
+
+  // Check to see if the remote file is newer than the one that
+  // we have and that the one we have still exists
+  if ($current && file_exists($current->uri)){
+    // Get the remote headers
+    $remote = drupal_http_request($url, array('method' => 'HEAD'));
+    $remote = $remote->headers;
+    $use_current = strtotime($remote['last-modified']) <= $current->timestamp;
+
+    if ($use_current && !empty($remote['content-length']) && $remote['content-length'] == $current->filesize){
       $current->path = $current->uri;
-      $current->title = $title ? $title : '';
-      $current->alt = $alt ? $alt : $title;
-      return $current;
+      $current->title = !empty($title) ? $title : '';
+      $current->alt = !empty($alt) ? $alt : $title;
+      return (array)$current;
     }
   }
    
   $request = drupal_http_request($url, array(), 'GET');
-
-  if (isset($request->data)) {
-    if (!file_exists(drupal_realpath(file_build_uri('apps')))) {
-      drupal_mkdir(file_build_uri('apps'));
+  if (isset($request->data) && $request->code == 200) {
+    if (!file_exists(drupal_realpath(file_build_uri($dir)))) {
+      drupal_mkdir(file_build_uri($dir), NULL, TRUE);
     }
-    $file = file_save_data($request->data, $uri, FILE_EXISTS_REPLACE);
+
+    $file = new stdClass;
+    $file->mimetype = $request->headers['content-type'];
+    $file->uri = file_unmanaged_save_data($request->data, $uri, FILE_EXISTS_RENAME);
     if ($current) {
       $file->fid = $current->fid;
     }
-    $file->title = $title ? $title : '';
-    $file->alt = $alt ? $alt : $file->title;
+    $file->title = !empty($title) ? $title : '';
+    $file->alt = !empty($alt) ? $alt : $file->title;
     file_save($file);
     $file->path = $file->uri;
-    return $file;
+    return (array)$file;
   }
 }
 
@@ -298,27 +340,30 @@ function apps_retrieve_app_image($url, $title = FALSE, $alt = FALSE) {
  *TODO: Cache status data and clear on changes to any module status
  */
 function apps_manifest($server) {
-  $manifest = &drupal_static(__function__);
+  $manifests = &drupal_static(__FUNCTION__);
   require_once DRUPAL_ROOT . '/includes/install.inc';
-  if (!$manifest && !isset($manifest['error'])) {
-    // Get manifest from server
+  if (empty($manifests[$server['name']]) && !isset($manifests[$server['name']]['error'])) {
+
+    // Get the manifest for apps for this server
     $manifest = apps_request_manifest($server);
+
     //if there is an error with the manifest jump out now
     if (isset($manifest['error'])) {
       return $manifest;
     }
     $modules = system_rebuild_module_data();
     $apps = array();
-    foreach($manifest['apps'] as $app) {
-      $current_app_module = isset($modules[$app['machine_name']]) ? $modules[$app['machine_name']] : FALSE;
+    foreach($manifest['apps'] as $machine_name => $app) {
+      $current_app_module = isset($modules[$machine_name]) ? $modules[$machine_name] : FALSE;
       $app['enabled'] = $current_app_module && $current_app_module->status;
-      $app['incompatable'] = FALSE;
+      $app['incompatible'] = FALSE;
       $app['installed'] = (bool) $current_app_module;
       $app['dep_installed'] = TRUE;
       $app['disabled'] = $current_app_module && empty($current_app_module->status) && $current_app_module->schema_version > SCHEMA_UNINSTALLED;
-      $app['featured'] = ($app['machine_name'] == $manifest['featured app']);
+      $app['featured'] = isset($manifest['featured app']) && ($machine_name == $manifest['featured app']);
       $app['server'] = $server;
       $app['dependencies'] = isset($app['dependencies']) ? $app['dependencies'] : array();
+      $app['libraries'] = isset($app['libraries']) ? $app['libraries'] : array();
       // Add info to dependencies
       foreach($app['dependencies'] as $name_version => $downloadable) {
         //Parse dep versions
@@ -327,16 +372,16 @@ function apps_manifest($server) {
 
         //check status of modules
         $current = isset($modules[$name]) ? $modules[$name] : FALSE;
-        $incompatable = $current ? (bool) drupal_check_incompatibility($version, $current->info['version']) : FALSE;
+        $incompatible = $current ? (bool) drupal_check_incompatibility($version, $current->info['version']) : FALSE;
         $installed = (bool) $current;
         $enabled = $current && $current->status;
-        $status = $incompatable ? INCOMPATABLE : (!$installed ? INSTALLABLE : ($enabled ? ENABLED : DISABLED));
+        $status = $incompatible ? APPS_INCOMPATIBLE : (!$installed ? APPS_INSTALLABLE : ($enabled ? APPS_ENABLED : APPS_DISABLED));
 
-        if($status == INCOMPATABLE) {
-          //if any one module is incompatable then the app is incompatable
-          $app['incompatable'] = TRUE;
+        if($status == APPS_INCOMPATIBLE) {
+          //if any one module is incompatible then the app is incompatible
+          $app['incompatible'] = TRUE;
         }
-        if($status == INSTALLABLE) {
+        if($status == APPS_INSTALLABLE) {
           //if any one module is installable then we are not installed yet
           $app['dep_installed'] = FALSE;
         }
@@ -345,7 +390,7 @@ function apps_manifest($server) {
           'downloadable' => $downloadable,
           'version' => $version,
           'status' => $status,
-          'incompatable' => $incompatable,
+          'incompatible' => $incompatible,
           'enabled' => $enabled,
           'installed' => $installed,
         );
@@ -353,34 +398,41 @@ function apps_manifest($server) {
         $app['dependencies'][$version['name']] = $info;
       }
       if (isset($app['libraries'])) {
+        $profile = variable_get('install_profile', 'standard');
+        $profile_path = drupal_get_path('profile', $profile);
         foreach($app['libraries'] as $name_version => $downloadable) {
           $info = array(
             'downloadable' => $downloadable,
             'version' => array('name'=>$name_version),
-            'status' => INSTALLABLE,
-            'incompatable' => 0,
+            'status' => APPS_INSTALLABLE,
+            'incompatible' => 0,
             'enabled' => 0,
-            'installed' =>  is_dir(DRUPAL_ROOT . "/sites/all/libraries/$name_version"),
+            'installed' =>  is_dir(DRUPAL_ROOT . "/sites/all/libraries/$name_version") || is_dir($profile_path . "/libraries/$name_version"),
           );
-          $app['dependencies'][$name_version] = $info;
+          $app['libraries'][$name_version] = $info;
         }
       }
-      $app['status'] = $app['incompatable'] ? INCOMPATABLE : (!$app['installed'] || !$app['dep_installed'] ? INSTALLABLE : ($app['enabled'] ? ENABLED : DISABLED));
-      $apps[$app['machine_name']] = $app;
-      
+      $app['status'] = $app['incompatible'] ? APPS_INCOMPATIBLE : (!$app['installed'] || !$app['dep_installed'] ? APPS_INSTALLABLE : ($app['enabled'] ? APPS_ENABLED : APPS_DISABLED));
+      $apps[$machine_name] = $app;
     }
-    //overide json apps with our inhanced apps
+    //override json apps with our enhanced apps
     apps_add_app_info($apps);
     $manifest['apps'] = $apps;
+    $manifests[$server['name']] = $manifest;
   }
-  return $manifest;
+  return $manifests[$server['name']];
 }
 
+/**
+ *
+ *
+ * @param $apps
+ */
 function apps_add_app_info(&$apps) {
   $info_cache = cache_get("apps_installed_app_info");
   $info = array();
   if ($info_cache) {
-    $info = $info_cache->data();
+    $info = $info_cache->data;
   }
   $set_cache = FALSE;
   foreach($apps as $id => $app) {
@@ -392,7 +444,7 @@ function apps_add_app_info(&$apps) {
     //add defaults
     $info_defaults = array(
       'configure form' => $app['machine_name'] . "_apps_app_configure_form",
-      'demo content description' => "Enabling the demo content will add content to the site that should help to understand how the app functions.  When it is disable all of that content will be removed.",
+      'demo content description' => "Enabling the demo content will add content to the site that can help to understand how the app functions.  When it is disabled all of the demo content will be removed.",
     );
     $apps[$id] += $info_defaults;
     
@@ -410,6 +462,16 @@ function apps_add_app_info(&$apps) {
   }
 }
 
+/**
+ * Find an App callback and ensure the proper file is required.
+ *
+ * @param $app
+ *    The app
+ * @param $key
+ *    The call back key
+ * @return string
+ *    The callback function on the given App for the provided key
+ */
 function apps_app_callback($app, $key) {
   module_load_include("inc", $app['machine_name'], $app['machine_name'] . ".app");
   if(isset($app['file'])) {
@@ -457,7 +519,7 @@ function apps_demo_content_disable($app) {
 }
 
 /**
- * formcall back for demo content
+ * Form callback for demo content
  */
 function apps_demo_content_form($form, &$form_state, $app) {
   $form = array();
@@ -468,7 +530,7 @@ function apps_demo_content_form($form, &$form_state, $app) {
     '#title' => "Demo Content for {$app['name']}",
   );
   $form['demo_content_group']['demo_content_current'] = array(
-    '#markup' => $app['demo content description']. " <i>Demo content for {$app['name']} is currently " . ($enabled ? 'enabled' : 'disable') . ".</i><br /><br />",
+    '#markup' => $app['demo content description']. " <i>Demo content for {$app['name']} is currently " . ($enabled ? 'enabled' : 'disabled') . ".</i><br /><br />",
   );
   $form['demo_content_action'] = array(
     '#type' => 'value',
@@ -478,9 +540,7 @@ function apps_demo_content_form($form, &$form_state, $app) {
     '#type' => 'value',
     '#value' => $app
   );
-  //$form['actions'] = array('#type' => 'actions');
-  //$form['#theme'] ='system_settings_form';
-  //$form['actions']['demo_content_button'] = array(
+
   $form['demo_content_group']['demo_content_button'] = array(
     '#type' => 'button',
     '#value' => !$enabled ? t('Enable Demo Content') : t('Disable Demo Content'),
@@ -491,7 +551,7 @@ function apps_demo_content_form($form, &$form_state, $app) {
 }
 
 /**
- * callback for demp content form
+ * Submit handler for demo content form
  */
 function apps_demo_content_form_submit($form, &$form_state) {
   $app = $form_state['values']['app'];

@@ -16,7 +16,7 @@ function entity_entity_property_info() {
   foreach (entity_crud_get_info() as $type => $info) {
     // Automatically enable the controller only if the module does not implement
     // the hook itself.
-    if (!isset($info['metadata controller class']) && (!isset($info['module']) || !module_hook($info['module'], 'entity_property_info'))) {
+    if (!isset($info['metadata controller class']) && !empty($info['base table']) && (!isset($info['module']) || !module_hook($info['module'], 'entity_property_info'))) {
       $info['metadata controller class'] = 'EntityDefaultMetadataController';
     }
     if (!empty($info['metadata controller class'])) {
@@ -50,7 +50,7 @@ function entity_entity_property_info_alter(&$entity_info) {
 }
 
 function _entity_metadata_core_modules() {
-  return array_filter(array('book', 'comment', 'field', 'node', 'taxonomy', 'user', 'system', 'statistics'), 'module_exists');
+  return array_filter(array('book', 'comment', 'field', 'locale', 'node', 'taxonomy', 'user', 'system', 'statistics'), 'module_exists');
 }
 
 /**
@@ -69,7 +69,7 @@ class EntityDefaultMetadataController {
     $entity_label = drupal_strtolower($this->info['label']);
 
     // Provide defaults based on the schema.
-    $info['properties'] = entity_metadata_convert_schema($this->info['base table']);
+    $info['properties'] = $this->convertSchema();
     foreach ($info['properties'] as $name => &$property) {
       // Add a description.
       $property['description'] = t('@entity "@property" property.', array('@entity' => drupal_ucfirst($entity_label), '@property' => $name));
@@ -77,7 +77,6 @@ class EntityDefaultMetadataController {
 
     // Set better metadata for known entity keys.
     $id_key = $this->info['entity keys']['id'];
-    $info['properties'][$id_key]['validation callback'] = 'entity_metadata_validate_integer_positive';
 
     if (!empty($this->info['entity keys']['name']) && $key = $this->info['entity keys']['name']) {
       $info['properties'][$key]['type'] = 'token';
@@ -100,6 +99,19 @@ class EntityDefaultMetadataController {
       $info['properties'][$key]['label'] = t('Label');
       $info['properties'][$key]['description'] = t('The human readable label.');
     }
+
+    // Add a computed property for the entity URL and expose it to views.
+    if (empty($info['properties']['url']) && !empty($this->info['uri callback'])) {
+      $info['properties']['url'] = array(
+        'label' => t('URL'),
+        'description' => t('The URL of the entity.'),
+        'getter callback' => 'entity_metadata_entity_get_properties',
+        'type' => 'uri',
+        'computed' => TRUE,
+        'entity views field' => TRUE,
+      );
+    }
+
     return array($this->type => $info);
   }
 
@@ -115,6 +127,13 @@ class EntityDefaultMetadataController {
       }
       return $options;
     }
+  }
+
+  /**
+   * Return a set of properties for an entity based on the schema definition
+   */
+  protected function convertSchema() {
+    return entity_metadata_convert_schema($this->info['base table']);
   }
 }
 
@@ -138,7 +157,7 @@ function entity_metadata_convert_schema($table) {
         // As we cannot know about any setter access, leave out the setter
         // callback. For getting usually no further access callback is needed.
       );
-      if ($type == 'serial') {
+      if ($info['type'] == 'serial') {
         $properties[$name]['validation callback'] = 'entity_metadata_validate_integer_positive';
       }
     }
@@ -158,5 +177,88 @@ function _entity_metadata_convert_schema_type($type) {
     case 'varchar':
     case 'text':
       return 'text';
+  }
+}
+
+/**
+ * Interface for extra fields controller.
+ *
+ * Note: Displays extra fields exposed by this controller are rendered by
+ * default by the EntityAPIController.
+ */
+interface EntityExtraFieldsControllerInterface {
+
+  /**
+   * Returns extra fields for this entity type.
+   *
+   * @see hook_field_extra_fields().
+   */
+  public function fieldExtraFields();
+}
+
+/**
+ * Default controller for generating extra fields based on property metadata.
+ *
+ * By default a display extra field for each property not being a field, ID or
+ * bundle is generated.
+ */
+class EntityDefaultExtraFieldsController implements EntityExtraFieldsControllerInterface {
+
+  /**
+   * @var string
+   */
+  protected $entityType;
+
+  /**
+   * @var array
+   */
+  protected $entityInfo;
+
+  /**
+   * Constructor.
+   */
+  public function __construct($type) {
+    $this->entityType = $type;
+    $this->entityInfo = entity_get_info($type);
+    $this->propertyInfo = entity_get_property_info($type);
+  }
+
+  /**
+   * Implements EntityExtraFieldsControllerInterface::fieldExtraFields().
+   */
+  public function fieldExtraFields() {
+    $extra = array();
+    foreach ($this->propertyInfo['properties'] as $name => $property_info) {
+      // Skip adding the ID or bundle.
+      if ($this->entityInfo['entity keys']['id'] == $name || $this->entityInfo['entity keys']['bundle'] == $name) {
+        continue;
+      }
+      $extra[$this->entityType][$this->entityType]['display'][$name] = $this->generateExtraFieldInfo($name, $property_info);
+    }
+
+    // Handle bundle properties.
+    $this->propertyInfo += array('bundles' => array());
+    foreach ($this->propertyInfo['bundles'] as $bundle_name => $info) {
+      foreach ($info['properties'] as $name => $property_info) {
+        if (empty($property_info['field'])) {
+          $extra[$this->entityType][$bundle_name]['display'][$name] = $this->generateExtraFieldInfo($name, $property_info);
+        }
+      }
+    }
+    return $extra;
+  }
+
+  /**
+   * Generates the display field info for a given property.
+   */
+  protected function generateExtraFieldInfo($name, $property_info) {
+    $info = array(
+      'label' => $property_info['label'],
+      'weight' => 0,
+    );
+    if (!empty($property_info['description'])) {
+      $info['description'] = $property_info['description'];
+    }
+    return $info;
   }
 }

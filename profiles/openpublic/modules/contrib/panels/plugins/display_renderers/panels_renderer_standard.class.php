@@ -167,7 +167,7 @@ class panels_renderer_standard {
     $layout = panels_get_layout($display->layout);
     $this->display = &$display;
     $this->plugins['layout'] = $layout;
-    if (!isset($layout['panels'])) {
+    if (!isset($layout['regions'])) {
       $this->plugins['layout']['regions'] = panels_get_regions($layout, $display);
     }
 
@@ -231,7 +231,15 @@ class panels_renderer_standard {
         }
       }
 
-      $content_type = ctools_get_content_type($pane->type);
+      // If the pane's subtype is unique, get it so that
+      // hook_ctools_content_subtype_alter() and/or
+      // hook_ctools_block_info() will be called.
+      if ($pane->type != $pane->subtype) {
+        $content_type = ctools_content_get_subtype($pane->type, $pane->subtype);
+      }
+      else {
+        $content_type = ctools_get_content_type($pane->type);
+      }
 
       // If this pane wants to render last, add it to the $last array. We allow
       // this because some panes need to be rendered after other panes,
@@ -311,7 +319,6 @@ class panels_renderer_standard {
       foreach ($this->plugins['layout']['regions'] as $region_id => $title) {
         // Ensure this region has at least an empty panes array.
         $panes = !empty($region_pane_list[$region_id]) ? $region_pane_list[$region_id] : array();
-
         if (empty($settings[$region_id]['style']) || $settings[$region_id]['style'] == -1) {
           $regions[$region_id] = $default;
         }
@@ -423,19 +430,12 @@ class panels_renderer_standard {
    * @see drupal_add_css
    */
   function add_css($filename) {
-//    $path = file_create_path($filename);
     switch ($this->meta_location) {
       case 'standard':
         drupal_add_css($filename);
         break;
       case 'inline':
-//        if ($path) {
-//          $url = file_create_url($filename);
-//        }
-//        else {
-          $url = base_path() . $filename;
-//        }
-
+        $url = base_path() . $filename;
         $this->prefix .= '<link type="text/css" rel="stylesheet" href="' . $url . '" />'."\n";
         break;
     }
@@ -546,7 +546,7 @@ class panels_renderer_standard {
 
       foreach (module_implements('panels_pane_content_alter') as $module) {
         $function = $module . '_panels_pane_content_alter';
-        $function($content, $pane, $this->display->args, $this->display->context);
+        $function($content, $pane, $this->display->args, $this->display->context, $this, $this->display);
       }
       if ($caching && isset($cache)) {
         $cache->set_content($content);
@@ -623,6 +623,7 @@ class panels_renderer_standard {
       $owner_id = $this->display->owner->id;
     }
 
-    return theme($style['render region'], array('display' => $this->display, 'owner_id' => $owner_id, 'panes' => $panes, 'settings' => $style_settings, 'region_id' => $region_id, 'style' => $style));
+    $output = theme($style['render region'], array('display' => $this->display, 'owner_id' => $owner_id, 'panes' => $panes, 'settings' => $style_settings, 'region_id' => $region_id, 'style' => $style));
+    return $output;
   }
 }

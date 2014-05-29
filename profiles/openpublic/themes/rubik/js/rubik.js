@@ -39,5 +39,10 @@ Drupal.behaviors.rubik.attach = function(context) {
     // Mark as processed.
     $(this).addClass('rubik-processed');
   });
+  
+  $('.secondary-tabs li a, .secondary-tabs', context).bind('focus blur', function(){
+    $(this).parents('.secondary-tabs').toggleClass('focused');
+  });
+
 };
 })(jQuery);

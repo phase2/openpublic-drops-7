@@ -19,7 +19,15 @@ features[field][] = "node-profile-field_profile_social_media"
 features[field][] = "node-profile-field_profile_staff"
 features[views_view][] = "profiles"
 name = "Openpublic Person"
-package = "Features"
+package = "OpenPublic"
 php = "5.2.4"
 project = "openpublic_person"
 version = "7.x-1.0"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

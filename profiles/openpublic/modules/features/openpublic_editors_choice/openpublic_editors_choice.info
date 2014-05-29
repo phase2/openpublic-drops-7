@@ -1,4 +1,9 @@
+name = "Editor's Choice"
 core = "7.x"
+package = "OpenPublic"
+php = "5.2.0"
+version = "7.x-1.0"
+project = "openpublic_editors_choice"
 dependencies[] = "features"
 dependencies[] = "field_group"
 dependencies[] = "image"
@@ -33,8 +38,11 @@ features[variable][] = "node_submitted_editors_choice"
 features[variable][] = "nodeblock_editors_choice"
 features[variable][] = "show_diff_inline_editors_choice"
 features[variable][] = "show_preview_changes_editors_choice"
-name = "Editor's Choice"
-package = "Features"
-php = "5.2.0"
-project = "openpublic_editors_choice"
-version = "7.x-1.0"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

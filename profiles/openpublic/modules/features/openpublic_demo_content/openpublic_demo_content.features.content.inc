@@ -1,17 +1,21 @@
 <?php
+/**
+ * @file
+ * openpublic_demo_content.features.content.inc
+ */
 
 /**
- * Implementation of hook_content_defaults().
+ * Implements hook_content_defaults().
  */
 function openpublic_demo_content_content_defaults() {
 $content = array();
 $content['abc_agency_announces_up_top50_million_for_fuel_cell_research'] = (object)array(
+  'exported_path' => 'press-release/abc-agency-announces-50-million-fuel-cell-research',
   'default_nodequeue' => array(
-    '0' => array(
+    0 => array(
       'queue' => 'breaking_news',
     ),
   ),
-  'exported_path' => 'press-release/abc-agency-announces-50-million-fuel-cell-research',
   'title' => 'ABC Agency Announces up to $50 Million for Fuel Cell Research',
   'status' => '1',
   'promote' => '1',
@@ -24,7 +28,7 @@ $content['abc_agency_announces_up_top50_million_for_fuel_cell_research'] = (obje
   'machine_name' => 'abc_agency_announces_up_top50_million_for_fuel_cell_research',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Lobortis ii in in consectetuer blandit. Esse tation in duis typi duis. Iis vel soluta ea tempor placerat. Parum seacula facilisis legentis id nulla. Consequat nulla nibh sed typi facilisi. Aliquam gothica non ea nobis sit. Investigationes anteposuerit formas id facer dynamicus. Sed vulputate dolore quis quam quarta. Quinta nam commodo cum dolor non. Littera praesent molestie quinta lectores nunc. Qui tincidunt dolor enim erat dolore. Qui me zzril ullamcorper mutationem iusto. Vel legunt decima eum enim in. Possim et in humanitatis vero qui. 
 
 Doming option qui ipsum Investigationes facilisis. Molestie lectorum ex ea clari mazim. Minim ad nunc iis usus gothica. Elit nibh ut amet in illum. Luptatum feugait assum blandit et possim. Modo assum mirum ut nunc futurum. Dolor tempor notare me iusto at. In blandit qui augue at lectores. Lobortis praesent erat duis gothica quis. Nulla lius velit option veniam wisi. Velit sit ut notare autem odio. Dolore delenit nisl nisl qui euismod. Magna laoreet id quam facer est. Facilisis demonstraverunt usus mazim eros suscipit. 
@@ -42,7 +46,7 @@ Ut est habent minim iusto facit. Mutationem facilisi in consequat littera mutati
   ),
   'field_detail_page_title' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'ABC Agency Announces up to $50 Million for Fuel Cell Research',
         'format' => NULL,
         'safe_value' => 'ABC Agency Announces up to $50 Million for Fuel Cell Research',
@@ -51,7 +55,7 @@ Ut est habent minim iusto facit. Mutationem facilisi in consequat littera mutati
   ),
   'field_summary' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Lobortis ii in in consectetuer blandit. Esse tation in duis typi duis. Iis vel soluta ea tempor placerat. Parum seacula facilisis legentis id nulla. Consequat nulla nibh sed typi facilisi. Aliquam gothica non ea nobis sit. Investigationes anteposuerit formas id facer dynamicus. Sed vulputate dolore quis quam quarta. Quinta nam commodo cum dolor non.',
         'format' => NULL,
         'safe_value' => 'Lobortis ii in in consectetuer blandit. Esse tation in duis typi duis. Iis vel soluta ea tempor placerat. Parum seacula facilisis legentis id nulla. Consequat nulla nibh sed typi facilisi. Aliquam gothica non ea nobis sit. Investigationes anteposuerit formas id facer dynamicus. Sed vulputate dolore quis quam quarta. Quinta nam commodo cum dolor non.',
@@ -73,7 +77,7 @@ $content['abc_agency_releases_public_datasets_online'] = (object)array(
   'machine_name' => 'abc_agency_releases_public_datasets_online',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Volutpat quam ut quarta mutationem dolore. Eu odio ullamcorper eodem demonstraverunt dolor. Illum quam qui demonstraverunt insitam nulla. Aliquam mirum notare fiant futurum aliquip. Lius ut vel ullamcorper dolor consequat. Sit dolor consuetudium vel quinta wisi. Decima sequitur sollemnes quarta sit ullamcorper. Anteposuerit sequitur veniam est putamus possim. Nam vel suscipit habent humanitatis doming. Option consequat delenit dolore decima amet. Quis magna qui nam non soluta. Sit notare sequitur veniam facit feugait. Facilisis nunc dolor in claritas nunc. Adipiscing magna erat consectetuer usus esse. 
 
 At molestie quis vulputate zzril parum. Investigationes possim adipiscing formas per zzril. Vero dolor fiant est wisi odio. Possim legere nulla option iriure dolore. Dolore parum nisl demonstraverunt id saepius. Tincidunt claritatem quod quam in eum. Dolore parum seacula nonummy parum qui. Eodem nobis claritas consequat modo notare. Doming vel in option ea in. Ipsum in mirum possim et tempor. Augue ut et litterarum insitam ea. Legentis congue accumsan humanitatis decima quam. Ut laoreet dolor eros in lorem. Assum augue legentis elit typi lectorum. 
@@ -97,21 +101,21 @@ Autem habent possim erat lius typi. Sollemnes littera nostrud veniam nulla modo.
   ),
   'field_blog_author' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'machine_name' => 'alexander_johnson_johnson_default_content',
       ),
     ),
   ),
   'field_blog_show_author_info' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => '0',
       ),
     ),
   ),
   'field_blog_teaser' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'olutpat quam ut quarta mutationem dolore. Eu odio ullamcorper eodem demonstraverunt dolor. Illum quam qui demonstraverunt insitam nulla. Aliquam mirum notare fiant futurum aliquip. Lius ut vel ullamcorper dolor consequat. Sit dolor consuetudium vel quinta wisi. Decima sequitur sollemnes quarta sit ullamcorper.',
         'format' => NULL,
         'safe_value' => 'olutpat quam ut quarta mutationem dolore. Eu odio ullamcorper eodem demonstraverunt dolor. Illum quam qui demonstraverunt insitam nulla. Aliquam mirum notare fiant futurum aliquip. Lius ut vel ullamcorper dolor consequat. Sit dolor consuetudium vel quinta wisi. Decima sequitur sollemnes quarta sit ullamcorper.',
@@ -133,7 +137,7 @@ $content['abraham_lincoln'] = (object)array(
   'machine_name' => 'abraham_lincoln',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Id consequat mazim feugiat possim liber. Dolore diam option in nulla euismod. Parum liber qui nobis vero placerat. Nonummy legunt qui diam fiant facer. Duis molestie dolore liber claritatem est. In eu claritas assum dolore decima. Putamus velit hendrerit dolore commodo in. Consuetudium esse congue typi consequat Investigationes. Augue nonummy quam typi mazim litterarum. Lius consectetuer littera usus legunt odio. Sollemnes decima quod sollemnes delenit placerat. Quod usus enim dolore eum magna. Placerat assum lius lorem vel exerci. Usus eleifend volutpat lectorum odio soluta. 
 
 Et videntur ut nisl lorem aliquip. Soluta insitam eleifend dignissim vel in. Vel erat soluta me accumsan tempor. Nunc consequat nulla mirum duis parum. Doming in putamus wisi quod tation. Mazim qui facer elit duis vulputate. Esse nulla anteposuerit me quod et. Et dignissim ut quod gothica enim. Nunc dolor dolore consuetudium eorum veniam. Erat zzril consuetudium etiam quarta nisl. Eros parum consuetudium nonummy congue duis. Consectetuer eros duis per augue habent. Consuetudium velit elit vel feugiat est. Seacula velit non vero nunc mutationem. ',
@@ -146,32 +150,9 @@ Et videntur ut nisl lorem aliquip. Soluta insitam eleifend dignissim vel in. Vel
       ),
     ),
   ),
-  'field_profile_job_title' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'Former President of the United States',
-        'format' => NULL,
-        'safe_value' => 'Former President of the United States',
-      ),
-    ),
-  ),
-  'field_profile_leadership' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
-  'field_profile_staff' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
   'field_profile_first_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Abraham',
         'format' => NULL,
         'safe_value' => 'Abraham',
@@ -180,7 +161,7 @@ Et videntur ut nisl lorem aliquip. Soluta insitam eleifend dignissim vel in. Vel
   ),
   'field_profile_last_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Lincoln',
         'format' => NULL,
         'safe_value' => 'Lincoln',
@@ -189,9 +170,11 @@ Et videntur ut nisl lorem aliquip. Soluta insitam eleifend dignissim vel in. Vel
   ),
   'field_profile_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '107',
+        'height' => '143',
         'filename' => 'abe_lincoln.jpeg',
         'uri' => 'public://abe_lincoln.jpeg',
         'filemime' => 'image/jpeg',
@@ -212,6 +195,29 @@ WÖÇ¥eÒJÃ+‘ô aõ_ç÷?ÇcUˆÀAÕo{W&äP6|<Êª8™šùsæN¤œ¼ÉX7k²ı¡PégG””-W+°ó¢ïía
       ),
     ),
   ),
+  'field_profile_job_title' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'Former President of the United States',
+        'format' => NULL,
+        'safe_value' => 'Former President of the United States',
+      ),
+    ),
+  ),
+  'field_profile_leadership' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
+  'field_profile_staff' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
 );
 $content['alexander_johnson_johnson_default_content'] = (object)array(
   'exported_path' => 'person/alexander-johnson',
@@ -227,7 +233,7 @@ $content['alexander_johnson_johnson_default_content'] = (object)array(
   'machine_name' => 'alexander_johnson_johnson_default_content',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Sequitur littera habent vel esse nonummy. Praesent quis id parum vulputate velit. Qui in qui at amet accumsan. Demonstraverunt decima est nobis imperdiet eodem. Littera quinta quarta wisi quam in. Quis minim nobis elit exerci consuetudium. Soluta et facer nunc lectorum congue. 
 
 Dolore typi saepius etiam nibh wisi. Id dolore sollemnes quod qui doming. Duis sollemnes sed molestie facilisis accumsan. Quinta ut exerci in lobortis quod. Anteposuerit nulla per vel mirum mirum. Amet augue eodem ut legere enim. Lobortis nonummy dolore qui mazim molestie. 
@@ -258,41 +264,9 @@ Minim claritatem option wisi legunt minim. Iis nunc nunc demonstraverunt ut deci
       ),
     ),
   ),
-  'field_profile_department' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'Department of Energy',
-        'format' => NULL,
-        'safe_value' => 'Department of Energy',
-      ),
-    ),
-  ),
-  'field_profile_job_title' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'Director of Energy',
-        'format' => NULL,
-        'safe_value' => 'Director of Energy',
-      ),
-    ),
-  ),
-  'field_profile_leadership' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
-  'field_profile_staff' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
   'field_profile_email' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'ajohnson@example.gov',
         'format' => NULL,
         'safe_value' => 'ajohnson@example.gov',
@@ -301,7 +275,7 @@ Minim claritatem option wisi legunt minim. Iis nunc nunc demonstraverunt ut deci
   ),
   'field_profile_first_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Alexander',
         'format' => NULL,
         'safe_value' => 'Alexander',
@@ -310,7 +284,7 @@ Minim claritatem option wisi legunt minim. Iis nunc nunc demonstraverunt ut deci
   ),
   'field_profile_last_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Johnson',
         'format' => NULL,
         'safe_value' => 'Johnson',
@@ -319,7 +293,7 @@ Minim claritatem option wisi legunt minim. Iis nunc nunc demonstraverunt ut deci
   ),
   'field_profile_phone' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => '543-342-5555',
         'format' => NULL,
         'safe_value' => '543-342-5555',
@@ -328,9 +302,11 @@ Minim claritatem option wisi legunt minim. Iis nunc nunc demonstraverunt ut deci
   ),
   'field_profile_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '205',
+        'height' => '271',
         'filename' => 'Everett_dirksen_painting.jpg (610Ã—828)-1.jpg',
         'uri' => 'public://Everett_dirksen_painting.jpg (610Ã—828)-1.jpg',
         'filemime' => 'image/jpeg',
@@ -417,6 +393,38 @@ TqY_N*èQ^^!rÔgE7xŒ_LSÊÔàéH®rÌÃ¨&\\Wö¹5Nàr+XîKØü¼PWšXùóúV¦GKàÈY\'yˆÂ’
       ),
     ),
   ),
+  'field_profile_department' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'Department of Energy',
+        'format' => NULL,
+        'safe_value' => 'Department of Energy',
+      ),
+    ),
+  ),
+  'field_profile_job_title' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'Director of Energy',
+        'format' => NULL,
+        'safe_value' => 'Director of Energy',
+      ),
+    ),
+  ),
+  'field_profile_leadership' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
+  'field_profile_staff' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
 );
 $content['best_practices_for_xyz_policies_highlighted_by_abc_agency_secretary'] = (object)array(
   'exported_path' => 'press-release/best-practices-xyz-policies-highlighted-abc-agency-secretary',
@@ -432,7 +440,7 @@ $content['best_practices_for_xyz_policies_highlighted_by_abc_agency_secretary'] 
   'machine_name' => 'best_practices_for_xyz_policies_highlighted_by_abc_agency_secretary',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Magna erat quarta luptatum et eorum. Sollemnes option est dolore nibh dolor. Dignissim nihil futurum id doming dolore. Assum nihil etiam hendrerit at legentis. Demonstraverunt et congue eum facilisis videntur. Mirum nunc iusto luptatum facit dignissim. Exerci imperdiet nobis cum imperdiet ullamcorper. Mazim minim euismod humanitatis placerat Investigationes. Molestie quinta typi euismod videntur facit. Quod qui assum iis quod congue. Ii est nihil putamus anteposuerit est. Lectorum iusto est euismod formas diam. Vel tation ii decima feugiat odio. Facilisi nunc per volutpat dignissim duis. 
 
 Vel qui soluta nostrud nulla nulla. Enim legere ullamcorper legere clari minim. Augue magna saepius per facer esse. Zzril imperdiet litterarum iriure sequitur erat. Te autem minim dolor facer eum. Iusto facit eleifend quod qui in. Sed autem est facit illum esse. 
@@ -453,7 +461,7 @@ Luptatum adipiscing vel option nobis claram. Enim te iriure commodo dolore assum
   ),
   'field_detail_page_title' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Best Practices for XYZ Policies Highlighted by ABC Agency Secretary',
         'format' => NULL,
         'safe_value' => 'Best Practices for XYZ Policies Highlighted by ABC Agency Secretary',
@@ -462,7 +470,7 @@ Luptatum adipiscing vel option nobis claram. Enim te iriure commodo dolore assum
   ),
   'field_summary' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Magna erat quarta luptatum et eorum. Sollemnes option est dolore nibh dolor. Dignissim nihil futurum id doming dolore. Assum nihil etiam hendrerit at legentis. Demonstraverunt et congue eum facilisis videntur. Mirum nunc iusto luptatum facit dignissim. Exerci imperdiet nobis cum imperdiet ullamcorper. Mazim minim euismod humanitatis placerat Investigationes. ',
         'format' => NULL,
         'safe_value' => 'Magna erat quarta luptatum et eorum. Sollemnes option est dolore nibh dolor. Dignissim nihil futurum id doming dolore. Assum nihil etiam hendrerit at legentis. Demonstraverunt et congue eum facilisis videntur. Mirum nunc iusto luptatum facit dignissim. Exerci imperdiet nobis cum imperdiet ullamcorper. Mazim minim euismod humanitatis placerat Investigationes. ',
@@ -484,7 +492,7 @@ $content['congress_debates_tax_cuts'] = (object)array(
   'machine_name' => 'congress_debates_tax_cuts',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Dolore saepius cum nostrud dynamicus vulputate. Diam clari quarta claram quam nunc. Facilisi in quod zzril clari legunt. Investigationes adipiscing claritatem lius typi euismod. Eorum clari nulla ea doming quam. Liber qui tincidunt minim option ullamcorper. Quinta lobortis ut typi velit ullamcorper. 
 
 Gothica qui option dolore adipiscing nunc. Erat nisl quam dolor nulla veniam. Quam delenit illum te quam lius. Legunt assum assum parum veniam te. Molestie eros lectorum seacula est dolore. Veniam quod parum soluta anteposuerit demonstraverunt. Erat exerci littera duis hendrerit eodem. 
@@ -511,14 +519,14 @@ Veniam facit possim amet veniam consectetuer. Nisl qui quis lorem et claritas.',
   ),
   'field_blog_author' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'machine_name' => 'david_brown_brown',
       ),
     ),
   ),
   'field_blog_show_author_info' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => '0',
       ),
     ),
@@ -538,7 +546,7 @@ $content['david_brown_brown'] = (object)array(
   'machine_name' => 'david_brown_brown',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Zzril lius delenit nibh videntur nulla. Illum ipsum nonummy elit vulputate nunc. Per quis facilisis wisi dolor ut. Imperdiet quinta mutationem dignissim ipsum quis. Quod suscipit etiam duis dynamicus et. Diam lorem anteposuerit quod vel qui. Enim at eleifend nostrud tempor notare. 
 
 Eodem augue quarta lobortis volutpat imperdiet. Nulla lectores est etiam claritas quarta. Claritatem sed in eorum eu est. Veniam lobortis elit dolore ipsum litterarum. Velit qui sit facilisis facilisis fiant. Ad vulputate ut vel nulla fiant. Nobis vel claritatem lorem zzril in. 
@@ -569,41 +577,9 @@ Est qui te velit legere decima.',
       ),
     ),
   ),
-  'field_profile_department' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'Energy',
-        'format' => NULL,
-        'safe_value' => 'Energy',
-      ),
-    ),
-  ),
-  'field_profile_job_title' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'Deputy Director of Energy',
-        'format' => NULL,
-        'safe_value' => 'Deputy Director of Energy',
-      ),
-    ),
-  ),
-  'field_profile_leadership' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '0',
-      ),
-    ),
-  ),
-  'field_profile_staff' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
   'field_profile_email' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'davidbrown@example.gov',
         'format' => NULL,
         'safe_value' => 'davidbrown@example.gov',
@@ -612,7 +588,7 @@ Est qui te velit legere decima.',
   ),
   'field_profile_first_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'David',
         'format' => NULL,
         'safe_value' => 'David',
@@ -621,7 +597,7 @@ Est qui te velit legere decima.',
   ),
   'field_profile_last_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Brown',
         'format' => NULL,
         'safe_value' => 'Brown',
@@ -630,7 +606,7 @@ Est qui te velit legere decima.',
   ),
   'field_profile_phone' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => '475-234-5555',
         'format' => NULL,
         'safe_value' => '475-234-5555',
@@ -639,9 +615,11 @@ Est qui te velit legere decima.',
   ),
   'field_profile_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '152',
+        'height' => '183',
         'filename' => 'GarzÃ³n_ValdÃ©s.jpg',
         'uri' => 'public://GarzÃ³n_ValdÃ©s.jpg',
         'filemime' => 'image/jpeg',
@@ -1123,6 +1101,38 @@ C˜O¿ù\'_Ê 0€—¦û¶y‘dÚæúÕ×K1pZ÷±“úG' . "\0" . '	.;‹Ôø4ıÛ.´ï{ <ÃéGı¦pÜHkĞÑ
       ),
     ),
   ),
+  'field_profile_department' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'Energy',
+        'format' => NULL,
+        'safe_value' => 'Energy',
+      ),
+    ),
+  ),
+  'field_profile_job_title' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'Deputy Director of Energy',
+        'format' => NULL,
+        'safe_value' => 'Deputy Director of Energy',
+      ),
+    ),
+  ),
+  'field_profile_leadership' => array(
+    'und' => array(
+      0 => array(
+        'value' => '0',
+      ),
+    ),
+  ),
+  'field_profile_staff' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
 );
 $content['document_open_gov_dir'] = (object)array(
   'exported_path' => 'document/open-government-directive',
@@ -1138,7 +1148,7 @@ $content['document_open_gov_dir'] = (object)array(
   'machine_name' => 'document_open_gov_dir',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Aliquam viverra vestibulum iaculis. Nulla quis nisl leo. Nunc mattis nulla arcu. Ut eget elit quis justo molestie vulputate. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent nec massa ac urna interdum commodo. Aenean ullamcorper, justo sit amet rhoncus semper, leo mauris ultrices sapien, ut viverra libero lectus quis mauris. Curabitur euismod laoreet tempus. Aliquam erat volutpat. Sed a metus vitae mi rutrum interdum.',
         'summary' => '',
         'format' => 'filtered_html',
@@ -1150,7 +1160,7 @@ $content['document_open_gov_dir'] = (object)array(
   ),
   'field_document_attachment' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'display' => '1',
         'description' => '',
         'filename' => 'Open Government Directive.pdf',
@@ -1655,7 +1665,7 @@ $content['document_president_memorandum'] = (object)array(
   'machine_name' => 'document_president_memorandum',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Mauris id blandit orci. Vestibulum facilisis, dui id placerat egestas, erat erat gravida neque, nec blandit massa mauris nec erat. Etiam eu ligula libero. Aenean dictum malesuada felis. Aenean orci erat, interdum a dictum nec, pellentesque eget justo. Aliquam erat volutpat. Nam consequat ultrices massa, sit amet sodales massa imperdiet quis. Mauris placerat arcu vel sapien vestibulum et molestie diam iaculis. Sed malesuada fringilla augue nec porttitor. Sed accumsan magna ipsum, id malesuada lectus.',
         'summary' => '',
         'format' => 'filtered_html',
@@ -1667,7 +1677,7 @@ $content['document_president_memorandum'] = (object)array(
   ),
   'field_document_attachment' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'display' => '1',
         'description' => '',
         'filename' => 'President\'s Memorandum On Open Government.pdf',
@@ -2066,7 +2076,7 @@ $content['education_rotator'] = (object)array(
   'machine_name' => 'education_rotator',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Vel doming vel tempor te qui. Liber consequat qui volutpat aliquam doming. Tincidunt nihil eodem nam nostrud humanitatis. Clari qui enim ea usus sit. Anteposuerit feugiat accumsan mirum aliquip sit. Commodo',
         'summary' => '',
         'format' => NULL,
@@ -2077,9 +2087,11 @@ $content['education_rotator'] = (object)array(
   ),
   'field_feature_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '800',
+        'height' => '500',
         'filename' => 'education.jpg',
         'uri' => 'public://education.jpg',
         'filemime' => 'image/jpeg',
@@ -2572,7 +2584,7 @@ p¨‘«çN<…%ƒhñH)oˆ¾Üf[	B¾ Bø‰™ùq\\<Œ¥r8ÇÈŸşe~ñ¾Ôüù¾MFğ`jîå!««„?ªï±ærk=
   ),
   'field_url' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'service/education',
         'format' => NULL,
         'safe_value' => 'service/education',
@@ -2594,7 +2606,7 @@ $content['eric_smith'] = (object)array(
   'machine_name' => 'eric_smith',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Wisi cum possim claram sequitur claram. Parum assum imperdiet eu nulla et. Lorem commodo typi magna minim consequat. Ex ii etiam legunt blandit lius. Humanitatis in te in seacula typi. Id est parum dolore euismod ex. Quam formas in liber enim est. 
 
 Dynamicus odio suscipit in clari in. Typi feugait nonummy qui possim anteposuerit. Litterarum iis claram typi iusto me. Velit humanitatis non seacula in enim. Cum nobis esse feugait id ullamcorper. Odio blandit facit dynamicus usus illum. Nihil claritatem euismod liber nobis litterarum. 
@@ -2613,32 +2625,9 @@ Velit quinta at eu legunt ut. Gothica nobis seacula ut est mutationem. Option qu
       ),
     ),
   ),
-  'field_profile_job_title' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'Financial Analyst',
-        'format' => NULL,
-        'safe_value' => 'Financial Analyst',
-      ),
-    ),
-  ),
-  'field_profile_leadership' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '0',
-      ),
-    ),
-  ),
-  'field_profile_staff' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
   'field_profile_first_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Eric',
         'format' => NULL,
         'safe_value' => 'Eric',
@@ -2647,7 +2636,7 @@ Velit quinta at eu legunt ut. Gothica nobis seacula ut est mutationem. Option qu
   ),
   'field_profile_last_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Smith',
         'format' => NULL,
         'safe_value' => 'Smith',
@@ -2656,9 +2645,11 @@ Velit quinta at eu legunt ut. Gothica nobis seacula ut est mutationem. Option qu
   ),
   'field_profile_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '95',
+        'height' => '95',
         'filename' => 'photo95x95-blank.jpg',
         'uri' => 'public://photo95x95-blank.jpg',
         'filemime' => 'image/jpeg',
@@ -2680,6 +2671,29 @@ Velit quinta at eu legunt ut. Gothica nobis seacula ut est mutationem. Option qu
       ),
     ),
   ),
+  'field_profile_job_title' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'Financial Analyst',
+        'format' => NULL,
+        'safe_value' => 'Financial Analyst',
+      ),
+    ),
+  ),
+  'field_profile_leadership' => array(
+    'und' => array(
+      0 => array(
+        'value' => '0',
+      ),
+    ),
+  ),
+  'field_profile_staff' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
 );
 $content['five_recent _abcs_agency_achievements_you_should_know_about'] = (object)array(
   'exported_path' => 'blog/2010-12-30/5-recent-abc-agency-achievements-you-should-know-about',
@@ -2695,7 +2709,7 @@ $content['five_recent _abcs_agency_achievements_you_should_know_about'] = (objec
   'machine_name' => 'five_recent _abcs_agency_achievements_you_should_know_about',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Soluta exerci dolore nulla ut odio. Legunt sit quis option feugiat dolore. Decima minim duis wisi blandit parum. Placerat legere doming eodem ex facit. Lius nulla quis quam consuetudium claritas. Wisi option adipiscing sed enim litterarum. Ipsum lobortis veniam formas iis humanitatis. Videntur consuetudium ad exerci iis facer. Suscipit anteposuerit facilisis nibh iis doming. Facilisi consectetuer ex vero commodo iusto. Iusto molestie facilisi assum legere eros. Claritatem qui ipsum est dolore et. Litterarum esse formas etiam iis decima. Adipiscing humanitatis duis quis suscipit claritatem. 
 
 Nibh amet saepius iusto odio in. Eorum esse usus hendrerit iriure vel. Vulputate nostrud congue illum eorum mutationem. Sollemnes possim tempor elit nam blandit. Non consequat processus imperdiet nonummy vulputate. Facit ut molestie placerat usus iusto. Gothica luptatum euismod legunt Investigationes littera. Claram consequat saepius aliquam delenit esse. Odio decima consequat claritas claram est. Lius parum feugiat demonstraverunt facilisi ad. Laoreet qui imperdiet suscipit per nobis. Typi iriure laoreet per at claram. Eorum iriure lectores cum laoreet legere. Aliquip euismod eu dignissim legere parum. 
@@ -2716,21 +2730,21 @@ Vulputate adipiscing mazim fiant dignissim non. Notare placerat nibh eleifend id
   ),
   'field_blog_author' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'machine_name' => 'lyndon_johnson',
       ),
     ),
   ),
   'field_blog_show_author_info' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => '0',
       ),
     ),
   ),
   'field_blog_teaser' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Soluta exerci dolore nulla ut odio. Legunt sit quis option feugiat dolore. Decima minim duis wisi blandit parum. Placerat legere doming eodem ex facit. Lius nulla quis quam consuetudium claritas. Wisi option adipiscing sed enim litterarum. Ipsum lobortis veniam formas iis humanitatis. Videntur consuetudium ad exerci iis facer.',
         'format' => NULL,
         'safe_value' => 'Soluta exerci dolore nulla ut odio. Legunt sit quis option feugiat dolore. Decima minim duis wisi blandit parum. Placerat legere doming eodem ex facit. Lius nulla quis quam consuetudium claritas. Wisi option adipiscing sed enim litterarum. Ipsum lobortis veniam formas iis humanitatis. Videntur consuetudium ad exerci iis facer.',
@@ -2753,16 +2767,16 @@ $content['gallery_our_government'] = (object)array(
   'body' => array(),
   'field_media_gallery_media' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'machine_name' => 'photo_statehouse',
       ),
-      '1' => array(
+      1 => array(
         'machine_name' => 'photo_building_supreme',
       ),
-      '2' => array(
+      2 => array(
         'machine_name' => 'photo_building_capitol',
       ),
-      '3' => array(
+      3 => array(
         'machine_name' => 'photo_building_oldtimer',
       ),
     ),
@@ -2782,7 +2796,7 @@ $content['gallery_stars_stripes'] = (object)array(
   'machine_name' => 'gallery_stars_stripes',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat pellentesque diam, id ultrices odio molestie et.',
         'summary' => '',
         'format' => 'filtered_html',
@@ -2794,13 +2808,13 @@ $content['gallery_stars_stripes'] = (object)array(
   ),
   'field_media_gallery_media' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'machine_name' => 'photo_flag_closeup',
       ),
-      '1' => array(
+      1 => array(
         'machine_name' => 'photo_flag_wind',
       ),
-      '2' => array(
+      2 => array(
         'machine_name' => 'photo_flag_prominent',
       ),
     ),
@@ -2820,7 +2834,7 @@ $content['lyndon_johnson'] = (object)array(
   'machine_name' => 'lyndon_johnson',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Ea nobis facilisi decima facilisis eum. Est typi quod nonummy littera non. Placerat quarta duis facer processus hendrerit. Volutpat legere legentis soluta putamus eum. Aliquam te seacula ex facilisis delenit. Exerci parum vero dolor zzril notare. In est lobortis legentis in tincidunt. 
 
 In vel usus in dolor suscipit. Sequitur lectorum feugait veniam et quinta. Claritatem facilisis nobis velit in lius. Feugiat nobis iis processus cum blandit. Vulputate usus eu hendrerit ut est. Decima dynamicus ex accumsan dolor autem. Insitam typi molestie praesent ut eleifend. Typi suscipit ut blandit ipsum sequitur. Dolore dignissim tincidunt ut erat nibh. Possim veniam gothica legunt legere wisi. Consuetudium tincidunt odio decima magna quinta. Modo me in consectetuer nunc qui. Nulla soluta futurum nostrud sollemnes parum. Placerat non etiam futurum euismod qui. Aliquip zzril nulla ut claritatem parum. 
@@ -2836,41 +2850,9 @@ Lobortis lius parum vel wisi dolore. In exerci esse nulla nunc modo. Aliquip est
       ),
     ),
   ),
-  'field_profile_department' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'EOP',
-        'format' => NULL,
-        'safe_value' => 'EOP',
-      ),
-    ),
-  ),
-  'field_profile_job_title' => array(
-    'und' => array(
-      '0' => array(
-        'value' => 'President',
-        'format' => NULL,
-        'safe_value' => 'President',
-      ),
-    ),
-  ),
-  'field_profile_leadership' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
-  'field_profile_staff' => array(
-    'und' => array(
-      '0' => array(
-        'value' => '1',
-      ),
-    ),
-  ),
   'field_profile_first_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Lyndon',
         'format' => NULL,
         'safe_value' => 'Lyndon',
@@ -2879,7 +2861,7 @@ Lobortis lius parum vel wisi dolore. In exerci esse nulla nunc modo. Aliquip est
   ),
   'field_profile_last_name' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Johnson',
         'format' => NULL,
         'safe_value' => 'Johnson',
@@ -2888,7 +2870,7 @@ Lobortis lius parum vel wisi dolore. In exerci esse nulla nunc modo. Aliquip est
   ),
   'field_profile_phone' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => '(555)123-4444',
         'format' => NULL,
         'safe_value' => '(555)123-4444',
@@ -2897,9 +2879,11 @@ Lobortis lius parum vel wisi dolore. In exerci esse nulla nunc modo. Aliquip est
   ),
   'field_profile_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '90',
+        'height' => '120',
         'filename' => '90px-37_Lyndon_Johnson_3x4.jpg',
         'uri' => 'public://90px-37_Lyndon_Johnson_3x4.jpg',
         'filemime' => 'image/jpeg',
@@ -2929,6 +2913,38 @@ H$‚×¡TEJ!…Pf!›·›;Íò]=™çşg{dt•–›Šxæ‘„is$Ê—cÕü…ñÁ×¢ËùUk!5m&‘¢”ì€­nacÕ
       ),
     ),
   ),
+  'field_profile_department' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'EOP',
+        'format' => NULL,
+        'safe_value' => 'EOP',
+      ),
+    ),
+  ),
+  'field_profile_job_title' => array(
+    'und' => array(
+      0 => array(
+        'value' => 'President',
+        'format' => NULL,
+        'safe_value' => 'President',
+      ),
+    ),
+  ),
+  'field_profile_leadership' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
+  'field_profile_staff' => array(
+    'und' => array(
+      0 => array(
+        'value' => '1',
+      ),
+    ),
+  ),
 );
 $content['lyndon_johnson_signs_freedom_of_Information_act'] = (object)array(
   'exported_path' => 'press-release/lyndon-johnson-signs-freedom-information-act',
@@ -2944,7 +2960,7 @@ $content['lyndon_johnson_signs_freedom_of_Information_act'] = (object)array(
   'machine_name' => 'lyndon_johnson_signs_freedom_of_Information_act',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'The measure I sign today, S. 1160, revises Section 3 of the Administrative Procedure Acto to provide guidelines Et nunc claram accumsan aliquip notare. Investigationes eum mazim videntur molestie te. Possim hendrerit saepius iusto et lobortis. Nihil ut suscipit autem nihil dolor. Ad quinta autem ea te non. Quam est parum iusto quarta dolor. Mazim nibh decima typi laoreet dynamicus. 
 
 Cum exerci me tincidunt facilisis typi. Autem option litterarum vel claram eum. Investigationes quod doming blandit quod duis. Putamus vulputate vulputate diam facer seacula. Lorem aliquip in gothica nobis autem. Volutpat qui saepius parum dolore enim. Qui dignissim lorem adipiscing dolor facilisis.  Imperdiet habent at formas claritas aliquip. Vel dynamicus claritatem humanitatis et delenit. Duis typi option litterarum ut zzril. Nostrud nobis facer facer gothica feugiat. Molestie minim lectorum duis augue lorem. Nihil lius eorum augue decima in. Legentis eum legunt tempor nobis volutpat. 
@@ -2962,7 +2978,7 @@ Molestie nulla lius et claram etiam. Consequat aliquip iriure nobis ullamcorper 
   ),
   'field_detail_page_title' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Lyndon Johnson signs Freedom of Information Act',
         'format' => NULL,
         'safe_value' => 'Lyndon Johnson signs Freedom of Information Act',
@@ -2971,7 +2987,7 @@ Molestie nulla lius et claram etiam. Consequat aliquip iriure nobis ullamcorper 
   ),
   'field_summary' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'The measure I sign today, S. 1160, revises Section 3 of the Administrative Procedure Acto to provide guidelines Et nunc claram accumsan aliquip notare. Investigationes eum mazim videntur molestie te. Possim hendrerit saepius iusto et lobortis. Nihil ut suscipit autem nihil dolor. Ad quinta autem ea te non. Quam est parum iusto quarta dolor. ',
         'format' => NULL,
         'safe_value' => 'The measure I sign today, S. 1160, revises Section 3 of the Administrative Procedure Acto to provide guidelines Et nunc claram accumsan aliquip notare. Investigationes eum mazim videntur molestie te. Possim hendrerit saepius iusto et lobortis. Nihil ut suscipit autem nihil dolor. Ad quinta autem ea te non. Quam est parum iusto quarta dolor. ',
@@ -2993,7 +3009,7 @@ $content['open_source_tools_create_opportunities_for_government'] = (object)arra
   'machine_name' => 'open_source_tools_create_opportunities_for_government',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Open Source Tools Create Opportunities for Government',
         'summary' => '',
         'format' => NULL,
@@ -3004,9 +3020,11 @@ $content['open_source_tools_create_opportunities_for_government'] = (object)arra
   ),
   'field_feature_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'Open Source',
         'title' => 'Open Source',
+        'width' => '753',
+        'height' => '402',
         'filename' => 'captialbldg_flags.jpg',
         'uri' => 'public://captialbldg_flags.jpg',
         'filemime' => 'image/jpeg',
@@ -3236,9 +3254,11 @@ I*HÈÏ½îÂŞ%Ó"ÛEôQPúKfAµ}åEV†gÿÙ',
   ),
   'field_thumbnail_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'Open Source',
         'title' => 'Open Source',
+        'width' => '753',
+        'height' => '402',
         'filename' => 'captialbldg_flags.jpg',
         'uri' => 'public://captialbldg_flags.jpg',
         'filemime' => 'image/jpeg',
@@ -3468,7 +3488,7 @@ I*HÈÏ½îÂŞ%Ó"ÛEôQPúKfAµ}åEV†gÿÙ',
   ),
   'field_url' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'press-release/whitehouse-issues-open-government-directive',
         'format' => NULL,
         'safe_value' => 'press-release/whitehouse-issues-open-government-directive',
@@ -3491,9 +3511,11 @@ $content['photo_building_capitol'] = (object)array(
   'body' => array(),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '480',
+        'height' => '640',
         'filename' => 'Capitols.jpg',
         'uri' => 'public://Capitols.jpg',
         'filemime' => 'image/jpeg',
@@ -4046,7 +4068,7 @@ $content['photo_building_oldtimer'] = (object)array(
   'machine_name' => 'photo_building_oldtimer',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Ah the good old days...',
         'summary' => '',
         'format' => 'filtered_html',
@@ -4058,9 +4080,11 @@ $content['photo_building_oldtimer'] = (object)array(
   ),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '640',
+        'height' => '448',
         'filename' => 'Before my time.jpg',
         'uri' => 'public://Before my time.jpg',
         'filemime' => 'image/jpeg',
@@ -4513,9 +4537,11 @@ $content['photo_building_supreme'] = (object)array(
   'body' => array(),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '628',
+        'height' => '640',
         'filename' => 'Supreme.jpg',
         'uri' => 'public://Supreme.jpg',
         'filemime' => 'image/jpeg',
@@ -5016,7 +5042,7 @@ $content['photo_flag_closeup'] = (object)array(
   'machine_name' => 'photo_flag_closeup',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Get a close up view of the Stars and Stripes.',
         'summary' => '',
         'format' => 'filtered_html',
@@ -5028,9 +5054,11 @@ $content['photo_flag_closeup'] = (object)array(
   ),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '640',
+        'height' => '471',
         'filename' => 'flag_close.jpg',
         'uri' => 'public://flag_close.jpg',
         'filemime' => 'image/jpeg',
@@ -5554,9 +5582,11 @@ $content['photo_flag_industrial'] = (object)array(
   'body' => array(),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '640',
+        'height' => '480',
         'filename' => 'flag_industrial.jpg',
         'uri' => 'public://flag_industrial.jpg',
         'filemime' => 'image/jpeg',
@@ -5979,9 +6009,11 @@ $content['photo_flag_prominent'] = (object)array(
   'body' => array(),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '640',
+        'height' => '474',
         'filename' => 'Flag_Maryland.jpg',
         'uri' => 'public://Flag_Maryland.jpg',
         'filemime' => 'image/jpeg',
@@ -6736,7 +6768,7 @@ $content['photo_flag_uptop'] = (object)array(
   'machine_name' => 'photo_flag_uptop',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'The Stars and Stripes line the rooftops.',
         'summary' => '',
         'format' => 'filtered_html',
@@ -6748,9 +6780,11 @@ $content['photo_flag_uptop'] = (object)array(
   ),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '426',
+        'height' => '640',
         'filename' => 'flag_multiple.jpg',
         'uri' => 'public://flag_multiple.jpg',
         'filemime' => 'image/jpeg',
@@ -7197,7 +7231,7 @@ $content['photo_flag_wind'] = (object)array(
   'machine_name' => 'photo_flag_wind',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Beautiful US flag blowing with the wind.',
         'summary' => '',
         'format' => 'filtered_html',
@@ -7209,9 +7243,11 @@ $content['photo_flag_wind'] = (object)array(
   ),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '211',
+        'height' => '240',
         'filename' => 'Flag_Flapping.jpg',
         'uri' => 'public://Flag_Flapping.jpg',
         'filemime' => 'image/jpeg',
@@ -7276,9 +7312,11 @@ $content['photo_statehouse'] = (object)array(
   'body' => array(),
   'field_photo_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '612',
+        'height' => '404',
         'filename' => 'Our Government.jpg',
         'uri' => 'public://Our Government.jpg',
         'filemime' => 'image/jpeg',
@@ -7614,6 +7652,7 @@ yÆ+y’şî™$‘«°İ´asÏ8ôQ\\ÓŒnÕÈI¨İ2ù¦’&/²DÃ#`Cé[‹qØ¢*³*aFù¿™ëE¬b“Ğˆ
   ),
 );
 $content['resources_education'] = (object)array(
+  'exported_path' => 'resource/education',
   'link' => array(
     'menu_name' => 'main-menu',
     'link_path' => 'node-name/resources_education',
@@ -7629,7 +7668,6 @@ $content['resources_education'] = (object)array(
     'parent_path' => 'resources',
     'identifier' => 'main-menu:node-name/resources_education',
   ),
-  'exported_path' => 'resource/education',
   'title' => 'Education',
   'status' => '1',
   'promote' => '1',
@@ -7642,7 +7680,7 @@ $content['resources_education'] = (object)array(
   'machine_name' => 'resources_education',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Quod claritatem qui luptatum usus et. Nihil quis anteposuerit hendrerit sequitur claritatem. Eorum iusto lorem ad delenit est. Eros tempor littera lectorum euismod qui. Magna claritas lobortis aliquam feugait eodem. Iriure zzril possim luptatum feugiat eu. Diam typi autem qui dolore placerat. Luptatum ea congue suscipit ut laoreet. Enim aliquip accumsan legunt feugait minim. Aliquam processus seacula consequat nunc est. Praesent eros consuetudium notare doming assum. Formas qui odio nisl iis non. Te nunc putamus suscipit mutationem quam. Dolore nobis imperdiet vel decima dynamicus. 
 
 Feugiat soluta iusto erat placerat legere. Autem putamus est per lectores nulla. Vero et nobis clari litterarum zzril. Me processus quarta dolore putamus feugiat. Nibh litterarum augue accumsan option qui. Parum per est volutpat qui quarta. Ipsum ad iusto elit lius diam. Dignissim laoreet ii formas doming commodo. Commodo in et consequat eros mutationem. Claritas suscipit dolore euismod iis decima. Parum delenit tincidunt ullamcorper duis doming. Doming nunc sed aliquam veniam adipiscing. Congue gothica consuetudium est adipiscing tempor. Qui ii eorum exerci facit soluta. 
@@ -7663,9 +7701,11 @@ Et anteposuerit quinta notare veniam ex. Me eorum esse ipsum feugait eodem. Plac
   ),
   'field_resource_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '800',
+        'height' => '500',
         'filename' => 'education.jpg',
         'uri' => 'public://education.jpg',
         'filemime' => 'image/jpeg',
@@ -8158,6 +8198,7 @@ p¨‘«çN<…%ƒhñH)oˆ¾Üf[	B¾ Bø‰™ùq\\<Œ¥r8ÇÈŸşe~ñ¾Ôüù¾MFğ`jîå!««„?ªï±ærk=
   ),
 );
 $content['resources_legislation'] = (object)array(
+  'exported_path' => 'resource/legislation',
   'link' => array(
     'menu_name' => 'main-menu',
     'link_path' => 'node-name/resources_legislation',
@@ -8173,7 +8214,6 @@ $content['resources_legislation'] = (object)array(
     'parent_path' => 'resources',
     'identifier' => 'main-menu:node-name/resources_legislation',
   ),
-  'exported_path' => 'resource/legislation',
   'title' => 'Legislation',
   'status' => '1',
   'promote' => '1',
@@ -8186,7 +8226,7 @@ $content['resources_legislation'] = (object)array(
   'machine_name' => 'resources_legislation',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Facit nulla in vulputate vulputate aliquam. Commodo esse habent tation nam soluta. Putamus sit ipsum mirum clari tempor. Cum eros typi erat iusto etiam. Option suscipit adipiscing dolor volutpat lectorum. Consequat decima lobortis consequat litterarum in. Dolor legere in est commodo habent. Delenit vulputate quam ullamcorper ut dignissim. Anteposuerit consequat habent luptatum vulputate quarta. Zzril quarta mirum soluta vulputate qui. Facit processus blandit consectetuer sit seacula. Formas lectorum mirum nobis me veniam. Et iis littera me duis legere. Nunc nonummy sequitur qui quis molestie. 
 
 Iis consequat nunc qui quis amet. Usus id augue anteposuerit non eleifend. Sollemnes amet lectores autem parum molestie. Formas aliquam adipiscing accumsan erat vel. Aliquip consectetuer videntur qui quarta ii. Gothica futurum clari parum consuetudium velit. Parum et hendrerit sollemnes enim decima. Facer vulputate ii etiam putamus nobis. Soluta autem et lius lius ut. Iis iriure odio legunt notare nobis. Possim decima insitam volutpat et litterarum. Claritatem augue praesent anteposuerit qui consuetudium. Sit demonstraverunt nonummy quinta enim facilisis. Duis doming decima humanitatis per est. Amet consequat quam seacula tempor dolor. Facer ullamcorper dolore ad et dignissim. Usus claritatem vero assum imperdiet eu. Decima ut nam eum vulputate facilisi. Elit et ii minim lius illum. Typi veniam formas nostrud molestie quis. Eum laoreet mazim qui futurum parum. 
@@ -8207,9 +8247,11 @@ Et consequat eu nunc lectores facilisi. Vulputate in nobis seacula delenit te. M
   ),
   'field_resource_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '450',
+        'height' => '363',
         'filename' => 'Scroll_legislation.jpg',
         'uri' => 'public://Scroll_legislation.jpg',
         'filemime' => 'image/jpeg',
@@ -8350,7 +8392,7 @@ $content['san_francisco_implements_open_source_policies'] = (object)array(
   'machine_name' => 'san_francisco_implements_open_source_policies',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'San Francisco Implements Open Source Policies',
         'summary' => '',
         'format' => NULL,
@@ -8361,9 +8403,11 @@ $content['san_francisco_implements_open_source_policies'] = (object)array(
   ),
   'field_feature_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '800',
+        'height' => '600',
         'filename' => '800px-San_Francisco_at_Sunset.jpg',
         'uri' => 'public://800px-San_Francisco_at_Sunset.jpg',
         'filemime' => 'image/jpeg',
@@ -8737,9 +8781,11 @@ X9··£÷‰Ûèw¢Àu¸GÔU,6êN<7üêhÜ$Ÿ†­.y–:qóªæâít¤
   ),
   'field_thumbnail_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'San Francisco Implements Open Source Policies',
         'title' => 'San Francisco Implements Open Source Policies',
+        'width' => '120',
+        'height' => '90',
         'filename' => '120px-San_Francisco_at_Sunset.jpg',
         'uri' => 'public://120px-San_Francisco_at_Sunset.jpg',
         'filemime' => 'image/jpeg',
@@ -8776,7 +8822,7 @@ k\\c|' . "\0" . 'j	€Ò6ô¨å' . "\0" . '6' . "\0" . 'À 2LÓ©²î6Ü÷ô¡e##qq÷Óf:clmŒ
   ),
   'field_url' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'press-release/best-practices-xyz-policies-highlighted-abc-agency-secretary',
         'format' => NULL,
         'safe_value' => 'press-release/best-practices-xyz-policies-highlighted-abc-agency-secretary',
@@ -8798,7 +8844,7 @@ $content['secretary_issues_statement_on_the_results_of_xyz_program'] = (object)a
   'machine_name' => 'secretary_issues_statement_on_the_results_of_xyz_program',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Sed mirum notare soluta ut sollemnes. Augue ullamcorper soluta assum decima in. Possim veniam qui delenit est autem. Legentis qui blandit illum veniam imperdiet. Cum qui ullamcorper sit nisl mutationem. Investigationes in quod legere notare sollemnes. Investigationes parum lobortis putamus sequitur amet. In et vero sequitur congue dolore. Nonummy imperdiet habent nostrud consuetudium videntur. Qui lectorum quod et eorum molestie. Wisi minim duis mazim dignissim facer. Ut littera decima vel enim facer. Ut aliquam consuetudium lorem legentis euismod. Quis enim id facer imperdiet dolore. 
 
 Possim duis claritatem claritatem volutpat saepius. Dolor consequat imperdiet suscipit in tation. Qui ut nunc ii claritas sit. Nulla possim sit habent quod fiant. Ipsum mazim anteposuerit lectores diam sollemnes. Iriure eorum clari nulla iusto iriure. Ad consequat lius litterarum claram quod. Dolor euismod quarta mazim lius dignissim. Vel decima littera zzril lectores claritas. Gothica volutpat ut id ex quarta. Lorem zzril suscipit vel quam delenit. Gothica insitam qui me placerat quinta. Duis legentis qui putamus ii erat. Congue aliquip legunt illum duis ii. 
@@ -8816,7 +8862,7 @@ Duis legentis in et est ad. Cum iriure per anteposuerit sequitur lorem. Putamus 
   ),
   'field_detail_page_title' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Secretary Issues Statement on the Results of XYZ Program for Implementing Education Reform',
         'format' => NULL,
         'safe_value' => 'Secretary Issues Statement on the Results of XYZ Program for Implementing Education Reform',
@@ -8825,7 +8871,7 @@ Duis legentis in et est ad. Cum iriure per anteposuerit sequitur lorem. Putamus 
   ),
   'field_summary' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Sed mirum notare soluta ut sollemnes. Augue ullamcorper soluta assum decima in. Possim veniam qui delenit est autem. Legentis qui blandit illum veniam imperdiet. Ut nunc claram dignissim in veniam. Qui te congue vero demonstraverunt consectetuer. Anteposuerit facilisis feugait volutpat nisl parum. Diam eros gothica qui assum iriure. Ut consuetudium assum claram hendrerit veniam. Legentis dignissim Investigationes at autem eodem. Eodem est littera qui claritatem notare. ',
         'format' => NULL,
         'safe_value' => 'Sed mirum notare soluta ut sollemnes. Augue ullamcorper soluta assum decima in. Possim veniam qui delenit est autem. Legentis qui blandit illum veniam imperdiet. Ut nunc claram dignissim in veniam. Qui te congue vero demonstraverunt consectetuer. Anteposuerit facilisis feugait volutpat nisl parum. Diam eros gothica qui assum iriure. Ut consuetudium assum claram hendrerit veniam. Legentis dignissim Investigationes at autem eodem. Eodem est littera qui claritatem notare. ',
@@ -8834,6 +8880,7 @@ Duis legentis in et est ad. Cum iriure per anteposuerit sequitur lorem. Putamus 
   ),
 );
 $content['services_disaster_response_assistance'] = (object)array(
+  'exported_path' => 'service/disaster-response-assistance',
   'link' => array(
     'menu_name' => 'main-menu',
     'link_path' => 'node-name/services_disaster_response_assistance',
@@ -8849,7 +8896,6 @@ $content['services_disaster_response_assistance'] = (object)array(
     'parent_path' => 'services',
     'identifier' => 'main-menu:node-name/services_disaster_response_assistance',
   ),
-  'exported_path' => 'service/disaster-response-assistance',
   'title' => 'Disaster Response Assistance',
   'status' => '1',
   'promote' => '1',
@@ -8862,7 +8908,7 @@ $content['services_disaster_response_assistance'] = (object)array(
   'machine_name' => 'services_disaster_response_assistance',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Processus lobortis mazim littera decima eum. Ea laoreet laoreet et dignissim notare. Vulputate littera suscipit nobis exerci placerat. Eodem quis litterarum lius anteposuerit est. Littera elit ut in est imperdiet. Littera iis claritatem facit minim formas. Dignissim accumsan lius etiam tempor lius. 
 
 Imperdiet littera quod dolor quam typi. Legentis minim hendrerit sollemnes augue luptatum. Lectores doming ii dolor liber vulputate. Parum mirum doming blandit dolor nam. Formas decima hendrerit minim littera ullamcorper. Consequat quarta nulla praesent magna esse. Dignissim videntur aliquam sit duis eorum. 
@@ -8884,9 +8930,11 @@ Nisl in veniam dynamicus cum tincidunt. Dignissim veniam claritas processus quin
   ),
   'field_services_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '300',
+        'height' => '223',
         'filename' => 'services1.jpg',
         'uri' => 'public://services1.jpg',
         'filemime' => 'image/jpeg',
@@ -8997,6 +9045,7 @@ v‰RˆÃ™–u+]Şb(Vßia²nİåˆ¶{£¯Ÿhƒ9‹QŞH¹KšeœnÙü1eqC©j6îY,ê °b:E£0> ÛQ;C
   ),
 );
 $content['services_going_green_tax_credits'] = (object)array(
+  'exported_path' => 'service/going-green-tax-credits',
   'link' => array(
     'menu_name' => 'main-menu',
     'link_path' => 'node-name/services_going_green_tax_credits',
@@ -9012,7 +9061,6 @@ $content['services_going_green_tax_credits'] = (object)array(
     'parent_path' => 'services',
     'identifier' => 'main-menu:node-name/services_going_green_tax_credits',
   ),
-  'exported_path' => 'service/going-green-tax-credits',
   'title' => 'Going Green Tax Credits',
   'status' => '1',
   'promote' => '1',
@@ -9025,7 +9073,7 @@ $content['services_going_green_tax_credits'] = (object)array(
   'machine_name' => 'services_going_green_tax_credits',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Per in liber erat id id. Quam facer consequat duis cum insitam. Vero elit eu magna facit ii. Adipiscing etiam wisi et processus notare. Hendrerit tincidunt non augue dolore quarta. Dolor est dynamicus elit usus liber. Qui facilisis dynamicus qui congue enim. Notare lectores insitam decima duis legentis. Est adipiscing lobortis nonummy ex illum. Saepius placerat facit lectorum est claram. Iriure qui illum feugiat magna liber. Consequat et est nulla liber consequat. Imperdiet quam legunt imperdiet formas consequat. Nunc quarta minim ea assum vel. 
 
 Nisl formas parum legere claritatem lectorum. Possim consequat assum diam et nobis. Et commodo minim iis laoreet feugiat. Nunc commodo te claritatem quod legere. Nulla mutationem commodo facer luptatum vulputate. Modo placerat facilisis volutpat ullamcorper autem. Id iriure elit nobis fiant eleifend. Ullamcorper me nisl nunc congue typi. Iis placerat sit videntur in lectorum. Odio usus consectetuer ut parum facilisis. Tempor augue qui eorum consectetuer saepius. Eodem aliquam nisl vero assum parum. Doming liber parum duis usus eros. Nonummy magna aliquam eros sed videntur. 
@@ -9044,9 +9092,11 @@ Molestie id quod option insitam vel. Decima futurum ut molestie congue littera. 
   ),
   'field_services_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '130',
+        'height' => '80',
         'filename' => 'photo130x80v3.jpg',
         'uri' => 'public://photo130x80v3.jpg',
         'filemime' => 'image/jpeg',
@@ -9101,6 +9151,7 @@ $$ğÈ@Ó€Ï‚&Í$c\\ê
   ),
 );
 $content['services_grant_opportunities'] = (object)array(
+  'exported_path' => 'service/grant-opportunities',
   'link' => array(
     'menu_name' => 'main-menu',
     'link_path' => 'node-name/services_grant_opportunities',
@@ -9116,7 +9167,6 @@ $content['services_grant_opportunities'] = (object)array(
     'parent_path' => 'services',
     'identifier' => 'main-menu:node-name/services_grant_opportunities',
   ),
-  'exported_path' => 'service/grant-opportunities',
   'title' => 'Grant Opportunities',
   'status' => '1',
   'promote' => '1',
@@ -9129,7 +9179,7 @@ $content['services_grant_opportunities'] = (object)array(
   'machine_name' => 'services_grant_opportunities',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Illum sed tation nulla est sequitur. Praesent typi lobortis decima consequat duis. Liber diam nonummy eleifend esse possim. Augue nunc doming euismod nostrud hendrerit. Diam volutpat seacula et lius lorem. In quinta iusto claram et ut. Dolor etiam erat hendrerit vulputate parum. Euismod delenit veniam fiant usus etiam. Esse facit formas usus decima insitam. Accumsan tempor soluta accumsan et parum. Dolor aliquam nonummy etiam legentis in. Claritas typi hendrerit aliquam erat tation. Delenit wisi qui eorum amet feugiat. Decima lobortis et nobis blandit imperdiet. 
 
 Vulputate tation quis ut sequitur me. Tempor blandit option mazim feugiat amet. Duis habent et putamus luptatum amet. Facilisi claram nulla humanitatis vel nobis. Decima delenit in te nonummy claritas. Wisi usus saepius cum demonstraverunt accumsan. Lobortis claritas consequat amet formas congue. Mutationem mutationem placerat qui iriure putamus. In lorem est dolor magna volutpat. Vero suscipit soluta formas qui consequat. Ut anteposuerit ut notare vero iis. Lorem ut congue zzril quarta molestie. Aliquip mazim decima putamus me sit. Suscipit aliquam option augue ullamcorper zzril. 
@@ -9148,9 +9198,11 @@ Quam sed elit nunc qui ut. Vero mirum usus claritatem consequat nunc. Vel enim a
   ),
   'field_services_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '426',
+        'height' => '426',
         'filename' => 'grant.jpg',
         'uri' => 'public://grant.jpg',
         'filemime' => 'image/jpeg',
@@ -9448,6 +9500,7 @@ k}Öÿ' . "\0" . 'tÓ¤ÿ' . "\0" . 'T?Ü4Ğùn;Íoïuÿ' . "\0" . 'fƒ/÷Ûó û´ËŸ¸?Ş OAd•@
   ),
 );
 $content['services_learning_programs'] = (object)array(
+  'exported_path' => 'service/learning-programs',
   'link' => array(
     'menu_name' => 'main-menu',
     'link_path' => 'node-name/services_learning_programs',
@@ -9463,7 +9516,6 @@ $content['services_learning_programs'] = (object)array(
     'parent_path' => 'services',
     'identifier' => 'main-menu:node-name/services_learning_programs',
   ),
-  'exported_path' => 'service/learning-programs',
   'title' => 'Learning Programs',
   'status' => '1',
   'promote' => '1',
@@ -9476,7 +9528,7 @@ $content['services_learning_programs'] = (object)array(
   'machine_name' => 'services_learning_programs',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Eros in claram iusto gothica demonstraverunt. Dolore ipsum facilisi modo assum non. Eum parum nulla ut commodo demonstraverunt. At ipsum notare nostrud placerat aliquip. Mazim facit aliquam liber quarta quod. Claritatem lius placerat et laoreet claritas. Facilisi eodem claram blandit saepius decima. Blandit quinta illum usus minim modo. Eu quarta anteposuerit sit amet ex. Claritatem mutationem formas enim clari soluta. Legunt mazim adipiscing liber dolore parum. Euismod velit saepius etiam dolor qui. Sed blandit liber vulputate per laoreet. Non demonstraverunt usus nulla legunt hendrerit. 
 
 Humanitatis id qui quinta erat legunt. Eleifend facer blandit claritatem imperdiet dolore. Decima decima ea praesent ad dynamicus. Futurum gothica qui nonummy etiam sequitur. Iis parum usus te decima parum. Dolore odio nunc eu vero nostrud. Quod fiant est dolor accumsan per. 
@@ -9495,9 +9547,11 @@ Quis ut clari putamus ut nihil. Gothica erat dolore eodem sit ea. Euismod tempor
   ),
   'field_services_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '130',
+        'height' => '80',
         'filename' => 'edu.jpg',
         'uri' => 'public://edu.jpg',
         'filemime' => 'image/jpeg',
@@ -9546,6 +9600,7 @@ o¼oÕÿÙ',
   ),
 );
 $content['services_research_assistance'] = (object)array(
+  'exported_path' => 'service/research-assistance',
   'link' => array(
     'menu_name' => 'main-menu',
     'link_path' => 'node-name/services_research_assistance',
@@ -9561,7 +9616,6 @@ $content['services_research_assistance'] = (object)array(
     'parent_path' => 'services',
     'identifier' => 'main-menu:node-name/services_research_assistance',
   ),
-  'exported_path' => 'service/research-assistance',
   'title' => 'Research Assistance',
   'status' => '1',
   'promote' => '1',
@@ -9574,7 +9628,7 @@ $content['services_research_assistance'] = (object)array(
   'machine_name' => 'services_research_assistance',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Mirum nostrud velit feugait duis fiant. Decima consequat saepius iusto littera claram. Quarta mutationem eleifend littera sed augue. Nihil imperdiet legere cum iusto aliquip. Illum et eleifend eleifend euismod sed. Duis sed lectorum ullamcorper lius claritas. Iriure assum gothica saepius cum consuetudium. 
 
 Fiant iriure sed vel velit non. Tincidunt minim praesent ii odio ii. Iis et tempor in congue eorum. Futurum tation quinta mirum dolore feugiat. Iusto exerci seacula typi mirum processus. Vel amet praesent claritas nunc est. Laoreet videntur sit processus enim aliquip. 
@@ -9593,9 +9647,11 @@ Eodem id ullamcorper iusto putamus et. Et laoreet vulputate soluta et facilisi. 
   ),
   'field_services_photo' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '443',
+        'height' => '443',
         'filename' => 'research.jpg',
         'uri' => 'public://research.jpg',
         'filemime' => 'image/jpeg',
@@ -10168,7 +10224,7 @@ $content['taxcode_pressrelease'] = (object)array(
   'machine_name' => 'taxcode_pressrelease',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Sed typi typi sed duis eleifend. Ea seacula euismod me sed notare. Processus ea adipiscing qui in parum. Cum dolore nostrud non dynamicus vel. Iis qui euismod odio veniam ut. Legentis consectetuer nobis usus vel duis. Formas et mutationem per iriure saepius. 
 
 Quis consuetudium feugait nunc nobis notare. Nunc dignissim ut ullamcorper nulla nihil. Nulla nobis elit ullamcorper consectetuer sit. Facit ii humanitatis consectetuer me legere. Tempor eleifend quarta lius habent sed. Gothica iis insitam eodem vero aliquam. Tincidunt tation est typi typi liber. 
@@ -10192,7 +10248,7 @@ In in nunc litterarum clari typi. Placerat luptatum processus ullamcorper exerci
   ),
   'field_detail_page_title' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Congress Moves on Tax Code',
         'format' => NULL,
         'safe_value' => 'Congress Moves on Tax Code',
@@ -10201,14 +10257,14 @@ In in nunc litterarum clari typi. Placerat luptatum processus ullamcorper exerci
   ),
   'field_related_content' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'machine_name' => 'whitehouse_issues_open_government_directive',
       ),
     ),
   ),
   'field_summary' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Sed typi typi sed duis eleifend. Ea seacula euismod me sed notare. Processus ea adipiscing qui in parum. Cum dolore nostrud non dynamicus vel. Iis qui euismod odio veniam ut. Legentis consectetuer nobis usus vel duis. Formas et mutationem per iriure saepius. ',
         'format' => NULL,
         'safe_value' => 'Sed typi typi sed duis eleifend. Ea seacula euismod me sed notare. Processus ea adipiscing qui in parum. Cum dolore nostrud non dynamicus vel. Iis qui euismod odio veniam ut. Legentis consectetuer nobis usus vel duis. Formas et mutationem per iriure saepius. ',
@@ -10230,7 +10286,7 @@ $content['taxcode_rotator'] = (object)array(
   'machine_name' => 'taxcode_rotator',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Ut consuetudium assum claram hendrerit veniam. Legentis dignissim Investigationes at autem eodem. Eodem est littera qui claritatem notare. ',
         'summary' => '',
         'format' => NULL,
@@ -10241,9 +10297,11 @@ $content['taxcode_rotator'] = (object)array(
   ),
   'field_feature_image' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'alt' => 'demo content image',
         'title' => 'demo content image',
+        'width' => '1600',
+        'height' => '1200',
         'filename' => 'Capital_Building.JPG',
         'uri' => 'public://Capital_Building.JPG',
         'filemime' => 'image/jpeg',
@@ -12742,7 +12800,7 @@ U¾ò‹``}:QIû©…X¥&XµÙsnŞˆ§1nÍÂªî$‚ª[]“|ÎË©ËM¹]‘•Øá¿•>Úlƒ’½3ÇJjÍ&Š©EÓ—+?ÿÙ
   ),
   'field_url' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'press-release/congress-moves-bipartisan-effort-simplify-us-tax-code',
         'format' => NULL,
         'safe_value' => 'press-release/congress-moves-bipartisan-effort-simplify-us-tax-code',
@@ -12764,7 +12822,7 @@ $content['this_is_an_example_of_press_release'] = (object)array(
   'machine_name' => 'this_is_an_example_of_press_release',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'This was created using the a press release content type. Ii tempor dolore tempor claritas hendrerit. Consequat aliquam decima aliquam claritas eodem. Ullamcorper mazim usus et iis mutationem. Consectetuer anteposuerit delenit quarta mazim placerat. Ea decima praesent ut praesent nobis. Nonummy quinta claram tincidunt sollemnes quarta. Nulla notare accumsan velit qui ex. Feugiat nam iriure volutpat elit mutationem. Sit dynamicus liber blandit claritatem consequat. Quod non typi consectetuer claritatem dolore. Ullamcorper qui aliquam quis claritatem dignissim. Iusto exerci at option aliquam in. Nibh sequitur augue non typi feugait. Consequat duis eorum quam euismod claritas. 
 
 Consuetudium possim possim processus formas insitam. Nobis nunc doming laoreet est doming. At et nibh parum iriure iusto. Decima qui nam facit ex parum. Et esse sit ullamcorper parum assum. Wisi in eu ii sit ea. Legunt eodem dolore at diam anteposuerit. 
@@ -12785,7 +12843,7 @@ Tempor qui possim mazim me assum.',
   ),
   'field_detail_page_title' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'This is an Example fo a Press Release',
         'format' => NULL,
         'safe_value' => 'This is an Example fo a Press Release',
@@ -12794,7 +12852,7 @@ Tempor qui possim mazim me assum.',
   ),
   'field_summary' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'This was created using the a press release content type. Ii tempor dolore tempor claritas hendrerit. Consequat aliquam decima aliquam claritas eodem. Ullamcorper mazim usus et iis mutationem. Consectetuer anteposuerit delenit quarta mazim placerat. Ea decima praesent ut praesent nobis. Nonummy quinta claram tincidunt sollemnes quarta. Nulla notare accumsan velit qui ex. 
 
 ',
@@ -12820,7 +12878,7 @@ $content['whitehouse_issues_open_government_directive'] = (object)array(
   'machine_name' => 'whitehouse_issues_open_government_directive',
   'body' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Diam accumsan nihil vel eorum ex. Decima anteposuerit sollemnes dynamicus dolor demonstraverunt. Iusto claritas eorum facilisis illum est. Soluta parum qui quam duis facilisi. Option in legentis amet legunt nihil. Quod nisl etiam mirum volutpat sequitur. Seacula notare erat amet amet habent. Zzril humanitatis ipsum enim ullamcorper lobortis. Parum diam dolore facilisi soluta te. Zzril quam eleifend vel duis videntur. Enim delenit Investigationes laoreet nihil clari. Lectorum autem nisl delenit nam te. Legere humanitatis clari molestie iriure nonummy. Notare nunc tincidunt ea est commodo. 
 
 Wisi delenit claritas assum iusto qui. Zzril commodo te tincidunt humanitatis placerat. Sollemnes nihil eodem claritatem nunc amet. Minim cum et lius putamus in. Et facer nonummy lius litterarum quam. Hendrerit iis ipsum consequat ea facer. Adipiscing vel parum insitam ut typi. Magna nobis dynamicus eodem non euismod. Et lorem dolore usus modo quis. Seacula anteposuerit et esse eum ex. Parum nihil duis demonstraverunt nostrud ex. Delenit tempor iusto odio litterarum fiant. Per in nulla mirum facilisi dolore. Investigationes in nulla molestie molestie humanitatis. 
@@ -12844,7 +12902,7 @@ Humanitatis hendrerit dolore ullamcorper facit dolore. Parum illum veniam nostru
   ),
   'field_detail_page_title' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Whitehouse issues Open Government Directive',
         'format' => NULL,
         'safe_value' => 'Whitehouse issues Open Government Directive',
@@ -12853,7 +12911,7 @@ Humanitatis hendrerit dolore ullamcorper facit dolore. Parum illum veniam nostru
   ),
   'field_summary' => array(
     'und' => array(
-      '0' => array(
+      0 => array(
         'value' => 'Diam accumsan nihil vel eorum ex. Decima anteposuerit sollemnes dynamicus dolor demonstraverunt. Iusto claritas eorum facilisis illum est. Soluta parum qui quam duis facilisi. Option in legentis amet legunt nihil. Quod nisl etiam mirum volutpat sequitur. Seacula notare erat amet amet habent. Zzril humanitatis ipsum enim ullamcorper lobortis. Parum diam dolore facilisi soluta te. Zzril quam eleifend vel duis videntur. Enim delenit Investigationes laoreet nihil clari. Lectorum autem nisl delenit nam te. Legere humanitatis clari molestie iriure nonummy. Notare nunc tincidunt ea est commodo. ',
         'format' => NULL,
         'safe_value' => 'Diam accumsan nihil vel eorum ex. Decima anteposuerit sollemnes dynamicus dolor demonstraverunt. Iusto claritas eorum facilisis illum est. Soluta parum qui quam duis facilisi. Option in legentis amet legunt nihil. Quod nisl etiam mirum volutpat sequitur. Seacula notare erat amet amet habent. Zzril humanitatis ipsum enim ullamcorper lobortis. Parum diam dolore facilisi soluta te. Zzril quam eleifend vel duis videntur. Enim delenit Investigationes laoreet nihil clari. Lectorum autem nisl delenit nam te. Legere humanitatis clari molestie iriure nonummy. Notare nunc tincidunt ea est commodo. ',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains the table style plugin.
@@ -13,11 +14,13 @@ class views_plugin_style_jump_menu extends views_plugin_style {
   function option_definition() {
     $options = parent::option_definition();
 
-    $options['hide'] = array('default' => FALSE);
+    $options['hide'] = array('default' => FALSE, 'bool' => TRUE);
     $options['path'] = array('default' => '');
     $options['text'] = array('default' => 'Go', 'translatable' => TRUE);
+    $options['label'] = array('default' => '', 'translatable' => TRUE);
     $options['choose'] = array('default' => '- Choose -', 'translatable' => TRUE);
-    $options['default_value'] = array('default' => FALSE);
+    $options['inline'] = array('default' => TRUE, 'bool' => TRUE);
+    $options['default_value'] = array('default' => FALSE, 'bool' => TRUE);
 
     return $options;
   }
@@ -67,11 +70,24 @@ class views_plugin_style_jump_menu extends views_plugin_style {
       '#default_value' => $this->options['text'],
     );
 
+    $form['label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Selector label'),
+      '#default_value' => $this->options['label'],
+      '#description' => t('The text that will appear as the the label of the selector element. If blank no label tag will be used.'),
+    );
+
     $form['choose'] = array(
       '#type' => 'textfield',
       '#title' => t('Choose text'),
       '#default_value' => $this->options['choose'],
       '#description' => t('The text that will appear as the selected option in the jump menu.'),
+    );
+
+    $form['inline'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Set this field to display inline'),
+      '#default_value' => !empty($this->options['inline']),
     );
 
     $form['default_value'] = array(
@@ -98,27 +114,28 @@ class views_plugin_style_jump_menu extends views_plugin_style {
     foreach ($sets as $title => $records) {
       foreach ($records as $row_index => $row) {
         $this->view->row_index = $row_index;
-        $path = strip_tags($this->get_field($this->view->row_index, $this->options['path']));
+        $path = strip_tags(decode_entities($this->get_field($this->view->row_index, $this->options['path'])));
         // Putting a '/' in front messes up url() so let's take that out
         // so users don't shoot themselves in the foot.
-        if (strpos($path, '/') === 0) {
-          $path = substr($path, 1);
+        $base_path = base_path();
+        if (strpos($path, $base_path) === 0) {
+          $path = drupal_substr($path, drupal_strlen($base_path));
         }
 
         // use drupal_parse_url() to preserve query and fragment in case the user
         // wants to do fun tricks.
         $url_options = drupal_parse_url($path);
-        $path = $url_options['path'];
 
-        $path = url($path, $url_options);
-        $field = strip_tags($this->row_plugin->render($row));
+        $path = url($url_options['path'], $url_options);
+        $field = strip_tags(decode_entities($this->row_plugin->render($row)));
+        $key = md5($path . $field) . "::" . $path;
         if ($title) {
-          $options[$title][$path] = $field;
+          $options[$title][$key] = $field;
         }
         else {
-          $options[$path] = $field;
+          $options[$key] = $field;
         }
-        $paths[$path] = $path;
+        $paths[$path] = $key;
         $this->view->row_index++;
       }
     }
@@ -126,19 +143,21 @@ class views_plugin_style_jump_menu extends views_plugin_style {
 
     $default_value = '';
     if ($this->options['default_value'] && !empty($paths[url($_GET['q'])])) {
-      $default_value = url($_GET['q']);
+      $default_value = $paths[url($_GET['q'])];
     }
 
     ctools_include('jump-menu');
     $settings = array(
       'hide' => $this->options['hide'],
       'button' => $this->options['text'],
+      'title' => $this->options['label'],
       'choose' => $this->options['choose'],
+      'inline' => $this->options['inline'],
       'default_value' => $default_value,
     );
 
     $form = drupal_get_form('ctools_jump_menu', $options, $settings);
-    return drupal_render($form);
+    return $form;
   }
 
   function render_set($title, $records) {

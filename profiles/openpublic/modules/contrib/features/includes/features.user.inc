@@ -64,12 +64,12 @@ function user_permission_features_export_options() {
 /**
  * Implements hook_features_export_render().
  */
-function user_permission_features_export_render($module, $data) {  
+function user_permission_features_export_render($module, $data) {
   $perm_modules = &drupal_static(__FUNCTION__ . '_perm_modules');
   if (!isset($perm_modules)) {
     $perm_modules = user_permission_get_modules();
   }
-  
+
   $code = array();
   $code[] = '  $permissions = array();';
   $code[] = '';
@@ -79,17 +79,19 @@ function user_permission_features_export_render($module, $data) {
   foreach ($data as $perm_name) {
     $permission = array();
     $permission['name'] = $perm_name;
-    if (isset($permissions[$perm_name])) {
+    if (!empty($permissions[$perm_name])) {
       sort($permissions[$perm_name]);
-      $permission['roles'] = $permissions[$perm_name];
-      $permission['module'] = $perm_modules[$perm_name];
+      $permission['roles'] = drupal_map_assoc($permissions[$perm_name]);
     }
     else {
       $permission['roles'] = array();
     }
+    if (isset($perm_modules[$perm_name])) {
+      $permission['module'] = $perm_modules[$perm_name];
+    }
     $perm_identifier = features_var_export($perm_name);
     $perm_export = features_var_export($permission, '  ');
-    $code[] = "  // Exported permission: {$perm_name}";
+    $code[] = "  // Exported permission: {$perm_name}.";
     $code[] = "  \$permissions[{$perm_identifier}] = {$perm_export};";
     $code[] = "";
   }
@@ -181,7 +183,7 @@ function user_role_features_export_render($module, $data) {
       unset($role->rid);
       $role_identifier = features_var_export($name);
       $role_export = features_var_export($role , '  ');
-      $code[] = "  // Exported role: {$name}";
+      $code[] = "  // Exported role: {$name}.";
       $code[] = "  \$roles[{$role_identifier}] = {$role_export};";
       $code[] = "";
     }

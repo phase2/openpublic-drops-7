@@ -1,10 +1,14 @@
 <?php
+/**
+ * @file
+ * openpublic_media_room.pages_default.inc
+ */
 
 /**
- * Implementation of hook_default_page_manager_pages().
+ * Implements hook_default_page_manager_pages().
  */
 function openpublic_media_room_default_page_manager_pages() {
-  $page = new stdClass;
+  $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
   $page->name = 'media_room';
@@ -12,12 +16,15 @@ function openpublic_media_room_default_page_manager_pages() {
   $page->admin_title = 'Media Room';
   $page->admin_description = '';
   $page->path = 'media-room';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array();
   $page->default_handlers = array();
-  $handler = new stdClass;
+  $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'page_media_room_panel_context';
@@ -34,7 +41,7 @@ function openpublic_media_room_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(),
   );
-  $display = new panels_display;
+  $display = new panels_display();
   $display->layout = 'onecol';
   $display->layout_settings = array();
   $display->panel_settings = array(
@@ -47,7 +54,7 @@ function openpublic_media_room_default_page_manager_pages() {
   $display->title = '';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'middle';
     $pane->type = 'custom';
@@ -71,7 +78,7 @@ function openpublic_media_room_default_page_manager_pages() {
     $pane->locks = '';
     $display->content['new-1'] = $pane;
     $display->panels['middle'][0] = 'new-1';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
@@ -89,7 +96,7 @@ function openpublic_media_room_default_page_manager_pages() {
     $pane->locks = '';
     $display->content['new-2'] = $pane;
     $display->panels['middle'][1] = 'new-2';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
@@ -113,6 +120,6 @@ function openpublic_media_room_default_page_manager_pages() {
   $page->default_handlers[$handler->name] = $handler;
   $pages['media_room'] = $page;
 
- return $pages;
+  return $pages;
 
 }

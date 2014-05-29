@@ -6,3 +6,10 @@ core = 7.x
 dependencies[] = file
 files[] = image.test
 configure = admin/config/media/image-styles
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

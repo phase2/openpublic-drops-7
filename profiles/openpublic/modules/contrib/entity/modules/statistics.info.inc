@@ -7,6 +7,7 @@
 
 /**
  * Implements hook_entity_property_info_alter() on top of statistics module.
+ *
  * @see entity_entity_property_info_alter()
  */
 function entity_metadata_statistics_entity_property_info_alter(&$info) {
@@ -17,17 +18,23 @@ function entity_metadata_statistics_entity_property_info_alter(&$info) {
     'description' => t("The number of visitors who have read the node."),
     'type' => 'integer',
     'getter callback' => 'entity_metadata_statistics_node_get_properties',
+    'computed' => TRUE,
+    'access callback' => 'entity_metadata_statistics_properties_access',
   );
   $properties['day_views'] = array(
     'label' => t("Views today"),
     'description' => t("The number of visitors who have read the node today."),
     'type' => 'integer',
     'getter callback' => 'entity_metadata_statistics_node_get_properties',
+    'computed' => TRUE,
+    'access callback' => 'entity_metadata_statistics_properties_access',
   );
   $properties['last_view'] = array(
     'label' => t("Last view"),
     'description' => t("The date on which a visitor last read the node."),
     'type' => 'date',
     'getter callback' => 'entity_metadata_statistics_node_get_properties',
+    'computed' => TRUE,
+    'access callback' => 'entity_metadata_statistics_properties_access',
   );
 }

@@ -105,13 +105,13 @@ div.ok { border:1px solid #00aa00; }
 
 div.error,
 tr.error {
-  background:#fcc;
+  background-color:#fcc;
   color:#200;
   }
 
 div.warning,
 tr.warning {
-  background:#ffd;
+  background-color:#ffd;
   color:#220;
   }
 
@@ -281,16 +281,16 @@ html.js .no-js { display:none; }
 
 .progress .percentage { float:right; }
 .progress-disabled { float:left; }
-.ahah-progress { float:left; }
+.ajax-progress { float:left; }
 
-.ahah-progress .throbber {
+.ajax-progress .throbber {
   width:20px;
   height:20px;
   background:transparent url(drupal/throbber.gif) 50% 50% no-repeat;
   float:left;
   }
 
-.ahah-progress-bar { width:16em; }
+.ajax-progress-bar { width:16em; }
 
 /**
  * Formatting for welcome page

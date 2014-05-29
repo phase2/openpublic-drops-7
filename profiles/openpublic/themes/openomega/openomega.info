@@ -425,3 +425,10 @@ settings[alpha_region_footer_second_position] = '0'
 settings[alpha_region_footer_second_css] = ''
 settings[alpha_region_footer_second_equal_height_element] = '0'
 settings[alpha_region_footer_second_equal_height_container] = '0'
+
+; Information added by Drupal.org packaging script on 2014-02-26
+version = "7.x-1.1"
+core = "7.x"
+project = "openomega"
+datestamp = "1393437770"
+

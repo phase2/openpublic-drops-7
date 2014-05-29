@@ -9,10 +9,15 @@ Drupal.behaviors.phase2_profile_name = {
    *
    */
   attach: function (context, settings) {
+  //Drupal.settings.phase2_profile.firstName
+   var firstname = Drupal.settings.phase2_profile.firstName;
+   var lastname = Drupal.settings.phase2_profile.lastName;
+   var orgname = Drupal.settings.phase2_profile.orgName;
+
     var sources = {
-      firstname: $('#edit-field-profile-first-name-und-0-value', context).addClass('display-name-source'),
-      lastname: $('#edit-field-profile-last-name-und-0-value', context).addClass('display-name-source'),
-      orgname: $('#edit-field-profile-organization-und-0-value', context).addClass('display-name-source'),
+      firstname: $(firstname, context).addClass('display-name-source'),
+      lastname: $(lastname, context).addClass('display-name-source'),
+      orgname: $(orgname, context).addClass('display-name-source'),
     }
     for (key in sources) {
       sources[key].bind('keyup.displayName change.displayName', function () {

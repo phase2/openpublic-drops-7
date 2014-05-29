@@ -2783,7 +2783,11 @@ function drupal_map_assoc($array, $function = NULL) {
  * @ingroup php_wrappers
  */
 function drupal_set_time_limit($time_limit) {
-  if (function_exists('set_time_limit')) {
+  $static_time_limit = &drupal_static(__FUNCTION__);
+  if (function_exists('set_time_limit') &&
+      ($static_time_limit !== 0) &&
+      (($time_limit > $static_time_limit) || ($time_limit === 0)) ) {
+    $static_time_limit = $time_limit;
     @set_time_limit($time_limit);
   }
 }

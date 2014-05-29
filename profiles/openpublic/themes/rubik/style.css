@@ -274,16 +274,20 @@ ul.secondary-tabs li a {
   height:auto;
   text-align:left;
   }
-
+.secondary-tabs li{
+  position:relative;
+  overflow: hidden;
+  }
 .secondary-tabs a {
   color:#fff;
   text-shadow:#38a 0px 1px 0px;
-  display:none;
+  position:absolute;
   padding:0px 10px 0px 25px;
   }
 
   .secondary-tabs:hover a,
-  .secondary-tabs .active a { display:block; }
+  .secondary-tabs.focused a,
+  .secondary-tabs .active a { display:block;position:relative!important }
 
   .secondary-tabs li:hover,
   .secondary-tabs li.active { background:transparent; }

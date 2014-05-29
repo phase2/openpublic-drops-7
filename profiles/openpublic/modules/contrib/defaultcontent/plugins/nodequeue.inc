@@ -2,7 +2,7 @@
 /**
  * @file
  *
- * is an alter plugin for defaultcontent
+ * Is an alter plugin for defaultcontent
  *
  * Handles the exporting and importing of node queue membership
  * requires http://drupal.org/files/issues/1023606-qid-to-name-6.patch
@@ -13,7 +13,7 @@ $plugin = array();
 // TODO add weight
 
 /**
- * handles the adding of node queue membership to the export
+ * Handles the adding of node queue membership to the export
  */
 function nodequeue_export_alter(&$node, &$export) {
   if (isset($node->nid)) {
@@ -23,9 +23,9 @@ function nodequeue_export_alter(&$node, &$export) {
       ->fields('q', array('qid', 'sqid'))
       ->execute();
 
-    foreach($queue_data as $datum  ) {
-      $export->default_nodequeue = array ();
-      $export->default_nodequeue[] = array (
+    foreach ($queue_data as $datum) {
+      $export->default_nodequeue = array();
+      $export->default_nodequeue[] = array(
         'queue' => $datum->qid,
       );
     }
@@ -33,14 +33,12 @@ function nodequeue_export_alter(&$node, &$export) {
 }
 
 /**
- * after import handles the adding of of the nodes to nodequeues
+ * After import handles the adding of of the nodes to nodequeues
  */
 function nodequeue_post_import($node) {
-  if(isset($node->default_nodequeue)) {
-    foreach($node->default_nodequeue as $datum) {
-      if(isset($node->nid) &&
-         ($queue = nodequeue_load($datum['queue'])) 
-        ) {
+  if (isset($node->default_nodequeue)) {
+    foreach ($node->default_nodequeue as $datum) {
+      if (isset($node->nid) && ($queue = nodequeue_load($datum['queue']))) {
         $subqueues = nodequeue_load_subqueues_by_queue(array($datum['queue']));
         nodequeue_subqueue_add($queue, array_pop($subqueues), $node->nid);
       }

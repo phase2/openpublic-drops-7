@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_field_default_fields().
+ * Implements hook_field_default_fields().
  */
 function openpublic_editors_choice_field_default_fields() {
   $fields = array();
@@ -107,6 +107,7 @@ function openpublic_editors_choice_field_default_fields() {
         'rel' => '',
         'target' => 'default',
         'title' => 'required',
+        'title_maxlength' => 255,
         'title_value' => '',
         'url' => 0,
       ),
@@ -123,14 +124,14 @@ function openpublic_editors_choice_field_default_fields() {
           'label' => 'hidden',
           'module' => 'link',
           'settings' => array(),
-          'type' => 'default',
+          'type' => 'link_default',
           'weight' => '3',
         ),
         'editors_choice' => array(
           'label' => 'hidden',
           'module' => 'link',
           'settings' => array(),
-          'type' => 'default',
+          'type' => 'link_default',
           'weight' => '3',
         ),
         'teaser' => array(
@@ -155,16 +156,18 @@ function openpublic_editors_choice_field_default_fields() {
         ),
         'enable_tokens' => 1,
         'title' => 'optional',
+        'title_maxlength' => 255,
         'title_value' => '',
         'url' => 0,
         'user_register_form' => FALSE,
+        'validate_url' => 1,
       ),
       'widget' => array(
         'active' => 0,
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '4',
+        'weight' => '3',
       ),
     ),
   );
@@ -273,7 +276,7 @@ function openpublic_editors_choice_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'node_reference_autocomplete',
-        'weight' => '3',
+        'weight' => '1',
       ),
     ),
   );
@@ -340,7 +343,7 @@ function openpublic_editors_choice_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '1',
+        'weight' => '-4',
       ),
     ),
   );
@@ -421,7 +424,7 @@ function openpublic_editors_choice_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );

@@ -5,3 +5,10 @@ version = VERSION
 core = 7.x
 hidden = TRUE
 dependencies[] = system_incompatible_core_version_test
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

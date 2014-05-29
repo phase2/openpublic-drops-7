@@ -1,0 +1,147 @@
+<?php
+/**
+ * @file openpublic_accessibility.module
+ * TODO: Enter file description here.
+ */
+
+/**
+ * implements hook_preprocess_html
+ *
+ * we are adding $skip_links to the html template
+ */
+function openpublic_accessibility_preprocess_html(&$vars) {
+  $links = openpublic_accessibility_add_skip_link();
+  if(!empty($links)) {
+    $vars['skip_links'] = $links;
+  }
+
+}
+
+/**
+ * openpublic_accessibility_build_skip_link()
+ *
+ * This function takes text and anchor and builds out a link render array
+ * to be use as a skip ... link
+ *
+ * @PARAM text: a string of the text for the skip link
+ * @PARAM anchor: the anchor to which to skip
+ * @RETURN array() : an array ready for theme_link;
+ */
+function openpublic_accessibility_build_skip_link($text, $anchor, $html= FALSE) {
+  return array(
+    '#theme' => 'link',
+    '#text' => t($text),
+    '#path' => '',
+    '#options' => array(
+      'fragment' =>$anchor,
+      'attributes' => array(
+        'class' => array("element-invisible", "element-focusable"),
+      ),
+      'external' => TRUE,
+      'html' => $html,
+    ),
+  );
+}
+
+/*
+ * openpublic_accessibility_add_skip_link()
+ *
+ * The goal here is to provide a listing of all skip links that should
+ * be on the page.  Links like skip to content or skip to error are expected
+ *
+ * @PARAM a link render array
+ * @RETURN a array of link render arrays intented as skip links.
+ */
+function openpublic_accessibility_add_skip_link($link = FALSE) {
+  $links = &drupal_static(__FUNCTION__, array());
+  if ($link) {
+    $links[] = $link;
+  }
+  $_links = $links;
+  drupal_alter("openpublic_accessibility_skip_link", $_links);
+  $output = array();
+  $starting_tab_index = openpublic_accessibility_skip_link_set_starting_tab_index();
+  foreach($_links as $key => $_link) {
+    if($starting_tab_index !== FALSE) {
+      $_link['#options']['attributes']['tabindex'] = $key + $starting_tab_index;
+    }
+    $output[] = $_link;
+  }
+  return $output;
+}
+
+/**
+ * openpublic_accessibility_skip_link_set_starting_tab_index()
+ *
+ * Used to set and retrive the index on which the skip links should start, if none have been
+ * set with this function then it falls back to the openpublic_accessibility_skip_link_starting_tab_index
+ * variable.
+ * @PARAM new_index : an int for which index to use (seting to FALSE will insure no indexies are set)
+ * @RETURN the current index in use
+ */
+function openpublic_accessibility_skip_link_set_starting_tab_index($new_index = NULL) {
+  $starting_tab_index = variable_get("openpublic_accessibility_skip_link_starting_tab_index", FALSE);
+  $index = &drupal_static(__FUNCTION__, $starting_tab_index);
+  if (isset($new_index)) {
+    $index = $new_index;
+  }
+  return $index;
+}
+
+/**
+ * implements hook_init
+ *
+ * add a skip to main content, unless it is not wanted
+ */
+function openpublic_accessibility_init() {
+  if(variable_get("openpublic_accessibility_skip_link_add_main_content", TRUE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to main content", "main-content"));
+  }
+}
+
+/**
+ * implements hook_page_alter()
+ *
+ * After the page is build lets see if we have any messages and if we do add ship to messages
+ */
+function openpublic_accessibility_page_alter(&$page) {
+  if(drupal_get_messages('error', FALSE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to errors", "messages-error"));
+  }
+  if(drupal_get_messages('warning', FALSE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to warnings", "messages-warning"));
+  }
+  if(drupal_get_messages('status', FALSE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to status", "messages-status"));
+  }
+  // add a link to skip to the top when at the bottom
+  $page['page_bottom']['skip'] =  openpublic_accessibility_build_skip_link("Back to Top", 'skip-link');
+}
+
+/**
+ * implements hook_openpublic_accessibility_skip_link_alter()
+ *
+ * check to see if we have an error link if so lets make it priority
+ */
+function openpublic_accessibility_openpublic_accessibility_skip_link_alter(&$links) {
+  foreach($links as $key => $link) {
+    if ($link['#text'] == t('Skip to errors')) {
+      unset($links[$key]);
+      array_unshift($links, $link);
+      break ;
+    }
+  }
+}
+
+/**
+ * implements hook_preprocess_form_element()
+ *
+ * Move the description above the inputs, so that screen readers read it correctly
+ */
+function openpublic_accessibility_preprocess_form_element(&$vars) {
+  if(isset($vars['element']['#description'])) {
+    $vars['element']['#children'] = '<div class="description">' . $vars['element']['#description'] . "</div>\n" . $vars['element']['#children'];
+    unset($vars['element']['#description']);
+  }
+}
+

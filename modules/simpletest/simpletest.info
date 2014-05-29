@@ -55,3 +55,10 @@ files[] = tests/upgrade/update.aggregator.test
 files[] = tests/upgrade/update.trigger.test
 files[] = tests/upgrade/update.field.test
 files[] = tests/upgrade/update.user.test
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

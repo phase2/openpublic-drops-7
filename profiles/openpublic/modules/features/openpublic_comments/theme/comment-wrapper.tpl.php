@@ -37,7 +37,8 @@
  */
 ?>
 <div id="comments" class="<?php print $classes; ?>"<?php print $attributes; ?>>
-
+  
+  <a href='#end-of-comments' class = 'element-invisible element-focusable'>Skip Comments</a>
   <?php if ($content['comments'] && $node->type != 'forum'): ?>
     <div class="header clearfix">
       <?php print render($title_prefix); ?>
@@ -53,5 +54,6 @@
     <h2 class="title comment-form"><?php print t('Add new comment'); ?></h2>
     <?php print render($content['comment_form']); ?>
   <?php endif; ?>
+  <a id = 'end-of-comments'></a>
           
 </div>

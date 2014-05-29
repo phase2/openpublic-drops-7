@@ -125,12 +125,10 @@ function theme_delta_blocks_page_title($variables) {
  */
 function theme_delta_blocks_breadcrumb($variables) {
   $output = '';
-   
+  if ($variables['breadcrumb_current']) {
+    $variables['breadcrumb'][] = l(drupal_get_title(), current_path(), array('html' => TRUE));
+  }
   if (!empty($variables['breadcrumb'])) {  
-    if ($variables['breadcrumb_current']) {
-      $variables['breadcrumb'][] = l(drupal_get_title(), current_path(), array('html' => TRUE));
-    }
-  
     $output = '<div id="breadcrumb" class="clearfix"><ul class="breadcrumb">';
     $switch = array('odd' => 'even', 'even' => 'odd');
     $zebra = 'even';

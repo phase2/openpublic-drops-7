@@ -7,6 +7,7 @@
  * called through custom invocation, so $form_state is not populated.
  */
 function openpublic_form_alter(&$form, $form_state, $form_id) {
+  /*
   if ($form_id == 'install_configure_form' && !defined('DRUSH_BASE_PATH')) {
     $roles = array(DRUPAL_AUTHENTICATED_RID);
     $policy = _password_policy_load_active_policy($roles);
@@ -24,6 +25,7 @@ function openpublic_form_alter(&$form, $form_state, $form_id) {
     $form['#validate'][] = 'openpublic_password_validate';
     $form['#submit'][] = 'openpublic_password_submit';  
   }
+  */
 }
 
 

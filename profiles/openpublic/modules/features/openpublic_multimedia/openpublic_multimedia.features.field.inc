@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_field_default_fields().
+ * Implements hook_field_default_fields().
  */
 function openpublic_multimedia_field_default_fields() {
   $fields = array();
@@ -111,6 +111,7 @@ function openpublic_multimedia_field_default_fields() {
           'home_page_feature' => 0,
           'media_gallery' => 0,
           'photo' => 'photo',
+          0 => 0,
           'press_release' => 0,
           'profile' => 0,
           'resource' => 0,
@@ -118,7 +119,6 @@ function openpublic_multimedia_field_default_fields() {
           'services' => 0,
           'site_page' => 0,
           'webform' => 0,
-          0 => 0,
         ),
         'view' => array(
           'args' => array(),

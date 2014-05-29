@@ -5,5 +5,13 @@ dependencies[] = "panels"
 features[ctools][] = "page_manager:pages_default:1"
 features[page_manager_pages][] = "media_room"
 name = "openpublic_media_room"
-package = "Features"
+package = "OpenPublic"
 php = "5.2.4"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

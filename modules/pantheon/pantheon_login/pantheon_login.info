@@ -7,3 +7,10 @@ version = "7.x-1.0"
 hidden = TRUE
 core = 7.x
 php = 5.2
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

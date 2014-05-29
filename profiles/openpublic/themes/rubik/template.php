@@ -6,6 +6,17 @@ function rubik_preprocess_html() {
   if (module_exists('views')) {
     drupal_add_css(drupal_get_path('module', 'views') . '/css/views-admin.seven.css', 'theme');
   }
+  
+   // add in a specific stylesheet for overrides in IE7. (BLAH)
+  drupal_add_css(drupal_get_path('theme', 'rubik') . '/ie.css', array(
+	  'browsers' => array(
+	    '!IE' => FALSE,
+	  ),
+	  'weight' => 500,
+	  'group' => 5000,
+	  'every_page' => TRUE,
+  ));
+ 
 }
 
 /**
@@ -482,10 +493,16 @@ function rubik_preprocess_textfield(&$vars) {
 function rubik_menu_local_task($variables) {
   $link = $variables['element']['#link'];
   $link_text = $link['title'];
+  $submenu_title = t('@title (secondary tabs)', array('@title' => $link_text));
+  $has_children = element_children($variables['element']);
 
   if (!empty($variables['element']['#active'])) {
     // Add text to indicate active tab for non-visual users.
-    $active = '<span class="element-invisible">' . t('(active tab)') . '</span>';
+    
+    $active = '<span class="element-invisible"> ' . t('(active tab)') . '</span>';
+    if($has_children){
+      $active = '<span class="element-invisible"> ' . t('(active tab with secondary tabs)') . '</span>';
+    }
 
     // If the link does not contain HTML already, check_plain() it now.
     // After we set 'html'=TRUE the link will not be sanitized by l().
@@ -498,9 +515,9 @@ function rubik_menu_local_task($variables) {
 
   // Render child tasks if available.
   $children = '';
-  if (element_children($variables['element'])) {
+  if ($has_children) {
     $children = drupal_render_children($variables['element']);
-    $children = "<ul class='secondary-tabs links clearfix'>{$children}</ul>";
+    $children = "<ul class='secondary-tabs links clearfix' title='{$submenu_title}'>{$children}</ul>";
   }
 
   return '<li' . (!empty($variables['element']['#active']) ? ' class="active"' : '') . '>' . l($link_text, $link['href'], $link['localized_options']) . $children . "</li>\n";

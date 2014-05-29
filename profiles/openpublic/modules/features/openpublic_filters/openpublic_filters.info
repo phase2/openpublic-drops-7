@@ -1,0 +1,16 @@
+name = "openpublic_filters"
+core = "7.x"
+package = "Features"
+php = "5.2.4"
+dependencies[] = "features"
+dependencies[] = "openpublic_defaults"
+features[user_permission][] = "use text format filtered_html"
+features[user_permission][] = "use text format full_html"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+

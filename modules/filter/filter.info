@@ -6,3 +6,10 @@ core = 7.x
 files[] = filter.test
 required = TRUE
 configure = admin/config/content/formats
+
+
+; Information added by drush on 2014-05-29
+version = "master-dev"
+project = "drupal"
+datestamp = "1401382279"
+

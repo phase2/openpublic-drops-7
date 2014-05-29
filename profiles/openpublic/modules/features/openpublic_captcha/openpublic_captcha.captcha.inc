@@ -5,12 +5,12 @@
  */
 
 /**
- * Implementation of hook_captcha_default_points().
+ * Implements hook_captcha_default_points().
  */
 function openpublic_captcha_captcha_default_points() {
   $export = array();
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_blog_entry_form';
@@ -18,7 +18,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_blog_entry_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_document_form';
@@ -26,7 +26,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_document_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_editors_choice_form';
@@ -34,7 +34,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_editors_choice_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_home_page_feature_form';
@@ -42,7 +42,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_home_page_feature_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_media_gallery_form';
@@ -50,7 +50,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_media_gallery_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_photo_form';
@@ -58,7 +58,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_photo_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_press_release_form';
@@ -66,7 +66,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_press_release_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_profile_form';
@@ -74,7 +74,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_profile_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_resource_form';
@@ -82,7 +82,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_resource_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_section_front_form';
@@ -90,7 +90,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_section_front_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_services_form';
@@ -98,7 +98,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_services_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_site_page_form';
@@ -106,7 +106,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_site_page_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'comment_node_webform_form';
@@ -114,7 +114,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = 'default';
   $export['comment_node_webform_form'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'user_login';
@@ -122,7 +122,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = '';
   $export['user_login'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'user_login_block';
@@ -130,7 +130,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = '';
   $export['user_login_block'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'user_pass';
@@ -138,7 +138,7 @@ function openpublic_captcha_captcha_default_points() {
   $captcha->captcha_type = '';
   $export['user_pass'] = $captcha;
 
-  $captcha = new stdClass;
+  $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'user_register_form';

@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_taxonomy_default_vocabularies().
+ * Implements hook_taxonomy_default_vocabularies().
  */
 function phase2_blog_taxonomy_default_vocabularies() {
   return array(
@@ -13,9 +13,9 @@ function phase2_blog_taxonomy_default_vocabularies() {
       'name' => 'Blog Terms',
       'machine_name' => 'blog_terms',
       'description' => 'Terms used to categorize blog entries.',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

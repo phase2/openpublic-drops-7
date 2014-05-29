@@ -40,5 +40,13 @@ features[content][] = "taxcode_rotator"
 features[content][] = "this_is_an_example_of_press_release"
 features[content][] = "whitehouse_issues_open_government_directive"
 name = "OpenPublic Demo Content"
-package = "Features"
+package = "OpenPublic"
 php = "5.2.4"
+
+
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1401382281"
+
