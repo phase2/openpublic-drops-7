@@ -11,3 +11,4 @@ version = "master-dev"
 project = "drupal"
 datestamp = "1372359793"
 
+configure = admin/config/development/logging
