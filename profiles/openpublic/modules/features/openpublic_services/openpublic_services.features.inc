@@ -18,10 +18,7 @@ function openpublic_services_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function openpublic_services_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("api" => "3.0");
 }
 
 /**
@@ -30,7 +27,7 @@ function openpublic_services_views_api() {
 function openpublic_services_image_default_styles() {
   $styles = array();
 
-  // Exported image style: services-carousel
+  // Exported image style: services-carousel.
   $styles['services-carousel'] = array(
     'name' => 'services-carousel',
     'effects' => array(
@@ -44,10 +41,10 @@ function openpublic_services_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '130',
-          'height' => '80',
+          'width' => 130,
+          'height' => 80,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );

@@ -305,7 +305,7 @@ function phase2_profile_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '1',
+        'weight' => '-7',
       ),
     ),
   );
@@ -379,7 +379,7 @@ function phase2_profile_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '2',
+        'weight' => '-6',
       ),
     ),
   );

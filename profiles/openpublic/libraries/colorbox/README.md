@@ -1,10 +1,94 @@
 ## About Colorbox:
 A customizable lightbox plugin for jQuery.  See the [project page](http://jacklmoore.com/colorbox/) for documentation and a demonstration, and the [FAQ](http://jacklmoore.com/colorbox/faq/) for solutions and examples to common issues.  Released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
 
-## Translations Welcome
-Send me your language configuration files.  See /i18n/jquery.colorbox-de.js as an example.
-
 ## Changelog:
+
+### Version 1.5.9 - 2014/4/25
+
+* Fixed inline content bug when using child selectors.  Fixes #599
+
+### Version 1.5.8 - 2014/4/15
+
+* Fixed accidental leak of global variable.  References #591
+* Enabled strict mode. Fixes #597
+
+### Version 1.5.7 - 2014/4/15
+
+* Fix potential error when calling Colorbox directly. References #591
+* Potentially worked around browser limitation of reporting that an image height and width is 0 immediately after onload.  Fixes #535
+
+### Version 1.5.6 - 2014/4/4
+
+* Applied maxWidth and maxHeight to the initialWidth and initialHeight.  Fixes #391
+
+### Version 1.5.5 - 2014/3/13
+
+* Allow setting the overlay opacity through CSS, rather than having to use Colorbox's opacity property.  Fixes #580
+
+### Version 1.5.4 - 2014/3/7
+
+* Fixed potential issue where IE9+ wouldn't close the modal when clicking on the overlay.  Fixes #576
+
+### Version 1.5.3 - 2014/3/4
+
+* Added access to settings object in callbacks.
+
+### Version 1.5.2 - 2014/2/28
+
+* Added svg to image types regex.
+
+### Version 1.5.1 - 2014/2/27
+
+* Fixed regression that broke direct calls to Colorbox, ie. $.colorbox(…)
+
+### Version 1.5.0 - 2014/2/27
+
+* Changed when the className is applied: immediately on open, but only updated immediately prior to transition.  Fixes #565
+* Fixed potential style flash if #cboxLoadedContent is given a background.  Fixes #567
+* Misc. code cleanup
+
+### Version 1.4.37 - 2014/2/11
+
+* Fixed potential error when resizing.  Fixes #254
+* Added Microsoft's JPEG XR to photo detection regex.
+
+### Version 1.4.33 - 2013/10/31
+
+* Fixed an issue where private events propagated to the document in versions of jQuery prior to 1.7.  Fixes #525, Fixes #526
+
+### Version 1.4.32 - 2013/10/16
+
+* Updated stylesheets to avoid issue with using `div {max-width:100%}` (Fixes #520)
+
+### Version 1.4.31 - 2013/9/25
+
+* Used setAttribute to set londesc, so that the value is accessible via DOM Node longDesc property #508
+
+### Version 1.4.30 - 2013/9/24
+
+* Added longdesc and aria-describedby attributes to photos.  Fixes #508
+
+### Version 1.4.29 - 2013/9/10
+
+* Fixed a slideshow regression from 1.4.27
+* Fixed a potential issue with the starting size of #cboxLoadedContent
+
+### Version 1.4.28 - 2013/9/4
+
+* Fixed a potential issue with using the open property with mixed slideshow and non-slideshow groups
+
+### Version 1.4.27 - 2013/7/16
+
+* Fixed a width calculation issue relating to using margin:auto on #cboxLoadedContent.
+
+### Version 1.4.26 - 2013/6/30
+
+* Fixed a regression in IE7 and IE8 that was causing an error.
+
+### Version 1.4.25 - 2013/6/28
+
+* Use an animation speed of zero between same-sized content (fixed).
+* Removed temporary fix for jQuery UI 1.8
 
 ### Version 1.4.24 - 2013/6/24
 
@@ -169,7 +253,7 @@ Send me your language configuration files.  See /i18n/jquery.colorbox-de.js as a
 ### Version 1.3.21 - 2013/1/15
 Files Changed: *.js
 
-* Fixed compatability issues with jQuery 1.9
+* Fixed compatibility issues with jQuery 1.9
 
 ### Version 1.3.20 - August 15 2012
 Files Changed:jquery.colorbox.js

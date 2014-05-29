@@ -74,7 +74,7 @@ function openpublic_comments_comment_view_alter(&$build) {
  *   The altered element. In this case we add a #prefix to it.
  */
 function openpublic_reply_comments_wrap($element) {
-  $element['#prefix'] = '<div id="comments">'. (isset($element['#prefix']) ? $element['#prefix'] : '');
-  $element['#suffix'] = (isset($element['#suffix']) ? $element['#suffix'] : ''). '</div>';
+  $element['#prefix'] = '<div id="comments">' . (isset($element['#prefix']) ? $element['#prefix'] : '');
+  $element['#suffix'] = (isset($element['#suffix']) ? $element['#suffix'] : '') . '</div>';
   return $element;
 }

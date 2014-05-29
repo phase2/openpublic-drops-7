@@ -13,9 +13,9 @@ function openpublic_defaults_taxonomy_default_vocabularies() {
       'name' => 'issues',
       'machine_name' => 'issues',
       'description' => '',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

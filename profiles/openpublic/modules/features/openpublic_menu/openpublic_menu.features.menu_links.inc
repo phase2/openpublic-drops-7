@@ -22,11 +22,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-46',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -46,
   );
   // Exported menu link: main-menu:documents
   $menu_links['main-menu:documents'] = array(
@@ -40,11 +40,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-50',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -50,
     'parent_path' => 'resources',
   );
   // Exported menu link: main-menu:media-room
@@ -59,11 +59,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '1',
-    'expanded' => '0',
-    'weight' => '-47',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 0,
+    'weight' => -47,
   );
   // Exported menu link: main-menu:multimedia
   $menu_links['main-menu:multimedia'] = array(
@@ -77,11 +77,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '25',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 25,
     'parent_path' => 'media-room',
   );
   // Exported menu link: main-menu:press-releases
@@ -96,11 +96,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-50',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -50,
     'parent_path' => 'media-room',
   );
   // Exported menu link: main-menu:resources
@@ -115,11 +115,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '1',
-    'expanded' => '1',
-    'weight' => '-48',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 1,
+    'weight' => -48,
   );
   // Exported menu link: main-menu:services
   $menu_links['main-menu:services'] = array(
@@ -133,11 +133,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '1',
-    'expanded' => '1',
-    'weight' => '-49',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 1,
+    'weight' => -49,
   );
   // Exported menu link: main-menu:staff-directory
   $menu_links['main-menu:staff-directory'] = array(
@@ -151,11 +151,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '1',
-    'expanded' => '0',
-    'weight' => '-49',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 1,
+    'expanded' => 0,
+    'weight' => -49,
   );
   // Exported menu link: main-menu:staff-directory/leadership
   $menu_links['main-menu:staff-directory/leadership'] = array(
@@ -169,11 +169,11 @@ function openpublic_menu_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-50',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -50,
     'parent_path' => 'staff-directory',
   );
   // Translatables

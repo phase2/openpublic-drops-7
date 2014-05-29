@@ -10,12 +10,12 @@
 function openpublic_menu_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: administer menu
+  // Exported permission: administer menu.
   $permissions['administer menu'] = array(
     'name' => 'administer menu',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'menu',
   );

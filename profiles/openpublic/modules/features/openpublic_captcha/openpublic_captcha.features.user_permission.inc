@@ -10,33 +10,33 @@
 function openpublic_captcha_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: administer CAPTCHA settings
+  // Exported permission: administer CAPTCHA settings.
   $permissions['administer CAPTCHA settings'] = array(
     'name' => 'administer CAPTCHA settings',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'captcha',
   );
 
-  // Exported permission: administer recaptcha
+  // Exported permission: administer recaptcha.
   $permissions['administer recaptcha'] = array(
     'name' => 'administer recaptcha',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'recaptcha',
   );
 
-  // Exported permission: skip CAPTCHA
+  // Exported permission: skip CAPTCHA.
   $permissions['skip CAPTCHA'] = array(
     'name' => 'skip CAPTCHA',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
-      2 => 'staff',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+      'staff' => 'staff',
     ),
     'module' => 'captcha',
   );

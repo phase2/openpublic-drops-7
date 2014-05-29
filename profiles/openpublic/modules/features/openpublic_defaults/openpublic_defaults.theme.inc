@@ -9,7 +9,7 @@ function openpublic_defaults_theme($existing, $type, $theme, $path) {
 
   // We are taking over the path for the block template
   $item = $existing['block'];
-  $item['path'] = drupal_get_path('module', 'openpublic_defaults') ."/theme";
+  $item['path'] = drupal_get_path('module', 'openpublic_defaults') . "/theme";
   $item['template'] = 'block';
   $themes['block'] = $item;
   $themes['page_prefixes'] = array(
@@ -17,7 +17,7 @@ function openpublic_defaults_theme($existing, $type, $theme, $path) {
   );
   
   $themes['follow_links'] = array(
-    'path' => drupal_get_path('module', 'openpublic_defaults') ."/theme",
+    'path' => drupal_get_path('module', 'openpublic_defaults') . "/theme",
     'template' => 'block--follow-links',
     'variables' => array('link' => NULL, 'title' => NULL),
   );
@@ -53,13 +53,13 @@ function openpublic_defaults_twitter_pull_blocks() {
  * if a block is a view block and it has a rss feed we put up a icon for it
  */
 function openpublic_defaults_preprocess_block(&$variables) {
-  if($variables['elements']['#block']->module == 'views') {
+  if ($variables['elements']['#block']->module == 'views') {
     $explode = explode("-", $variables['elements']['#block']->delta);
     $view = views_get_view($explode[0]);
     if ($view) {
-      foreach($view->display as $display_name =>$display) {
+      foreach ($view->display as $display_name => $display) {
         if ($display_name == 'feed_1') {
-        $variables['rss'] = l(theme('image', array('path'=>drupal_get_path('module', 'openpublic_defaults') .'/theme/icon-rss.png', 'alt' => "RSS icon", 'title' => 'RSS icon')), $display->display_options['path'], array('html'=>TRUE));
+        $variables['rss'] = l(theme('image', array('path' => drupal_get_path('module', 'openpublic_defaults') . '/theme/icon-rss.png', 'alt' => "RSS icon", 'title' => 'RSS icon')), $display->display_options['path'], array('html' => TRUE));
         }
       }
     }
@@ -167,35 +167,35 @@ function openpublic_defaults_block_view($delta = '') {
       global $user;
       // this code was moved from old openpublic_theme to a block to be placed via context
       $menu_utility_cache = $user->uid ? cache_get("menu_utility") : cache_get("menu_utility_anon") ;
-		  if($menu_utility_cache) {
-		    $menu_utility = $menu_utility_cache->data;
-		  }
-		  else {
-		    $menu_utility = menu_navigation_links('menu-utility');
-		    if ($user->uid) {
-		      foreach($menu_utility as $key => $item) {
-		        if ($item['href'] == 'user') {
-		        $menu_utility[$key]['title'] ='My Account';
-		        }
-		      }
-		    }
-		    $menu_utility = theme(
-		      'links', 
-		      array(
-		        'links' => $menu_utility,
-		        'attributes' => array(
-		          'id' => 'user-menu',
-		          'class' => array('links', 'clearfix'),
-		        ),
-		        'heading' => array(
-		          'text' => t('User menu'),
-		          'level' => 'h2',
-		          'class' => array('element-invisible'),
-		        ),
-		      )
-		    );
-		    cache_set( $user->uid ? "menu_utility" : "menu_utility_anon" , $menu_utility);
-		  }
+      if ($menu_utility_cache) {
+        $menu_utility = $menu_utility_cache->data;
+      }
+      else {
+        $menu_utility = menu_navigation_links('menu-utility');
+        if ($user->uid) {
+          foreach ($menu_utility as $key => $item) {
+            if ($item['href'] == 'user') {
+              $menu_utility[$key]['title'] ='My Account';
+            }
+          }
+        }
+        $menu_utility = theme(
+          'links', 
+          array(
+            'links' => $menu_utility,
+            'attributes' => array(
+              'id' => 'user-menu',
+              'class' => array('links', 'clearfix'),
+            ),
+            'heading' => array(
+              'text' => t('User menu'),
+              'level' => 'h2',
+              'class' => array('element-invisible'),
+            ),
+          )
+        );
+        cache_set( $user->uid ? "menu_utility" : "menu_utility_anon" , $menu_utility);
+      }
       
       
       
@@ -207,28 +207,28 @@ function openpublic_defaults_block_view($delta = '') {
     case 'openpublic_footer_utility_menu': 
       
       $footer_utility_cache = cache_get("footer_utility") ;
-		  if($footer_utility_cache) {
-		    $footer_utility = $footer_utility_cache->data;
-		  }
-		  else {
-		    $footer_utility = menu_navigation_links('menu-footer-utility');
-		    $footer_utility = theme(
-		      'links', 
-		      array(
-		        'links' => $footer_utility,
-		        'attributes' => array(
-		          'id' => 'footer-utility',
-		          'class' => array('links', 'clearfix', 'footer-utility'),
-		        ),
-		        'heading' => array(
-		          'text' => t('Utility Links'),
-		          'level' => 'h2',
-		          'class' => array('element-invisible'),
-		        ),
-		      )
-		    );
-		    cache_set("footer_utility", $footer_utility);
-		  }
+      if ($footer_utility_cache) {
+        $footer_utility = $footer_utility_cache->data;
+      }
+      else {
+        $footer_utility = menu_navigation_links('menu-footer-utility');
+        $footer_utility = theme(
+          'links', 
+          array(
+            'links' => $footer_utility,
+            'attributes' => array(
+              'id' => 'footer-utility',
+              'class' => array('links', 'clearfix', 'footer-utility'),
+            ),
+            'heading' => array(
+              'text' => t('Utility Links'),
+              'level' => 'h2',
+              'class' => array('element-invisible'),
+            ),
+          )
+        );
+        cache_set("footer_utility", $footer_utility);
+      }
       $block['subject'] = t('');
       $block['content'] = $footer_utility;
       break;
@@ -253,7 +253,7 @@ function _openpublic_defaults_block_current_navigation($type = 'content') {
   $home = array_shift($topmenu);
   $toplevel = array_shift($topmenu);
   // if the toplevel is not something we expect exit out early
-  if(!isset($toplevel['link_title'])) {
+  if (!isset($toplevel['link_title'])) {
     return FALSE;
   }
   // If we specify the title, just return the title string
@@ -296,7 +296,7 @@ function openpublic_defaults_menu_link_delete($link) {
   openpublic_defaults_menu_link_update($link);
 }
 function openpublic_defaults_menu_link_update($link) {
-  if(in_array($link['menu_name'], array('main-menu', 'menu-utility', 'menu-footer-utility'))) {
+  if (in_array($link['menu_name'], array('main-menu', 'menu-utility', 'menu-footer-utility'))) {
     cache_clear_all("menu_utility_anon", 'cache');
     cache_clear_all("footer_menu_data", 'cache');
     cache_clear_all("menu_utility", 'cache');
@@ -306,12 +306,12 @@ function openpublic_defaults_menu_link_update($link) {
 
 function openpublic_defaults_context_load_alter(&$context) {
   if ($context->name == 'site_wide_before') {
-    foreach($context->reactions['block']['blocks'] as $key => $item) {
+    foreach ($context->reactions['block']['blocks'] as $key => $item) {
       $context->reactions['block']['blocks'][$key]['weight'] = $item['weight'] - 100;
     }
   }
   if ($context->name == 'site_wide_after') {
-    foreach($context->reactions['block']['blocks'] as $key => $item) {
+    foreach ($context->reactions['block']['blocks'] as $key => $item) {
       $context->reactions['block']['blocks'][$key]['weight'] = $item['weight'] + 100;
     }
   }
@@ -334,7 +334,7 @@ function openpublic_defaults_system_themes_page_alter(&$theme_groups) {
   );
   foreach (array('enabled', 'disabled') as $status) {
     foreach ($theme_groups[$status] as $key => $theme) {
-      if(in_array($theme->name, $disable_themes)) {
+      if (in_array($theme->name, $disable_themes)) {
         unset($theme_groups[$status][$key]);
       }
     }
@@ -352,7 +352,7 @@ function openpublic_defaults_form_system_themes_admin_form_alter(&$form, &$form_
     'seven' => 'seven',
   );
   foreach ($form['admin_theme']['admin_theme']['#options'] as $key => $option) {
-    if(empty($allowed_themes[$key])) {
+    if (empty($allowed_themes[$key])) {
       unset($form['admin_theme']['admin_theme']['#options'][$key]);
     }
   }
@@ -364,8 +364,7 @@ function openpublic_defaults_form_system_themes_admin_form_alter(&$form, &$form_
  * Redirecting to the dashboard if they have perms to the dash board
  */
 function openpublic_defaults_user_login(&$edit, $account) {
-  if(user_access("access dashboard", $account)) {
-    
-    $edit['redirect'] = module_exists('overlay') ? array("/", array('fragment'=>'overlay=admin/dashboard')) : '/admin/dashboard';
+  if (user_access("access dashboard", $account)) {
+    $edit['redirect'] = module_exists('overlay') ? array("<front>", array('fragment' => 'overlay=admin/dashboard')) : 'admin/dashboard';
   }
 }

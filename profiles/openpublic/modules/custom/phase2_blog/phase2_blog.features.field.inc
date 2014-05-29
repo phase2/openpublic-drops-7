@@ -231,7 +231,7 @@ function phase2_blog_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );
@@ -296,7 +296,7 @@ function phase2_blog_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '5',
+        'weight' => '3',
       ),
     ),
   );
@@ -369,7 +369,7 @@ function phase2_blog_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '2',
+        'weight' => '5',
       ),
     ),
   );

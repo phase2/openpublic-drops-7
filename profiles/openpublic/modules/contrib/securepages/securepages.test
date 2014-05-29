@@ -35,6 +35,7 @@ class SecurePagesTestCase extends DrupalWebTestCase {
     $this->_testOpenRedirect();
     $this->_testXHR();
     $this->_testRoles();
+    $this->_testPathNorms();
   }
 
   /**
@@ -342,6 +343,31 @@ class SecurePagesTestCase extends DrupalWebTestCase {
     variable_del('securepages_switch');
     variable_del('securepages_roles');
     $this->drupalLogout();
+  }
+
+  /**
+   * Test path normalization checks.
+   */
+  function _testPathNorms() {
+    variable_set('securepages_switch', TRUE);
+    variable_set('securepages_pages', 'user');
+
+    // Test mixed-case path.
+    $this->drupalGet('UsEr');
+    $this->assertUrl('UsEr', array('https' => TRUE, 'absolute' => TRUE));
+    $this->assertFieldByXPath('//form[@id="user-login" and starts-with(@action, "/")]', NULL, 'The user login form action is https.');
+
+    // Test that a trailing slash will not force a protected form's action to
+    // http. A http based 'user/' path will become 'user' when doing the
+    // redirect, so best to ensure that the test gets the right conditions the
+    // path should be https based.
+    $this->drupalGet('user/', array('https' => TRUE, 'absolute' => TRUE));
+    $this->assertUrl('user/', array('https' => TRUE, 'absolute' => TRUE));
+    $this->assertFieldByXPath('//form[@id="user-login" and starts-with(@action, "/")]', NULL, 'The user login form action is https.');
+
+    // Clean up.
+    variable_del('securepages_switch');
+    variable_del('securepages_pages');
   }
 
   /**

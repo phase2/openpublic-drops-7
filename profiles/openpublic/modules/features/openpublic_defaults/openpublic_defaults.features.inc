@@ -28,7 +28,7 @@ function openpublic_defaults_ctools_plugin_api() {
 function openpublic_defaults_image_default_styles() {
   $styles = array();
 
-  // Exported image style: content_detail_photo
+  // Exported image style: content_detail_photo.
   $styles['content_detail_photo'] = array(
     'name' => 'content_detail_photo',
     'effects' => array(
@@ -42,16 +42,16 @@ function openpublic_defaults_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '285',
+          'width' => 285,
           'height' => '',
           'upscale' => 0,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
 
-  // Exported image style: logo
+  // Exported image style: logo.
   $styles['logo'] = array(
     'name' => 'logo',
     'effects' => array(
@@ -66,15 +66,15 @@ function openpublic_defaults_image_default_styles() {
         'name' => 'image_scale',
         'data' => array(
           'width' => '',
-          'height' => '120',
+          'height' => 120,
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
 
-  // Exported image style: logo-small
+  // Exported image style: logo-small.
   $styles['logo-small'] = array(
     'name' => 'logo-small',
     'effects' => array(
@@ -89,10 +89,10 @@ function openpublic_defaults_image_default_styles() {
         'name' => 'image_scale',
         'data' => array(
           'width' => '',
-          'height' => '60',
+          'height' => 60,
           'upscale' => 0,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );

@@ -9,9 +9,9 @@ core = 7.x
 files[] = openpublic_splash.module
 
 
-; Information added by drush on 2013-06-27
-version = "7.x-1.0-beta18+0-dev"
+; Information added by drush on 2014-05-29
+version = "7.x-1.0-beta21+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1372359795"
+datestamp = "1401388891"
 

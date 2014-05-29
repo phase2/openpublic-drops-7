@@ -16,7 +16,7 @@ function openpublic_press_release_preprocess_node(&$vars) {
  * setting css for our view
  */
 function openpublic_press_release_preprocess_views_view(&$vars) {
-  if($vars['name'] == 'press_releases' && $vars['display_id'] == 'page_1') {
+  if ($vars['name'] == 'press_releases' && $vars['display_id'] == 'page_1') {
     drupal_add_css(drupal_get_path('module', 'openpublic_press_release') . '/theme/press_release.css');
   }
 

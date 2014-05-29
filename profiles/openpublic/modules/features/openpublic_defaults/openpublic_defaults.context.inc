@@ -10,7 +10,7 @@
 function openpublic_defaults_context_default_contexts() {
   $export = array();
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'media_room';
@@ -48,7 +48,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Blocks');
   $export['media_room'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'nav_blog';
@@ -76,7 +76,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Navigation');
   $export['nav_blog'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'nav_breadcrumb_title';
@@ -116,7 +116,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Navigation');
   $export['nav_breadcrumb_title'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'nav_leader';
@@ -151,7 +151,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Navigation');
   $export['nav_leader'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'nav_press_release';
@@ -179,7 +179,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Navigation');
   $export['nav_press_release'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'nav_search';
@@ -207,7 +207,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Navigation');
   $export['nav_search'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'nav_service';
@@ -235,7 +235,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Navigation');
   $export['nav_service'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'nav_staff';
@@ -271,7 +271,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Navigation');
   $export['nav_staff'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'no_sidebars';
@@ -361,7 +361,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Blocks');
   $export['no_sidebars'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'open_government';
@@ -399,7 +399,7 @@ function openpublic_defaults_context_default_contexts() {
   t('OpenPublic Blocks');
   $export['open_government'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'site_wide_after';
@@ -438,7 +438,7 @@ function openpublic_defaults_context_default_contexts() {
   t('Site wide blocks that appear after other blocks');
   $export['site_wide_after'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'site_wide_before';
@@ -506,7 +506,7 @@ function openpublic_defaults_context_default_contexts() {
   t('Site wide blocks that appear before other blocks');
   $export['site_wide_before'] = $context;
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'site_wide_not_home';

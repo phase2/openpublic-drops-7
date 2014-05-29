@@ -252,7 +252,7 @@ function defaultcontent_get_node($name) {
   if (is_numeric(defaultcontent_get_default($name))) {
     $nid = defaultcontent_get_default($name);
     if (!isset($temp[$nid])) {
-      $temp[$nid] = node_load($nid);
+      $temp[$nid] = node_load($nid, NULL, TRUE);
     }
     return $temp[$nid];
   }

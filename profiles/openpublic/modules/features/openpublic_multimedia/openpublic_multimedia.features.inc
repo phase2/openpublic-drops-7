@@ -18,10 +18,7 @@ function openpublic_multimedia_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function openpublic_multimedia_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("api" => "3.0");
 }
 
 /**
@@ -30,7 +27,7 @@ function openpublic_multimedia_views_api() {
 function openpublic_multimedia_image_default_styles() {
   $styles = array();
 
-  // Exported image style: media_gallery
+  // Exported image style: media_gallery.
   $styles['media_gallery'] = array(
     'name' => 'media_gallery',
     'effects' => array(
@@ -38,16 +35,16 @@ function openpublic_multimedia_image_default_styles() {
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
         'summary theme' => 'image_resize_summary',
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '165',
-          'height' => '125',
+          'width' => 165,
+          'height' => 125,
         ),
-        'dimensions callback' => 'image_resize_dimensions',
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );

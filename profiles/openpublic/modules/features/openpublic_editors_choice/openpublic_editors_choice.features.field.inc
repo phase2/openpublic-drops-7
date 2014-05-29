@@ -167,7 +167,7 @@ function openpublic_editors_choice_field_default_fields() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '4',
+        'weight' => '3',
       ),
     ),
   );
@@ -276,7 +276,7 @@ function openpublic_editors_choice_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'node_reference_autocomplete',
-        'weight' => '3',
+        'weight' => '1',
       ),
     ),
   );
@@ -343,7 +343,7 @@ function openpublic_editors_choice_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '1',
+        'weight' => '-4',
       ),
     ),
   );
@@ -424,7 +424,7 @@ function openpublic_editors_choice_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );

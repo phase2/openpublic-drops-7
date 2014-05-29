@@ -10,7 +10,7 @@
 function openpublic_menu_footer_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: menu-footer-utility
+  // Exported menu: menu-footer-utility.
   $menus['menu-footer-utility'] = array(
     'menu_name' => 'menu-footer-utility',
     'title' => 'Footer Utility',

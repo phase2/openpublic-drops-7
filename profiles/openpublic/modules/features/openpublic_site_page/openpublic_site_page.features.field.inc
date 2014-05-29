@@ -102,7 +102,7 @@ function openpublic_site_page_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '-3',
+        'weight' => '2',
       ),
       'widget_type' => 'text_textarea_with_summary',
     ),
@@ -291,7 +291,7 @@ function openpublic_site_page_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '1',
+        'weight' => '6',
       ),
     ),
   );
@@ -396,7 +396,7 @@ function openpublic_site_page_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'node_reference_autocomplete',
-        'weight' => '0',
+        'weight' => '4',
       ),
     ),
   );
@@ -485,7 +485,7 @@ function openpublic_site_page_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '-2',
+        'weight' => '1',
       ),
     ),
   );
@@ -578,7 +578,7 @@ function openpublic_site_page_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '3',
+        'weight' => '5',
       ),
     ),
   );
@@ -670,7 +670,7 @@ function openpublic_site_page_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '-1',
+        'weight' => '3',
       ),
     ),
   );

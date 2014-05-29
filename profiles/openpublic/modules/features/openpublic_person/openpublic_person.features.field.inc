@@ -153,7 +153,7 @@ function openpublic_person_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '13',
+        'weight' => '14',
       ),
     ),
   );
@@ -227,7 +227,7 @@ function openpublic_person_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '14',
+        'weight' => '13',
       ),
     ),
   );

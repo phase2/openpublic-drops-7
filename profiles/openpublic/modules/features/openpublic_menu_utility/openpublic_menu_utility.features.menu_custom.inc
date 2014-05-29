@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * openpublic_menu.features.menu_custom.inc
+ * openpublic_menu_utility.features.menu_custom.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function openpublic_menu_utility_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: menu-utility
+  // Exported menu: menu-utility.
   $menus['menu-utility'] = array(
     'menu_name' => 'menu-utility',
     'title' => 'Utility',

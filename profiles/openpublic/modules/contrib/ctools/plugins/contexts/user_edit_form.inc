@@ -1,9 +1,8 @@
 <?php
-
 /**
  * @file
  *
- * Plugin to provide a node_edit_form context
+ * Plugin to provide a user_edit_form context
  */
 
 /**
@@ -11,7 +10,7 @@
  * by the system that includes this file.
  */
 $plugin = array(
-  'title' => t("User edit form"),
+  'title' => t('User edit form'),
   'description' => t('A user edit form.'),
   'context' => 'ctools_context_create_user_edit_form',
   'edit form' => 'ctools_context_user_edit_form_settings_form',
@@ -31,18 +30,31 @@ $plugin = array(
  * are not always created from the UI.
  */
 function ctools_context_create_user_edit_form($empty, $user = NULL, $conf = FALSE) {
-  static $created;
-  $context = new ctools_context(array('form', 'user_edit', 'user_form', 'user_edit_form', 'user', 'entity:user'));
-  $context->plugin = 'user_edit_form';
+  // Determine the user category.
+  $category = !empty($conf['category']) ? $conf['category'] : FALSE;
+  unset($conf['category']);
 
-  if ($empty || (isset($created) && $created)) {
+  // Return previously created contexts, per category.
+  static $created = array();
+  if (!empty($created[$category])) {
+    return $created[$category];
+  }
+  // If no category was specified, use the default 'account'.
+  if (!$category) {
+    $category = 'account';
+  }
+
+  $context = new ctools_context(array('form', 'user_edit', 'user_form', 'user_edit_form', 'user', 'entity:user'));
+  // Store this context for later.
+  $created[$category] = $context;
+  $context->plugin = 'user_edit_form';
+  if ($empty) {
     return $context;
   }
-  $created = TRUE;
 
-  if ($conf) {
-    // In this case, $node is actually our $conf array.
-    $uid = is_array($user) && isset($user['uid']) ? $node['uid'] : (is_object($user) ? $user->uid : 0);
+  if (!empty($conf)) {
+    // In this case, $user is actually our $conf array.
+    $uid = is_array($user) && isset($user['uid']) ? $user['uid'] : (is_object($user) ? $user->uid : 0);
 
     if (module_exists('translation')) {
       if ($translation = module_invoke('translation', 'user_uid', $uid, $GLOBALS['language']->language)) {
@@ -59,7 +71,7 @@ function ctools_context_create_user_edit_form($empty, $user = NULL, $conf = FALS
   if (!empty($user)) {
     $form_id = 'user_profile_form';
 
-    $form_state = array('want form' => TRUE, 'build_info' => array('args' => array($user)));
+    $form_state = array('want form' => TRUE, 'build_info' => array('args' => array($user, $category)));
 
     $file = drupal_get_path('module', 'user') . '/user.pages.inc';
     require_once DRUPAL_ROOT . '/' . $file;
@@ -78,8 +90,6 @@ function ctools_context_create_user_edit_form($empty, $user = NULL, $conf = FALS
     $context->form_state = &$form_state;
     $context->form_id    = $form_id;
     $context->form_title = isset($user->name) ? $user->name : '';
-    //$context->node_type  = $node->type;
-    //$context->restrictions['type'] = array($node->type);
     $context->restrictions['form'] = array('form');
     return $context;
   }
@@ -147,20 +157,14 @@ function ctools_context_user_edit_form_settings_form_validate($form, &$form_stat
     $user = db_query('SELECT uid FROM {user} WHEREuid = :uid', array(':uid' => $uid))->fetchObject();
   }
   else {
-    $node = db_query('SELECT uid FROM {user} WHERE LOWER(name) = LOWER(:name)', array(':name' => $uid))->fetchObject();
+    $user = db_query('SELECT uid FROM {user} WHERE LOWER(name) = LOWER(:name)', array(':name' => $uid))->fetchObject();
   }
 
-  // Do not allow unpublished nodes to be selected by unprivileged users
-  /*if (!$node || (empty($node->status) && !(user_access('administer nodes')))) {
-    form_error($form['node'], t('Invalid node selected.'));
-  }
-   * */
-  
   form_set_value($form['uid'], $user->uid, $form_state);
 }
 function ctools_context_user_edit_form_settings_form_submit($form, &$form_state) {
   if ($form_state['values']['set_identifier']) {
-    $node = user_load($form_state['values']['uid']);
+    $user = user_load($form_state['values']['uid']);
     $form_state['values']['identifier'] = $user->name;
   }
 

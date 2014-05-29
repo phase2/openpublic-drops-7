@@ -4,7 +4,7 @@ function openpublic_multimedia_menu() {
   return array(
     'colorbox/node/%node' => array(
       'page callback' => 'openpublic_multimedia_colorbox_node',
-      'page arguments'=> array(2),
+      'page arguments' => array(2),
       'access callback' => TRUE,
     ),
   );
@@ -38,13 +38,13 @@ function openpublic_multimedia_preprocess_node(&$variables) {
 function openpublic_multimedia_preprocess_views_view_field(&$vars) {
   
   global $language;
-  if(($vars['view']->name == 'media_gallery')
+  if (($vars['view']->name == 'media_gallery')
     && ($vars['field']->options['ui_name'] == 'Thumbnail')
   ) {
     $field_media_gallery_media = $vars['row']->_field_data['nid']['entity']->field_media_gallery_media;
     $lang = isset($field_media_gallery_media[$language->language]) ? $language : LANGUAGE_NONE;
     $nid = isset($field_media_gallery_media[$lang]) && !empty($field_media_gallery_media[$lang]) ? $field_media_gallery_media[$lang][0]['nid'] : FALSE;
-    if($nid
+    if ($nid
         && ($media = entity_load('node', array($nid)))
         && ($media = $media[$nid])
         && ($lang = isset($media->field_photo_image[$language->language]) ? $language : LANGUAGE_NONE)
@@ -60,7 +60,7 @@ function openpublic_multimedia_preprocess_views_view_field(&$vars) {
           'class' => 'photo',
         ),
       );
-      $vars['output'] = l(theme('image_style', $theme_data), "node/{$vars['row']->nid}", array("html"=>'TRUE'));
+      $vars['output'] = l(theme('image_style', $theme_data), "node/{$vars['row']->nid}", array("html" => TRUE));
     }
   }
 }

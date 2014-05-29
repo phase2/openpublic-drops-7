@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * openpublic_menu.features.menu_links.inc
+ * openpublic_menu_utility.features.menu_links.inc
  */
 
 /**
@@ -22,11 +22,11 @@ function openpublic_menu_utility_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '1',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-50',
+    'hidden' => 0,
+    'external' => 1,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -50,
   );
   // Exported menu link: menu-utility:user
   $menu_links['menu-utility:user'] = array(
@@ -40,11 +40,11 @@ function openpublic_menu_utility_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-49',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -49,
   );
   // Exported menu link: menu-utility:user/logout
   $menu_links['menu-utility:user/logout'] = array(
@@ -58,17 +58,18 @@ function openpublic_menu_utility_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-48',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -48,
   );
   // Translatables
   // Included for use with string extractors like potx.
   t('Home');
   t('Login');
   t('Logout');
+
 
   return $menu_links;
 }

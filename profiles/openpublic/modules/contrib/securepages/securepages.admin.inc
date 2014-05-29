@@ -67,6 +67,20 @@ function securepages_settings($form, &$form_state) {
     '#options' => array_map('check_plain', user_roles(TRUE)),
     '#default_value' => variable_get('securepages_roles', array()),
   );
+  $form['securepages_forms'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Secure forms'),
+    '#default_value' => variable_get('securepages_forms', SECUREPAGES_FORMS),
+    '#cols' => 40,
+    '#rows' => 5,
+    '#description' => t('List of form ids which will have the https flag set to TRUE.'),
+  );
+  $form['securepages_debug'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Debugging'),
+    '#default_value' => variable_get('securepages_debug', 0),
+    '#description' => t('Turn on debugging to allow easier testing of settings'),
+  );
   $form['#submit'] = array('securepages_settings_submit');
   return system_settings_form($form);
 }
