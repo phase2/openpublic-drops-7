@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ * Context Field
+ */
 
 /**
  * Implement hook_permission().
@@ -14,8 +18,8 @@ function context_field_permission() {
 }
 
 /**
- *  * Implementation of hook_ctools_plugin_api().
- *   */
+ * Implementation of hook_ctools_plugin_api().
+ */
 function context_field_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "context" && $api == "context") {
@@ -29,13 +33,13 @@ function context_field_ctools_plugin_api() {
 function context_field_menu() {
   $items['context_field/autocomplete/node'] = array(
     'title' => 'Node Autocomplete',
-    'access arguments' => TRUE,
+    'access arguments' => array('use context field editor'),
     'page callback' => 'context_field_node_autocomplete',
     'type' => MENU_CALLBACK
   );
   $items['context_field/autocomplete/context'] = array(
     'title' => 'Node Autocomplete',
-    'access arguments' => TRUE,
+    'access arguments' => array('use context field editor'),
     'page callback' => 'context_field_autocomplete',
     'type' => MENU_CALLBACK
   );
@@ -76,20 +80,18 @@ function context_field_context_registry() {
  * Implementation of hook_help()
  */
 function context_field_help($path, $arg) {
-  switch($path) {
+  switch ($path) {
     case 'admin/help#context_field':
       $output = '';
-      $output .= '<h3>' . t("About").'</h3>';
+      $output .= '<h3>' . t("About") . '</h3>';
       $output .= '<p>' . t("Context field provides users to select a context based on the value of a field for a given node type. This unlocks the power of context and allows content creators the ability to select which context is used for a given piece of content.  This allows non-technical site users the ability to accomplish anything normally accomplished by a context by selecting the context from a field.", array()) . '</p>';
-
       $output .= '<h3>' . t("Usage") . '</h3>';
       $output .= '<p>' . t("Go to <a href=@build>`admin/build/context/add`</a> and create a new context.  The name of the context will be what the user sees as the field value, so choose this name carefully.  To make a context available as a context field, select 'Context Field' from the list of conditions and check the first checkbox.  The second checkbox makes the context available as a default field value.  Finally, the category text field allows contexts to be separated into categories and will allow different groups of contexts to work in different fields.", array('@build' => '../../admin/structure/context/add')) . '<p>';
       $output .= '<p>' . t("After creating the desired contexts, create the context field for the desired content type and select `Context` as the field type,  select an appropriate widget and save the field. Enter the relevant category and select the default context.") . '</p>';
       $output .= '<h4>' . t("Basic example") . '</h4>';
-      $output .= '<p>' . t(" To borrow from the example used in <a href=@context>context</a>, with context field enabled, adding nodes to the pressroom would be as simple as marking the context field `Newsroom` and hitting save.  This would fire the newsroom context instead of, for example, the blog context.  This would eliminate the need to have designated node types for newsroom and blogs simply to fire a given context." , array('@context' => '/admin/help/context')) . '</p>';
-//      $output .= '<p>' . t("",array()).'</p>';
-      $output .= '<h3>' . t("Resources").'</h3>';
-      $output .= '<p>' . t("Besides the documentation on the context field <a href='@project_page'>project page</a>, there's a blog post by one of the module authors that provides a more <a href='@agile_approach'> in-depth example.</a>", array('@project_page' => 'http://drupal.org/project/context_field' , '@agile_approach' => 'http://www.agileapproach.com/blog-entry/context-field')).'</p>';
+      $output .= '<p>' . t("To borrow from the example used in <a href=@context>context</a>, with context field enabled, adding nodes to the pressroom would be as simple as marking the context field `Newsroom` and hitting save.  This would fire the newsroom context instead of, for example, the blog context.  This would eliminate the need to have designated node types for newsroom and blogs simply to fire a given context." , array('@context' => '/admin/help/context')) . '</p>';
+      $output .= '<h3>' . t("Resources") . '</h3>';
+      $output .= '<p>' . t("Besides the documentation on the context field <a href='@project_page'>project page</a>, there's a blog post by one of the module authors that provides a more <a href='@agile_approach'> in-depth example.</a>", array('@project_page' => 'http://drupal.org/project/context_field' , '@agile_approach' => 'http://www.agileapproach.com/blog-entry/context-field')) . '</p>';
       return $output;
   }
 }
@@ -343,11 +345,11 @@ function context_field_field_widget_form(&$form, &$form_state, $field, $instance
 
 
       $field_form['context'] = array(
-        '#title' => $instance['label'],
+        '#title' => check_plain($instance['label']),
         '#type' => 'textfield',
         '#autocomplete_path' => "context_field/autocomplete/context/$cat",
         '#default_value' => $default_value,
-        '#description' => $instance['description'],
+        '#description' => check_plain($instance['description']),
       );
       return $field_form;
     break;
@@ -359,16 +361,16 @@ function context_field_field_widget_form(&$form, &$form_state, $field, $instance
       foreach ($contexts as $key => $context) {
         if (isset($context->conditions['context_field']['values'][1]) &&
           (isset($context->conditions['context_field']['options']['context_field_category'])) &&
-          ($context->conditions['context_field']['options']['context_field_category'] == $cat) ){
+          ($context->conditions['context_field']['options']['context_field_category'] == $cat) ) {
           $context_options[$key] = $context->description ? $context->description : $key;
         }
       }
       $field_form['context'] = array(
-        '#title' => $instance['label'],
+        '#title' => check_plain($instance['label']),
         '#type' => 'select',
         '#options' => $context_options,
         '#default_value' => isset($items[$delta]['context']) ? $items[$delta]['context'] : $instance['settings']['default_context'],
-        '#description' => $instance['description'],
+        '#description' => check_plain($instance['description']),
       );
       // if someone want to create a new field turn the box into a textfield
       /*
@@ -400,12 +402,12 @@ function context_field_field_widget_form(&$form, &$form_state, $field, $instance
     
     case 'context_field':
     case 'context_field_default':
-      if($instance['widget']['settings']['form_element']['user_toggle']) {
+      if ($instance['widget']['settings']['form_element']['user_toggle']) {
         $default_value = isset($items[$delta]['context']) ? (bool) $items[$delta]['context'] : 0;
         $field_form['context'] = array(
           '#type' => 'checkbox',
-          '#title' => $instance['label'],
-          '#description' => $instance['description'],
+          '#title' => check_plain($instance['label']),
+          '#description' => check_plain($instance['description']),
           '#default_value' => $default_value,
         );
       }

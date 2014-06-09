@@ -37,9 +37,9 @@ features[variable][] = comment_subject_field_press_release
 features[variable][] = comment_subject_field_services
 
 
-; Information added by drush on 2014-05-29
-version = "7.x-1.0-beta21+0-dev"
+; Information added by drush on 2014-06-09
+version = "7.x-1.0-beta22+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1401388891"
+datestamp = "1402324703"
 

@@ -6,8 +6,8 @@ core = 7.x
 files[] = openid.test
 
 
-; Information added by drush on 2014-05-29
+; Information added by drush on 2014-06-09
 version = "master-dev"
 project = "drupal"
-datestamp = "1401388888"
+datestamp = "1402324699"
 

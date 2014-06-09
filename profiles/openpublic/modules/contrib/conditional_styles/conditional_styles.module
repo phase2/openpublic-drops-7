@@ -19,7 +19,7 @@ function conditional_styles_preprocess_html(&$vars, $hook) {
                 'group' => CSS_THEME,
                 'browsers' => array(
                   'IE' => $condition,
-                  '!IE' => FALSE,
+                  '!IE' => strpos($condition, '!IE') === FALSE ? FALSE : TRUE,
                 ),
                 'weight' => 999,
                 'every_page' => TRUE,

@@ -51,7 +51,7 @@ projects[imce_wysiwyg][subdir] = contrib
 projects[imce_wysiwyg][version] = 1.0
 
 projects[views][subdir] = contrib
-projects[views][version] = 3.7
+projects[views][version] = 3.8
 
 projects[nodequeue][subdir] = contrib
 projects[nodequeue][version] = 2.0-alpha1
@@ -77,7 +77,7 @@ projects[twitter_pull][subdir] = contrib
 projects[twitter_pull][version] = 1.0-rc5
 
 projects[conditional_styles][subdir] = contrib
-projects[conditional_styles][version] = 2.1
+projects[conditional_styles][version] = 2.2
 
 projects[comment_notify][subdir] = contrib
 projects[comment_notify][version] = 1.2
@@ -89,7 +89,7 @@ projects[entity_autocomplete][subdir] = contrib
 projects[entity_autocomplete][version] = 1.0-beta3
 
 projects[context_field][subdir] = contrib
-projects[context_field][version] = 1.0-beta4
+projects[context_field][version] = 1.0-beta5
 
 projects[boxes][subdir] = contrib
 projects[boxes][version] = 1.1

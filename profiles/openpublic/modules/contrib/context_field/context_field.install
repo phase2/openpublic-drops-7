@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Context Field
+ */
+
+/**
  * Implementation of hook_field_schema()
  */
 function context_field_field_schema($field) {

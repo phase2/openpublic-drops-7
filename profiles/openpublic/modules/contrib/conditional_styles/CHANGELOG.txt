@@ -1,3 +1,7 @@
+Conditional Styles 7.x-2.2, 2013-07-12
+------------------------------------------
+- #580440 by quicksketch: Add support for Downlevel-revealed Conditional Comments
+
 Conditional Styles 7.x-2.1, 2012-03-12
 --------------------------------------
 - #1478242: Weight needed for conditional stylesheets added via drupal_add_css()
