@@ -77,7 +77,6 @@ html.js .js-hide { display:none; }
 
 .element-invisible {
   position:absolute !important;
-  clip:rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip:rect(1px, 1px, 1px, 1px);
   }
 
@@ -337,11 +336,7 @@ html.js .js-hide { display:none; }
   height: 0;
   clear: both;
   visibility: hidden;
-  }
-
-* html .clearfix { height: 1%; } /* IE6 */
-
-*:first-child + html .clearfix { min-height: 1%; } /* IE7 */
+}
 
 /**
  * update/update.css ==================================================
@@ -391,4 +386,5 @@ html.js .js-hide { display:none; }
   }
 
 .vertical-tabs .vertical-tabs-panes .vertical-tabs-pane legend { display:none; }
+.vertical-tabs .vertical-tabs-panes .vertical-tabs-pane #search-api-alter-add-aggregation-field-settings legend { display:block; }
 .vertical-tabs .vertical-tabs-list .summary { display:block; }

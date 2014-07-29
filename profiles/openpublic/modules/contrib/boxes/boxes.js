@@ -9,7 +9,7 @@
       data: { 'boxes_delta': data.delta },
       global: true,
       success: function(response, status) {
-        if($('#boxes-box-form-wrapper').dialog('isOpen')){
+        if ($('#boxes-box-form-wrapper').dialog('isOpen')) {
           $('#boxes-box-form-wrapper').dialog('close');
         }
         $('.hasPopup').removeClass('hasPopup');
@@ -21,7 +21,7 @@
     });
   };
   Drupal.ajax.prototype.commands['showBoxForm'] = function(ajax, response, status) {
-    if(!$('#boxes-box-form-wrapper').size() || !$('#boxes-box-form-wrapper').dialog('isOpen')){
+    if (!$('#boxes-box-form-wrapper').size() || !$('#boxes-box-form-wrapper').dialog('isOpen')) {
       Drupal.ajax.prototype.commands.insert(ajax, response, status);
       $(response.selector).addClass('hasPopup');
       $('#boxes-box-form-wrapper')
@@ -48,16 +48,16 @@
           width: Math.min($(window).width() * .75, 750),
           height: Math.min($(window).height() * .75, 750),
           title : Drupal.t('Edit Box')
-        });  
+        });
     } else {
       //change the selector to just update the current form - in place (in the popup)
       response.selector = '#boxes-box-form-wrapper';
       Drupal.ajax.prototype.commands.insert(ajax, response, status);
     }
-    
+
   };
 
-  Drupal.behaviors.boxes = { 
+  Drupal.behaviors.boxes = {
     attach: function(context, settings) {
       $('div.boxes-box-controls a:not(.boxes-processed)')
         .addClass('boxes-processed')
@@ -76,7 +76,7 @@
           }
           return false;
         });
-   
+
       Drupal.ajax.prototype.commands['preReplaceContextBlock'] = function(ajax, response, status) {
         data = response
         Drupal.settings.boxes = Drupal.settings.boxes || {};
@@ -101,7 +101,7 @@
         if ($(this).parent().parent().hasClass("pane-content")) {
           $(this).hide();
         }
-        if($(this).parents(".block").find(".block-configure").length > 0) {
+        if ($(this).parents(".block").find(".block-configure").length > 0) {
           $(this).parents(".block").find(".block-configure").after($(this).find("li.edit"));
           $(this).parents(".block").find(".block-configure").detach();
         }
@@ -120,7 +120,7 @@
         }
       });
 
-      //apply the popup form to 'add boxes' also  
+      //apply the popup form to 'add boxes' also
       $('.boxes-box-editing .box-editor #boxes-box-form-wrapper').not('.processed').addClass('processed').dialog({
         modal : true,
         zIndex: -1,
@@ -128,7 +128,7 @@
            //handle someone closing the box without clicking any buttons
            $(this).remove();
         },
-        open: function(event, ui) { 
+        open: function(event, ui) {
           //hide the close button on add on the popup to prevent various annoying errors
           $(this).siblings('.ui-dialog-titlebar').children('.ui-dialog-titlebar-close').hide();
         },
@@ -137,6 +137,6 @@
         title : Drupal.t('Configure Box')
       });
     }
-  
+
   };
 })(jQuery);

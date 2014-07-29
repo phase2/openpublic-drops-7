@@ -1,0 +1,82 @@
+<?php
+/**
+ * @file
+ * Install code for the openpublic social feature.
+ */
+
+
+/**
+ * Implements hook_install().
+ */
+function openpublic_social_install() {
+  // Follow Module updates
+  if (module_exists('follow')) {
+    $follow_data = array();
+    $follow_options = array(
+      'query' => array(),
+      'fragment' => '',
+    );
+    $follow_data[] = array(
+      'name' => 'facebook',
+      'uid' => 0,
+      'path' => 'http://www.facebook.com/pages/Phase2-Technology/7553826753',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    $follow_data[] = array(
+      'name' => 'twitter',
+      'uid' => 0,
+      'path' => 'http://twitter.com/openpublic',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    $follow_data[] = array(
+      'name' => 'youtube',
+      'uid' => 0,
+      'path' => 'http://www.youtube.com',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    $follow_data[] = array(
+      'name' => 'linkedin',
+      'uid' => 0,
+      'path' => 'http://www.linkedin.com/company/phase2-technology',
+      'options' => $follow_options,
+      'title' => '',
+      'weight' => 0,
+    );
+    foreach ($follow_data as $data) {
+      drupal_write_record('follow_links', $data);
+    }
+  }
+
+  // AddThis settings
+  if (module_exists('addthis')) {
+    $addthis = array(
+      'addthis_brand' => '',
+      'addthis_disable_flash' => 0,
+      'addthis_display_in_links' => 0,
+      'addthis_display_in_teasers' => 0,
+      'addthis_dropdown_disabled' => 0,
+      'addthis_image' => '/profiles/openpublic/modules/features/openpublic_social/soc-media.gif',
+      'addthis_image_attributes' => 'alt="Email, Print, send to Twitter, send to Facebook, and more"',
+      'addthis_image_height' => 17,
+      'addthis_image_secure' => '/profiles/openpublic/modules/features/openpublic_social/theme/soc-media.gif',
+      'addthis_image_width' => 77,
+      'addthis_logo' => 'http://www.addthis.com/images/yourlogo.png',
+      'addthis_logo_background' => 'EFEFFF',
+      'addthis_logo_color' => '666699',
+      'addthis_offset_left' => 2,
+      'addthis_offset_top' => 2,
+      'addthis_options' => 'print, email, twitter, facebook, digg, delicious, myspace, google, live, favorites, more',
+      'addthis_username' => 'openpublic',
+      'addthis_widget_version' => 152,
+    );
+    foreach ($addthis as $key => $value) {
+      variable_set($key, $value);
+    }
+  }
+}

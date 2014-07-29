@@ -33,10 +33,12 @@ class views_content_plugin_display_panel_pane extends views_plugin_display {
         'path_override'   => array('default' => FALSE),
         'title_override'  => array('default' => FALSE),
         'exposed_form'    => array('default' => FALSE),
+        'exposed_form_configure'    => array('default' => FALSE),
         'fields_override' => array('default' => FALSE),
        ),
     );
 
+    $options['exposed_form_overrides'] = array();
     $options['argument_input'] = array('default' => array());
     $options['link_to_view'] = array('default' => 0);
     $options['inherit_panels_path'] = array('default' => 0);
@@ -167,6 +169,7 @@ class views_content_plugin_display_panel_pane extends views_plugin_display {
           'path_override' => t('Path override'),
           'title_override' => t('Title override'),
           'exposed_form' => t('Use exposed widgets form as pane configuration'),
+          'exposed_form_configure' => t('Exposed Form'),
           'fields_override' => t('Fields override'),
         );
 
@@ -176,6 +179,39 @@ class views_content_plugin_display_panel_pane extends views_plugin_display {
           '#default_value' => $allow,
           '#options' => $options,
         );
+        $form['exposed_form_overrides'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Exposed Form Filter Visibility'),
+          '#tree' => TRUE,
+          '#description' => t('Allows customizing which filters show up as pane configuration vs. exposed form.'),
+          '#states' => array(
+            'visible' => array(
+              ':input[name="allow[exposed_form]"]' => array('checked' => TRUE),
+            ),
+          ),
+        );
+        $exposed_form_overrides = $this->get_option('exposed_form_overrides');
+        foreach (array('filters' => t('Filters'), 'sorts' => t('Sorts')) as $type => $label) {
+          foreach ($this->get_option($type) as $filter_id => $filter_info) {
+            if (!empty($filter_info['exposed'])) {
+              $form['exposed_form_overrides'][$type][$filter_id] = array(
+                '#type' => 'select',
+                '#title' => !empty($filter_info['expose']['label']) ? check_plain($filter_info['expose']['label']) : check_plain($filter_id),
+                '#options' => array(
+                  '' => t('Pane configuration form only'),
+                  'pane_and_exposed' => t('Pane configuration form and exposed form'),
+                  'configureable' => t('Pane and option for exposed form'),
+                  'exposed' => t('Exposed form only')
+                ),
+                '#default_value' => !empty($exposed_form_overrides[$type][$filter_id]) ? $exposed_form_overrides[$type][$filter_id] : '',
+              );
+            }
+          }
+          if (!empty($form['exposed_form_overrides'][$type])) {
+            $form['exposed_form_overrides'][$type]['#type'] = 'fieldset';
+            $form['exposed_form_overrides'][$type]['#title'] = $label;
+          }
+        }
         break;
       case 'pane_title':
         $form['#title'] .= t('Administrative title');
@@ -323,6 +359,7 @@ class views_content_plugin_display_panel_pane extends views_plugin_display {
     parent::options_submit($form, $form_state);
     switch ($form_state['section']) {
       case 'allow':
+        $this->set_option('exposed_form_overrides', $form_state['values']['exposed_form_overrides']);
       case 'argument_input':
       case 'link_to_view':
       case 'inherit_panels_path':
@@ -406,11 +443,30 @@ class views_content_plugin_display_panel_pane extends views_plugin_display {
    * displayed unless uses_exposed() returns TRUE.
    */
   function displays_exposed() {
-    $conf = $this->get_option('allow');
-    // If this is set, the exposed form is part of pane configuration, not
-    // rendered normally.
-    return empty($conf['exposed_form']);
-  }
+    $pane_conf = $this->get_option('pane_conf');
 
+    // Allow indivudal panes to disable exposed form.
+    if (isset($pane_conf['show_exposed_form']) && empty($pane_conf['show_exposed_form'])) {
+      return FALSE;
+    }
+
+    $conf = $this->get_option('allow');
+    // If exposed_form is set, the exposed form is part of pane configuration,
+    // not rendered normally.
+    if (empty($conf['exposed_form'])) {
+      return TRUE;
+    }
+
+    // If any filter or field setting is not empty, the form is displayed.
+    $overrides = $this->get_option('exposed_form_overrides');
+    if ($overrides) {
+      foreach (array_filter($overrides) as $override) {
+        if (array_filter($override)) {
+          return TRUE;
+        }
+      }
+    }
+    return FALSE;
+  }
 }
 

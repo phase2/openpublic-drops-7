@@ -1,0 +1,16 @@
+/**
+ * @file
+ *  Holds default styles for editor's choice app that ships with openpublic.
+ */
+
+.field-name-field-promotion-thumbnail {
+  border: 4px solid #EAEAEA;
+  float: left;
+  height: 80px;
+  margin: 0 10px 10px 15px;
+}
+
+.field-name-field-promotion-node,
+.field-name-field-promotion-link {
+  clear: both;
+}

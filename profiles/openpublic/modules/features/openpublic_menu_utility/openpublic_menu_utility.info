@@ -1,18 +1,15 @@
-core = "7.x"
-dependencies[] = "features"
-dependencies[] = "menu"
-features[menu_custom][] = "menu-utility"
-features[menu_links][] = "menu-utility:<front>"
-features[menu_links][] = "menu-utility:user"
-features[menu_links][] = "menu-utility:user/logout"
-name = "OpenPublic Utility Menu"
-package = "Defaults"
-php = "5.2.4"
+name = OpenPublic Utility Menu
+core = 7.x
+package = OpenPublic
+dependencies[] = features
+dependencies[] = menu
+features[features_api][] = api:2
+features[menu_custom][] = menu-utility
 
 
-; Information added by drush on 2014-05-29
-version = "7.x-1.0-beta21+0-dev"
+; Information added by drush on 2014-07-29
+version = "7.x-1.0-rc1+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1401382645"
+datestamp = "1406653007"
 

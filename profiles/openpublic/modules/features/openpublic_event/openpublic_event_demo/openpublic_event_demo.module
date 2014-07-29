@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ * Module function for event demo.
+ */
+
+/**
+ * Implements hook_content_defaults().
+ */
+function openpublic_event_demo_content_defaults_alter(&$content) {
+  if (!empty($content['op_event_townhall'])) {
+    $new_date = time() + 3600 * 24 * 3;
+    _openpublic_event_demo_set_date('op_event_townhall', $content, $new_date, $new_date + (3600 * 2));
+  }
+  if (!empty($content['op_event_holiday_lights'])) {
+    $new_date = time() + 3600 * 24 * 6;
+    _openpublic_event_demo_set_date('op_event_holiday_lights', $content, $new_date, $new_date + (3600 * 2));
+  }
+}
+
+function _openpublic_event_demo_set_date($machine_name, &$content, $new_value, $new_value2) {
+  if (($nid = defaultcontent_get_default($machine_name)) && ($node = node_load($nid))) {
+    $content[$machine_name]->field_event_dates = $node->field_event_dates;
+  }
+  else {
+    $content[$machine_name]->field_event_dates[LANGUAGE_NONE][0]['value'] = substr(date('c',  $new_value), 0, 19);
+    $content[$machine_name]->field_event_dates[LANGUAGE_NONE][0]['value2'] = substr(date('c', $new_value2), 0, 19);
+  }
+}

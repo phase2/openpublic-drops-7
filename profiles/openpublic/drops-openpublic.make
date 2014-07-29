@@ -9,6 +9,7 @@ projects[drupal][patch][992540] = http://drupal.org/files/issues/992540-3-reset_
 projects[drupal][patch][1355984] = http://drupal.org/files/1355984-timeout_on_install_with_drush_si-make.patch
 projects[drupal][patch][1369024] = http://drupal.org/files/1369024-theme-inc-add-messages-id-make-D7.patch
 projects[drupal][patch][1369584] = http://drupal.org/files/1369584-form-error-link-from-message-to-element-D7.patch
+projects[drupal][patch][1697570] = http://drupal.org/files/drupal7.menu-system.1697570-29.patch
 
 projects[openpublic][type] = profile
 

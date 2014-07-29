@@ -51,6 +51,7 @@ function boxes_schema() {
     'export' => array(
       'key' => 'delta',
       'identifier' => 'box',
+      'export callback' => 'boxes_box_export',
       'api' => array(
         'owner' => 'boxes',
         'api' => 'box',

@@ -27,10 +27,14 @@ function path_export_alter(&$node, &$export) {
  */
 function path_post_import($node) {
   if (isset($node->nid) && isset($node->exported_path)) {
-    $path = array(
-      'source' => 'node/' . $node->nid,
-      'alias' => $node->exported_path,
-    );
+    // Override existing path (e.g. from pathauto) if exists.
+    $path = path_load("node/". $node->nid);
+    if (!$path) {
+      $path = array(
+        'source' => 'node/' . $node->nid,
+      );
+    }
+    $path['alias'] = $node->exported_path;
     if (isset($node->language)) {
       $path['language'] = $node->language;
     }

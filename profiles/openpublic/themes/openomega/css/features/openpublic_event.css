@@ -1,0 +1,15 @@
+/**
+ * @file
+ *  Holds default styles for event app that ships with openpublic.
+ */
+
+/**
+ * Style the event page.
+ */
+.node-event .field-type-date {
+  margin-bottom: 5px;
+}
+
+.node-event .field-type-addressfield {
+  margin-bottom: 7px;
+}

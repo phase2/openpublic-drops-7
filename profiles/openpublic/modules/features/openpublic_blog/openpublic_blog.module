@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the openpublic blog feature.
+ */
+
+include_once('openpublic_blog.features.inc');

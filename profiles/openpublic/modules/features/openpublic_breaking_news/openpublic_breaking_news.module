@@ -1,4 +1,33 @@
 <?php
+/**
+ * @file
+ * Code for the openpublic breaking news feature.
+ */
 
 include_once('openpublic_breaking_news.features.inc');
-include_once('openpublic_breaking_news.theme.inc');
+
+
+/**
+ * Implements hook_theme_registery_alter().
+ */
+function openpublic_breaking_news_theme_registry_alter(&$theme_registry) {
+  if (!empty($theme_registry['entity_boxes'])) {
+    $theme_registry['entity_boxes__breaking_news'] =  $theme_registry['entity_boxes'];
+    $theme_registry['entity_boxes__breaking_news']['theme path'] = drupal_get_path('module', 'openpublic_breaking_news') . '/theme';
+    $theme_registry['entity_boxes__breaking_news']['template'] = $theme_registry['entity_boxes__breaking_news']['theme path'] . '/entity-boxes--breaking-news';
+  }
+}
+
+/**
+ * Implements hook_preprocess_entity().
+ */
+function openpublic_breaking_news_preprocess_entity(&$variables) {
+  if ($variables['entity_type'] == 'entity_boxes' && $variables['entity_boxes']->type == 'breaking_news') {
+    if (($override = field_get_items('entity_boxes', $variables['entity_boxes'], 'field_breaking_news_title')) && !empty($variables['content']['field_breaking_news_node'][0]['#title'])) {
+      $variables['content']['field_breaking_news_node'][0]['#title'] = check_plain($override[0]['value']);
+    }
+    elseif (empty($variables['content']['field_breaking_news_node'][0]['#title']) && entity_boxes_access('edit', $variables['entity_boxes'])) {
+      $variables['edit'] = t('Please configure a breaking news item.');
+    }
+  }
+}

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Code for the openpublic comments feature.
+ */
+
 
 include_once('openpublic_comments.features.inc');
-include_once('openpublic_comments.theme.inc');

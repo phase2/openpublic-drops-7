@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Install code for openpublic blog feature.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function openpublic_blog_install() {
+  variable_set('pathauto_node_blog_entry_pattern', 'blog/[node:created:custom:Y-m-d]/[node:title]');
+}

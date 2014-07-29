@@ -42,13 +42,19 @@ class context_reaction_block extends context_reaction {
       $group = isset($block->context_group) ? $block->context_group : $block->module;
       if (!isset($form['selector'][$group])) {
         $form['selector'][$group] = array(
-          '#type' => 'checkboxes',
+          '#type' => 'fieldset',
+          '#collapsible' => TRUE, 
+          '#collapsed' => TRUE,
           '#title' => isset($block->context_group) ? $block->context_group : $modules[$block->module],
+        );
+        $form['selector'][$group]['checkboxes'] = array(
+          '#type' => 'checkboxes',
           '#options' => array(),
         );
       }
-      $form['selector'][$group]['#options'][$block->bid] = check_plain($block->info);
+      $form['selector'][$group]['checkboxes']['#options'][$block->bid] = check_plain($block->info);
     }
+
     ksort($form['selector']);
 
     /**
@@ -66,12 +72,29 @@ class context_reaction_block extends context_reaction {
       );
       foreach ($this->get_blocks($region, $context) as $block) {
         if (!empty($block->context)) {
+          if (variable_get('context_reaction_block_expose_weights', FALSE)) {
+            $weight_form = array(
+              '#type' => 'weight',
+              '#title' => t('Weight'),
+              '#delta' => $weight_delta,
+              '#default_value' => $block->weight,
+              '#prefix' => '<div class="exposed">',
+              '#suffix' => '</div>',
+            );
+          }
+          else {
+            $weight_form = array(
+              '#type' => 'weight',
+              '#delta' => $weight_delta,
+              '#default_value' => 0
+            );
+          }
           $form['blocks'][$region][$block->bid] = array(
             '#value' => check_plain($block->info),
             '#weight' => $block->weight,
             '#type' => 'markup',
             '#tree' => TRUE,
-            'weight' => array('#type' => 'weight', '#delta' => $weight_delta, '#default_value' => $block->weight),
+            'weight' => $weight_form,
           );
         }
       }
@@ -101,7 +124,7 @@ class context_reaction_block extends context_reaction {
             'module' => $block_info[$data->bid]->module,
             'delta' => $block_info[$data->bid]->delta,
             'region' => $region,
-            'weight' => $data->weight,
+            'weight' => isset($values['blocks'][$region][$data->bid]['weight']) ? $values['blocks'][$region][$data->bid]['weight'] : $position,
           );
         }
       }
@@ -194,6 +217,12 @@ class context_reaction_block extends context_reaction {
       '#type' => 'checkbox',
       '#default_value' => variable_get('context_reaction_block_all_regions', FALSE),
       '#description' => t('Show all regions including those that are empty. Enable if you are administering your site using the inline editor.')
+    );
+    $form['context_reaction_block_expose_weights'] = array(
+      '#title' => t('Expose numeric block weights'),
+      '#type' => 'checkbox',
+      '#default_value' => variable_get('context_reaction_block_expose_weights', FALSE),
+      '#description' => t('Expose block weights allowing you to set them manually. This can be useful if you have complex overlapping contexts that place blocks in the same regions. Note that newly added blocks must be saved before their weights are exposed. Also note that any manual settings will be overridden when using the inline editor.')
     );
     return $form;
   }
@@ -299,15 +328,7 @@ class context_reaction_block extends context_reaction {
    */
   protected function editable_block($block) {
     if (!empty($block->content)) {
-      $block->content = array(
-        'content' => $block->content,
-        'context' => array('#markup' => "<a id='context-block-{$block->module}-{$block->delta}' class='context-block editable edit-{$block->context}'></a>"),
-      );
-      //Contextual links are in the wrong spot in the render array once we've nested them
-      if (isset($block->content['content']['#contextual_links'])) {
-        $block->content['#contextual_links'] = $block->content['content']['#contextual_links'];
-        unset($block->content['content']['#contextual_links']);
-      }
+      $block->content['#theme_wrappers'][] = 'context_block_edit_wrap';
     }
     else {
       // the block alter in context.module should ensure that blocks are never

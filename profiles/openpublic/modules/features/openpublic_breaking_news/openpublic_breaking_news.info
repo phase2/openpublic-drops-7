@@ -1,24 +1,32 @@
-core = "7.x"
-dependencies[] = "features"
-dependencies[] = "image"
-dependencies[] = "nodequeue"
-dependencies[] = "strongarm"
-dependencies[] = "taxonomy"
-dependencies[] = "views"
-description = "Contains In The News content type"
-features[ctools][] = "context:context:3"
-features[ctools][] = "views:views_default:3.0"
-features[views_view][] = "breaking_news"
-name = "Breaking News"
-package = "OpenPublic"
-php = "5.2.0"
-project = "openpublic_breaking_news"
-version = "7.x-1.0"
+name = OpenPublic Breaking News
+description = Adds the ability to add a "breaking news" box, allowing you to highlight a link.
+core = 7.x
+package = OpenPublic
+dependencies[] = entity_boxes
+dependencies[] = features
+dependencies[] = node_reference
+apps[screenshots][] = app/screenshot.png
+apps[screenshots][] = app/screenshot-form.png
+apps[logo] = app/logo.png
+apps[author] = Phase2 Technology
+apps[author_url] = http://www.phase2technology.com/
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[entity_boxes_type][] = breaking_news
+features[features_api][] = api:2
+features[field_base][] = field_breaking_news_node
+features[field_base][] = field_breaking_news_title
+features[field_instance][] = entity_boxes-breaking_news-field_breaking_news_node
+features[field_instance][] = entity_boxes-breaking_news-field_breaking_news_title
+features[user_permission][] = edit any breaking_news entity_boxes
+features[user_permission][] = view any breaking_news entity_boxes
+features[views_view][] = breaking_news
+features_exclude[dependencies][views] = views
 
 
-; Information added by drush on 2014-05-29
-version = "7.x-1.0-beta21+0-dev"
+; Information added by drush on 2014-07-29
+version = "7.x-1.0-rc1+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1401382645"
+datestamp = "1406653007"
 

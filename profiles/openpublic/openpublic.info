@@ -1,7 +1,6 @@
 name = OpenPublic
 description = OpenPublic Distribution
 
-version = 7.x-1.0-beta4
 core = 7.x
 
 
@@ -33,120 +32,77 @@ dependencies[] = statistics
 
 ; Contrib
 
-dependencies[] = node_reference
-dependencies[] = nodeblock
+dependencies[] = addthis
+dependencies[] = apps
+dependencies[] = boxes
+dependencies[] = comment_notify
+dependencies[] = conditional_styles
 dependencies[] = context
+dependencies[] = context_condition_admin_theme
+dependencies[] = context_field
 dependencies[] = context_ui
 dependencies[] = ctools
-dependencies[] = views_content
-;;dependencies[] = panels
+dependencies[] = dashboard
 dependencies[] = date
-dependencies[] = diff
-dependencies[] = entity
-dependencies[] = features
-dependencies[] = features_override
-dependencies[] = follow
-dependencies[] = node_reference
-dependencies[] = nodequeue
-;;;dependencies[] = nodeblock
-dependencies[] = pathauto
-dependencies[] = strongarm
-dependencies[] = token
-dependencies[] = imce
-dependencies[] = views
-dependencies[] = views_ui
-;;;dependencies[] = akamai
-dependencies[] = xmlsitemap
-dependencies[] = wysiwyg
-dependencies[] = imce_wysiwyg
-;;;dependencies[] = password_policy
-dependencies[] = securepages
-dependencies[] = entitycache
-dependencies[] = addthis
-dependencies[] = twitter_pull
-dependencies[] = conditional_styles
-dependencies[] = field_group
-dependencies[] = recaptcha
-;dependencies[] = password_policy
-dependencies[] = comment_notify
-dependencies[] = googleanalytics
-dependencies[] = boxes
-dependencies[] = context_field
-dependencies[] = entity_autocomplete
-dependencies[] = views_boxes
 dependencies[] = delta
 dependencies[] = delta_ui
-dependencies[] = context_condition_admin_theme
+dependencies[] = diff
+dependencies[] = entity
+dependencies[] = entity_autocomplete
+dependencies[] = entitycache
+dependencies[] = features
+dependencies[] = field_group
+dependencies[] = follow
+dependencies[] = googleanalytics
+dependencies[] = imce
+dependencies[] = imce_wysiwyg
 dependencies[] = libraries
+dependencies[] = node_reference
+dependencies[] = oauth_common
+dependencies[] = page_manager
+dependencies[] = panels
+dependencies[] = pathauto
+dependencies[] = recaptcha
+dependencies[] = securepages
+dependencies[] = strongarm
+dependencies[] = token
+dependencies[] = toolbar
+dependencies[] = twitter_pull
+dependencies[] = views
+dependencies[] = views_boxes
+dependencies[] = views_content
+dependencies[] = views_ui
+dependencies[] = xmlsitemap
 
 ; Custom 
 
-;dependencies[] = context_no_title
 dependencies[] = context_breadcrumb_current_page
 dependencies[] = context_bool_field
 dependencies[] = defaultcontent
-dependencies[] = nodeconnect
+dependencies[] = openpublic_api
 dependencies[] = openpublic_splash
 dependencies[] = apps
 
 ;Features
 
-dependencies[] = phase2_blog
-dependencies[] = phase2_profile
-dependencies[] = phase2_document
-dependencies[] = openpublic_breaking_news
+dependencies[] = openpublic_users
 dependencies[] = openpublic_comments
-dependencies[] = openpublic_press_release
-dependencies[] = openpublic_defaults
-dependencies[] = openpublic_home_page_feature
-dependencies[] = openpublic_most_popular
-dependencies[] = openpublic_person
-dependencies[] = openpublic_resources
-dependencies[] = openpublic_site_page
-dependencies[] = openpublic_services
-;;dependencies[] = openpublic_section_front
-;;dependencies[] = openpublic_faqs
-dependencies[] = openpublic_webform
-dependencies[] = openpublic_editors_choice
-;dependencies[] = openpublic_demo_content
+dependencies[] = openpublic_base_fields
+dependencies[] = openpublic_layouts
+dependencies[] = openpublic_social
 dependencies[] = openpublic_captcha
-dependencies[] = openpublic_media_room
 dependencies[] = openpublic_menu
 dependencies[] = openpublic_menu_utility
 dependencies[] = openpublic_menu_footer
-dependencies[] = openpublic_pages
 dependencies[] = openpublic_accessibility
-;dependencies[] = openpublic_password
 dependencies[] = openpublic_filters
-dependencies[] = openpublic_blog_configuration
-
-;Defaults
-
-dependencies[] = openpublic_comments_default
-dependencies[] = openpublic_webform_defaults
-
-; Media Package
-
-;dependencies[] = media_internet
-;dependencies[] = media_youtube
-;dependencies[] = styles
-;dependencies[] = file_styles
-;dependencies[] = plupload
-;dependencies[] = multiform
-;dependencies[] = media
-;;;dependencies[] = media_gallery
-
 
 files[] = openpublic.profile
-;files[] = openpublic.module
-
-;stylesheets[all][] = css/menu.css
-;scripts[] = js/menu.js
 
 
-; Information added by drush on 2014-05-29
-version = "7.x-1.0-beta21+0-dev"
+; Information added by drush on 2014-07-29
+version = "7.x-1.0-rc1+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1401382645"
+datestamp = "1406653007"
 

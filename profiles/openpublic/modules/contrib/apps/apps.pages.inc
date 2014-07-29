@@ -1,6 +1,7 @@
 <?php
 /**
- * @file The page callbacks for the Apps module.
+ * @file
+ * The page callbacks for the Apps module.
  */
 
 /**
@@ -41,9 +42,9 @@ function apps_market_page() {
  * Callback list off all apps
  */
 function apps_install_page($server_name) {
-  apps_include('manifest'); 
+  apps_include('manifest');
   $element = array(
-    '#theme'=> 'apps_install_page',
+    '#theme' => 'apps_install_page',
   );
   //find all apps
   try {
@@ -51,7 +52,7 @@ function apps_install_page($server_name) {
     if (!empty($apps)) {
       $element['apps'] = $apps;
       $featured_apps = apps_apps($server_name , array('featured' => TRUE)) ;
-      if(!empty($featured_apps)) {
+      if (!empty($featured_apps)) {
         $element['featured_app'] = array_pop($featured_apps);
       }
     }
@@ -59,7 +60,7 @@ function apps_install_page($server_name) {
   catch (Exception $e) {
     drupal_set_message(t("There was the following error: @msg", array('@msg' => $e->getMessage())), 'warning');
   }
-  return $element; 
+  return $element;
 }
 
 /**
@@ -68,15 +69,15 @@ function apps_install_page($server_name) {
 function apps_manage_page($server) {
   apps_include('manifest');
   $element = array(
-    '#theme'=> 'apps_manage_page',
+    '#theme' => 'apps_manage_page',
   );
   // find all installed apps
   try {
-    $apps = apps_apps($server['name'], array("installed" =>TRUE), TRUE);
+    $apps = apps_apps($server['name'], array("installed" => TRUE), TRUE);
     $element['apps'] = $apps;
   }
   catch (Exception $e) {
-    drupal_set_message("There was the following error - " . $e->getMessage(), 'warning');
+    drupal_set_message(t("There was the following error: @error", array('@error' => $e->getMessage())), 'warning');
   }
   return $element;
 }
@@ -86,7 +87,7 @@ function apps_manage_page($server) {
  */
 function apps_update_page($server) {
   return array(
-    '#theme'=> 'apps_update_page',
+    '#theme' => 'apps_update_page',
   );
 }
 
@@ -96,12 +97,12 @@ function apps_update_page($server) {
 function apps_app_config_page($app) {
   apps_include('manifest');
   $element = array();
-  if(apps_app_callback($app, "demo content enable callback")) {
+  if (apps_app_callback($app, "demo content enable callback")) {
     $element['demo'] = drupal_get_form('apps_demo_content_form', $app);
   }
 
   // Check for a status table
-  if($data_callback = apps_app_callback($app, "status callback")) {
+  if ($data_callback = apps_app_callback($app, "status callback")) {
     $data = $data_callback();
     $header = isset($data['header']) ? $data['header'] : NULL;
     $items = isset($data['items']) ? $data['items'] : array();
@@ -111,7 +112,7 @@ function apps_app_config_page($app) {
       'table' => apps_app_status_report($items, $header),
     );
   }
-  if($form = apps_app_callback($app, "configure form")) {
+  if ($form = apps_app_callback($app, "configure form")) {
     $element['config'] =  drupal_get_form($form);
   }
   return $element;
@@ -179,7 +180,7 @@ function apps_app_enable($app) {
     if (!$app['disabled'] && ($cb = apps_app_callback($app, "post install callback"))) {
       $cb($app);
     }
-    if(!apps_app_access('administer apps', $app, 'configure')) {
+    if (!apps_app_access('administer apps', $app, 'configure')) {
       $next = apps_app_page_path($app);
     }
   }
@@ -239,13 +240,13 @@ function apps_settings_form() {
     '#title' => t('Apps Offline Mode'),
     '#description' => t('Does not try to make external requests to app servers. Assumes all apps are already locally stored.'),
     '#type' => 'checkbox',
-    '#default_value'=> variable_get('apps_offline_mode', FALSE),
+    '#default_value' => variable_get('apps_offline_mode', FALSE),
   );
   $form['apps_enable_dev_console'] = array(
     '#title' => t('Enable Development Console'),
     '#description' => t('Allows local Apps to be displayed in a development app server.'),
     '#type' => 'checkbox',
-    '#default_value'=> variable_get('apps_enable_dev_console', FALSE),
+    '#default_value' => variable_get('apps_enable_dev_console', FALSE),
   );
   $form['apps_allow_voting'] = array(
     '#title' => t('Allow Voting'),
@@ -270,7 +271,7 @@ function apps_settings_form_submit() {
 /**
  * apps_app_status_report()
  *
- * @PARAM items: an array of items to display the keys of which should be the 
+ * @PARAM items: an array of items to display the keys of which should be the
  * keys of the $header param or use the default.
  * The default are severity, title, description and action.  Severity is expected to be
  * an int in (REQUIREMENT_INFO, REQUIREMENT_OK, REQUIREMENT_WARNING, REQUIREMENT_ERROR)
@@ -280,7 +281,7 @@ function apps_settings_form_submit() {
  * @RETURN: a render array for the status report table
  */
 function apps_app_status_report($items, $header = NULL) {
-  if(!isset($header)) {
+  if (!isset($header)) {
     $header = array(
       'severity' => 'Status',
       'title' => 'Title',
@@ -293,35 +294,35 @@ function apps_app_status_report($items, $header = NULL) {
     REQUIREMENT_INFO => array(
       'title' => t('Info'),
       'class' => 'info',
-      'image' => array('#theme'=>"image", "#path" => "misc/message-24-info.png", "#alt"=>"Info"),
+      'image' => array('#theme' => "image", "#path" => "misc/message-24-info.png", "#alt" => "Info"),
     ),
     REQUIREMENT_OK => array(
       'title' => t('OK'),
       'class' => 'ok',
-      'image' => array('#theme'=>"image", "#path" => "misc/message-24-ok.png", "#alt"=>"Ok"),
+      'image' => array('#theme' => "image", "#path" => "misc/message-24-ok.png", "#alt" => "Ok"),
     ),
     REQUIREMENT_WARNING => array(
       'title' => t('Warning'),
       'class' => 'warning',
-      'image' => array('#theme'=>"image", "#path" => "misc/message-24-warning.png", "#alt"=>"Warning"),
+      'image' => array('#theme' => "image", "#path" => "misc/message-24-warning.png", "#alt" => "Warning"),
     ),
     REQUIREMENT_ERROR => array(
       'title' => t('Error'),
       'class' => 'error',
-      'image' => array('#theme'=>"image", "#path" => "misc/message-24-error.png", "#alt"=>"Error"),
+      'image' => array('#theme' => "image", "#path" => "misc/message-24-error.png", "#alt" => "Error"),
     ),
   );
-  foreach($items as $item) {
+  foreach ($items as $item) {
     $row = array();
-    foreach(array_keys($header) as $key) {
-      if(isset($item[$key])) {
-        if($key =='severity') {
+    foreach (array_keys($header) as $key) {
+      if (isset($item[$key])) {
+        if ($key =='severity') {
           $row['data'][] = render($severities[$item[$key]]['image']);
           $row['class'][] = $severities[$item[$key]]['class'];
         }
-        elseif($key == 'action') {
+        elseif ($key == 'action') {
           $row['data'][] = theme('item_list', array("items" => $item[$key]));
-        
+
         }
         else {
           $row['data'][] = $item[$key];

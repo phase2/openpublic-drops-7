@@ -1,0 +1,13 @@
+name = FullCalendar Colors
+description = Allows definition of colors for FullCalendar events based on taxonomies, node types, etc.
+core = 7.x
+package = FullCalendar
+dependencies[] = colors
+dependencies[] = fullcalendar
+
+
+; Information added by drush on 2014-07-29
+version = "e416e71-dev"
+project = "fullcalendar"
+datestamp = "1406653027"
+

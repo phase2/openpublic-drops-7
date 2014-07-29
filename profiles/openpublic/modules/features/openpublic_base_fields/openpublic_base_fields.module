@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Base Fields feature.
+ */
+
+include_once 'openpublic_base_fields.features.inc';

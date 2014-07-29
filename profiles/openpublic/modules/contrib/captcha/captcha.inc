@@ -69,15 +69,26 @@ function captcha_set_form_id_setting($form_id, $captcha_type) {
  *   or in the form 'captcha/Math'.
  */
 function captcha_get_form_id_setting($form_id, $symbolic=FALSE) {
+  // Fetch setting from database.
   if (module_exists('ctools')) {
     ctools_include('export');
-    $captcha_point = array_pop(ctools_export_load_object('captcha_points', 'names', array($form_id)));
+    $object = ctools_export_load_object('captcha_points', 'names', array($form_id));
+    $captcha_point = array_pop($object);
   }
   else {
     $result = db_query("SELECT module, captcha_type FROM {captcha_points} WHERE form_id = :form_id",
       array(':form_id' =>  $form_id));
     $captcha_point = $result->fetchObject();
   }
+
+  // If no setting is available in database for the given form,
+  // but 'captcha_default_challenge_on_nonlisted_forms' is enabled, pick the default type anyway
+  if (!$captcha_point && variable_get('captcha_default_challenge_on_nonlisted_forms', FALSE))
+  {
+    $captcha_point = (object) array('captcha_type' => 'default');
+  }
+
+  // Handle (default) settings and symbolic mode.
   if (!$captcha_point) {
     $captcha_point = NULL;
   }
@@ -119,6 +130,7 @@ function captcha_get_captcha_points() {
   }
   return $captcha_points;
 }
+
 /**
  * Helper function for generating a new CAPTCHA session.
  *

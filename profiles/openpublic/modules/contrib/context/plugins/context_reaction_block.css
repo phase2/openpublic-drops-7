@@ -168,7 +168,6 @@ body.context-editing  .draggable:hover a.context-block-remove {
  * Block visibility ===================================================
  */
 #context-blockform  .context-blockform-selector {
-  height:20em;
   overflow:auto;
   }
 
@@ -179,6 +178,7 @@ body.context-editing  .draggable:hover a.context-block-remove {
   border:1px solid #ddd;
   padding:10px;
   width:50%;
+  vertical-align: top;
   }
 
 #context-blockform td.blocks  .label,
@@ -192,6 +192,12 @@ body.context-editing  .draggable:hover a.context-block-remove {
 
   #context-blockform td.blocks  .label { background:#eee; }
   #context-blockform td.blocks  .label a { float:right; }
+
+#context-blockform td.blocks div.exposed div.form-item,
+#context-blockform td.blocks div.exposed select {
+    display: block !important;
+    clear: left;
+}
 
 #context-ui-items #context-blockform {
   font-size:11px;

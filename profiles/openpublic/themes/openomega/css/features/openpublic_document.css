@@ -1,0 +1,104 @@
+/**
+ * @file
+ *  Holds default styles for document app that ships with openpublic.
+ */
+
+
+.view-id-document_list .views-field-uri {
+  float:right;
+}
+
+.view-id-document_list h3 {
+  text-transform:none;
+  font-size:17px;
+}
+.view-id-document_list h3 a,
+.view-id-document_list h3 a:link,
+.view-id-document_list h3 a:visited {
+  color:#003E6E;
+  text-decoration:none;
+}
+.view-id-document_list .field-name-body {
+  width:490px;
+}
+.view-id-document_list .download-info {
+  font-size:10px;
+  color:#6E7C82;
+}
+.view-id-document_list .views-row {
+  border-bottom:1px solid #ddd;
+  padding-top:20px;
+}
+
+.view-id-document_list .download-link {
+  background:url(../../img/download-btn-small-bg.png) repeat-x;
+  padding:4px 9px 7px;
+}
+.view-id-document_list .download-link a {
+  background:url(../../img/download-btn-small-icon.png) no-repeat top right;
+  font-size:11px;
+  padding:0 18px 0 0;
+  color: #ffffff;
+}
+
+
+.node-document .author-photo {
+  display: inline;
+  float: left;
+  margin: 0 10px 10px 0;
+}
+
+.node-document .author-photo img {
+  border: 2px solid #ccc;
+}
+
+.node-document .field-name-field-document-terms {
+  border-bottom: 3px solid #ccc;
+  border-top: 3px solid #ccc;
+  clear: both;
+  margin: 20px 0 40px;
+  padding: 20px 0;
+}
+
+.node-document .field-name-field-document-terms .field-label {
+  color: #666;
+  font-weight: 700;
+}
+
+.node-document .field-name-field-document-terms ul.links li {
+  display: inline;
+  margin: 0 5px 0 2px;
+  padding: 0;
+}
+
+.node-document .field-name-field-document-terms ul.links li a {
+  color: #b7B7b7;
+  font-weight: 400;
+}
+
+.node-type-document .block-system-main .views-row {
+  border-bottom:none;
+  min-height:0;
+  font-size:16px;
+  color:#999;
+  font-family:Georgia, Times, serif;
+  padding:0 0 30px;
+  font-style:italic;
+}
+.node-type-document .exec {
+  background:none;
+}
+.node-type-document .views-field-title-1,
+.node-type-document .views-field-entity-id,
+.node-type-document .views-field-entity-id div {
+  display:inline;
+}
+
+.node-document .download-btn {
+  clear: both;
+  float: none;
+}
+
+.node-document .node-content .links li {
+  margin: 0 15px 5px 0;
+}

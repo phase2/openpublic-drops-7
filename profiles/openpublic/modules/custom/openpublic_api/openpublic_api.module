@@ -1,29 +1,39 @@
 <?php
-// $Id$
 /**
- * @file openpublic_api.module
- * Displays a block of configuration links in a Colorbox popup.
+ * @file
+ * Displays status information in a block.
  */
 
-
+/**
+ * Returns the status of the current site as similair to sites report page.
+ */
 function openpublic_api_status() {
   include_once DRUPAL_ROOT . '/includes/install.inc';
-
   $requirements = module_invoke_all('requirements_api');
   usort($requirements, '_system_sort_requirements');
   return theme('status_report', array('requirements' => $requirements));
 }
 
+/**
+ * Implements hook_block_info().
+ */
 function openpublic_api_block_info() {
   return array(
     'api_status' => array(
-     'info' => 'API Status'
-   ),
+      'info' => t('API Status'),
+      'theme' =>  'rubik',
+      'status' =>  1,
+      'region' =>  'dashboard_sidebar',
+    ),
   );
 }
+
+/**
+ * Implements hook_block_view().
+ */
 function openpublic_api_block_view($delta = '') {
   return array(
-    'subject' => 'API Status',
+    'subject' => t('API Status'),
     'content' => openpublic_api_status(),
   );
 }

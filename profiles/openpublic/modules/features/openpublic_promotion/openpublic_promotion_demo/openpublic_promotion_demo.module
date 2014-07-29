@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Promotion Demo feature.
+ */
+
+include_once 'openpublic_promotion_demo.features.inc';

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Calendar feature.
+ */
+
+include_once 'openpublic_calendar.features.inc';

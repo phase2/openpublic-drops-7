@@ -11,7 +11,7 @@ function openpublic_comments_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'openpublic_recent_comments';
+  $view->name = 'comment_list';
   $view->description = 'Contains a block and a page to list recent comments for OpenPublic; the block will automatically link to the page, which displays the comment body as well as a link to the node.';
   $view->tag = 'openpublic';
   $view->base_table = 'comment';
@@ -112,7 +112,7 @@ function openpublic_comments_views_default_views() {
   $handler->display->display_options['fields']['name']['alter']['text'] = ' posted by [name] on [created]';
   $handler->display->display_options['fields']['name']['element_wrapper_type'] = 'div';
   $handler->display->display_options['fields']['name']['element_wrapper_class'] = 'quote-bottom';
-  $export['openpublic_recent_comments'] = $view;
+  $export['comment_list'] = $view;
 
   return $export;
 }

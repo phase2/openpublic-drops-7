@@ -1,5 +1,8 @@
 <?php
-// $Id:
+/**
+ * @file
+ * Define plugin and activate.
+ */
 
 /**
  * Implements hook_ctools_plugin_api().
@@ -15,10 +18,6 @@ function context_condition_admin_theme_ctools_plugin_api($module, $api) {
  */
 function context_condition_admin_theme_context_plugins() {
   $plugins = array();
-  
-  /** 
-  * Conditions
-  */
   $plugins['context_condition_admin_theme'] = array(
     'handler' => array(
       'path' => drupal_get_path('module', 'context_condition_admin_theme') . '/plugins',
@@ -44,12 +43,14 @@ function context_condition_admin_theme_context_registry() {
       'plugin' => 'context_condition_admin_theme',
     ),
   );
+
   return $registry;
 }
 
 /**
- * Implementation of hook_context_page_reaction()
- * adds context based on the browser keywords string.
+ * Implements hook_context_page_reaction().
+ *
+ * Adds context based on the browser keywords string.
  */
 function context_condition_admin_theme_context_page_condition() {
   if ($plugin = context_get_plugin('condition', 'admin_theme')) {

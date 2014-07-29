@@ -32,6 +32,9 @@ function content_features_export($data, &$export, $module_name) {
 function content_features_export_render($module_name, $data, $export = NULL) {
   $code = "  \$content = array();\n";
   asort($data);
+  // Allow the exports to add additional hooks.
+  $files = &drupal_static('defaultcontent_export_files');
+  $files = array();
   foreach ($data as $name) {
     if ($node = defaultcontent_get_node($name)) {
       $code .= "\n";
@@ -40,7 +43,13 @@ function content_features_export_render($module_name, $data, $export = NULL) {
   }
   $code .= "\n";
   $code .= "return \$content;";
-  return array('content_defaults' => $code);
+  $return = array('content_defaults' => $code);
+  if ($files) {
+    foreach ($files as $file_name => $file) {
+      $return['defaultcontent/' . $file_name] = array('file_path' => $file);
+    }
+  }
+  return $return;
 }
 
 /**
@@ -54,7 +63,7 @@ function content_features_rebuild($module_name) {
  * Implements hook_features_revert().
  */
 function content_features_revert($module_name) {
-  $components = module_invoke($module_name, 'content_defaults');
+  $components = features_get_default('content', $module_name);
   usort($components, 'defaultcontent_import_sort');
   if (!empty($components)) {
     foreach ($components as $component) {
@@ -66,11 +75,11 @@ function content_features_revert($module_name) {
         if ($node != $component) {
           entity_get_controller('node')->resetCache();
           node_delete($nid);
-          defaultcontent_import_node($component);
+          defaultcontent_import_node($component, $module_name);
         }
       }
       else {
-        defaultcontent_import_node($component);
+        defaultcontent_import_node($component, $module_name);
       }
     }
   }

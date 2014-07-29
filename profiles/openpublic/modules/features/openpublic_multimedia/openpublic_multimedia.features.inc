@@ -7,8 +7,7 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function openpublic_multimedia_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function openpublic_multimedia_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -17,7 +16,7 @@ function openpublic_multimedia_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function openpublic_multimedia_views_api() {
+function openpublic_multimedia_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
@@ -29,6 +28,7 @@ function openpublic_multimedia_image_default_styles() {
 
   // Exported image style: media_gallery.
   $styles['media_gallery'] = array(
+    'label' => 'media_gallery',
     'name' => 'media_gallery',
     'effects' => array(
       1 => array(
@@ -74,5 +74,6 @@ function openpublic_multimedia_node_info() {
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

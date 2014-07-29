@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Home Page Feature Demo feature.
+ */
+
+include_once 'openpublic_home_page_feature_demo.features.inc';

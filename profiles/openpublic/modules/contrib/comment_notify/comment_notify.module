@@ -81,7 +81,8 @@ function _comment_notify_options() {
   );
 
   $available_options = array();
-  $options = variable_get('comment_notify_available_alerts', drupal_map_assoc(array(COMMENT_NOTIFY_NODE, COMMENT_NOTIFY_COMMENT)));
+  module_load_include('inc', 'comment_notify', 'comment_notify');
+  $options = comment_notify_variable_registry_get('available_alerts');
   foreach ($options as $key => $available) {
     if ($key == $available) {
       $available_options[$available] = $total_options[$available];
@@ -100,7 +101,8 @@ function comment_notify_form_comment_form_alter(&$form, &$form_state, $form_id) 
 
   // Only add the checkbox if this is an enabled content type
   $node = node_load($form['nid']['#value'] ? $form['nid']['#value'] : $form['nid']['#default_value']);
-  $enabled_types = variable_get('comment_notify_node_types', drupal_map_assoc(array($node->type)));
+  module_load_include('inc', 'comment_notify', 'comment_notify');
+  $enabled_types = comment_notify_variable_registry_get('node_types');
   if (empty($enabled_types[$node->type])) {
     return;
   }
@@ -114,7 +116,6 @@ function comment_notify_form_comment_form_alter(&$form, &$form_state, $form_id) 
     }
     $form['#validate'][] = 'comment_notify_comment_validate';
   }
-  module_load_include('inc', 'comment_notify', 'comment_notify');
   $preference = comment_notify_get_user_comment_notify_preference($user->uid);
 
   // If you want to hide this on your site see http://drupal.org/node/322482
@@ -447,7 +448,7 @@ function _comment_notify_mailalert($comment) {
   $node = node_load($nid);
 
   // No mails if this is not an enabled content type.
-  $enabled_types = variable_get('comment_notify_node_types', array($node->type => TRUE));
+  $enabled_types = comment_notify_variable_registry_get('node_types');
   if (empty($enabled_types[$node->type])) {
     return;
   }

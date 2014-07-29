@@ -1,6 +1,7 @@
 <?php
 /**
- * @file apps.module
+ * @file
+ * Module file for Apps
  */
 
 define("APPSERVER_BASEPATH", 'admin/apps');
@@ -13,7 +14,7 @@ define("APPS_INCOMPATIBLE", -1);
 define("APPS_INSTALLABLE", 2);
 
 
-require_once(drupal_get_path('module', 'apps') . '/theme/apps.theme.inc');
+require_once drupal_get_path('module', 'apps') . '/theme/apps.theme.inc';
 
 /**
  * Implements hook_permission().
@@ -24,7 +25,7 @@ function apps_permission() {
       'title' => t('Administer the App Store'),
       'description' => t('Install and Manage Apps'),
       'restrict access' => TRUE,
-    )
+    ),
   );
 }
 
@@ -42,8 +43,8 @@ function apps_menu() {
     'file' => 'apps.pages.inc',
   );
 
-  // App Server operations
-  $menu["admin/apps/%apps_server"] =  array(
+  // App Server operations.
+  $menu["admin/apps/%apps_server"] = array(
     'title callback' => "apps_server_title",
     'title arguments' => array(2),
     'page callback' => 'apps_install_page',
@@ -76,7 +77,7 @@ function apps_menu() {
     'file' => 'apps.pages.inc',
   );
 
-  // App operations
+  // App operations.
   $menu["admin/apps/%apps_app/%"] = array(
     'load arguments' => array(3),
     'title callback' => "apps_app_title",
@@ -129,7 +130,7 @@ function apps_menu() {
     'type' => MENU_LOCAL_ACTION,
     'file' => 'apps.pages.inc',
   );
-  $menu["admin/apps/%apps_app/%/configure"] =  array(
+  $menu["admin/apps/%apps_app/%/configure"] = array(
     'title' => 'Configure',
     'page callback' => 'apps_app_config_page',
     'page arguments' => array(2),
@@ -140,7 +141,7 @@ function apps_menu() {
     'file' => 'apps.pages.inc',
   );
 
-  // Config Screens
+  // Config Screens.
   $menu['admin/config/system/apps'] = array(
     'title' => 'Apps Configuration',
     'description' => 'Settings for the App Module',
@@ -255,20 +256,67 @@ function apps_app_access($app, $action = NULL) {
     switch ($action) {
       case 'details':
         return TRUE;
+
       case 'enable':
-        return $app['status'] === APPS_DISABLED;
+      case 'install':
+        // Don't allow enabling of conflicted a
+        foreach (apps_app_find_conflicts($app) as $conflict) {
+          if (($conflict_app = apps_app_load($conflict['server'], $conflict['name'])) && $conflict_app['status'] === APPS_ENABLED) {
+            return FALSE;
+          }
+        }
+        if ($action == 'enable') {
+          return $app['status'] === APPS_DISABLED;
+        }
+        elseif ($action == 'install') {
+          return $app['status'] === APPS_INSTALLABLE;
+        }
+
       case 'disable':
         return $app['status'] === APPS_ENABLED;
-      case 'install':
-        return $app['status'] === APPS_INSTALLABLE;
+
       case 'configure':
         return (bool) apps_app_callback($app, "configure form") || apps_app_callback($app, "demo content enabled callback");
+
       case 'uninstall':
         return $app['disabled'];
+
       default:
         return FALSE;
     }
   }
+}
+
+/**
+ * Find the apps that this app is in conflict with.
+ *
+ * Apps can conflict with any app on any server, so calculate the conflict
+ * information as needed.
+ *
+ * @param $app
+ *   The fully loaded app array as from app_app_load().
+ *
+ * @return
+ *  an array of arrays with keys 'server' and 'name'.
+ */
+function apps_app_find_conflicts($app) {
+  if ($conflict_cache = cache_get('apps_app_conflicts_' . $app['machine_name'])) {
+    return $conflict_cache->data;
+  }
+  $conflicts = $app['conflicts'];
+  foreach (array_keys(apps_servers()) as $server_name) {
+    if ($apps = apps_apps($server_name)) {
+      foreach ($apps as $app_name => $app_info) {
+        foreach ($app_info['conflicts'] as $conflict_key => $conflict_info) {
+          if ($conflict_info['server'] == $app['server']['name'] && $conflict_info['name'] == $app['machine_name']) {
+            $conflicts[] = array('name' => $app_name, 'server' => $app_info['server']['name']);
+          }
+        }
+      }
+    }
+  }
+  cache_set('apps_app_conflicts_' . $app['machine_name'], $conflicts);
+  return $conflicts;
 }
 
 /**
@@ -289,7 +337,7 @@ function apps_admin_paths() {
 /**
  * Implements hook_image_default_styles().
  */
-function apps_image_default_styles() { 
+function apps_image_default_styles() {
   $styles = array();
 
   // Exported image style: apps_logo
@@ -333,8 +381,6 @@ function apps_image_default_styles() {
       ),
     ),
   );
-
-
   // Exported image style: apps_screenshot
   $styles['apps_screenshot'] = array(
     'name' => 'apps_screenshot',
@@ -399,28 +445,29 @@ function apps_cron() {
 function apps_hook_info() {
   return array(
     'apps_app_info' => array('group' => 'app'),
-    'apps_server',
+    'apps_server' => '',
   );
 }
 
 /**
  * Check whether Apps has write access to libraries and modules directories.
  *
- * @return boolean
+ * @return bool
+ *   If the directory is writeable
  */
 function apps_installer_has_write_access() {
   return is_writable(drupal_realpath(apps_installer_lib_dir())) && is_writable(drupal_realpath(APPS_INSTALL_PATH));
 }
 
 /**
- * Return the libraries dir to check
+ * Return the libraries directory to check.
  */
 function apps_installer_lib_dir() {
   return is_dir('sites/all/libraries') ? 'sites/all/libraries' : 'sites/all';
 }
 
 /**
- * Path object loader for an App Server
+ * Path object loader for an App Server.
  *
  * @TODO: Remove the apps_servers call in favor of apps_server_load
  */
@@ -430,7 +477,7 @@ function apps_server_load($name) {
 }
 
 /**
- * Path object loader for an App
+ * Path object loader for an App.
  */
 function apps_app_load($server_name, $app_name) {
   apps_include('manifest');
@@ -448,7 +495,7 @@ function apps_block_info() {
     $blocks["manage_apps__$id"] = array(
       'info' => t('Manage Apps for %server', array('%server' => $server['title'])),
     );
-     
+
   }
   return $blocks;
 }
@@ -461,18 +508,18 @@ function apps_block_view($delta) {
   apps_include('pages');
   list($type, $server_name) = explode("__", $delta);
   $server = apps_servers($server_name);
-  $element= apps_manage_page($server_name);
+  $element = apps_manage_page($server_name);
   return array(
     'subject' => t('Installed Apps for @name', array('@name' => $server['title'])),
     'content' => $element,
   );
 }
 
-/*
- * Easier wrapper around module_load_include
+/**
+ * Easier wrapper around module_load_include.
  *
- * @param $group
- *      The name of a include file in the from apps.$group.inc
+ * @param string $group
+ *   The name of a include file in the from apps.$group.inc
  */
 function apps_include($group) {
   module_load_include("inc", "apps", "apps.$group");
@@ -482,10 +529,10 @@ function apps_include($group) {
  * Handle the submissions of the filetransfer form.
  *
  * @TODO: Test the FTP and SSH xfer mechanisms, I dont think this does anything
-function apps_authorize_filetransfer_form_submit() {
-  require_once DRUPAL_ROOT . '/includes/authorize.inc';
-  $form = drupal_get_form('authorize_filetransfer_form');
-}
+ * function apps_authorize_filetransfer_form_submit() {
+ *  require_once DRUPAL_ROOT . '/includes/authorize.inc';
+ *  $form = drupal_get_form('authorize_filetransfer_form');
+ * }
  */
 
 /**
@@ -494,10 +541,9 @@ function apps_authorize_filetransfer_form_submit() {
 function apps_updater_info() {
   return array(
     'library' => array(
-      'class' => 'LibraryUpdater', 
-      'name' => t('Update Library'), 
+      'class' => 'LibraryUpdater',
+      'name' => t('Update Library'),
       'weight' => -10,
-    ), 
+    ),
   );
 }
-

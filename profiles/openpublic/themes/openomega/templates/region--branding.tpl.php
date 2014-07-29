@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Overrides rendering of branding region.
+ */
+?>
 <div<?php print $attributes; ?>>
   <div<?php print $content_attributes; ?>>
     <?php if ($linked_logo_img || $site_name || $site_slogan): ?>

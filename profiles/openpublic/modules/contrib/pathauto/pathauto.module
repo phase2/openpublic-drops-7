@@ -342,9 +342,30 @@ function pathauto_field_attach_form($entity_type, $entity, &$form, &$form_state,
 }
 
 /**
+ * Implements hook_entity_load().
+ */
+function pathauto_entity_load($entities, $type) {
+  $states = pathauto_entity_state_load_multiple($type, array_keys($entities));
+  foreach ($states as $id => $state) {
+    if (!isset($entities[$id]->path['pathauto'])) {
+      if (!isset($entities[$id]->path) || !is_array($entities[$id]->path)) {
+        $entities[$id]->path = array();
+      }
+      $entities[$id]->path['pathauto'] = $state;
+    }
+  }
+}
+
+/**
  * Implements hook_entity_presave().
  */
 function pathauto_entity_presave($entity, $type) {
+  if (isset($entity->path['pathauto']) && is_array($entity->path)) {
+    // We must set an empty alias string for the path to prevent saving an
+    // alias.
+    $entity->path += array('alias' => '');
+  }
+
   // About to be saved (before insert/update)
   if (!empty($entity->path['pathauto']) && isset($entity->path['old_alias'])
       && $entity->path['alias'] == '' && $entity->path['old_alias'] != '') {
@@ -364,6 +385,115 @@ function pathauto_entity_presave($entity, $type) {
   if (isset($entity->path['pathauto']) && !isset($entity->path['alias'])) {
     $entity->path['alias'] = '';
   }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function pathauto_entity_insert($entity, $type) {
+  if (isset($entity->path['pathauto'])) {
+    pathauto_entity_state_save($type, $entity, $entity->path['pathauto']);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function pathauto_entity_update($entity, $type) {
+  if (isset($entity->path['pathauto'])) {
+    pathauto_entity_state_save($type, $entity, $entity->path['pathauto']);
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function pathauto_entity_delete($entity, $type) {
+  if (isset($entity->path['pathauto'])) {
+    pathauto_entity_state_delete($type, $entity);
+  }
+}
+
+/**
+ * Load a pathauto state for an entity.
+ *
+ * @param $entity_type
+ *   An entity type.
+ * @param $entity_id
+ *   An entity ID.
+ */
+function pathauto_entity_state_load($entity_type, $entity_id) {
+  $pathauto_state = pathauto_entity_state_load_multiple($entity_type, array($entity_id));
+  return !empty($pathauto_state) ? reset($pathauto_state) : FALSE;
+}
+
+/**
+ * Load a pathauto state for multiple entities.
+ *
+ * @param $entity_type
+ *   An entity type.
+ * @param $entity_ids
+ *   An array of entity IDs.
+ */
+function pathauto_entity_state_load_multiple($entity_type, $entity_ids) {
+  try {
+    $pathauto_state = db_query("SELECT entity_id, pathauto FROM {pathauto_state} WHERE entity_type = :entity_type AND entity_id IN (:entity_ids)",
+      array(':entity_type' => $entity_type, ':entity_ids' => $entity_ids))->fetchAllKeyed();
+
+    return $pathauto_state;
+  } catch (Exception $ex) {
+    if (!defined('MAINTENANCE_MODE')) {
+      $message = 'The <code>pathauto_state</code> table does not exist, so a default value was provided. Please make sure to run <code>update.php</code>';
+      drupal_set_message($message, 'warning');
+      watchdog('pathauto', $message, array(), WATCHDOG_WARNING);
+    }
+    $result = array();
+    foreach ($entity_ids as $id) {
+      $result[$id] = FALSE;
+    }
+
+    return $result;
+  }
+}
+
+/**
+ * Save the pathauto state for an entity.
+ *
+ * @param $entity_type
+ *   An entity type.
+ * @param $entity
+ *   The entity object.
+ * @param $pathauto_state
+ *   A boolean flag if TRUE means that Pathauto should keep controlling this
+ *   entity's path in the future. A FALSE value means Pathauto should stay out.
+ */
+function pathauto_entity_state_save($entity_type, $entity, $pathauto_state) {
+  list($entity_id) = entity_extract_ids($entity_type, $entity);
+  db_merge('pathauto_state')
+    ->key(array(
+      'entity_type' => $entity_type,
+      'entity_id' => $entity_id,
+    ))
+    ->fields(array(
+      'pathauto' => $pathauto_state ? 1 : 0,
+    ))
+    ->execute();
+}
+
+/**
+ * Delete the pathauto state for an entity.
+ *
+ * @param $entity_type
+ *   An entity type.
+ * @param $entity
+ *   The entity object.
+ */
+function pathauto_entity_state_delete($entity_type, $entity) {
+  list($entity_id) = entity_extract_ids($entity_type, $entity);
+  db_delete('pathauto_state')
+    ->condition('entity_type', $entity_type)
+    ->condition('entity_id', $entity_id)
+    ->execute();
 }
 
 /**

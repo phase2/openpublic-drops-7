@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic layout feature.
+ */
+
+include_once 'openpublic_layouts.features.inc';

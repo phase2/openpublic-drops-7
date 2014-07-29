@@ -1,6 +1,15 @@
 <?php
 /**
  * @file
+ *  Configure filters and wysiwyg.
  */
 
-// Drupal needs this blank file.
+/**
+ * Update the skin settings for CKEditor, since the default sorting by file scan can give
+ * unpredictable results.
+ */
+function openpublic_filters_wysiwyg_editor_settings_alter(&$settings, $context) {
+  if ($context['profile']->editor == 'ckeditor') {
+    $settings['skin'] = 'kama,' . base_path() . 'sites/all/libraries/ckeditor/skins/kama/';
+  }
+}

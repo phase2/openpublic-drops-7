@@ -11,7 +11,7 @@ function openpublic_services_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'services';
+  $view->name = 'services_list';
   $view->description = 'Services';
   $view->tag = 'openpublic';
   $view->base_table = 'node';
@@ -22,6 +22,7 @@ function openpublic_services_views_default_views() {
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['css_class'] = 'content-listing ';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -34,18 +35,6 @@ function openpublic_services_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'entry';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: Nodequeue: Queue */
-  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
-  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['label'] = 'Services queue';
-  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
-  $handler->display->display_options['relationships']['nodequeue_rel']['qids'] = array(
-    'services' => 'services',
-    'breaking_news' => 0,
-    'home_page_rotator' => 0,
-    'leadership' => 0,
-  );
   /* Field: Content: Photo */
   $handler->display->display_options['fields']['entity_id']['id'] = 'entity_id';
   $handler->display->display_options['fields']['entity_id']['table'] = 'field_data_field_services_photo';
@@ -53,7 +42,7 @@ function openpublic_services_views_default_views() {
   $handler->display->display_options['fields']['entity_id']['label'] = '';
   $handler->display->display_options['fields']['entity_id']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['entity_id']['settings'] = array(
-    'image_style' => 'services-carousel',
+    'image_style' => 'carousel_size',
     'image_link' => 'content',
   );
   /* Field: Content: Title */
@@ -61,17 +50,6 @@ function openpublic_services_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
-  /* Sort criterion: Nodequeue: Queue ID */
-  $handler->display->display_options['sorts']['qid']['id'] = 'qid';
-  $handler->display->display_options['sorts']['qid']['table'] = 'nodequeue_nodes';
-  $handler->display->display_options['sorts']['qid']['field'] = 'qid';
-  $handler->display->display_options['sorts']['qid']['relationship'] = 'nodequeue_rel';
-  $handler->display->display_options['sorts']['qid']['order'] = 'DESC';
-  /* Sort criterion: Nodequeue: Position */
-  $handler->display->display_options['sorts']['position']['id'] = 'position';
-  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
-  $handler->display->display_options['sorts']['position']['field'] = 'position';
-  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -90,9 +68,6 @@ function openpublic_services_views_default_views() {
     'services' => 'services',
   );
 
-  /* Display: Front page services */
-  $handler = $view->new_display('block', 'Front page services', 'block_1');
-
   /* Display: Services list page */
   $handler = $view->new_display('page', 'Services list page', 'page_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -103,13 +78,17 @@ function openpublic_services_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['element_type'] = '0';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = 'h4';
+  $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'listing-title';
   /* Field: Content: Photo */
   $handler->display->display_options['fields']['entity_id']['id'] = 'entity_id';
   $handler->display->display_options['fields']['entity_id']['table'] = 'field_data_field_services_photo';
   $handler->display->display_options['fields']['entity_id']['field'] = 'field_services_photo';
   $handler->display->display_options['fields']['entity_id']['label'] = '';
-  $handler->display->display_options['fields']['entity_id']['element_wrapper_class'] = 'photo';
+  $handler->display->display_options['fields']['entity_id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['entity_id']['element_wrapper_class'] = 'photo photo-side';
   $handler->display->display_options['fields']['entity_id']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['entity_id']['settings'] = array(
     'image_style' => 'list-page-thumbnail',
@@ -131,11 +110,14 @@ function openpublic_services_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'read-more';
   $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   $handler->display->display_options['path'] = 'services';
+  $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Services';
   $handler->display->display_options['menu']['description'] = 'Serving You';
   $handler->display->display_options['menu']['weight'] = '3';
   $handler->display->display_options['menu']['name'] = 'main-menu';
-  $export['services'] = $view;
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $export['services_list'] = $view;
 
   return $export;
 }

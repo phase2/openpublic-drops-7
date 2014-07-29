@@ -1,5 +1,5 @@
 <div class="app-teaser-wrapper clearfix">
-  <?php if($logo): ?>
+  <?php if ($logo): ?>
   <div class="app-logo">
     <?php print $logo ?>
   </div>

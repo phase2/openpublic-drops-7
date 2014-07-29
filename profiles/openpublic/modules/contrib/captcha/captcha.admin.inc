@@ -63,7 +63,6 @@ function captcha_admin_settings() {
   );
   $form['captcha_form_protection']['captcha_form_id_overview']['captcha_captcha_points'] = array();
   $captcha_type_options = _captcha_available_challenge_types();
-
   $captcha_points = captcha_get_captcha_points();
   foreach ($captcha_points as $captcha_point) {
     $elem = array();
@@ -85,7 +84,6 @@ function captcha_admin_settings() {
       '#default_value' => $captcha_type,
       '#options' => $captcha_type_options,
     );
-
     $ops = array();
     if (module_exists('ctools') && $captcha_point->export_type & EXPORT_IN_CODE) {
       if ($captcha_point->export_type & EXPORT_IN_DATABASE) {
@@ -113,6 +111,14 @@ function captcha_admin_settings() {
     '#type' => 'select',
     '#default_value' => 'none',
     '#options' => $captcha_type_options,
+  );
+
+  // Checkbox to add default CAPTCHA to all non listed forms as well.
+  $form['captcha_form_protection']['captcha_default_challenge_on_nonlisted_forms'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Default challenge on non-listed forms.'),
+    '#default_value' => variable_get('captcha_default_challenge_on_nonlisted_forms', FALSE),
+    '#description' => t('Normally, no challenge is added to forms that are not listed above. Enabling this option will add the default challenge instead.'),
   );
 
   // Field for the CAPTCHA administration mode.
@@ -281,15 +287,13 @@ function captcha_admin_settings_submit($form, &$form_state) {
   variable_set('captcha_allow_on_admin_pages', $form_state['values']['captcha_allow_on_admin_pages']);
 
   variable_set('captcha_default_challenge', $form_state['values']['captcha_default_challenge']);
+  variable_set('captcha_default_challenge_on_nonlisted_forms', $form_state['values']['captcha_default_challenge_on_nonlisted_forms']);
 
   // Process CAPTCHA points
   if (isset($form_state['values']['captcha_form_id_overview']['captcha_captcha_points'])) {
     // Load existing data.
     $captcha_points = captcha_get_captcha_points();
-     
-
     foreach ($form_state['values']['captcha_form_id_overview']['captcha_captcha_points'] as $captcha_point_form_id => $data) {
-
       // If this is an in-code captcha point and its settings are unchanged,
       // don't save to the database.
       if (module_exists('ctools') && isset($captcha_points[$captcha_point_form_id])) {
@@ -307,7 +311,6 @@ function captcha_admin_settings_submit($form, &$form_state) {
           continue;
         }
       }
-
       captcha_set_form_id_setting($captcha_point_form_id, $data['captcha_type']);
     }
   }

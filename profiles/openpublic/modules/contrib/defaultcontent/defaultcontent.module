@@ -116,77 +116,6 @@ function defaultcontent_permission() {
 }
 
 /**
- * Implements hook_cron().
- *
- * we check to see if there are any defaults
- * that have not been load in the db. if we have any we load them
- */
-function defaultcontent_cron($allow_first_content = TRUE) {
-  if ($allow_first_content) {
-    variable_set('node_content_enabled', TRUE);
-  }
-  // I have to load the freature files
-  // I am thinking there should be a way to have features do this but I do not
-  // know what it would be
-  $features = features_get_features();
-  foreach ($features as $f_name => $feature) {
-    if (isset($feature->info['features']['content'])) {
-      module_load_include('inc', $f_name, $f_name . '.features.content');
-    }
-    if (isset($feature->info['features']['content_menu_links'])) {
-      module_load_include('inc', $f_name, $f_name . '.features.content_menu_links');
-    }
-  }
-  // features_include_defaults();
-  $defaults = module_invoke_all('content_defaults');
-  usort($defaults, 'defaultcontent_import_sort');
-  $records = defaultcontent_get_default();
-
-  $current = array();
-  foreach ($records as $record) {
-    $current[] = $record->name;
-  }
-
-  foreach ($defaults as $default) {
-    // we check to see if that default has been loaded (even if the node
-    // has been deleted) before we do a load
-    if (!in_array($default->machine_name, $current)) {
-      defaultcontent_import_node($default);
-    }
-  }
-
-  //Turns out if this isn't called only once after EACH install then we get ourselves in trouble - so
-  //we'll just run one time for each change - Major issue with this approach is that install->uninstalling and reinstalling an app will result in no menu item
-  //added
-  //Yes, its hacky, sorry :(
-  $default_menu_links = module_invoke_all('content_menu_links_defaults');
-  $hashes = variable_get('defaultcontent_hashes', array());
-  //arrays are value copied when assigned in php - so this is safe
-  $inverse = $hashes;
-  foreach ($default_menu_links as $key => $default) {
-    $str = implode(array_keys($default), ',');
-    $hash = md5($key . $str);
-    $run = variable_get('defaultcontent_run_' . $hash, FALSE);
-    if (!$run) {
-      $try = defaultcontent_import_menu_link($key, $default);
-      if ($try) {
-        variable_set('defaultcontent_run_' . $hash, TRUE);
-        array_push($hashes, $hash);
-      }
-    }
-    $key = array_search($hash, $inverse);
-    unset($inverse[$key]);
-  }
-
-  foreach ($inverse as $i => $hash) {
-    variable_del('defaultcontent_run_' . $hash);
-    unset($hashes[$i]);
-  }
-  $hashes = array_values($hashes);
-  variable_set('defaultcontent_hashes', $hashes);
-}
-
-/**
  * Used to set a default
  *
  * @param $name
@@ -254,7 +183,7 @@ function defaultcontent_get_node($name) {
     if (!isset($temp[$nid])) {
       $temp[$nid] = node_load($nid, NULL, TRUE);
     }
-    return $temp[$nid];
+    return clone($temp[$nid]);
   }
 }
 
@@ -288,17 +217,15 @@ function defaultcontent_export_node_process($node) {
  * TODO: need to do something fun with files
  * TODO: need to do something fun with node refs
  */
-function defaultcontent_import_node($node) {
+function defaultcontent_import_node($node, $module_name) {
   $plugins = defaultcontent_get_alter_plugins();
   foreach ($plugins as $plugin) {
     $cb = isset($plugin['import_alter callback']) ? $plugin['import_alter callback'] : $plugin['name'] . '_import_alter';
     if (function_exists($cb)) {
-      $cb($node);
+      $cb($node, $module_name);
     }
   }
-  if (variable_get('node_content_enabled', FALSE)) {
-    node_save($node);
-  }
+  node_save($node);
   foreach ($plugins as $plugin) {
     $cb = isset($plugin['post_import callback']) ? $plugin['post_import callback'] : $plugin['name'] . '_post_import';
     if (function_exists($cb)) {
@@ -313,30 +240,28 @@ function defaultcontent_import_node($node) {
 function defaultcontent_import_menu_link($key, $link) {
   module_load_include('inc', 'features', 'includes/features.menu');
 
-  if (variable_get('node_content_enabled', FALSE)) {
-    $key = defaultcontent_alter_identifier($key, FALSE);
-    $existing = features_menu_link_load($key);
-    if ($existing) {
-      $link['mlid'] = $existing['mlid'];
-    }
-    else {
-      $link['mlid'] = 0;
-    }
-    if (isset($link['parent_path'])) {
-      $link['parent_path'] = defaultcontent_alter_path($link['parent_path'], 0);
-    }
-    $link['link_path'] = defaultcontent_alter_path($link['link_path'], 0);
-    $menu_links_prime[$key] = $link;
-    if (!empty($link['parent_path']) && $parent = features_menu_link_load("{$link['menu_name']}:{$link['parent_path']}")) {
-      $link['plid'] = $parent['mlid'];
-    }
-    else {
-      $link['plid'] = 0;
-    }
+  $key = defaultcontent_alter_identifier($key, FALSE);
+  $existing = features_menu_link_load($key);
+  if ($existing) {
+    $link['mlid'] = $existing['mlid'];
+  }
+  else {
+    $link['mlid'] = 0;
+  }
+  if (isset($link['parent_path'])) {
+    $link['parent_path'] = defaultcontent_alter_path($link['parent_path'], 0);
+  }
+  $link['link_path'] = defaultcontent_alter_path($link['link_path'], 0);
+  $menu_links_prime[$key] = $link;
+  if (!empty($link['parent_path']) && $parent = features_menu_link_load("{$link['menu_name']}:{$link['parent_path']}")) {
+    $link['plid'] = $parent['mlid'];
+  }
+  else {
+    $link['plid'] = 0;
+  }
 
-    if ($mid = menu_link_save($link)) {
-      return TRUE;
-    }
+  if ($mid = menu_link_save($link)) {
+    return TRUE;
   }
   return FALSE;
 }
@@ -554,15 +479,6 @@ function defaultcontent_modules_disabled($modules) {
   foreach ($modules as $module) {
     defaultcontent_remove_default_content($module);
   }
-}
-
-/**
- * Implements hook_modules_enable().
- *
- * run our cron to insure that all of the new content is turned on
- */
-function defaultcontent_modules_enabled($modules) {
-  defaultcontent_cron(FALSE);
 }
 
 /**

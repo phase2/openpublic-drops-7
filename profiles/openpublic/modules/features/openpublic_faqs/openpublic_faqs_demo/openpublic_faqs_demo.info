@@ -1,0 +1,18 @@
+name = OpenPublic FAQs Demo
+description = Demo content for the OpenPublic FAQ app.
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = defaultcontent
+dependencies[] = openpublic_faqs
+features[content][] = faqs_ipsum
+features[content][] = faqs_office_location
+features[content][] = faqs_submit_paper
+features[features_api][] = api:2
+
+
+; Information added by drush on 2014-07-29
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406653007"
+

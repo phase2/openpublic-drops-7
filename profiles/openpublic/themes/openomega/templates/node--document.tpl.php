@@ -1,21 +1,10 @@
 <?php
-// $Id$
 /**
-* @defgroup node Node Templates
-* All of the node templates
-*/
-/**
- * @file node.tpl.php
- * Default node template.
- * @ingroup node
+ * @file
+ *  Override for displaying node of type document.
  */
- 
- 
 ?>
-
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>"><div class="node-inner node-content">
-
-  <?php //print $picture; ?>
 
   <?php if (!$page): ?>
     <h2 class="title">
