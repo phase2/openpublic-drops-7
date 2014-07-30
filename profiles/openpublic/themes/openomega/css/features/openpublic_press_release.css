@@ -1,0 +1,30 @@
+/**
+ * @file
+ *  Holds default styles for press release app that ships with openpublic.
+ */
+
+.node-type-press-release .date-tag {
+  color: #999;
+  font-size: 1.167em;
+  font-weight: 400;
+  margin: 5px 0 25px;
+}
+
+.node-type-press-release .date-tag a {
+  font-weight: 400;
+}
+
+.node-type-press-release .date-tag .field,
+.node-type-press-release .date-tag .field-items,
+.node-type-press-release .date-tag .field-item {
+  display: inline;
+}
+
+body.page-press-releases .entry h4 {
+  font-size: 1.417em;
+  margin: 0 0 5px;
+}
+
+body.page-press-releases .entry {
+  margin: 15px 25px 15px 0;
+}

@@ -1,0 +1,33 @@
+name = OpenPublic Base Fields
+description = Provides Defaults for OpenPublic
+core = 7.x
+package = OpenPublic
+dependencies[] = date
+dependencies[] = features
+dependencies[] = field_group
+dependencies[] = follow
+dependencies[] = googleanalytics
+dependencies[] = image
+dependencies[] = node_reference
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[field_base][] = body
+features[field_base][] = field_files
+features[field_base][] = field_release_date
+features[field_base][] = field_thumbnail_image
+features[image][] = content_detail_photo
+features[image][] = list-page-thumbnail
+features[image][] = logo
+features[image][] = logo-small
+features[image][] = right-sidebar-thumbnails
+features[variable][] = pathauto_node_pattern
+features[variable][] = pathauto_punctuation_underscore
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

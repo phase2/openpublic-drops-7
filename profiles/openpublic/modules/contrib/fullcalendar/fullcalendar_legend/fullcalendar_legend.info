@@ -1,0 +1,13 @@
+name = FullCalendar Legend
+description = Show the bundle names of content types on a FullCalendar. Intended for use with FullCalendar Colors.
+core = 7.x
+package = FullCalendar
+dependencies[] = fullcalendar
+dependencies[] = block
+
+
+; Information added by drush on 2014-07-30
+version = "e416e71-dev"
+project = "fullcalendar"
+datestamp = "1406693732"
+

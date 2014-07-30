@@ -1,15 +1,16 @@
 <?php
+/**
+ * @file
+ * Install tasks for login flow.
+ */
 
 /**
  * Implements hook_schema().
+ *
  * Defines the table to hold temporary user blocks (since the user table does not support this)
  */
-function login_flow_schema(){
-  //maybe to make this update proof add:
-  //$user_schema = drupal_get_schema('users');
-  //then grab $user_schema['fields']['uid']; out of it.
-
-  //if there is an entry in this table, they should be blocked temporarily
+function login_flow_schema() {
+  // If there is an entry in this table, they should be blocked temporarily
   $schema['flood_temp_block'] = array(
     'description' => 'The temporarily blocked user queue',
     'fields' => array(
@@ -32,4 +33,46 @@ function login_flow_schema(){
   );
 
   return $schema;
+}
+
+
+/**
+ * Implements hook_install().
+ */
+function login_flow_install() {
+  _login_flow_override_variables();
+}
+
+/**
+ * Override some variables.
+ *
+ * Core variables are being used but reference to their default values changed,
+ * so we're perserving those default values here so code can refear to core
+ * defaults instead to be consistant.
+ */
+function _login_flow_override_variables() {
+  global $conf;
+  if (!isset($conf['user_failed_login_ip_limit'])) {
+    variable_set('user_failed_login_ip_limit', 100);
+  }
+  if (!isset($conf['user_failed_login_ip_window'])) {
+    variable_set('user_failed_login_ip_window', 86400);
+  }
+  if (!isset($conf['user_failed_login_user_window'])) {
+    variable_set('user_failed_login_user_window', 86400);
+  }
+  if (!isset($conf['user_failed_login_identifier_uid_only'])) {
+    variable_set('user_failed_login_identifier_uid_only', TRUE);
+  }
+  if (!isset($conf['user_failed_login_user_window'])) {
+    // This one was being replaced by the big_window variable.
+    variable_set('user_failed_login_user_window', variable_get('big_window', 315569260));
+  }
+}
+
+/**
+ * Set the default values.
+ */
+function login_flow_update_7101() {
+  _login_flow_override_variables();
 }

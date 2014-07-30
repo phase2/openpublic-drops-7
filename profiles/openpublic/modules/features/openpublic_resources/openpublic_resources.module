@@ -1,4 +1,3 @@
 <?php
 
 include_once('openpublic_resources.features.inc');
-include_once('openpublic_resources.theme.inc');

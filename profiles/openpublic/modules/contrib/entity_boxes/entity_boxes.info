@@ -1,0 +1,22 @@
+name = Entity Boxes
+description = Provides entity functionality as an example to use in your own development projects
+core = 7.x
+
+dependencies[] = entity
+dependencies[] = boxes
+
+files[] = entity_boxes.admin.inc
+files[] = entity_boxes_type.admin.inc
+files[] = views/entity_boxes.views.inc
+files[] = views/entity_boxes_handler_link_field.inc
+files[] = views/entity_boxes_handler_delete_link_field.inc
+files[] = views/entity_boxes_handler_edit_link_field.inc
+files[] = views/entity_boxes_handler_entity_boxes_operations_field.inc
+
+
+; Information added by drupal.org packaging script on 2012-10-19
+version = "7.x-1.0-alpha2"
+core = "7.x"
+project = "entity_boxes"
+datestamp = "1350677516"
+

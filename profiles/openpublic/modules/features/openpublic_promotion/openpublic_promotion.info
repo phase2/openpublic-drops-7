@@ -1,0 +1,48 @@
+name = OpenPublic Promotion
+description = Allow featuring of Promotion, which are custom boxes that can be placed around the site.
+core = 7.x
+package = OpenPublic
+dependencies[] = ctools
+dependencies[] = entity_boxes
+dependencies[] = features
+dependencies[] = field_group
+dependencies[] = file
+dependencies[] = image
+dependencies[] = link
+dependencies[] = list
+dependencies[] = node_reference
+dependencies[] = options
+dependencies[] = references_dialog
+dependencies[] = strongarm
+dependencies[] = text
+dependencies[] = views
+apps[screenshots][] = app/screenshot.png
+apps[logo] = app/logo.png
+apps[author] = Phase2 Technology
+apps[author_url] = http://www.phase2technology.com/
+apps[description] = The Promotion App adds the Promotion content type to the site.  The Promotion Content type allows you to promote site content easily in boxes that you can place around the site.
+features[ctools][] = field_group:field_group:1
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[entity_boxes_type][] = promotion
+features[features_api][] = api:2
+features[field_base][] = field_promotion_attachments
+features[field_base][] = field_promotion_link
+features[field_base][] = field_promotion_node
+features[field_base][] = field_promotion_summary
+features[field_base][] = field_promotion_thumbnail
+features[field_instance][] = entity_boxes-promotion-field_promotion_attachments
+features[field_instance][] = entity_boxes-promotion-field_promotion_link
+features[field_instance][] = entity_boxes-promotion-field_promotion_node
+features[field_instance][] = entity_boxes-promotion-field_promotion_summary
+features[field_instance][] = entity_boxes-promotion-field_promotion_thumbnail
+features[user_permission][] = edit any promotion entity_boxes
+features[user_permission][] = view any promotion entity_boxes
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

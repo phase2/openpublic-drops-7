@@ -13,7 +13,6 @@ class XMLSitemapGenerationException extends XMLSitemapException {}
  * Extended class for writing XML sitemap files.
  */
 class XMLSitemapWriter extends XMLWriter {
-  protected $status = TRUE;
   protected $uri = NULL;
   protected $sitemapElementCount = 0;
   protected $linkCountFlush = 500;
@@ -37,7 +36,7 @@ class XMLSitemapWriter extends XMLWriter {
   }
 
   public function openUri($uri) {
-    $return = parent::openUri(drupal_realpath($uri));
+    $return = parent::openUri($uri);
     if (!$return) {
       throw new XMLSitemapGenerationException(t('Could not open file @file for writing.', array('@file' => $uri)));
     }
@@ -46,18 +45,22 @@ class XMLSitemapWriter extends XMLWriter {
 
   public function startDocument($version = '1.0', $encoding = 'UTF-8', $standalone = NULL) {
     $this->setIndent(FALSE);
-    parent::startDocument($version, $encoding);
+    $result = parent::startDocument($version, $encoding);
+    if (!$result) {
+      throw new XMLSitemapGenerationException(t('Unknown error occurred while writing to file @file.', array('@file' => $this->uri)));
+    }
     if (variable_get('xmlsitemap_xsl', 1)) {
       $this->writeXSL();
     }
     $this->startElement($this->rootElement, TRUE);
+    return $result;
   }
 
   /**
    * Add the XML stylesheet to the XML page.
    */
   public function writeXSL() {
-    $this->writePi('xml-stylesheet', 'type="text/xsl" href="' . url('sitemap.xsl') . '"');
+    $this->writePi('xml-stylesheet', 'type="text/xsl" href="' . url('sitemap.xsl', $this->sitemap->uri['options']) . '"');
     $this->writeRaw(PHP_EOL);
   }
 
@@ -129,19 +132,6 @@ class XMLSitemapWriter extends XMLWriter {
     }
   }
 
-  /**
-   * Override of XMLWriter::flush() to track file writing status.
-   */
-  public function flush($empty = TRUE) {
-    $return = parent::flush($empty);
-    $this->status &= (bool) $return;
-    return $return;
-  }
-
-  public function getStatus() {
-    return $this->status;
-  }
-
   public function getURI() {
     return $this->uri;
   }
@@ -153,7 +143,7 @@ class XMLSitemapWriter extends XMLWriter {
   public function endDocument() {
     $return = parent::endDocument();
 
-    if (!$this->getStatus()) {
+    if (!$return) {
       throw new XMLSitemapGenerationException(t('Unknown error occurred while writing to file @file.', array('@file' => $this->uri)));
     }
 
@@ -161,6 +151,10 @@ class XMLSitemapWriter extends XMLWriter {
     //  $file_gz = $file . '.gz';
     //  file_put_contents($file_gz, gzencode(file_get_contents($file), 9));
     //}
+
+    if (!filesize($this->uri)) {
+      throw new XMLSitemapGenerationException(t('Generated @file resulted in an empty file.', array('@file' => $this->uri)));
+    }
 
     return $return;
   }

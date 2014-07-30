@@ -3,4 +3,145 @@
  * @file
  */
 
-// Drupal needs this blank file.
+/**
+ * Implements hook_theme().
+ *
+ * We are targeting view templates that cross many views
+ */
+function openpublic_menu_theme($existing, $type, $theme, $path) {
+  $themes = array();
+
+  $themes['openpublic_menu_menu_block_wrapper'] = array(
+    'render element' => 'tree',
+  );
+
+  return $themes;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function openpublic_menu_block_info() {
+  $blocks = array();
+
+  $blocks['current_navigation'] = array(
+    'info' => t('Current navigation'),
+  );
+
+  $blocks['openpublic_utility_menu'] = array(
+    'info' => t('Utility Menu : Header'),
+  );
+
+  $blocks['openpublic_footer_utility_menu'] = array(
+    'info' => t('Utility Menu : Footer'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function openpublic_menu_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'current_navigation':
+      $block['subject'] = _openpublic_menu_block_current_navigation('title');
+      $block['content'] = _openpublic_menu_block_current_navigation('content');
+      if (!$block['content']) {
+        return NULL;
+      }
+      break;
+      // header utility menu
+    case 'openpublic_utility_menu':
+      global $user;
+      $menu_utility = menu_navigation_links('menu-utility');
+      if ($user->uid) {
+        foreach ($menu_utility as $key => $item) {
+          if ($item['href'] == 'user') {
+            $menu_utility[$key]['title'] ='My Account';
+          }
+        }
+      }
+      $menu_utility = theme(
+        'links',
+        array(
+          'links' => $menu_utility,
+          'attributes' => array(
+            'id' => 'user-menu',
+            'class' => array('links', 'clearfix'),
+          ),
+          'heading' => array(
+            'text' => t('User menu'),
+            'level' => 'h2',
+            'class' => array('element-invisible'),
+          ),
+        )
+      );
+
+      $block['subject'] = t('');
+      $block['content'] = $menu_utility;
+      break;
+
+    // footer utility menu
+    case 'openpublic_footer_utility_menu':
+      $footer_utility = menu_navigation_links('menu-footer-utility');
+      $footer_utility = theme(
+        'links',
+        array(
+          'links' => $footer_utility,
+          'attributes' => array(
+            'id' => 'footer-utility',
+            'class' => array('links', 'clearfix', 'footer-utility'),
+          ),
+          'heading' => array(
+            'text' => t('Utility Links'),
+            'level' => 'h2',
+            'class' => array('element-invisible'),
+          ),
+        )
+      );
+      $block['subject'] = '';
+      $block['content'] = $footer_utility;
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Theme function to add HTML container around the block content since there's
+ * currently no way to add IDs in D7.
+ */
+function theme_openpublic_menu_menu_block_wrapper($variables) {
+  return '<div id="right-nav">' . $variables['tree']['#children'] . '</div>';
+}
+
+/**
+ * Helper function to return block elements for the right rail naviation.
+ */
+function _openpublic_menu_block_current_navigation($type = 'content') {
+  $menu_name = variable_get('menu_main_links_source', 'main-menu');
+  $topmenu = menu_set_active_trail();
+  $home = array_shift($topmenu);
+  $toplevel = array_shift($topmenu);
+  // if the toplevel is not something we expect exit out early
+  if (!isset($toplevel['link_title'])) {
+    return FALSE;
+  }
+  // If we specify the title, just return the title string
+  if ($type == 'title') {
+    return $toplevel['link_title'];
+    return !empty($active_menu_tree) ? $toplevel['link_title'] : FALSE;
+  }
+  $menu_tree = menu_tree($menu_name);
+  if (
+    isset($menu_tree[$toplevel['mlid']]['#below']) &&
+    ($active_menu_tree = $menu_tree[$toplevel['mlid']]['#below']) &&
+    !empty($active_menu_tree)
+  ) {
+    $active_menu_tree['#theme_wrappers'][] = 'openpublic_menu_menu_block_wrapper';
+    return $active_menu_tree;
+  }
+  return FALSE;
+}

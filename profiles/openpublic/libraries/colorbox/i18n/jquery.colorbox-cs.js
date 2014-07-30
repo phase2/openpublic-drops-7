@@ -10,7 +10,5 @@ jQuery.extend(jQuery.colorbox.settings, {
 	next: "Následující",
 	close: "Zavřít",
 	xhrError: "Obsah se nepodařilo načíst.",
-	imgError: "Obrázek se nepodařilo načíst.",
-	slideshowStart: "Spustit slideshow",
-	slideshowStop: "Zastavit slideshow"
+	imgError: "Obrázek se nepodařilo načíst."
 });

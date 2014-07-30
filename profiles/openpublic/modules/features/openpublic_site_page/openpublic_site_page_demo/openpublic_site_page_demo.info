@@ -1,0 +1,21 @@
+name = OpenPublic Site Page Demo
+description = Demo content for the OpenPublic Site Page app.
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = defaultcontent
+dependencies[] = openpublic_site_page
+features[content][] = about_page
+features[content][] = foia
+features[content][] = open_government
+features[content][] = privacy_policy
+features[content][] = site_map
+features[features_api][] = api:2
+project path = /tmp/
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

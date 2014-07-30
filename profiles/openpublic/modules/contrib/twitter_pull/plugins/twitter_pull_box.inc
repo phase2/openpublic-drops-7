@@ -13,6 +13,8 @@ class twitter_pull_box extends boxes_box {
      'search' => '',
      'max_results' => 20,
      'additional_classes' => '',
+     'rts' => TRUE,
+     'exclude_replies' => FALSE,
    );
   }
 
@@ -35,6 +37,18 @@ class twitter_pull_box extends boxes_box {
       '#default_value' => $this->options['max_results'],
       '#description' => t('How many tweets you want the box to display at any one time.'),
     );
+    $form['rts'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable retweets'),
+      '#default_value' => $this->options['rts'],
+      '#description' => t('If selected, retweets are included in the twitter feed. See the Twitter API for more details.'),
+    );
+    $form['exclude_replies'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Exclude replies'),
+      '#default_value' => $this->options['exclude_replies'],
+      '#description' => t('If selected, replies are not included in the twitter feed. See the Twitter API for more details.'),
+    );
     return $form;
   }
 
@@ -42,7 +56,7 @@ class twitter_pull_box extends boxes_box {
    * Implementation of boxes_box::render().
    */
   public function render() {
-    $content = twitter_pull_render($this->options['search'], NULL, $this->options['max_results']);
+    $content = twitter_pull_render($this->options['search'], NULL, $this->options['max_results'], NULL, NULL, $this->options['rts'], $this->options['exclude_replies']);
     $title = isset($this->title) ? $this->title : NULL;
     return array(
       'delta' => $this->delta, // Crucial.

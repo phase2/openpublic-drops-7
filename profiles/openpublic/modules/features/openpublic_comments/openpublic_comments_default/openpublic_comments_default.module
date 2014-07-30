@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the openpublic_comments_default feature.
- */
-
-include_once('openpublic_comments_default.features.inc');

@@ -1,75 +1,18 @@
 <?php
-
 /**
- * Implements hook_form_alter().
- *
- * Allows the profile to alter the site-configuration form. This is
- * called through custom invocation, so $form_state is not populated.
+ * @file
+ * Code for the OpenPublic profile.
  */
-function openpublic_form_alter(&$form, $form_state, $form_id) {
-  /*
-  if ($form_id == 'install_configure_form' && !defined('DRUSH_BASE_PATH')) {
-    $roles = array(DRUPAL_AUTHENTICATED_RID);
-    $policy = _password_policy_load_active_policy($roles);
-
-    $translate = array();
-    if (!empty($policy['policy'])) {
-      // Some policy constraints are active.
-      password_policy_add_policy_js($policy, 1);
-      foreach ($policy['policy'] as $key => $value) {
-        $translate['constraint_'. $key] = _password_policy_constraint_error($key, $value);
-      }
-    }
-
-    // Set a custom form validate and submit handlers.
-    $form['#validate'][] = 'openpublic_password_validate';
-    $form['#submit'][] = 'openpublic_password_submit';  
-  }
-  */
-}
-
 
 /**
 * A trick to enforce page refresh when theme is changed from an overlay.
 */
-function openpublic_admin_paths_alter(&$paths) {  
+function openpublic_admin_paths_alter(&$paths) {
   $paths['admin/appearance/default*'] = FALSE;
 }
 
-
 /**
- * Password save validate handler.
- */
-function openpublic_password_validate($form, &$form_state) {
-  $values = $form_state['values'];
-  $account = (object)array('uid' => 1);
-  $account->roles = array(DRUPAL_AUTHENTICATED_RID => DRUPAL_AUTHENTICATED_RID);
-
-  if (!empty($values['account']['pass'])) {
-    $error = _password_policy_constraint_validate($values['account']['pass'], $account);
-    if ($error) {
-      form_set_error('pass', t('Your password has not met the following requirement(s):') .'<ul><li>'. implode('</li><li>', $error) .'</li></ul>');
-    }
-  }
-}
-
-/**
- * Password save submit handler.
- */
-function openpublic_password_submit($form, &$form_state) {
-  global $user;
-
-  $values = $form_state['values'];
-  $account = (object)array('uid' => 1);
-
-  // Track the hashed password values which can then be used in the history constraint.
-  if ($account->uid && !empty($values['account']['pass'])) {
-    _password_policy_store_password($account->uid, $values['account']['pass']);
-  }
-}
-
-/**
- * Implements hook_appstore_stores_info
+ * Implements hook_appstore_stores_info().
  */
 function openpublic_apps_servers_info() {
  $info =  drupal_parse_info_file(dirname(__file__) . '/openpublic.info');
@@ -77,39 +20,110 @@ function openpublic_apps_servers_info() {
    'openpublic' => array(
      'title' => 'OpenPublic',
      'description' => "Apps for the Openpublic distribution",
-     'manifest' => 'http://appserver.openpublicapp.com/app/query',
+     'manifest' => 'http://appserver.openpublicapp.com/app/query/openpublic-stable',
      'profile' => 'openpublic',
-     'profile_version' => isset($info['version']) ? $info['version'] : '7.x-1.0-beta1',
-     'server_name' => $_SERVER['SERVER_NAME'],
-     'server_ip' => $_SERVER['SERVER_ADDR'],
+     'profile_version' => isset($info['version']) ? $info['version'] : '7.x-1.x-dev',
+     'server_name' => !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '',
+     'server_ip' => !empty($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '',
    ),
  );
 }
 
 /**
- * Implements hook_init
+ * Implements hook_install_configure_form_alter().
  */
-function openpublic_init() {
- $cache = cache_get("openpublic_info");
- if (isset($cache->data)) {
-   $data = $cache->data;
- }
- else {
-   $info =  drupal_parse_info_file(dirname(__file__) . '/openpublic.info');
-   $data = array("profile" => "openpublic", "profile_version" => $info['version']);
-   cache_set("openpublic_info", $data);
- }
- drupal_add_js($data, 'setting');
-
+function openpublic_form_install_configure_form_alter(&$form, &$form_state) {
+  $form['site_information']['site_name']['#default_value'] = 'OpenPublic';
+  $form['admin_account']['account']['name']['#default_value'] = 'admin';
+  $form['server_settings']['site_default_country']['#default_value'] = 'US';
+  if (!empty($_SERVER['HTTP_HOST'])) {
+    $form['admin_account']['account']['mail']['#default_value'] = 'admin@'. $_SERVER['HTTP_HOST'];
+    $form['site_information']['site_mail']['#default_value'] = 'admin@'. $_SERVER['HTTP_HOST'];
+  }
 }
 
 /**
- * implements hook_install_configure_form_alter()
+ * Implements hook_features_pipe_node_alter().
  */
-function openpublic_form_install_configure_form_alter(&$form, &$form_state) {
-  $form['site_information']['site_name']['#default_value'] = 'Openpublic'; 
-  $form['site_information']['site_mail']['#default_value'] = 'admin@'. $_SERVER['HTTP_HOST']; 
-  $form['admin_account']['account']['name']['#default_value'] = 'admin';
-  $form['admin_account']['account']['mail']['#default_value'] = 'admin@'. $_SERVER['HTTP_HOST']; 
+function openpublic_features_pipe_node_alter(&$more, $data, $export) {
+  // Enforces permissions being owned by feature defining them.
+  foreach ($data as $node_type) {
+    if (node_type_get_type($node_type)) {
+      foreach (array_keys(node_list_permissions($node_type)) as $permission) {
+        $more['user_permission'][] = $permission;
+      }
+    }
+  }
 }
 
+/**
+ * Implements hook_requirements_api().
+ */
+function openpublic_requirements_api() {
+  $return = array();
+  $attributes = array('query' => drupal_get_destination());
+  if (module_exists('recaptcha')) {
+    $recaptcha = array(
+      'title' => t('Recaptcha'),
+      'description' => t('The Recaptcha API allows for a powerful CAPTCHA on forms, <a href="@url">configure it here</a>.', array('@url' => url('admin/config/people/captcha/recaptcha', $attributes))),
+    );
+  
+    $recaptcha_public_key = variable_get('recaptcha_public_key', FALSE);
+    $recaptcha_private_key = variable_get('recaptcha_private_key', FALSE);
+    if ($recaptcha_public_key && $recaptcha_private_key) {
+      $recaptcha['value'] = t('API Key Configured');
+      $recaptcha['severity'] = REQUIREMENT_OK;
+    }
+    else {
+      $recaptcha['value'] = t('API Key Missing');
+      $recaptcha['severity'] = REQUIREMENT_ERROR;
+    }
+    $return['recaptcha'] = $recaptcha;
+  }
+
+  if (module_exists('googleanalytics')) {
+    $google_analytics = array(
+      'title' => t('Google Analytics'),
+      'description' => t('The Google Analytics API allows for robust metrics on site visitors, <a href="@url">configure it here</a>.', array('@url' => url('admin/config/system/googleanalytics', $attributes))),
+    );
+  
+    $google_analytics_key = variable_get('googleanalytics_account', FALSE);
+    if ($google_analytics_key) {
+      $google_analytics['value'] = t('API Key Configured');
+      $google_analytics['severity'] = REQUIREMENT_OK;
+    }
+    else {
+      $google_analytics['value'] = t('API Key Missing');
+      $google_analytics['severity'] = REQUIREMENT_ERROR;
+    }
+    $return['google_analytics'] = $google_analytics;
+  }
+  if (module_exists('twitter')) {
+    module_load_include('install', 'twitter');
+    $return += twitter_requirements('runtime');
+  }
+
+  return $return;
+}
+
+/**
+ * Implements hook_system_info().
+ */
+function openpublic_system_info_alter(&$info, $file, $type) {
+  // This module is not needed for general feature listing on 99.9% of sites.
+  if ($file->name == 'date_migrate_example') {
+    $info['hidden'] = 1;
+  }
+}
+
+
+/**
+ * Implements hook_user_login().
+ */
+function openpublic_user_login(&$edit, $account) {
+  // Redirecting to the dashboard if they have perms to the dashboard.
+  // Variable has no configuration page.
+  if (user_access("access dashboard", $account) && variable_get('openpublic_user_login_redirect_dashboard', TRUE)) {
+    $edit['redirect'] = module_exists('overlay') ? array("<front>", array('fragment' => 'overlay=admin/dashboard')) : 'admin/dashboard';
+  }
+}

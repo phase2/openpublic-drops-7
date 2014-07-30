@@ -1,0 +1,179 @@
+<?php
+
+/**
+ * @file
+ * Sets up the base table for our entity and a table to store information about
+ * the entity types.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function entity_boxes_schema() {
+  $schema = array();
+
+  $schema['entity_boxes'] = array(
+    'description' => 'The base table for entity_boxes entities.',
+    'fields' => array(
+      'entity_boxes_id' => array(
+        'description' => 'Primary Key: Identifier for a entity_boxes.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'The {entity_boxes_type}.type of this entity_boxes.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'language' => array(
+        'description' => 'The language of the entity_boxes.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'name' => array(
+        'description' => 'The Machine name for boxes',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'description' => array(
+        'description' => 'The description field from boxes boxes',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the entity_boxes was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the entity_boxes was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('entity_boxes_id'),
+    'indexes' => array(
+      'type' => array('type'),
+    ),
+  );
+
+  $schema['entity_boxes_type'] = array(
+    'description' => 'Stores information about defined entity_boxes types.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique entity_boxes type identifier.',
+      ),
+      'type' => array(
+        'description' => 'The machine-readable name of this entity_boxes type.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'description' => 'The human-readable name of this entity_boxes type.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'description' => 'The weight of this entity_boxes type in relation to others.',
+      ),
+      'data' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
+        'serialize' => TRUE,
+        'description' => 'A serialized array of additional data related to this entity_boxes type.',
+      ),
+      'status' => array(
+        'type' => 'int', 
+        'not null' => TRUE,
+        // Set the default to ENTITY_CUSTOM without using the constant as it is
+        // not safe to use it at this point. 
+        'default' => 0x01, 
+        'size' => 'tiny', 
+        'description' => 'The exportable status of the entity.',
+      ),
+      'module' => array(
+        'description' => 'The name of the providing module if the entity has been defined in code.', 
+        'type' => 'varchar', 
+        'length' => 255, 
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'unique keys' => array(
+      'type' => array('type'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * add description field
+ */
+function entity_boxes_update_7001() {
+  $ret = array();
+  $field = array(
+    'description' => 'The description field from boxes boxes',
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => TRUE,
+    'default' => '',
+  );
+
+  db_add_field('entity_boxes', 'description', $field);
+}
+
+/**
+ * Resave all entity_boxes to prune entity data from database
+ */
+function entity_boxes_update_7002() {
+  $boxes = db_select('entity_boxes', 'eb')
+    ->fields('eb')
+    ->execute()
+    ->fetchAllAssoc('entity_boxes_id');
+
+  foreach ($boxes as $box_id => $name) {
+    $bids[] = $box_id;
+  }
+  $entity_boxes = entity_boxes_load_multiple($bids);
+  foreach ($entity_boxes as $box) {
+    $box->save();
+  }
+}
+
+/**
+ *  Implements hook_uninstall().
+ *  Remove our created bundles on uninstall
+ */
+function entity_boxes_uninstall() {
+  // Bypass entity_load() as we cannot use it here.
+  $types = db_select('entity_boxes_type', 'et')
+    ->fields('et')
+    ->execute()
+    ->fetchAllAssoc('type');
+
+  foreach ($types as $name => $type) {
+    field_attach_delete_bundle('entity_boxes', $name);
+  }
+}

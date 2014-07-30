@@ -1,0 +1,593 @@
+<?php
+
+/**
+ * @file
+ * Module for the BoxEntity Entity - a starting point to create your own Entity
+ * and associated administration interface
+ */  
+
+//TODO this is need for the moment for unlimited fields to work.
+//but i bet can get include somewhere else
+include_once("entity_boxes.admin.inc");
+
+/**
+ * Implement hook_entity_info().
+ *
+ * We define two entities here - the actual entity that will hold our domain
+ * specific information and an entity that holds information about the different
+ * types of entities. See here: http://drupal.org/node/977380 for a discussion on this
+ * choice.
+ */
+function entity_boxes_entity_info() {
+  $return['entity_boxes'] = array(
+    'label' => t('Box'),
+    // The entity class and controller class extend the classes provided by the
+    // Entity API
+    'entity class' => 'BoxEntity',
+    'controller class' => 'BoxEntityController',
+    'base table' => 'entity_boxes',
+    'fieldable' => TRUE,
+    'entity keys' => array(
+        'id' => 'entity_boxes_id',
+        'label' => 'description',
+        'bundle' => 'type',
+    ),
+    // Bundles are defined by the entity_boxes types below
+    'bundles' => array(),
+    // Bundle keys tell the FieldAPI how to extract information from the bundle objects
+    'bundle keys' => array(
+      'bundle' => 'type',
+    ),
+    'label callback' => 'entity_class_label',
+    'uri callback' => 'entity_class_uri',
+    'creation callback' => 'entity_boxes_create',
+    'access callback' => 'entity_boxes_access',
+    'module' => 'entity_boxes',
+    // The information below is used by the BoxEntityUIController (which extends the EntityDefaultUIController)
+    'admin ui' => array(
+      'path' => 'admin/content/entity_boxes',
+      'file' => 'entity_boxes.admin.inc',
+      'controller class' => 'BoxEntityUIController',
+      'menu wildcard' => '%entity_boxes',
+    ),
+  );
+  // The entity that holds information about the entity types	  
+  $return['entity_boxes_type'] = array(
+    'label' => t('Box Entity Type'),
+    'entity class' => 'BoxEntityType',
+    'controller class' => 'BoxEntityTypeController',
+    'base table' => 'entity_boxes_type',
+    'fieldable' => FALSE,
+    'bundle of' => 'entity_boxes',
+    'exportable' => TRUE,
+    'entity keys' => array(
+      'id' => 'id',
+      'name' => 'type',
+      'label' => 'label',
+    ),
+    'access callback' => 'entity_boxes_type_access',
+    'module' => 'entity_boxes',
+    // Enable the entity API's admin UI.
+    'admin ui' => array(
+      'path' => 'admin/structure/entity_boxes_types',
+      'file' => 'entity_boxes_type.admin.inc',
+      'controller class' => 'BoxEntityTypeUIController',
+    ),
+  );
+
+  return $return;
+}
+
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * We are adding the info about the entity_boxes types via a hook to avoid a recursion
+ * issue as loading the entity_boxes types requires the entity info as well.
+ *
+ * @todo This needs to be improved
+ */
+function entity_boxes_entity_info_alter(&$entity_info) {
+  foreach (entity_boxes_get_types() as $type => $info) {
+    $entity_info['entity_boxes']['bundles'][$type] = array(
+      'label' => $info->label,
+      'admin' => array(
+        'path' => 'admin/structure/entity_boxes_types/manage/%entity_boxes_type',
+        'real path' => 'admin/structure/entity_boxes_types/manage/' . $type,
+        'bundle argument' => 4,
+        'access arguments' => array('administer entity_boxes types'),
+      ),
+    );
+  }
+}
+  
+
+/**
+ * Implements hook_permission().
+ */
+function entity_boxes_permission() {
+  // We set up permisssions to manage entity types, manage all entities and the
+  // permissions for each individual entity
+  $permissions = array(
+    'administer entity_boxes types' => array(
+      'title' => t('Administer entity_boxes types'),
+      'description' => t('Create and delete fields for entity_boxes types, and set their permissions.'),
+    ),
+    'administer entity_boxes' => array(
+      'title' => t('Administer entity_boxes'),
+      'description' => t('Edit and delete all entity_boxes'),
+    ),  
+  );
+  
+  //Generate permissions per entity_boxes 
+  foreach (entity_boxes_get_types() as $type) {
+    $type_name = check_plain($type->type);
+    $permissions += array(
+      "edit any $type_name entity_boxes" => array(
+        'title' => t('%type_name: Edit any entity_boxes', array('%type_name' => $type->label)),
+      ),
+      "view any $type_name entity_boxes" => array(
+        'title' => t('%type_name: View any entity_boxes', array('%type_name' => $type->label)),
+      ),
+    );
+  }
+  return $permissions;  
+}
+
+
+/**
+ * Determines whether the given user has access to a entity_boxes.
+ *
+ * @param $op
+ *   The operation being performed. One of 'view', 'update', 'create', 'delete'
+ *   or just 'edit' (being the same as 'create' or 'update').
+ * @param $entity_boxes
+ *   Optionally a entity_boxes or a entity_boxes type to check access for. If nothing is
+ *   given, access for all entity_boxes is determined.
+ * @param $account
+ *   The user to check for. Leave it to NULL to check for the global user.
+ * @return boolean
+ *   Whether access is allowed or not.
+ */
+function entity_boxes_access($op, $entity_boxes = NULL, $account = NULL) {
+  if (user_access('administer entity_boxes', $account)) {
+    return TRUE;
+  }
+  if (isset($entity_boxes) && $type_name = $entity_boxes->type) {
+    $op = ($op == 'view') ? 'view' : 'edit';
+    if (user_access("$op any $type_name entity_boxes", $account)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+
+/**
+ * Access callback for the entity API.
+ */
+function entity_boxes_type_access($op, $type = NULL, $account = NULL) {
+  return user_access('administer entity_boxes types', $account);
+}
+
+
+/**
+ * Gets an array of all entity_boxes types, keyed by the type name.
+ *
+ * @param $type_name
+ *   If set, the type with the given name is returned.
+ * @return BoxEntityType[]
+ *   Depending whether $type isset, an array of entity_boxes types or a single one.
+ */
+function entity_boxes_get_types($type_name = NULL) {
+  // entity_load will get the Entity controller for our entity_boxes entity and call the load
+  // function of that object - we are loading entities by name here.
+  $types = entity_load_multiple_by_name('entity_boxes_type', isset($type_name) ? array($type_name) : FALSE);
+  return isset($type_name) ? reset($types) : $types;
+}
+
+
+/**
+ * Menu argument loader; Load a entity_boxes type by string.
+ *
+ * @param $type
+ *   The machine-readable name of a entity_boxes type to load.
+ * @return
+ *   A entity_boxes type array or FALSE if $type does not exist.
+ */
+function entity_boxes_type_load($type) {
+  return entity_boxes_get_types($type);
+}
+
+
+/**
+ * Fetch a entity_boxes object. Make sure that the wildcard you choose 
+ * in the entity_boxes entity definition fits the function name here.
+ *
+ * @param $entity_boxes_id
+ *   Integer specifying the entity_boxes id.
+ * @param $reset
+ *   A boolean indicating that the internal cache should be reset.
+ * @return
+ *   A fully-loaded $entity_boxes object or FALSE if it cannot be loaded.
+ *
+ * @see entity_boxes_load_multiple()
+ */
+function entity_boxes_load($entity_boxes_id, $reset = FALSE) {
+  $entity_boxes = entity_boxes_load_multiple(array($entity_boxes_id), array(), $reset);
+  return reset($entity_boxes);
+}
+
+/**
+ * Load multiple entity_boxes based on certain conditions.
+ *
+ * @param $entity_boxes_ids
+ *   An array of entity_boxes IDs.
+ * @param $conditions
+ *   An array of conditions to match against the {entity_boxes} table.
+ * @param $reset
+ *   A boolean indicating that the internal cache should be reset.
+ * @return
+ *   An array of entity_boxes objects, indexed by entity_boxes_id.
+ *
+ * @see entity_load()
+ * @see entity_boxes_load()
+ */
+function entity_boxes_load_multiple($entity_boxes_ids = array(), $conditions = array(), $reset = FALSE) {
+  return entity_load('entity_boxes', $entity_boxes_ids, $conditions, $reset);
+}
+
+/**
+ *  @todo - What is this used for?
+ *  Looks to be used for loading entity boxes by block delta.
+ */
+function entity_boxes_load_delta($deltas = array(), $reset = FALSE) {
+  if ($deltas) {
+    $deltas = is_array($deltas)? $deltas: array($deltas);
+    $query = db_select('entity_boxes', 'b');
+    $query->condition('b.name', $deltas, 'IN')
+        ->fields('b', array('entity_boxes_id'));
+    $ids = array();
+    $results = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $result) {
+      $ids[] = $result['entity_boxes_id'];
+    }
+    if (!empty($ids)) {
+      return entity_boxes_load_multiple($ids, $reset);
+    }
+  }
+}
+/**
+ * Deletes a entity_boxes.
+ */
+function entity_boxes_delete(BoxEntity $entity_boxes) {
+  $entity_boxes->delete();
+}
+
+
+/**
+ * Delete multiple entity_boxes.
+ *
+ * @param $entity_boxes_ids
+ *   An array of entity_boxes IDs.
+ */
+function entity_boxes_delete_multiple(array $entity_boxes_ids) {
+  entity_get_controller('entity_boxes')->delete($entity_boxes_ids);
+}
+
+
+/**
+ * Create a entity_boxes object.
+ */
+function entity_boxes_create($values = array()) {
+  return entity_get_controller('entity_boxes')->create($values);
+}
+
+
+/**
+ * Saves a entity_boxes to the database.
+ *
+ * @param $entity_boxes
+ *   The entity_boxes object.
+ */
+function entity_boxes_save(BoxEntity $entity_boxes) {
+  $entity_boxes->is_new = empty($entity_boxes->entity_boxes_id);
+
+  // Add in created and changed times.
+  if ($entity_boxes->is_new) {
+    $entity_boxes->created = time();
+  } 
+  $entity_boxes->changed = time();
+  
+  $entity_boxes->save();
+
+  return $entity_boxes;
+}
+
+
+/**
+ * Saves a entity_boxes type to the db.
+ */
+function entity_boxes_type_save(BoxEntityType $type) {
+  $type->save();
+}
+
+
+/**
+ * Deletes a entity_boxes type from the db.
+ */
+function entity_boxes_type_delete(BoxEntityType $type) {
+  $type->delete();
+}
+
+
+/**
+ * URI callback for entity_boxes
+ */
+function entity_boxes_uri(BoxEntity $entity_boxes) {
+  return array(
+    'path' => 'entity_boxes/' . $entity_boxes->entity_boxes_id,
+  );
+}
+
+
+/**
+ * Menu title callback for showing individual entities
+ */
+function entity_boxes_page_title(BoxEntity $entity_boxes) {
+  return $entity_boxes->name;
+}
+
+
+/**
+ * Sets up content to show an individual entity_boxes
+ * @todo - get rid of drupal_set_title();
+ */
+function entity_boxes_page_view($entity_boxes, $view_mode = 'full') {    
+  $controller = entity_get_controller('entity_boxes');  
+  $content = $controller->view(array($entity_boxes->entity_boxes_id => $entity_boxes));
+  drupal_set_title($entity_boxes->name);
+  return $content;
+}
+
+
+/**
+ * Implements hook_views_api().
+ */
+function entity_boxes_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'entity_boxes') . '/views',
+  );
+}
+
+
+/**
+ * Implement hook_theme().
+ */
+function entity_boxes_theme() {
+  return array(
+    'entity_boxes_add_list' => array(
+      'variables' => array('content' => array()),
+      'file' => 'entity_boxes.admin.inc',
+    ),
+    'entity_boxes' => array(
+      'render element' => 'elements',
+      'template' => 'entity_boxes',
+    ),
+  );
+}  
+
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function entity_boxes_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  // Add action link 'admin/structure/entity_boxes/add' on 'admin/structure/entity_boxes'.
+  if ($root_path == 'admin/content/entity_boxes') {
+    $item = menu_get_item('admin/content/entity_boxes/add');
+    if ($item['access']) {
+      $data['actions']['output'][] = array(
+        '#theme' => 'menu_local_action',
+        '#link' => $item,
+      );
+    }
+  }
+}
+
+
+/**
+ * The class used for entity_boxes entities
+ */
+class BoxEntity extends Entity {
+  
+  public function __construct($values = array()) {
+    parent::__construct($values, 'entity_boxes');
+  }
+
+  protected function defaultLabel() {
+    return $this->name;
+  }
+
+  protected function defaultUri() {
+    return array('path' => 'entity_boxes/' . $this->entity_boxes_id);
+  }
+  
+  
+}
+
+
+/**
+ * The class used for entity_boxes type entities
+ */
+class BoxEntityType extends Entity {
+  
+  public $type;
+  public $label;
+  
+  public function __construct($values = array()) {
+    parent::__construct($values, 'entity_boxes_type');
+  }
+  
+}
+
+
+/**
+ * The Controller for BoxEntity entities
+ */
+class BoxEntityController extends EntityAPIController {
+  public function __construct($entityType) {
+    parent::__construct($entityType);
+  }
+
+
+  /**
+   * Create a entity_boxes - we first set up the values that are specific
+   * to our entity_boxes schema but then also go through the EntityAPIController
+   * function.
+   * 
+   * @param $type
+   *   The machine-readable type of the entity_boxes.
+   *
+   * @return
+   *   A entity_boxes object with all default fields initialized.
+   */
+  public function create(array $values = array()) {
+    // Add values that are specific to our BoxEntity
+    $values += array( 
+      'entity_boxes_id' => '',
+      'is_new' => TRUE,
+      'title' => '',
+      'created' => '',
+      'changed' => '',
+      'data' => '',
+    );
+    
+    $entity_boxes = parent::create($values);
+    return $entity_boxes;
+  }
+  
+  /**
+   * Overriding the buldContent function to add entity specific fields
+   */
+  public function buildContent($entity, $view_mode = 'full', $langcode = NULL, $content = array()) {
+    $content = parent::buildContent($entity, $view_mode, $langcode, $content);
+    return $content;
+  }
+  
+}
+
+
+/**
+ * The Controller for BoxEntity entities
+ */
+class BoxEntityTypeController extends EntityAPIControllerExportable {
+  public function __construct($entityType) {
+    parent::__construct($entityType);
+  }
+  
+   /**
+   * Create a entity_boxes type - we first set up the values that are specific
+   * to our entity_boxes type schema but then also go through the EntityAPIController
+   * function.
+   * 
+   * @param $type
+   *   The machine-readable type of the entity_boxes.
+   *
+   * @return
+   *   A entity_boxes type object with all default fields initialized.
+   */
+  public function create(array $values = array()) {
+    // Add values that are specific to our BoxEntity
+    $values += array( 
+      'id' => '',
+      'is_new' => TRUE,
+      'data' => '',
+    );
+    $entity_boxes_type = parent::create($values);
+    return $entity_boxes_type;
+  }
+}
+
+/**
+ * Implements hook_boxes_plugins().
+ */
+function entity_boxes_boxes_plugins() {
+  static $last_info = array();
+  $info = array();
+  // only do next part if entity_boxes_type table already exists (e.g., not during install)
+  if (db_table_exists('entity_boxes_type')) {
+    // Catch the condition that module is being enabled, registery is being
+    // rebuilt but schema is not installed.
+    // @see https://www.drupal.org/node/1311820
+    include_once DRUPAL_ROOT . '/includes/install.inc';
+    if ((module_exists('taxonomy') && drupal_get_installed_schema_version('taxonomy') == SCHEMA_UNINSTALLED)
+     || (module_exists('rdf') && drupal_get_installed_schema_version('rdf') == SCHEMA_UNINSTALLED)) {
+      return $last_info;
+    }
+    // force clear of entity cache so custom box types are available
+    // otherwise we will crash when module is installed/enabled
+    // NOTE: Do not call anything related to entity_boxes_get_types before
+    // clearing this cache as that can cause infinite loop
+    entity_info_cache_clear();
+    // force schemas to be reloaded into cache
+    // otherwise we can still get errors when module is enabled
+    drupal_get_schema('entity_boxes', TRUE);
+    drupal_get_schema('entity_boxes_type', TRUE);
+    
+    $path = drupal_get_path('module', 'entity_boxes') . '/plugins';
+    foreach (entity_boxes_get_types() as $type) {
+      $info[$type->type] = array(
+        'title' => $type->label,
+        'handler' => array(
+          'parent' => 'box',
+          'class' => 'entity_boxes_entity',
+          'file' => 'entity_boxes_entity.inc',
+          'path' => $path,
+        ),
+      );
+    }
+    $last_info = $info;
+  }
+
+  return $info;
+}
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function entity_boxes_ctools_plugin_api($module, $api) {
+  if ($module == 'boxes' && $api == 'plugins') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implements hook_features_export_files().
+ */
+function entity_boxes_features_export_files($module_name, $export) {
+  $return = array();
+  if (!empty($export['features']['box']) && ($files = &drupal_static('entity_boxes_features_export_files'))) {
+    foreach ($export['features']['box'] as $delta) {
+      if (!empty($files[$delta])) {
+        foreach ($files[$delta] as $filename => $uri) {
+          $return['entitiy_boxes_files/' . $filename] = array('file_path' => $uri);
+        }
+      }
+    }
+  }
+  return $return;
+}
+
+/**
+ * Implements hook_features_export_files().
+ */
+function entity_boxes_modules_installed($modules) {
+  // Clear a bunch of classes so new entity box types work.
+  if (array_intersect($modules, module_implements('default_entity_boxes_type'))) {
+    // @todo Figure out why this isn't included during install sometimes.
+    module_load_include('inc', 'entity_boxes', 'plugins/entity_boxes_entity');
+    ctools_get_plugins_reset();
+    cache_clear_all('plugins:boxes:plugins', 'cache');
+    entity_get_controller('entity_boxes_type')->resetCache();
+  }
+}

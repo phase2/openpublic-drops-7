@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of hook_field_group_default_field_groups().
+ * Implements hook_field_group_default_field_groups().
  */
 function openpublic_person_field_group_default_field_groups() {
   $field_groups = array();

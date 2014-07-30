@@ -26,53 +26,47 @@ function openpublic_home_page_feature_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-f357e00a950996a5a5f114f3de9b7a5f' => array(
-          'module' => 'views',
-          'delta' => 'f357e00a950996a5a5f114f3de9b7a5f',
+        'boxes-box-dc4059cc' => array(
+          'module' => 'boxes',
+          'delta' => 'box-dc4059cc',
           'region' => 'header_first',
-          'weight' => '-29',
+          'weight' => 1,
         ),
-        'views-breaking_news-block_1' => array(
-          'module' => 'views',
-          'delta' => 'breaking_news-block_1',
+        'boxes-box-54682cbd' => array(
+          'module' => 'boxes',
+          'delta' => 'box-54682cbd',
           'region' => 'header_first',
-          'weight' => '-28',
+          'weight' => 2,
         ),
-        'views-services-block_1' => array(
-          'module' => 'views',
-          'delta' => 'services-block_1',
+        'boxes-box-e826276f' => array(
+          'module' => 'boxes',
+          'delta' => 'box-e826276f',
           'region' => 'header_second',
-          'weight' => '-10',
+          'weight' => 0,
         ),
-        'views-press_releases-block_1' => array(
+        'views-press_release_list-block_1' => array(
           'module' => 'views',
-          'delta' => 'press_releases-block_1',
+          'delta' => 'press_release_list-block_1',
           'region' => 'preface_first',
-          'weight' => '-10',
+          'weight' => 0,
         ),
-        'views-blogs-block_1' => array(
+        'views-blog_entry_list-block_1' => array(
           'module' => 'views',
-          'delta' => 'blogs-block_1',
+          'delta' => 'blog_entry_list-block_1',
           'region' => 'preface_second',
-          'weight' => '-29',
+          'weight' => 0,
         ),
-        'views-resources-block_1' => array(
+        'views-resource_list-block_1' => array(
           'module' => 'views',
-          'delta' => 'resources-block_1',
+          'delta' => 'resource_list-block_1',
           'region' => 'preface_second',
-          'weight' => '-28',
+          'weight' => 1,
         ),
-        'follow-site' => array(
-          'module' => 'follow',
-          'delta' => 'site',
+        'boxes-box-41ba8a2d' => array(
+          'module' => 'boxes',
+          'delta' => 'box-41ba8a2d',
           'region' => 'preface_third',
-          'weight' => '-10',
-        ),
-        'twitter_pull-0' => array(
-          'module' => 'twitter_pull',
-          'delta' => 0,
-          'region' => 'preface_third',
-          'weight' => '-9',
+          'weight' => 0,
         ),
       ),
     ),
@@ -128,33 +122,6 @@ function openpublic_home_page_feature_context_default_contexts() {
           'dashboard_inactive' => 0,
         ),
       ),
-      'spartan' => array(
-        'disable' => array(
-          'content' => 'content',
-          'sidebar_first' => 'sidebar_first',
-          'sidebar_second' => 'sidebar_second',
-          'page_top' => 0,
-          'page_bottom' => 0,
-          'user_first' => 0,
-          'user_second' => 0,
-          'branding' => 0,
-          'menu' => 0,
-          'header_first' => 0,
-          'header_second' => 0,
-          'preface_first' => 0,
-          'preface_second' => 0,
-          'preface_third' => 0,
-          'postscript_first' => 0,
-          'postscript_second' => 0,
-          'postscript_third' => 0,
-          'postscript_fourth' => 0,
-          'footer_first' => 0,
-          'footer_second' => 0,
-          'dashboard_main' => 0,
-          'dashboard_sidebar' => 0,
-          'dashboard_inactive' => 0,
-        ),
-      ),
       'rubik' => array(
         'disable' => array(
           'content' => 0,
@@ -178,6 +145,13 @@ function openpublic_home_page_feature_context_default_contexts() {
           'dashboard_inactive' => 0,
         ),
       ),
+    ),
+    'theme' => array(
+      'title' => '',
+      'subtitle' => '',
+    ),
+    'theme_html' => array(
+      'class' => '',
     ),
   );
   $context->condition_mode = 0;

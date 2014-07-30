@@ -1,39 +1,39 @@
 <?php
 /**
- * @file openpublic_accessibility.module
- * TODO: Enter file description here.
+ * @file
+ * Code for OpenPublic Accessibility, providing a more accessible site.
  */
 
 /**
- * implements hook_preprocess_html
+ * Implements hook_preprocess_html().
  *
- * we are adding $skip_links to the html template
+ * We are adding $skip_links to the html template
  */
 function openpublic_accessibility_preprocess_html(&$vars) {
   $links = openpublic_accessibility_add_skip_link();
-  if(!empty($links)) {
+  if (!empty($links)) {
     $vars['skip_links'] = $links;
   }
 
 }
 
 /**
- * openpublic_accessibility_build_skip_link()
+ * This function takes text and anchor and builds out a link render array.
  *
- * This function takes text and anchor and builds out a link render array
- * to be use as a skip ... link
- *
- * @PARAM text: a string of the text for the skip link
- * @PARAM anchor: the anchor to which to skip
- * @RETURN array() : an array ready for theme_link;
+ * @param $text
+ *   A string of the text for the skip link.
+ * @param $anchor
+ *   The anchor to which to skip.
+ * @return
+ *   An array ready for theme('link)
  */
-function openpublic_accessibility_build_skip_link($text, $anchor, $html= FALSE) {
+function openpublic_accessibility_build_skip_link($text, $anchor, $html = FALSE) {
   return array(
     '#theme' => 'link',
-    '#text' => t($text),
+    '#text' => $text,
     '#path' => '',
     '#options' => array(
-      'fragment' =>$anchor,
+      'fragment' => $anchor,
       'attributes' => array(
         'class' => array("element-invisible", "element-focusable"),
       ),
@@ -43,26 +43,29 @@ function openpublic_accessibility_build_skip_link($text, $anchor, $html= FALSE) 
   );
 }
 
-/*
- * openpublic_accessibility_add_skip_link()
+/**
+ * Add/render the skip links for the site.
  *
  * The goal here is to provide a listing of all skip links that should
  * be on the page.  Links like skip to content or skip to error are expected
  *
- * @PARAM a link render array
- * @RETURN a array of link render arrays intented as skip links.
+ * @param $link
+ *   (optional) a link render array. If supplied, nothing is returned.
+ * @return
+ *   An array of link render arrays intented as skip links.
  */
 function openpublic_accessibility_add_skip_link($link = FALSE) {
   $links = &drupal_static(__FUNCTION__, array());
   if ($link) {
     $links[] = $link;
+    return;
   }
   $_links = $links;
   drupal_alter("openpublic_accessibility_skip_link", $_links);
   $output = array();
   $starting_tab_index = openpublic_accessibility_skip_link_set_starting_tab_index();
-  foreach($_links as $key => $_link) {
-    if($starting_tab_index !== FALSE) {
+  foreach ($_links as $key => $_link) {
+    if ($starting_tab_index !== FALSE) {
       $_link['#options']['attributes']['tabindex'] = $key + $starting_tab_index;
     }
     $output[] = $_link;
@@ -76,7 +79,7 @@ function openpublic_accessibility_add_skip_link($link = FALSE) {
  * Used to set and retrive the index on which the skip links should start, if none have been
  * set with this function then it falls back to the openpublic_accessibility_skip_link_starting_tab_index
  * variable.
- * @PARAM new_index : an int for which index to use (seting to FALSE will insure no indexies are set)
+ * @param new_index : an int for which index to use (seting to FALSE will insure no indexies are set)
  * @RETURN the current index in use
  */
 function openpublic_accessibility_skip_link_set_starting_tab_index($new_index = NULL) {
@@ -89,42 +92,42 @@ function openpublic_accessibility_skip_link_set_starting_tab_index($new_index = 
 }
 
 /**
- * implements hook_init
+ * Implements hook_init().
  *
  * add a skip to main content, unless it is not wanted
  */
 function openpublic_accessibility_init() {
-  if(variable_get("openpublic_accessibility_skip_link_add_main_content", TRUE)) {
-    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to main content", "main-content"));
+  if (variable_get("openpublic_accessibility_skip_link_add_main_content", TRUE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link(t("Skip to main content"), "main-content"));
   }
 }
 
 /**
- * implements hook_page_alter()
+ * Implements hook_page_alter().
  *
  * After the page is build lets see if we have any messages and if we do add ship to messages
  */
 function openpublic_accessibility_page_alter(&$page) {
-  if(drupal_get_messages('error', FALSE)) {
-    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to errors", "messages-error"));
+  if (drupal_get_messages('error', FALSE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link(t("Skip to errors"), "messages-error"));
   }
-  if(drupal_get_messages('warning', FALSE)) {
-    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to warnings", "messages-warning"));
+  if (drupal_get_messages('warning', FALSE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link(t("Skip to warnings"), "messages-warning"));
   }
-  if(drupal_get_messages('status', FALSE)) {
-    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link("Skip to status", "messages-status"));
+  if (drupal_get_messages('status', FALSE)) {
+    openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link(t("Skip to status"), "messages-status"));
   }
   // add a link to skip to the top when at the bottom
-  $page['page_bottom']['skip'] =  openpublic_accessibility_build_skip_link("Back to Top", 'skip-link');
+  $page['page_bottom']['skip'] =  openpublic_accessibility_build_skip_link(t("Back to Top"), 'skip-link');
 }
 
 /**
- * implements hook_openpublic_accessibility_skip_link_alter()
+ * Implements hook_openpublic_accessibility_skip_link_alter().
  *
- * check to see if we have an error link if so lets make it priority
+ * Check to see if we have an error link if so lets make it priority
  */
 function openpublic_accessibility_openpublic_accessibility_skip_link_alter(&$links) {
-  foreach($links as $key => $link) {
+  foreach ($links as $key => $link) {
     if ($link['#text'] == t('Skip to errors')) {
       unset($links[$key]);
       array_unshift($links, $link);
@@ -134,14 +137,80 @@ function openpublic_accessibility_openpublic_accessibility_skip_link_alter(&$lin
 }
 
 /**
- * implements hook_preprocess_form_element()
+ * Implements hook_theme_registry_alter().
  *
- * Move the description above the inputs, so that screen readers read it correctly
+ * Move the description above the inputs, so that screen readers read it correctly.
  */
-function openpublic_accessibility_preprocess_form_element(&$vars) {
-  if(isset($vars['element']['#description'])) {
-    $vars['element']['#children'] = '<div class="description">' . $vars['element']['#description'] . "</div>\n" . $vars['element']['#children'];
-    unset($vars['element']['#description']);
+function openpublic_accessibility_theme_registry_alter(&$theme_registry) {
+  if (!empty($theme_registry['form_element']) && $theme_registry['form_element']['function'] == 'theme_form_element') {
+    $theme_registry['form_element']['function'] = 'openpublic_accessibility_form_element';
   }
 }
 
+/**
+ * Override of theme_form_element to move the description.
+ */
+function openpublic_accessibility_form_element($variables) {
+  $element = &$variables['element'];
+
+  // This function is invoked as theme wrapper, but the rendered form element
+  // may not necessarily have been processed by form_builder().
+  $element += array(
+    '#title_display' => 'before',
+  );
+
+  // Add element #id for #type 'item'.
+  if (isset($element['#markup']) && !empty($element['#id'])) {
+    $attributes['id'] = $element['#id'];
+  }
+  // Add element's #type and #name as class to aid with JS/CSS selectors.
+  $attributes['class'] = array('form-item');
+  if (!empty($element['#type'])) {
+    $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+  }
+  if (!empty($element['#name'])) {
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+  }
+  // Add a class for disabled elements to facilitate cross-browser styling.
+  if (!empty($element['#attributes']['disabled'])) {
+    $attributes['class'][] = 'form-disabled';
+  }
+  $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+
+  // If #title is not set, we don't display any label or required marker.
+  if (!isset($element['#title'])) {
+    $element['#title_display'] = 'none';
+  }
+
+  // This is what is changing with this override, based on label position.
+  $description = !empty($element['#description']) ? '<div class="description">' . $element['#description'] . "</div>\n" : '';
+
+  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+  switch ($element['#title_display']) {
+    case 'before':
+    case 'invisible':
+      $output .= ' ' . theme('form_element_label', $variables);
+      $output .= $description;
+      $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+      break;
+
+    case 'after':
+      $output .= ' ' . $prefix . $element['#children'] . $suffix;
+      $output .= ' ' . theme('form_element_label', $variables) . "\n";
+      $output .= $description;
+      break;
+
+    case 'none':
+    case 'attribute':
+      // Output no label and no required marker, only the children.
+      $output .= $description;
+      $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+      break;
+  }
+
+  $output .= "</div>\n";
+
+  return $output;
+}

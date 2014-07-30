@@ -1,0 +1,36 @@
+/**
+ * @file
+ *  Holds default styles for blogs app that ships with openpublic.
+ */
+
+/**
+ * Style the blog entry page.
+ */
+
+.node-blog-entry .author-photo {
+  border: 2px solid #ccc;
+  display: inline;
+  float: left;
+  margin: 0 10px 10px 0;
+}
+
+.node-blog-entry .submitted {
+  color: #999;
+  font-size: .917em;
+  margin: 4px 0 0;
+}
+
+/**
+ * Style the blog listing.
+ */
+.view-id-blog_entry_list .view-content .date-tag {
+  color: #999;
+  font-family: Arial, sans-serif;
+  font-size: .917em;
+  margin: 0 0 3px;
+}
+
+.view-id-blog_entry_list .view-content .date-tag .date {
+  font-size: .917em;
+  margin: 4px 0 0;
+}

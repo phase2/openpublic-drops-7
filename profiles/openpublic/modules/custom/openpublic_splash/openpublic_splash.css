@@ -67,3 +67,15 @@ body a.opic-dashboard-permissions span.icon {
   background-image: url(/sites/all/themes/rubik/images/icons.png);
   background-repeat: no-repeat;
 }
+
+#apps-list .item-list ul li {
+  width: auto;
+  padding: auto;
+  margin: auto;
+  border: none;
+}
+
+.block-content #apps-list {
+  border: none;
+  background-color: transparent;
+}

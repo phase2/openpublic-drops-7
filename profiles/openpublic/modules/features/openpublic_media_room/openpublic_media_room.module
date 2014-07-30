@@ -1,4 +1,3 @@
 <?php
 
 include_once('openpublic_media_room.features.inc');
-include_once('openpublic_media_room.theme.inc');

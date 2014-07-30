@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Event feature.
+ */
+
+include_once('openpublic_event.features.inc');

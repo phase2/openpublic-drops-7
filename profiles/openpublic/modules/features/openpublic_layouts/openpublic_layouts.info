@@ -1,0 +1,31 @@
+name = OpenPublic Layouts
+description = Provides Some default contextes.
+core = 7.x
+package = OpenPublic
+dependencies[] = addthis
+dependencies[] = boxes
+dependencies[] = context
+dependencies[] = delta_blocks
+dependencies[] = follow
+dependencies[] = openpublic_menu
+dependencies[] = search
+dependencies[] = strongarm
+features[context][] = nav_leader
+features[context][] = nav_search
+features[context][] = nav_staff
+features[context][] = no_sidebars
+features[context][] = open_government
+features[context][] = site_wide
+features[context][] = site_wide_not_home
+features[ctools][] = context:context:3
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features_exclude[dependencies][openpublic_promotion_demo] = openpublic_promotion_demo
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

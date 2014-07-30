@@ -1,0 +1,138 @@
+/**
+ * @file
+ *  Holds default styles for person app that ships with openpublic.
+ */
+
+.staff-position {
+  font-family: Georgia, serif;
+  color: #999;
+  font-size: 1.167em;
+  font-style: italic;
+  margin: 0 0 10px 0;
+}
+
+.staff-page .views-row {
+  border-bottom: 1px solid #ebebeb;
+  clear: both;
+  min-height: 100px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.staff-page .staff-photo {
+  float: left;
+  width: 120px;
+}
+
+.staff-page .staff-photo img {
+  border: 4px solid #dcdcde;
+  margin: 0 20px 20px 0;
+}
+
+.staff-page .staff-photo img:hover {
+  border: 4px solid #efefef;
+}
+
+.staff-page h4 {
+  font-family: Arial, sans-serif;
+  font-size: 1.417em;
+  margin: 0;
+  padding: 0;
+}
+
+.staff-page h4 a,.staff-page h4 a:link,.staff-page h4 a:visited {
+  color: #00436f;
+  text-decoration: none;
+}
+
+#main .staff-page p {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.page-node .leadership-status {
+  margin: 0 4px 0 0;
+}
+
+.staff-page .no-exec .field-name-field-profile-leadership {
+  display: none;
+}
+
+#main .staff-page .staff-position {
+  color: #999;
+  font-family: Georgia, serif;
+  font-size: 1.167em;
+  font-style: italic;
+  margin: 0 0 10px;
+}
+
+.staff-page .staff-position p {
+  font-size: .917em;
+  line-height: 1;
+  margin: 0;
+}
+
+.staff-page .views-field-entity-id p {
+  color: #666;
+  font-family: Arial, sans-serif;
+  font-size: .917em;
+  line-height: 1;
+}
+
+.leadership-section {
+  overflow: hidden;
+  padding: 10px 15px;
+}
+
+.leadership-section .exec {
+  border-bottom: 1px solid #e5e5e5;
+  clear: both;
+  min-height: 90px;
+  padding: 10px 0;
+}
+
+.staff-page .exec {
+  background: #f5fafb;
+}
+
+.staff-page .views-row p {
+  line-height: 150%;
+  margin-bottom: 0;
+}
+
+.page-node .leadership-status,
+.staff-page .field-name-field-profile-leadership {
+  background: url("../img/icon-exec.png") no-repeat 0 4px;
+  float: left;
+  height: 40px;
+  margin: 4px 4px 0 0;
+  overflow: hidden;
+  text-indent: -9999px;
+  width: 31px;
+}
+
+.leadership-section .staff-photo {
+  width: 100px;
+}
+
+.leadership-section h4 {
+  padding-top: 15px;
+}
+
+.leadership-section h4 a {
+  color: #00436f;
+}
+
+.leadership-section .staff-position {
+  color: #999;
+  font-family: Georgia,serif;
+  font-size: 1em;
+  font-style: italic;
+}
+
+.sidebar_thumbnail {
+  border: 4px solid #EAEAEA;
+  float: left;
+  height: 80px;
+  margin: 0 10px 10px 15px;
+}

@@ -1,0 +1,48 @@
+name = OpenPublic Event
+description = Add events to an event calendar
+core = 7.x
+package = OpenPublic
+dependencies[] = addressfield
+dependencies[] = date
+dependencies[] = date_popup
+dependencies[] = features
+dependencies[] = openpublic_base_fields
+dependencies[] = strongarm
+dependencies[] = views
+apps[screenshots][] = app/screenshot.png
+apps[screenshots][] = app/screenshot-form.png
+apps[logo] = app/logo.png
+apps[author] = Phase2 Technology
+apps[author_url] = http://www.phase2technology.com/
+apps[description] = OpenPublic Events adds ability to add events.
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[field_base][] = field_event_dates
+features[field_base][] = field_event_location
+features[field_instance][] = node-event-body
+features[field_instance][] = node-event-field_event_dates
+features[field_instance][] = node-event-field_event_location
+features[node][] = event
+features[user_permission][] = create event content
+features[user_permission][] = delete any event content
+features[user_permission][] = delete own event content
+features[user_permission][] = edit any event content
+features[user_permission][] = edit own event content
+features[variable][] = comment_anonymous_event
+features[variable][] = comment_default_mode_event
+features[variable][] = comment_default_per_page_event
+features[variable][] = comment_event
+features[variable][] = comment_form_location_event
+features[variable][] = comment_preview_event
+features[variable][] = comment_subject_field_event
+features[variable][] = node_options_event
+features[views_view][] = event_list
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

@@ -1,19 +1,16 @@
-name = "OpenPublic Footer Menu"
-package = "OpenPublic"
-description = "Includes the Footer utility menu."
-php = "5.2.0"
-project = "openpublic_home_page_feature"
-version = "7.x-1.0"
-core = "7.x"
-dependencies[] = "features"
-dependencies[] = "menu"
-features[menu_custom][] = "menu-footer-utility"
+name = OpenPublic Footer Menu
+description = Includes the Footer utility menu.
+core = 7.x
+package = OpenPublic
+dependencies[] = features
+dependencies[] = menu
+features[features_api][] = api:2
+features[menu_custom][] = menu-footer-utility
 
 
-
-; Information added by drush on 2014-06-09
-version = "7.x-1.0-beta22+0-dev"
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1402324703"
+datestamp = "1406693721"
 

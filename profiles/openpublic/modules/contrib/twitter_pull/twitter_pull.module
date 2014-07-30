@@ -50,24 +50,32 @@ function twitter_pull_flush_caches() {
  * Defines default theme template for a list of tweets.
  */
 function twitter_pull_theme() {
+  global $language;
   return array(
     'twitter_pull_listing' => array(
-      'variables' => array('tweets' => NULL, 'twitkey' => NULL, 'title' => NULL, 'lazy_load' => NULL),
+      'variables' => array('tweets' => NULL, 'twitkey' => NULL, 'title' => NULL, 'lazy_load' => NULL, 'language' => $language->language),
       'template' => 'twitter-pull-listing',
     ),
   );
 }
 
+/**
+ * Processes variables twitter_pull templates.
+ */
 function twitter_pull_preprocess(&$variables, $hook) {
-  switch($hook) {
+  switch ($hook) {
     case 'twitter_pull_listing':
-    if (!empty($variables['tweets']) && is_array($variables['tweets'])) {
-      foreach ($variables['tweets'] as $key => $tweet) {
-        $tweet->time_ago = t('!time ago.', array('!time' => format_interval(time() - $tweet->timestamp)));
-        $variables['tweets'][$key] = $tweet;
+      if (!empty($variables['tweets']) && is_array($variables['tweets'])) {
+        foreach ($variables['tweets'] as $key => $tweet) {
+          $tweet->time_ago = t('!time ago.', array('!time' => format_interval(time() - $tweet->timestamp)));
+          $variables['tweets'][$key] = $tweet;
+        }
+        // Add Follow Button javascript.
+        drupal_add_js('!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");', 'inline');
+        // Web Intents javascript.
+        drupal_add_js('//platform.twitter.com/widgets.js', 'external');
       }
-    }
-    break;
+      break;
   }
 }
 
@@ -91,7 +99,7 @@ function twitter_pull_preprocess(&$variables, $hook) {
  * @param $lazy_load
  *     Use javascript to retrieve the twitter results once the page is loaded.
  */
-function twitter_pull_render($twitkey, $title = NULL, $num_items = NULL, $themekey = NULL, $lazy_load = FALSE) {
+function twitter_pull_render($twitkey, $title = NULL, $num_items = NULL, $themekey = NULL, $lazy_load = FALSE, $rts = NULL, $exclude_replies = NULL) {
   drupal_add_css(drupal_get_path('module', 'twitter_pull') . '/twitter-pull-listing.css');
 
   //-- Set the lazy load id. Encode the twitkey and title to make sure the they don't contain dashes.
@@ -103,7 +111,7 @@ function twitter_pull_render($twitkey, $title = NULL, $num_items = NULL, $themek
   $num_items = empty($num_items) ? twitter_pull_num_items() : $num_items;
 
   if (!$lazy_load) {
-    $tweets = twitter_pull_retrieve($twitkey, $num_items);
+    $tweets = twitter_pull_retrieve($twitkey, $num_items, $rts, $exclude_replies);
   }
   else {
     $tweets = NULL;
@@ -135,8 +143,12 @@ function twitter_pull_render($twitkey, $title = NULL, $num_items = NULL, $themek
  *     (prepended with #), or a search term.
  * @param $num_items
  *     Number of tweets to retrieve from Twitter. Can't be more than 200.
+ * @param $rts
+ *     If you want to retweets to be included in the results. Defaults to TRUE.
+ * @param $exclude_replies
+ *     If you want to exclude replies.
  */
-function twitter_pull_retrieve($twitkey, $num_items = NULL) {
+function twitter_pull_retrieve($twitkey, $num_items = NULL, $rts = NULL, $exclude_replies = NULL) {
   global $is_https;
 
   // If $num_items is not set, use the default value.
@@ -155,6 +167,8 @@ function twitter_pull_retrieve($twitkey, $num_items = NULL) {
   else {
     try {
       $puller = new twitter_puller($twitkey, $num_items);
+      $puller->rts = $rts;
+      $puller->exclude_replies = $exclude_replies;
       $puller->get_items();
       $tweets = $puller->tweets;
     }

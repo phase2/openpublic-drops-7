@@ -1,0 +1,29 @@
+name = OpenPublic Multimedia Demo
+description = Demo content for the OpenPublic Multimedia app.
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = defaultcontent
+dependencies[] = openpublic_blog
+dependencies[] = openpublic_menu
+features[content][] = gallery_our_government
+features[content][] = gallery_stars_stripes
+features[content][] = photo_building_capitol
+features[content][] = photo_building_oldtimer
+features[content][] = photo_building_supreme
+features[content][] = photo_flag_closeup
+features[content][] = photo_flag_industrial
+features[content][] = photo_flag_prominent
+features[content][] = photo_flag_uptop
+features[content][] = photo_flag_wind
+features[content][] = photo_statehouse
+features[features_api][] = api:2
+features[menu_links][] = main-menu_media-room:media-room
+features[menu_links][] = main-menu_multimedia:multimedia
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

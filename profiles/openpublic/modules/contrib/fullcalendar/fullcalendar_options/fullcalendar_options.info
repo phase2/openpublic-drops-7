@@ -1,0 +1,13 @@
+name = FullCalendar Options
+description = FullCalendar configuration extenders.
+core = 7.x
+package = FullCalendar
+configure = admin/config/user-interface/fullcalendar/options
+dependencies[] = fullcalendar
+
+
+; Information added by drush on 2014-07-30
+version = "e416e71-dev"
+project = "fullcalendar"
+datestamp = "1406693732"
+

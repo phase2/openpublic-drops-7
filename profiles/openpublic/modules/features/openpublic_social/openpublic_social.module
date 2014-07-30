@@ -1,0 +1,45 @@
+<?php
+/**
+ * @file
+ * Module code for the openpublic social feature.
+ */
+
+/**
+ * Implements hook_preprocess_boxes_box().
+ */
+function openpublic_social_preprocess_boxes_box(&$variables) {
+  if ($variables['block']['delta'] == 'box-41ba8a2d' && (!variable_get('twitter_consumer_key', NULL) || !variable_get('twitter_consumer_secret', NULL))) {
+    // Add a manual made embed to look nice.
+    $variables['block']['content'] = <<<EOD
+    <a class="twitter-timeline" href="https://twitter.com/StateDept" data-widget-id="492051355758895104">Tweets by @StateDept</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+EOD;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function openpublic_social_form_boxes_box_form_alter(&$form, $form_state) {
+  if ($form['plugin_key']['#value'] == 'twitter'  && (!variable_get('twitter_consumer_key', NULL) || !variable_get('twitter_consumer_secret', NULL))) {
+    if (user_access('administer twitter accounts')) {
+      $warning =  _openpublic_social_form_twitter_warning();
+    }
+    else {
+      $warning = t('Twitter boxes are not set up correctly. Please contact an administrator to set it up fully in order to use this type of box.', 'warning');
+    }
+    $form['warning'] = array(
+      // Reuse status messages style but not actually use status messages as
+      // they don't show till after exiting the box form.
+      '#markup' => '<div class="messages warning"><ul><li>' . $warning . '</li></ul></div>',
+      '#weight' => -100,
+    );
+  }
+}
+
+function _openpublic_social_form_twitter_warning() {
+  return t('In order to interact with Twitter, you need to create an application at ' .
+       '<a href="http://dev.twitter.com" target="_blank">http://dev.twitter.com</a> ' .
+       'and set the generated Application keys at the ' .
+       '<a href="@url">Twitter settings page</a>', array('@url' => url('admin/config/services/twitter')));
+}

@@ -11,18 +11,18 @@ function openpublic_resources_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'resources';
+  $view->name = 'resource_list';
   $view->description = 'List of resources';
   $view->tag = 'openpublic';
   $view->base_table = 'node';
-  $view->human_name = '';
+  $view->human_name = 'Resources';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->display->display_options['css_class'] = 'resources-section';
+  $handler->display->display_options['css_class'] = 'content-listing resources-section';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'More resources';
   $handler->display->display_options['access']['type'] = 'none';
@@ -43,12 +43,13 @@ function openpublic_resources_views_default_views() {
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = 'h4';
+  $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'listing-title';
   /* Field: Content: Photo */
   $handler->display->display_options['fields']['entity_id_1']['id'] = 'entity_id_1';
   $handler->display->display_options['fields']['entity_id_1']['table'] = 'field_data_field_resource_photo';
   $handler->display->display_options['fields']['entity_id_1']['field'] = 'field_resource_photo';
   $handler->display->display_options['fields']['entity_id_1']['label'] = '';
-  $handler->display->display_options['fields']['entity_id_1']['element_class'] = 'photo';
+  $handler->display->display_options['fields']['entity_id_1']['element_class'] = 'photo photo-side';
   $handler->display->display_options['fields']['entity_id_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['entity_id_1']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['entity_id_1']['settings'] = array(
@@ -86,8 +87,7 @@ function openpublic_resources_views_default_views() {
   $handler = $view->new_display('block', 'Front page resources', 'block_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Resources';
-  $handler->display->display_options['defaults']['css_class'] = FALSE;
-  $handler->display->display_options['css_class'] = 'resources-section';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -107,6 +107,7 @@ function openpublic_resources_views_default_views() {
   $handler = $view->new_display('page', 'Resources page', 'page_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Resources';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -114,12 +115,13 @@ function openpublic_resources_views_default_views() {
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = 'h4';
+  $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'listing-title';
   /* Field: Content: Photo */
   $handler->display->display_options['fields']['entity_id_1']['id'] = 'entity_id_1';
   $handler->display->display_options['fields']['entity_id_1']['table'] = 'field_data_field_resource_photo';
   $handler->display->display_options['fields']['entity_id_1']['field'] = 'field_resource_photo';
   $handler->display->display_options['fields']['entity_id_1']['label'] = '';
-  $handler->display->display_options['fields']['entity_id_1']['element_class'] = 'photo';
+  $handler->display->display_options['fields']['entity_id_1']['element_class'] = 'photo photo-side';
   $handler->display->display_options['fields']['entity_id_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['entity_id_1']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['entity_id_1']['settings'] = array(
@@ -143,7 +145,7 @@ function openpublic_resources_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'read-more';
   $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   $handler->display->display_options['path'] = 'resources';
-  $export['resources'] = $view;
+  $export['resource_list'] = $view;
 
   return $export;
 }

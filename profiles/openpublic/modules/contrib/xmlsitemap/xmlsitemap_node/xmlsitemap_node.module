@@ -146,7 +146,7 @@ function xmlsitemap_node_form_node_form_alter(array &$form, array &$form_state) 
  *   An array of UNIX timestamp integers.
  */
 function xmlsitemap_node_get_timestamps(stdClass $node) {
-  static $timestamps = array();
+  $timestamps = &drupal_static(__FUNCTION__, array());
 
   if (!isset($timestamps[$node->nid])) {
     $timestamps[$node->nid] = db_query("SELECT nr.timestamp FROM {node_revision} nr WHERE nr.nid = :nid", array(':nid' => $node->nid))->fetchCol();

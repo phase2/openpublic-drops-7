@@ -1,16 +1,31 @@
-/***** Homepage Rotator 
+/***** Homepage Rotator
 *****/
 
-.view-home-page-feature-rotator {
-  width: 957px;
-  margin-left: 0px;
+.block.block-boxes-feature {
+  background: none;
+  padding: 0;
+  margin: 0;
 }
 
-#home-rotator {
-  height: 300px;
-	padding: 11px;
-	border: 1px solid #000;
+.view-home-page-feature-rotator,
+.block-boxes-feature .boxes-box-content {
+  margin-left: 0;
+  width: 100%;
 }
+
+.home-rotator {
+  height: 300px;
+  padding: 11px;
+  border: 1px solid #000;
+  padding: 0;
+  border:none;
+  clear: both;
+  background:#00436E url(bg-home-rotator.png) repeat-x bottom;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.5);
+  -moz-box-shadow: 0 2px 8px rgba(0,0,0,.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,.5);
+}
+
 
 .home-rotator-text-block {
   background: url(bg-home-rotator-text.jpg) no-repeat;
@@ -24,7 +39,7 @@
 .home-top-intro h2 {
   font-weight: normal;
   font-size: 28px;
-	text-indent:0;
+  text-indent:0;
   line-height: 1.2em;
 }
 
@@ -41,13 +56,13 @@
   line-height: 1.3em;
   height: 150px;
   }
-  
+
 #home-top-read-more {
   width: 112px;
   text-align: center;
   margin: 15px 0 15px 140px;
 }
-  
+
 #home-top-numbers {
   font-family: Arial, sans-serif;
   font-size: 1.167em;
@@ -55,27 +70,29 @@
 }
 
 #home-top-numbers ul {
-	margin: 0 auto;
-	padding: 0;
-	display: table;
+  margin: 0 auto;
+  padding: 0;
+  display: table;
 }
 
 #home-top-numbers li {
   list-style-type: none;
   text-align: center;
   display: inline;
-	margin:0;
+  margin:0;
 }
 
 #home-top-numbers li a {
-	display: inline;
-	float: left;
-	margin: 0 3px;
+  display: inline;
+  float: left;
+  margin: 0 3px;
 }
 
 .home-rotator-slide {
   display: none;
   margin: 11px;
+  /* Rotator tends to put it's z-index about boxes/etc. so down it */
+  z-index: 2 !important;
 }
 
 

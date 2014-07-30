@@ -1,0 +1,20 @@
+name = OpenPublic Promotion Demo
+description = Demo content for the OpenPublic Promotion app.
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = boxes
+dependencies[] = openpublic_promotion
+features[box][] = box-1c9715a5
+features[box][] = box-2704b136
+features[box][] = box-7b551df
+features[box][] = box-d4535029
+features[ctools][] = boxes:box:1
+features[features_api][] = api:2
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

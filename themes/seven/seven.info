@@ -14,8 +14,8 @@ regions[sidebar_first] = First sidebar
 regions_hidden[] = sidebar_first
 
 
-; Information added by drush on 2014-06-09
+; Information added by drush on 2014-07-30
 version = "master-dev"
 project = "drupal"
-datestamp = "1402324699"
+datestamp = "1406693717"
 

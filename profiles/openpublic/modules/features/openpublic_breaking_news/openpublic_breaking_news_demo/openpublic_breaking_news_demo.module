@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Home Page Feature Demo feature.
+ */
+
+include_once 'openpublic_breaking_news_demo.features.inc';

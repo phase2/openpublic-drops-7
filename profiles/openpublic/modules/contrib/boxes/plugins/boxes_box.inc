@@ -1,10 +1,10 @@
 <?php
- 
+
 /**
  * Abstract base class defining a box. A boxes content plugin provides a
  * form of options for configuring content and renders content for display.
  *
- * @see boxes_simple.
+ * @see boxes_simple
  */
 abstract class boxes_box {
   static $boxes; // Static cache of box objects.
@@ -124,7 +124,7 @@ abstract class boxes_box {
    * Declare if the box should use a multistep form for the create form.
    *
    * This might me necessary for forms that use ajax on the options form.
-   * Currently Context does not load this block correctly and the ajax in the 
+   * Currently Context does not load this block correctly and the ajax in the
    * form will not work. Methinks Context UI Editor needs to be upgraded to
    * D7 AJAX framework for this to not be required. That said the functionality
    * is potentially useful even with proper functioning AJAX.
@@ -140,6 +140,24 @@ abstract class boxes_box {
    */
   public function cache_setting() {
     return DRUPAL_CACHE_CUSTOM;
+  }
+
+
+  /**
+   * Export a block. Must return string of the export.
+   */
+  public function export($object, $indent) {
+    return ctools_export_object('box', $object, $indent);
+  }
+
+  /**
+   * Revert a box.
+   */
+  public function revert($object, $module) {
+    $object = ctools_export_crud_load('box', $this->delta);
+    if ($object && ($object->export_type & EXPORT_IN_DATABASE)) {
+      _ctools_features_export_crud_delete('box', $object);
+    }
   }
 
   /**

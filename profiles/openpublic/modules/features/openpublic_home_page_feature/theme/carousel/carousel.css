@@ -1,0 +1,73 @@
+.block-boxes-carousel {
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.carousel-wrapper {
+  padding: 26px 0 10px;
+  position: relative;
+  z-index: 0;
+}
+
+.carousel-wrapper h3 {
+  visibility: hidden;
+}
+
+.carousel-wrapper .carousel-slides {
+  height: 130px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 90%!important;
+}
+
+.carousel-wrapper .carousel-slides ul {
+  padding: 0;
+}
+
+.carousel-wrapper li {
+  float: left;
+  height: 130px;
+  list-style-type: none;
+}
+
+.carousel-wrapper .nav-button {
+  position: absolute;
+  top: 28px;
+  z-index: 100;
+}
+
+.carousel-wrapper .nav-button a {
+  display: block;
+  margin-top: 18px;
+}
+
+.carousel-wrapper .carousel-next {
+  right: 0;
+}
+
+.carousel-wrapper li.entry {
+  margin: 0 18px;
+  width: 140px;
+}
+
+.carousel-wrapper li.entry a {
+  display: block;
+}
+
+.carousel-wrapper li.entry h4 {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 5px 0 0;
+}
+
+.carousel-wrapper li.entry h4 a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.carousel-wrapper img.photo {
+  display: inline;
+}

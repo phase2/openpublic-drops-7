@@ -1,4 +1,3 @@
 <?php
 
 include_once('openpublic_most_popular.features.inc');
-include_once('openpublic_most_popular.theme.inc');

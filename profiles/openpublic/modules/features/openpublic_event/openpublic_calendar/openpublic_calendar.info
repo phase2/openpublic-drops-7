@@ -1,0 +1,32 @@
+name = OpenPublic Calendar
+description = Provides a fullcalendar calendar view for openPublic Event
+core = 7.x
+package = OpenPublic
+version = 7.x-1.2
+project = openpublic_calendar
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = fullcalendar
+dependencies[] = fullcalendar_options
+dependencies[] = openpublic_event
+dependencies[] = strongarm
+dependencies[] = views
+dependencies[] = views_ical
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[variable][] = date_format_ical
+features[variable][] = fullcalendar_options
+features[variable][] = menu_options_event
+features[variable][] = menu_parent_event
+features[variable][] = node_preview_event
+features[views_view][] = event_calendar
+project path = profiles/opensf/modules/features
+
+
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1406693721"
+

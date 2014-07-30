@@ -1,24 +1,21 @@
-core = "7.x"
-dependencies[] = "combineblocks"
-dependencies[] = "comment"
-dependencies[] = "context"
-dependencies[] = "statistics"
-dependencies[] = "views"
-description = "Creates blocks for Most Viewed and Most Commented content."
-features[context][] = "popular_content"
-features[ctools][] = "context:context:3"
-features[ctools][] = "views:views_default:3.0"
-features[views_view][] = "most_popular_content"
-name = "Openpublic Most Popular"
-package = "OpenPublic"
-php = "5.2.4"
-project = "openpublic_most_popular"
-version = "7.x-1.0"
+name = OpenPublic Most Popular
+description = Creates blocks for Most Viewed and Most Commented content. Only useful if have a lot of non-cached traffic.
+core = 7.x
+package = OpenPublic
+dependencies[] = comment
+dependencies[] = context
+dependencies[] = statistics
+dependencies[] = views
+features[context][] = popular_content
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = most_popular_content
 
 
-; Information added by drush on 2014-06-09
-version = "7.x-1.0-beta22+0-dev"
+; Information added by drush on 2014-07-30
+version = "7.x-1.0-rc1+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1402324703"
+datestamp = "1406693721"
 

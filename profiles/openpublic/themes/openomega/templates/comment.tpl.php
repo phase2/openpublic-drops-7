@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ *  Override comment template to use more synmatic markup.
+ */
+?>
 <article<?php print $attributes; ?>>
   <header>
     <?php print render($title_prefix); ?>
@@ -33,5 +39,4 @@
   <?php if (!empty($content['links'])): ?>
     <nav class="links comment-links clearfix"><?php print render($content['links']); ?></nav>
   <?php endif; ?>
-
 </article>

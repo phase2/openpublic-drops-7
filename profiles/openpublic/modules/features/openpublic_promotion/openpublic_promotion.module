@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the openpublic promotion feature.
+ */
+
+include_once('openpublic_promotion.features.inc');

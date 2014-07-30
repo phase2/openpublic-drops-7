@@ -10,8 +10,8 @@
 function openpublic_menu_utility_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: menu-utility:<front>
-  $menu_links['menu-utility:<front>'] = array(
+  // Exported menu link: menu-utility_home:<front>
+  $menu_links['menu-utility_home:<front>'] = array(
     'menu_name' => 'menu-utility',
     'link_path' => '<front>',
     'router_path' => '',
@@ -20,6 +20,7 @@ function openpublic_menu_utility_menu_default_menu_links() {
       'attributes' => array(
         'title' => '',
       ),
+      'identifier' => 'menu-utility_home:<front>',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -27,9 +28,10 @@ function openpublic_menu_utility_menu_default_menu_links() {
     'has_children' => 0,
     'expanded' => 0,
     'weight' => -50,
+    'customized' => 0,
   );
-  // Exported menu link: menu-utility:user
-  $menu_links['menu-utility:user'] = array(
+  // Exported menu link: menu-utility_login:user
+  $menu_links['menu-utility_login:user'] = array(
     'menu_name' => 'menu-utility',
     'link_path' => 'user',
     'router_path' => 'user',
@@ -38,6 +40,7 @@ function openpublic_menu_utility_menu_default_menu_links() {
       'attributes' => array(
         'title' => '',
       ),
+      'identifier' => 'menu-utility_login:user',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -45,9 +48,10 @@ function openpublic_menu_utility_menu_default_menu_links() {
     'has_children' => 0,
     'expanded' => 0,
     'weight' => -49,
+    'customized' => 0,
   );
-  // Exported menu link: menu-utility:user/logout
-  $menu_links['menu-utility:user/logout'] = array(
+  // Exported menu link: menu-utility_logout:user/logout
+  $menu_links['menu-utility_logout:user/logout'] = array(
     'menu_name' => 'menu-utility',
     'link_path' => 'user/logout',
     'router_path' => 'user/logout',
@@ -56,6 +60,7 @@ function openpublic_menu_utility_menu_default_menu_links() {
       'attributes' => array(
         'title' => '',
       ),
+      'identifier' => 'menu-utility_logout:user/logout',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -63,6 +68,7 @@ function openpublic_menu_utility_menu_default_menu_links() {
     'has_children' => 0,
     'expanded' => 0,
     'weight' => -48,
+    'customized' => 0,
   );
   // Translatables
   // Included for use with string extractors like potx.

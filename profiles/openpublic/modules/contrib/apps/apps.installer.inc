@@ -5,13 +5,14 @@
  */
 
 /**
- * Download all modules and library to a temp location
+ * Download all modules and library to a temp location.
  *
- * Find all downloadables needed (which we do not have) and sets a batch for download
- * Then proccess that batch and returns to the current apps_install_next page
+ * Find all downloadables needed (which we do not have) and sets a batch for
+ * download. Then proccess that batch and returns to the current
+ * apps_install_next page
  *
- * PARAM $app: an app array
- *
+ * @param string $app
+ *   The app modules to download
  */
 function apps_download_apps($app) {
   $download_batch = apps_download_apps_batch(array($app));
@@ -19,9 +20,9 @@ function apps_download_apps($app) {
   batch_process($_SESSION['apps_install_next']);
 }
 
-/** 
+/**
  * Make the batch for downloading modules for app.
- * 
+ *
  * Split out for use in apps.profile.inc
  */
 function apps_download_apps_batch($apps) {
@@ -34,7 +35,7 @@ function apps_download_apps_batch($apps) {
         array(
           $download['name'],
           $download['url'],
-          $download['type']
+          $download['type'],
         ),
       );
     }
@@ -50,11 +51,11 @@ function apps_download_apps_batch($apps) {
 }
 
 /**
- * Construct an array of downloadables to download
+ * Construct an array of downloadables to download.
  */
 function apps_download_apps_list($app) {
   $downloads = array();
-  // find all downloads needed for dependencies
+  // Find all downloads needed for dependencies.
   foreach ($app['dependencies'] as $dep) {
     if (!$dep['installed']) {
       $downloads[$dep['downloadable']]['for'][] = $dep['version']['name'];
@@ -67,15 +68,15 @@ function apps_download_apps_list($app) {
       $downloads[$lib['downloadable']]['type'] = 'library';
     }
   }
-  // add our core modules download
+  // Add our core modules download.
   if (!$app['installed']) {
     $downloads[$app['downloadable']]['for'][] = $app['machine_name'];
     $downloads[$app['downloadable']]['type'] = 'app';
   }
-  //foreach download find the url
+  // Foreach download find the URL.
   foreach ($downloads as $key => $download) {
     $downloads[$key]['url'] = $app['downloadables'][$key];
-    // do a quick dirty pull of the name from the key
+    // Do a quick dirty pull of the name from the key.
     $downloads[$key]['name'] = ($e = strpos($key, " ")) ? substr($key, 0, $e) : $key;
   }
   return $downloads;
@@ -85,8 +86,8 @@ function apps_download_apps_list($app) {
  * Batch callback invoked when the download batch is completed.
  *
  * A pass though to update_manager_download_batch_finished
- * but we set $_GET['destination'] to control the drupal_goto that is 
- * in that function
+ * but we set $_GET['destination'] to control the drupal_goto that is
+ * in that function.
  */
 function apps_download_batch_finished($success, $results) {
   module_load_include("inc", "update", "update.manager");
@@ -94,15 +95,15 @@ function apps_download_batch_finished($success, $results) {
   update_manager_download_batch_finished($success, $results);
 }
 
-/*
- * Pass though to update_manager_batch_project_get
- * we need this becuase in a batch set the file param is for bouth the operations as well
- * as the other callbackes
+/**
+ * Setup the download batch process.
+ *
+ * Pass though to update_manager_batch_project_get we need this because in a
+ * batch set the file param is for both the operations as well as the other
+ * callbacks.
  */
 function apps_download_batch($project, $url, $type, &$context) {
-  //$args = func_get_args();
   module_load_include("inc", "update", "update.manager");
-  //return call_user_func_array('update_manager_batch_project_get', $args);
 
   // This is here to show the user that we are in the process of downloading.
   if (!isset($context['sandbox']['started'])) {
@@ -127,6 +128,17 @@ function apps_download_batch($project, $url, $type, &$context) {
     $context['results']['errors'][$project] = $e->getMessage();
     return;
   }
+  // Update might not have been extracted to directory named after project.
+  // Github for example extracts to [project name]-[release version].
+  if (!is_dir("$extract_directory/$project")) {
+     foreach (scandir("$extract_directory") as $file) {
+      // Hopefully this is the directory, so move it to project directory for
+      // update module.
+      if ($file != '.' && $file != '..' && is_dir("$extract_directory/$file") && strpos($file, $project) === 0) {
+        rename("$extract_directory/$file", "$extract_directory/$project");
+      }
+    }
+  }
 
   // Verify it.
   $archive_errors = update_manager_archive_verify($project, $local_cache, $extract_directory);
@@ -146,9 +158,9 @@ function apps_download_batch($project, $url, $type, &$context) {
 }
 
 /**
- * Wrapper for _update_manager_extract_directory()
- * 
- * Since libraries and modules can live in the same location, we need to 
+ * Wrapper for _update_manager_extract_directory().
+ *
+ * Since libraries and modules can live in the same location, we need to
  * namespace the types so they don't collide like the colorbox module.
  */
 function apps_extract_directory($type = '') {
@@ -164,12 +176,12 @@ function apps_extract_directory($type = '') {
 }
 
 /**
- *  Move modules from there temp location in to the drupal tree
+ * Move modules from there temp location in to the drupal tree.
  *
- * taken from update_manager_update_ready_form_submit
+ * Taken from update_manager_update_ready_form_submit
  * we are using apps_run_install instead of update_authorize_run_update
  *
- * TODO: Get the install to work when we do not own sites OPIC-377
+ * @TODO: Get the install to work when we do not own sites OPIC-377
  */
 function apps_install_downloads() {
   module_load_include("inc", "update", "update.manager");
@@ -198,18 +210,19 @@ function apps_install_downloads() {
     // trying to install the code, there's no need to prompt for FTP/SSH
     // credentials. Instead, we instantiate a FileTransferLocal and invoke
     // update_authorize_run_update() directly.
-    //if (fileowner($project_real_location) == fileowner(conf_path())) {
     if (apps_installer_has_write_access()) {
       module_load_include('inc', 'update', 'update.authorize');
       $filetransfer = new FileTransferLocal(DRUPAL_ROOT);
-      apps_run_install($filetransfer, $updates); //this is our change
+      // This is our change.
+      apps_run_install($filetransfer, $updates);
       unset($_SESSION['update_manager_update_projects']);
     }
     // Otherwise, go through the regular workflow to prompt for FTP/SSH
     // credentials and invoke update_authorize_run_update() indirectly with
     // whatever FileTransfer object authorize.php creates for us.
     else {
-      // Set the $_SESSION variables so that authorize form knows what to do after authorization.
+      // Set the $_SESSION variables so that authorize form knows what to do
+      // after authorization.
       system_authorized_init('apps_run_install', drupal_get_path('module', 'apps') . '/apps.installer.inc', array($updates), t('Update manager'));
 
       // Get the authorize form.
@@ -221,7 +234,7 @@ function apps_install_downloads() {
 
 
 /**
- * The batch builder and processor for moving files to drupal 
+ * The batch builder and processor for moving files to drupal.
  *
  * taken from update_authorize_run_update
  * builds a batch and process it for installing modules from the templocation
