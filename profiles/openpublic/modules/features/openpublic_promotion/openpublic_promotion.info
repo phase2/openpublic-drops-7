@@ -40,9 +40,9 @@ features[user_permission][] = edit any promotion entity_boxes
 features[user_permission][] = view any promotion entity_boxes
 
 
-; Information added by drush on 2014-07-30
-version = "7.x-1.0-rc1+0-dev"
+; Information added by drush on 2014-07-31
+version = "7.x-1.0-rc3+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1406693721"
+datestamp = "1406773673"
 

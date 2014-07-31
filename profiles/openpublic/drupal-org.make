@@ -36,7 +36,7 @@ projects[context_field][version] = 1.0
 projects[ctools][version] = 1.4
 projects[ctools][patch][1901106] = http://drupal.org/files/ctools-views_content-exposed_form_override-1901106-20.patch
 
-projects[date][version] = 2.7
+projects[date][version] = 2.8
 
 projects[defaultcontent][version] = 1.0-alpha9
 projects[defaultcontent][patch][2049527] = http://drupal.org/files/2049527-defaultcontent_node_load_refresh-1.patch
@@ -59,12 +59,8 @@ projects[entity_boxes][patch][2047875] = http://drupal.org/files/issues/2047875-
 
 projects[entitycache][version] = 1.2
 
-projects[features][version] = 2.0
-projects[features][download][revision] = 09aa829
-projects[features][download][type] = git
-projects[features][download][url] = http://git.drupal.org/project/features.git
+projects[features][version] = 2.1
 projects[features][patch][1064340] = http://drupal.org/files/issues/1064340-features-files-13.patch
-projects[features][patch][2047253] = http://drupal.org/files/issues/2047253-features-lock-9.patch
 
 projects[features_template][type] = module
 projects[features_template][version] = 1.0-beta1
@@ -99,7 +95,7 @@ projects[omega][subdir] = ''
 
 projects[openidadmin][version] = 1.0
 
-projects[openomega][version] = 1.3
+projects[openomega][version] = 1.4
 projects[openomega][subdir] = ''
 
 projects[panels][version] = 3.4

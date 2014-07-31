@@ -42,9 +42,9 @@ features[variable][] = node_preview_webform
 features[variable][] = node_submitted_webform
 
 
-; Information added by drush on 2014-07-30
-version = "7.x-1.0-rc1+0-dev"
+; Information added by drush on 2014-07-31
+version = "7.x-1.0-rc3+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1406693721"
+datestamp = "1406773673"
 

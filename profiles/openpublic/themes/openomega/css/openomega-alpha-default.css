@@ -11,45 +11,43 @@
 
 /* search form */
 .block-search-form {
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 292px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 292px;
 }
 
 .block-search-form .content {
-	border: 1px solid #0071a5;
-	margin: 35px 0 0 0;
-	padding: 2%;
-	width: 96%;
+  border: 1px solid #0071a5;
+  margin: 35px 0 0 0;
+  padding: 2%;
+  width: 96%;
 }
 
 .block-search-form h2 {visibility: hidden; font-size: 1px; line-height: 0;} 
 form#search-block-form .form-text {
-	float: left;
-	background: url(../img/bg-form-field.png);
-	padding: 5px 10px;
-	border: 1px solid #CCC;
-	color: #999;
-	font-family: Georgia, serif;
-	font-size: 1.167em;
-	font-style: italic;
-	width: 60%;
+  float: left;
+  background: url(../img/bg-form-field.png);
+  padding: 5px 10px;
+  border: 1px solid #CCC;
+  color: #999;
+  font-family: Georgia, serif;
+  font-size: 1.167em;
+  font-style: italic;
+  width: 60%;
 }
 
 form#search-block-form input.form-submit {
-	border: none;
-	cursor: pointer;
-	height: 30px;
-	line-height: 0;
-	float: right;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	-o-border-radius: 0;
-	border-radius: 0;
+  border: none;
+  cursor: pointer;
+  height: 30px;
+  line-height: 0;
+  float: right;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
 }
-
-
 
 /*
  * Home page rotator
@@ -59,7 +57,7 @@ form#search-block-form input.form-submit {
   width: 100%;
 }
 
-#home-rotator {
+.home-rotator {
   width: 100%;
   padding: 0;
   min-height: 300px;
@@ -72,9 +70,9 @@ form#search-block-form input.form-submit {
 }
 .block .content .home-top-intro h2 {
   font-size: 28px;
-	font-family:Georgia, Times, serif;
-	text-transform:none;
-	padding:0;
+  font-family:Georgia, Times, serif;
+  text-transform:none;
+  padding:0;
 }
 .home-top-intro h2 a:link,.home-top-intro h2 a:visited {
   font-size: 28px;

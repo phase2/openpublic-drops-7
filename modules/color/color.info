@@ -6,8 +6,8 @@ core = 7.x
 files[] = color.test
 
 
-; Information added by drush on 2014-07-30
+; Information added by drush on 2014-07-31
 version = "master-dev"
 project = "drupal"
-datestamp = "1406693717"
+datestamp = "1406773669"
 
