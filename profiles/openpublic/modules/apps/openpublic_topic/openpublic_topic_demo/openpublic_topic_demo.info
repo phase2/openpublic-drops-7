@@ -1,0 +1,19 @@
+name = OpenPublic Topic Demo
+description = Demo content for the OpenPublic topic app.
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = boxes
+dependencies[] = entity_boxes
+dependencies[] = openpublic_topic
+features[box][] = box-282964a7
+features[box][] = box-91f222e0
+features[ctools][] = boxes:box:1
+features[features_api][] = api:2
+
+
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1411568609"
+

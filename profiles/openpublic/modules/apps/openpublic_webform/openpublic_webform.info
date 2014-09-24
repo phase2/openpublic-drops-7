@@ -1,0 +1,38 @@
+name = OpenPublic Webform
+description = Webform content type
+core = 7.x
+package = OpenPublic
+dependencies[] = features
+dependencies[] = openpublic_base_fields
+dependencies[] = strongarm
+dependencies[] = webform
+apps[screenshots][] = app/screenshot.png
+apps[screenshots][] = app/screenshot-form.png
+apps[logo] = app/logo.png
+apps[author] = Phase2 Technology
+apps[author_url] = http://www.phase2technology.com/
+apps[description] = This App provides a management portal for webforms beyond simply enabling the Webform content type. These controls determine who gets to review webform results, along with who gets to create, edit, and delete webforms.
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[field_instance][] = node-webform-body
+features[node][] = webform
+features[variable][] = comment_anonymous_webform
+features[variable][] = comment_default_mode_webform
+features[variable][] = comment_default_per_page_webform
+features[variable][] = comment_form_location_webform
+features[variable][] = comment_preview_webform
+features[variable][] = comment_subject_field_webform
+features[variable][] = comment_webform
+features[variable][] = menu_options_webform
+features[variable][] = menu_parent_webform
+features[variable][] = node_options_webform
+features[variable][] = node_preview_webform
+features[variable][] = node_submitted_webform
+
+
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1411568609"
+

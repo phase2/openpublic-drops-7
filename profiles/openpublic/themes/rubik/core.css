@@ -7,6 +7,10 @@ hr { display:none; }
  */
 .toggleable { display:none; }
 
+:focus {
+  outline: auto;
+}
+
 /**
  * Generic ============================================================
  */

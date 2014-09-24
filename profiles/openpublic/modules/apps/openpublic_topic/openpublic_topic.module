@@ -1,0 +1,117 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Topic feature.
+ */
+
+include_once 'openpublic_topic.features.inc';
+/**
+ * @file
+ *   Code for the openpublic topic feature.
+ */
+
+/**
+ * Default content types to add author field to.
+ */
+function _openpublic_topic_default_types() {
+  return array(
+    'blog_entry' => 'blog_entry',
+    'site_page' => 'site_page',
+  );
+}
+
+
+/**
+ * Implements hook_features_template_info().
+ */
+function openpublic_topic_features_template_info() {
+  $content_types = variable_get('openpublic_topic_topic_field_content_types', _openpublic_topic_default_types());
+  $data = array();
+  foreach ($content_types as $content_type => $present) {
+    // Only have an entry if this will exist or needs to be deleted.
+    if ($present || field_info_instance('node', 'field_topic', $content_type) && node_type_get_type($content_type)) {
+      $data[] = array(
+        'plugin' => 'field_instance',
+        'template' => 'openpublic_topic_field_default_field_instances_template',
+        'deleted' => empty($present),
+        'entity_type' => 'node',
+        'bundle_type' => $content_type,
+        'field' => 'field_topic',
+      );
+    }
+  }
+  return $data;
+}
+
+/**
+ * Template callback for field_topic.
+ */
+function openpublic_topic_field_default_field_instances_template() {
+  $field_instances = array();
+
+  // Exported field_instance: 'node-blog_entry-field_topic'
+  $field_instances['node-blog_entry-field_topic'] = array(
+    'bundle' => 'blog_entry',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_topic',
+    'label' => 'Topic',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => strpos(variable_get('openpublic_topic_topic_field_type', 'options_buttons'), 'options') === 0 ? array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => variable_get('openpublic_topic_topic_field_type', 'options_buttons'),
+      'weight' => 12,
+    ) : array(
+      'module' => 'taxonomy',
+      'settings' => array(
+        'autocomplete_path' => 'taxonomy/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'taxonomy_autocomplete',
+    ),
+  );
+
+  return $field_instances;
+}
+
+/**
+ * Implements hook_theme_registery_alter().
+ */
+function openpublic_topic_theme_registry_alter(&$theme_registry) {
+  if (!empty($theme_registry['entity_boxes'])) {
+    $theme_registry['entity_boxes__topic_box'] =  $theme_registry['entity_boxes'];
+    $theme_registry['entity_boxes__topic_box']['theme path'] = drupal_get_path('module', 'openpublic_topic') . '/theme';
+    $theme_registry['entity_boxes__topic_box']['template'] = $theme_registry['entity_boxes__topic_box']['theme path'] . '/entity-boxes--topic-box';
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_entity().
+ */
+function openpublic_topic_preprocess_entity(&$variables) {
+  if ($variables['entity_type'] == 'entity_boxes' && $variables['entity_boxes']->type == 'topic_box') {
+    $variables['view'] = views_embed_view('topic_content_list', 'block_' . $variables['field_topic_box_display'][0]['value'], $variables['field_topic_box_topic'][0]['tid']);
+  }
+}

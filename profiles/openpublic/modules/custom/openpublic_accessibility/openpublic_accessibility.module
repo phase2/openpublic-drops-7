@@ -100,6 +100,7 @@ function openpublic_accessibility_init() {
   if (variable_get("openpublic_accessibility_skip_link_add_main_content", TRUE)) {
     openpublic_accessibility_add_skip_link(openpublic_accessibility_build_skip_link(t("Skip to main content"), "main-content"));
   }
+  drupal_add_js(drupal_get_path('module', 'openpublic_accessibility') . '/openpublic_accessibility.js');
 }
 
 /**

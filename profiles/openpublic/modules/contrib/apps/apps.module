@@ -276,7 +276,12 @@ function apps_app_access($app, $action = NULL) {
         return $app['status'] === APPS_ENABLED;
 
       case 'configure':
-        return (bool) apps_app_callback($app, "configure form") || apps_app_callback($app, "demo content enabled callback");
+        return
+          $app['status'] === APPS_ENABLED && (
+            apps_app_callback($app, "configure form") ||
+            apps_app_callback($app, "demo content enabled callback") ||
+            apps_app_callback($app, "status callback") ||
+            !empty($app['permissions']));
 
       case 'uninstall':
         return $app['disabled'];
@@ -456,7 +461,7 @@ function apps_hook_info() {
  *   If the directory is writeable
  */
 function apps_installer_has_write_access() {
-  return is_writable(drupal_realpath(apps_installer_lib_dir())) && is_writable(drupal_realpath(APPS_INSTALL_PATH));
+  return is_writable(drupal_realpath(apps_installer_lib_dir())) && is_writable(drupal_realpath(variable_get('apps_install_path', APPS_INSTALL_PATH)));
 }
 
 /**
@@ -483,6 +488,17 @@ function apps_app_load($server_name, $app_name) {
   apps_include('manifest');
   $app = apps_apps($server_name, array('machine_name' => $app_name));
   return $app[$app_name];
+}
+
+/**
+ * Path object loader for an App via machine name only.
+ *
+ * This assumes there is only one app of that machine name.
+ */
+function apps_app_module_name_load($app_name) {
+  apps_include('manifest');
+  $app = apps_apps_all(array('machine_name' => $app_name));
+  return !empty($app[$app_name]) ? $app[$app_name] : FALSE;
 }
 
 /**
@@ -546,4 +562,119 @@ function apps_updater_info() {
       'weight' => -10,
     ),
   );
+}
+
+/**
+ * Implements hook_modules_enabled().
+ */
+function apps_modules_enabled($modules) {
+  foreach ($modules as $module_name) {
+    if ($app = module_invoke($module_name, 'apps_app_info')) {
+      $app['machine_name'] = $module_name;
+      module_invoke_all('apps_app_modules_enabled', $app);
+    }
+  }
+}
+
+/**
+ * Implements hook_apps_app_modules_enabled().
+ */
+function user_apps_app_modules_enabled($app) {
+  apps_app_configure_permissions($app);
+}
+
+/**
+ * Implements hook_apps_app_modules_enabled().
+ */
+function og_apps_app_modules_enabled($app) {
+  apps_app_configure_og_permissions($app);
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function apps_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'modules_enabled') {
+    // Make apps run last for this just be to careful.
+    $group = $implementations['apps'];
+    unset($implementations['apps']);
+    $implementations['apps'] = $group;
+  }
+}
+
+/**
+ * Set the permissions for a role.
+ *
+ * @param $app
+ *   A fully loaded app object.
+ */
+function apps_app_configure_permissions($app) {
+  node_types_rebuild();
+  $modules = user_permission_get_modules();
+  if (!empty($app['permissions'])) {
+    $roles_to_permissions = array();
+    $roles = user_roles();
+    $warned = array();
+    foreach ($roles as $rid => $role_name) {
+      foreach ($app['permissions'] as $perm_name => $default_roles) {
+        if (empty($modules[$perm_name]) && empty($warned[$perm_name])) {
+          $warned[$perm_name] = TRUE;
+          $args = array('!name' => $perm_name, '!module' => $app['machine_name']);
+          $msg = t('Warning in apps configuration of !module. No module defines permission "!name".', $args);
+          drupal_set_message($msg, 'warning');
+        }
+        else {
+          $roles_to_permissions[$rid][$perm_name] = in_array($role_name, $default_roles);
+        }
+      }
+    }
+    foreach ($roles_to_permissions as $rid => $permissions) {
+      user_role_change_permissions($rid, $permissions);
+    }
+  }
+}
+
+/**
+ * Set the permission for a role for og.
+ *
+ * @param $app
+ *   A fully loaded app object.
+ */
+function apps_app_configure_og_permissions($app) {
+  node_types_rebuild();
+  if (!empty($app['og permissions'])) {
+    foreach ($app['og permissions'] as $key => $roles) {
+      list($group_type, $bundle, $perm) = explode(':', $key);
+
+      // Make sure the role exists for this entity.
+      foreach ($roles as $role) {
+        $bundle_role = _og_features_role_exists($role, $group_type, $bundle);
+        if (empty($bundle_role)) {
+          og_role_save(og_role_create($role, $group_type, 0, $bundle));
+        }
+      }
+
+      $roles = og_roles($group_type, $bundle, 0);
+      foreach ($roles as $rid => $rolename) {
+        if (in_array($rolename, $roles)) {
+          $grant[$rid][] = $perm;
+        }
+        else {
+          $revoke[$rid][] = $perm;
+        }
+      }
+    }
+
+    if (!empty($grant)) {
+      foreach ($grant as $rid => $permissions) {
+        og_role_grant_permissions($rid, $permissions);
+      }
+    }
+
+    if (!empty($revoke)) {
+      foreach ($revoke as $rid => $permissions) {
+        og_role_revoke_permissions($rid, $permissions);
+      }
+    }
+  }
 }

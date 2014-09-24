@@ -1,0 +1,23 @@
+name = OpenPublic Services Demo
+description = Demo Content for Services
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = features
+dependencies[] = menu
+dependencies[] = openpublic_services
+features[content][] = services_disaster_response_assistance
+features[content][] = services_going_green_tax_credits
+features[content][] = services_grant_opportunities
+features[content][] = services_learning_programs
+features[content][] = services_research_assistance
+features[features_api][] = api:2
+features_exclude[dependencies][defaultcontent] = defaultcontent
+project path = /tmp
+
+
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1411568609"
+

@@ -98,11 +98,12 @@ dependencies[] = openpublic_accessibility
 dependencies[] = openpublic_filters
 
 files[] = openpublic.profile
+files[] = tests/main.test
 
 
-; Information added by drush on 2014-07-31
-version = "7.x-1.0-rc3+0-dev"
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1406773673"
+datestamp = "1411568609"
 

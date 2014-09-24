@@ -309,7 +309,7 @@ function apps_profile_install_app_modules(&$install_state) {
     $operations = array();
     foreach ($updates as $update => $update_info) {
       $operations[] = array(
-        'update_authorize_batch_copy_project',
+        'apps_update_authorize_batch_copy_project',
         array(
           $update_info['project'],
           $update_info['updater_name'],
@@ -320,10 +320,11 @@ function apps_profile_install_app_modules(&$install_state) {
     }
 
     $batch = array(
-      'title' => t('Installing updates'),
-      'init_message' => t('Preparing to update your site'),
+      'title' => t('Downloading apps'),
+      'init_message' => t('Preparing to download apps.'),
       'operations' => $operations,
-      'file' => drupal_get_path('module', 'update') . '/update.authorize.inc',
+      'finished' => 'apps_update_authorize_update_batch_finished',
+      'file' => drupal_get_path('module', 'apps') . '/apps.installer.inc',
     );
     unset($_SESSION['update_manager_update_projects']);
   }
@@ -529,7 +530,7 @@ function apps_install_verify() {
 
   // Verify web server write permissions
   $install_permissions = apps_installer_has_write_access();
-  $vars = array('@install_path' => APPS_INSTALL_PATH, '@lib_path' => apps_installer_lib_dir());
+  $vars = array('@install_path' => variable_get('apps_install_path', APPS_INSTALL_PATH), '@lib_path' => apps_installer_lib_dir());
   $form['webserver'] = array(
     '#type' => 'fieldset',
     '#title' => t('Webserver direct install (!status)', array('!status' => $install_permissions ? t('Enabled!') : t('Not enabled'))),

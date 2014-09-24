@@ -127,3 +127,30 @@ function openpublic_user_login(&$edit, $account) {
     $edit['redirect'] = module_exists('overlay') ? array("<front>", array('fragment' => 'overlay=admin/dashboard')) : 'admin/dashboard';
   }
 }
+
+
+/**
+ * Implements hook_features_post_restore().
+ */
+function openpublic_features_post_restore($op, $items) {
+  // Certian components we assume the user will likely override, so we lock
+  // them by default (after the first rebuild just in case).
+  // If they have unlocked, the openpublic_been_locked will prevent from
+  // relocking the variable.
+  $been_locked = $been_locked_old = variable_get('openpublic_been_locked', array());
+  $lock_components = array('user_permission', 'variable');
+  if (variable_get('openpublic_lock_on_enable', TRUE) && $op == 'rebuild') {
+    foreach ($items as $module_name => $components) {
+      $lock_these = array_intersect($lock_components, $components);
+      if (empty($been_locked[$module_name]) || ($lock_these = array_diff($lock_these, $been_locked[$module_name]))) {
+        foreach ($lock_these as $component) {
+          features_feature_lock($module_name, $component);
+          $been_locked[$module_name][$component] = $component;
+        }
+      }
+    }
+  }
+  if ($been_locked_old !== $been_locked) {
+    variable_set('openpublic_been_locked', $been_locked);
+  }
+}

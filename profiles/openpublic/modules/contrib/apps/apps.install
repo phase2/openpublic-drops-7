@@ -1,8 +1,18 @@
 <?php
 /**
  * @file
- * apps.install
+ * Install operation for apps
  */
+
+/**
+ * Implements hook_uninstall().
+ */
+function apps_uninstall() {
+  variable_del('apps_offline_mode');
+  variable_del('apps_enable_dev_console');
+  variable_del('apps_allow_voting');
+  variable_del('apps_install_path');
+}
 
 /**
  * Fix typo in the dev console variable.

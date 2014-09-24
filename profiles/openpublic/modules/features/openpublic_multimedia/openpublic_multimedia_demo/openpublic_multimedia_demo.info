@@ -3,7 +3,7 @@ description = Demo content for the OpenPublic Multimedia app.
 core = 7.x
 package = OpenPublic Demo Content
 dependencies[] = defaultcontent
-dependencies[] = openpublic_blog
+dependencies[] = openpublic_media_room
 dependencies[] = openpublic_menu
 features[content][] = gallery_our_government
 features[content][] = gallery_stars_stripes
@@ -21,9 +21,9 @@ features[menu_links][] = main-menu_media-room:media-room
 features[menu_links][] = main-menu_multimedia:multimedia
 
 
-; Information added by drush on 2014-07-31
-version = "7.x-1.0-rc3+0-dev"
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1406773673"
+datestamp = "1411568609"
 

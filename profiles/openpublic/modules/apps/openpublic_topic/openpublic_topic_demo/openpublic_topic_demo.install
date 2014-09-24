@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Install code for the OpenPublic Topic demo feature.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function openpublic_topic_demo_enable() {
+  // These contain "demo" content for openpublic topic, so revert them.
+  $check = array(
+    'openpublic_site_page_demo' => 'site_page',
+    'openpublic_blog_demo' => 'blog_entry',
+  );
+  $content_types = variable_get('openpublic_topic_topic_field_content_types', _openpublic_topic_default_types());
+  $revert = array();
+  foreach ($check as $module_name => $content_type) {
+    if (module_exists($module_name) && in_array($content_type, $content_types)) {
+      $revert[$module_name] = array('content');
+    }
+  }
+  if ($revert) {
+    features_revert($revert);
+  }
+}

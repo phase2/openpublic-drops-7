@@ -121,7 +121,7 @@ function fullcalendar_views_pre_view(&$view, &$display_id, &$args) {
     $max = date('Y-m-d', strtotime($max . ' +2 weeks'));
     $options = array(
       'exposed' => TRUE,
-      'form_type' => 'date_text',
+      'form_type' => 'date_select',
       'operator' => 'between',
       'default_date' => $min,
       'default_to_date' => $max,

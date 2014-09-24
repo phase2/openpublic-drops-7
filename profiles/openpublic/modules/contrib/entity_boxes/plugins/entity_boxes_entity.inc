@@ -142,6 +142,19 @@ class entity_boxes_entity extends boxes_box {
             }
           }
         }
+        elseif ($field_info['type'] == 'taxonomy_term_reference') {
+          foreach ($entity->{$field_name} as $language => $items) {
+            foreach ($items as $key => $item) {
+              if (($tid = $item['tid']) && ($term = taxonomy_term_load($tid))) {
+                $render[$field_name][$language][$key] = array(
+                  'vocabulary_machine_name' => $term->vocabulary_machine_name,
+                  'name' => $term->name,
+                );
+              }
+            }
+          }
+          
+        }
         elseif ($field_info['type'] == 'node_reference' && module_exists('defaultcontent')) {
           foreach ($entity->{$field_name} as $language => $items) {
             foreach ($items as $key => $item) {
@@ -236,6 +249,24 @@ class entity_boxes_entity extends boxes_box {
                   }
                   file_save($file);
                   $entity->{$field_name}[$language][$key] = (array) $file;
+                }
+              }
+            }
+          }
+        }
+        elseif ($field_info['type'] == 'taxonomy_term_reference') {
+          foreach ($entity->{$field_name} as $language => $items) {
+            foreach ($items as $key => $item) {
+              if (!empty($item['name']) && !empty($item['vocabulary_machine_name'])) {
+                $term = reset(taxonomy_get_term_by_name($item['name'], $item['vocabulary_machine_name']));
+                if (!$term && ($vocab = taxonomy_vocabulary_machine_name_load($item['vocabulary_machine_name']))) {
+                  // Create the term.
+                  $item['vid'] = $vocab->vid;
+                  $term = (object) $item;
+                  taxonomy_term_save($term);
+                }
+                if (!empty($term->tid)) {
+                  $entity->{$field_name}[$language][$key]['tid'] = $term->tid;
                 }
               }
             }

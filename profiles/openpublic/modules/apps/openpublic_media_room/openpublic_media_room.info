@@ -1,0 +1,30 @@
+name = OpenPublic Media Room
+description = OpenPublic media room page.
+core = 7.x
+package = OpenPublic
+dependencies[] = boxes
+dependencies[] = context
+dependencies[] = openpublic_multimedia
+dependencies[] = page_manager
+dependencies[] = panels
+apps[screenshots][] = app/screenshot.png
+apps[screenshots][] = app/screenshot-form.png
+apps[screenshots][] = app/screenshot-form-photo.png
+apps[logo] = app/logo.png
+apps[author] = Phase2 Technology
+apps[author_url] = http://www.phase2technology.com/
+apps[description] = The Media Room App adds the following: the Media Room menu, and the Media Room page (/media-room).  The Media Room serves as a landing page for all press release and multimedia content (e.g. galleries) on the site.
+features[context][] = media_room
+features[ctools][] = context:context:3
+features[ctools][] = page_manager:pages_default:1
+features[features_api][] = api:2
+features[page_manager_pages][] = media_room
+features_exclude[dependencies][openpublic_promotion_demo] = openpublic_promotion_demo
+
+
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1411568609"
+

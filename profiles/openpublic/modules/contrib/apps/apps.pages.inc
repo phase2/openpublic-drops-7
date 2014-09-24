@@ -73,7 +73,7 @@ function apps_manage_page($server) {
   );
   // find all installed apps
   try {
-    $apps = apps_apps($server['name'], array("installed" => TRUE), TRUE);
+    $apps = apps_apps($server, array("installed" => TRUE), TRUE);
     $element['apps'] = $apps;
   }
   catch (Exception $e) {
@@ -115,7 +115,101 @@ function apps_app_config_page($app) {
   if ($form = apps_app_callback($app, "configure form")) {
     $element['config'] =  drupal_get_form($form);
   }
+  if (!empty($app['permissions'])) {
+    if (user_access('administer permissions')) {
+      $element['permissions'] = drupal_get_form('apps_admin_permissions', $app);
+    }
+    else {
+      $element['permissions']['#markup'] = t('This app has permissions that can be customized but you currently do not have permission to configure them. Please contact an administrator if this is in error.');
+    }
+  }
   return $element;
+}
+
+/**
+ * Copy of user_admin_permissions() but for specific permissions.
+ */
+function apps_admin_permissions($form, $form_state, $app) {
+  $form['#app'] = $app;
+  $form['#theme'] = 'user_admin_permissions';
+  // Retrieve role names for columns.
+  $role_names = user_roles();
+  // Fetch permissions for all roles or the one selected role.
+  $role_permissions = user_role_permissions($role_names);
+
+  // Store $role_names for use when saving the data.
+  $form['role_names'] = array(
+    '#type' => 'value',
+    '#value' => $role_names,
+  );
+  $permissions = module_invoke_all('permission');
+  $hide_descriptions = system_admin_compact_mode();
+  $options = array();
+
+  foreach ($app['permissions'] as $perm => $default_roles) {
+    if (!empty($permissions[$perm])) {
+      $perm_item = $permissions[$perm];
+      // Fill in default values for the permission.
+      $perm_item += array(
+        'description' => '',
+        'restrict access' => FALSE,
+        'warning' => !empty($perm_item['restrict access']) ? t('Warning: Give to trusted roles only; this permission has security implications.') : '',
+      );
+      $options[$perm] = '';
+      $form['permission'][$perm] = array(
+        '#type' => 'item',
+        '#markup' => $perm_item['title'],
+        '#description' => theme('user_permission_description', array('permission_item' => $perm_item, 'hide' => $hide_descriptions)),
+      );
+      foreach ($role_names as $rid => $name) {
+        // Builds arrays for checked boxes for each role
+        if (isset($role_permissions[$rid][$perm])) {
+          $status[$rid][] = $perm;
+        }
+      }
+    }
+  }
+
+  // Have to build checkboxes here after checkbox arrays are built
+  foreach ($role_names as $rid => $name) {
+    $form['checkboxes'][$rid] = array(
+      '#type' => 'checkboxes',
+      '#options' => $options,
+      '#default_value' => isset($status[$rid]) ? $status[$rid] : array(),
+      '#attributes' => array('class' => array('rid-' . $rid)),
+    );
+    $form['role_names'][$rid] = array(
+      '#markup' => check_plain($name),
+      '#tree' => TRUE,
+    );
+  }
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save permissions'),
+    '#submit' => array(
+      'user_admin_permissions_submit',
+    ),
+  );
+  $form['actions']['revert'] = array(
+    '#type' => 'submit',
+    '#value' => t('Revert to defaults'),
+    '#submit' => array(
+      'apps_admin_permissions_revert_submit',
+    ),
+  );
+  $form['#attached']['js'][] = drupal_get_path('module', 'user') . '/user.permissions.js';
+
+  return $form;
+}
+
+/**
+ * Reverts the permission to default.
+ */
+function apps_admin_permissions_revert_submit($form, &$form_state) {
+  apps_app_configure_permissions($form['#app']);
+  drupal_set_message(t('The permissions have been reverted.'));
 }
 
 /**
@@ -252,8 +346,15 @@ function apps_settings_form() {
     '#title' => t('Allow Voting'),
     '#description' => t('Allow users who can install apps to also rate them.  Requires that the appserver is running the appserver module.'),
     '#type' => 'checkbox',
-    '#default_value' => variable_get('apps_allow_voting', TRUE),
+    '#default_value' => variable_get('apps_allow_voting', FALSE),
   );
+  $form['apps_install_path'] = array(
+    '#title' => t('Apps Install Path'),
+    '#description' => t('For best practice, you can change the path to sites/all/modules/contrib.'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('apps_install_path', APPS_INSTALL_PATH),
+  );
+  
   $form = system_settings_form($form);
   $form['#submit'][] = 'apps_settings_form_submit';
   return $form;

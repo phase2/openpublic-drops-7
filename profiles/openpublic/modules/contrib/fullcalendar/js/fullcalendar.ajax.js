@@ -9,12 +9,20 @@ Drupal.fullcalendar.fullcalendar.prototype.dateChange = function (fields) {
   }
 
   if (view.name == 'month') {
-    var min = $.fullCalendar.formatDate(view.visStart, 'yyyy-MM-dd');
-    var max = $.fullCalendar.formatDate(view.visEnd, 'yyyy-MM-dd');
+    // Update the select values for the start and end dates. First we format the dates
+    // into values we can use to directly change the selects.
+    var date_parts = {
+      min: $.fullCalendar.formatDate(view.visStart, 'yyyy-M-d').split('-'),
+      max: $.fullCalendar.formatDate(view.visEnd, 'yyyy-M-d').split('-')
+    };
+    $cal = this.$calendar;
     for (var i in fields) {
-      this.$calendar.find('.views-widget-filter-' + i).hide();
-      this.$calendar.find('#edit-' + fields[i] + '-min-date').attr('value', min);
-      this.$calendar.find('#edit-' + fields[i] + '-max-date').attr('value', max);
+      $cal.find('.views-widget-filter-' + i).hide();
+      $.each(['min','max'], function (_, type) {
+        $cal.find('#edit-' + fields[i] + '-' + type + '-year').attr('value', date_parts[type][0]);
+        $cal.find('#edit-' + fields[i] + '-' + type + '-month').attr('value', date_parts[type][1]);
+        $cal.find('#edit-' + fields[i] + '-' + type + '-day').attr('value', date_parts[type][2]);
+      });
     }
   }
   if (name) {

@@ -1,0 +1,24 @@
+name = OpenPublic Press Releases Demo
+description = Demo Content for Press Release
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = openpublic_menu
+dependencies[] = openpublic_press_release
+features[content][] = abc_agency_announces_up_top50_million_for_fuel_cell_research
+features[content][] = best_practices_for_xyz_policies_highlighted_by_abc_agency_secretary
+features[content][] = lyndon_johnson_signs_freedom_of_Information_act
+features[content][] = secretary_issues_statement_on_the_results_of_xyz_program
+features[content][] = taxcode_pressrelease
+features[content][] = this_is_an_example_of_press_release
+features[content][] = whitehouse_issues_open_government_directive
+features[features_api][] = api:2
+features[menu_links][] = main-menu_press-releases:press-releases
+features_exclude[dependencies][defaultcontent] = defaultcontent
+
+
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1411568609"
+

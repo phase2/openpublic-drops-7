@@ -67,18 +67,27 @@ body {
   font-size:12px;
 }
 
+:focus {
+  outline: auto;
+}
+
 a:link, a:visited {
   color:#00436F;
   text-decoration:none;
 }
 
 a:hover,
-a:focus,
 a:active,
 li a.active {
   outline: none;
   color: #1670ac;
 }
+
+/* Keep the outline for better visual indication. */
+a:focus {
+  color: #1670ac;
+}
+
 p {
   color:#666666;
   font-size:13px;
@@ -105,7 +114,10 @@ label {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-input, select {margin: 5px 0;}
+input, select {
+  margin: 5px 0;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing:0;
@@ -1265,7 +1277,7 @@ ul#user-menu a:focus {
   margin: 14px 0;
 }
 .download-link,
-.file {
+.download-btn .file {
   background:url(../img/download-btn-bg.png) repeat-x;
   padding:14px 14px 11px;
   -moz-border-radius:5px;
@@ -1273,7 +1285,7 @@ ul#user-menu a:focus {
   border-radius:5px;
 }
 .download-link a,
-.file a {
+.download-btn .file a {
   background:url(../img/download-btn-icon.png) no-repeat top right;
   color: #ffffff;
   font-weight:bolder;
@@ -1301,7 +1313,8 @@ ul#user-menu a:focus {
 }
 
 /* Small download button */
-div.download-link a, span.file a {
+div.download-link a,
+.download-btn span.file a {
     background: url("../img/download-btn-icon.png") no-repeat scroll right top transparent;
     color: #ffffff;
     font-size: 16px;

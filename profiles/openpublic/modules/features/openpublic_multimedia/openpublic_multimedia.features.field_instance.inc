@@ -64,7 +64,7 @@ function openpublic_multimedia_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'node_reference_view_formatter',
         'settings' => array(
-          'view' => 'media_gallery block_2',
+          'view' => 'media_gallery_list block_2',
         ),
         'type' => 'node_reference_view',
         'weight' => 1,
@@ -73,7 +73,7 @@ function openpublic_multimedia_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'node_reference_view_formatter',
         'settings' => array(
-          'view' => 'media_gallery block_1',
+          'view' => 'media_gallery_list block_1',
         ),
         'type' => 'node_reference_view',
         'weight' => 0,

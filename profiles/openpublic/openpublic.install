@@ -39,6 +39,7 @@ function openpublic_install() {
   );
   $item = (object) $item;
   drupal_write_record('block', $item);
+  variable_set('apps_install_path', 'sites/all/modules/contrib');
 }
 
 /**

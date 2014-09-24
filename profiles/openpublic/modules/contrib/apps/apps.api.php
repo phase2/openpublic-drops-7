@@ -40,6 +40,16 @@ function hook_apps_app_info() {
     // This will be called after the app is enabled initially or when the app
     // has been uninstalled.
     'status callback' => 'appname_app_status',
+    // This will provide permission configuration on the configre form.
+    // This will also set the permissions on install of the app.
+    'permissions' => array(
+      'access my app' => array('role 1', 'role 2'),
+    ),
+    // Same format as permissions but key includes [entity type]:[bundle] of the
+    // the og group the permission should default for.
+    'og permissions' => array(
+      'node:group:create myapp content' => array('role 1', 'role 2'),
+    ),
   );
   /*
   This callback is used to render a status table on the config page.
@@ -109,6 +119,19 @@ function hook_install_tasks($install_state) {
   );
   $tasks = $tasks + apps_profile_install_tasks($install_state, $server);
   return $tasks;
+}
+
+/**
+ * Called each time an app module is enabled.
+ *
+ * This hook is called from hook_modules_enabled when an app is enabled.
+ * Not that the app array may be missing keys/information (due to
+ * performance considerations).
+ */
+function hook_apps_app_modules_enabled($app) {
+  if (!empty($app['something'])) {
+    mymodule_something($app);
+  }
 }
 
 /**

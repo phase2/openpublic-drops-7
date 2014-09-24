@@ -112,7 +112,7 @@ function apps_theme_voting_widget($vars) {
     '#suffix' => '</div>',
   );
   // Only add the components for voting to non teaser pages
-  if (!$teaser && variable_get('apps_allow_voting', TRUE)) {
+  if (!$teaser && variable_get('apps_allow_voting', FALSE)) {
     $render_arr['totalrating'] = array(
       '#prefix' => '<div class="app-average-rating">',
       '#markup' => t('Average rating: !stars stars', array(

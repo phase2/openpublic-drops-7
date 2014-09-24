@@ -243,7 +243,7 @@ function apps_run_install($filetransfer, $projects) {
   $operations = array();
   foreach ($projects as $project => $project_info) {
     $operations[] = array(
-      'update_authorize_batch_copy_project',
+      'apps_update_authorize_batch_copy_project',
       array(
         $project_info['project'],
         $project_info['updater_name'],
@@ -254,15 +254,92 @@ function apps_run_install($filetransfer, $projects) {
   }
 
   $batch = array(
-    'title' => t('Installing updates'),
-    'init_message' => t('Preparing to update your site'),
+    'title' => t('Downloading apps'),
+    'init_message' => t('Preparing to download apps.'),
     'operations' => $operations,
-    'finished' => 'update_authorize_update_batch_finished',
-    'file' => drupal_get_path('module', 'update') . '/update.authorize.inc',
+    'finished' => 'apps_update_authorize_update_batch_finished',
+    'file' => drupal_get_path('module', 'apps') . '/apps.installer.inc',
   );
 
   batch_set($batch);
   // Invoke the batch via authorize.php.
 
   batch_process($_SESSION['apps_install_next']);
+}
+
+/**
+ * Wrapper around update_authorize_update_batch_finished to include file.
+ *
+ * Since need to override update_authorize_batch_copy_project, need to have the
+ * path be this file, so need the 'finished' operation to be in this file also.
+ */
+function apps_update_authorize_update_batch_finished($success, $results) {
+  module_load_include('authorize.inc','update');
+  update_authorize_update_batch_finished($success, $results);
+}
+
+/**
+ * Copy of update_authorize_batch_copy_project cept override install_dir. 
+ */
+function apps_update_authorize_batch_copy_project($project, $updater_name, $local_url, $filetransfer, &$context) {
+  module_load_include('authorize.inc','update');
+
+  // Initialize some variables in the Batch API $context array.
+  if (!isset($context['results']['log'])) {
+    $context['results']['log'] = array();
+  }
+  if (!isset($context['results']['log'][$project])) {
+    $context['results']['log'][$project] = array();
+  }
+
+  if (!isset($context['results']['tasks'])) {
+    $context['results']['tasks'] = array();
+  }
+
+  // The batch API uses a session, and since all the arguments are serialized
+  // and unserialized between requests, although the FileTransfer object itself
+  // will be reconstructed, the connection pointer itself will be lost. However,
+  // the FileTransfer object will still have the connection variable, even
+  // though the connection itself is now gone. So, although it's ugly, we have
+  // to unset the connection variable at this point so that the FileTransfer
+  // object will re-initiate the actual connection.
+  unset($filetransfer->connection);
+
+  if (!empty($context['results']['log'][$project]['#abort'])) {
+    $context['finished'] = 1;
+    return;
+  }
+
+  $updater = new $updater_name($local_url);
+
+  try {
+    $args = array();
+    if ($updater_name == 'ModuleUpdater') {
+      $args = array(
+        'install_dir' => DRUPAL_ROOT . '/' . variable_get('apps_install_path', APPS_INSTALL_PATH),
+      );
+    }
+    if ($updater->isInstalled()) {
+      // This is an update.
+      $tasks = $updater->update($filetransfer, $args);
+    }
+    else {
+      $tasks = $updater->install($filetransfer, $args);
+    }
+  }
+  catch (UpdaterException $e) {
+    _update_batch_create_message($context['results']['log'][$project], t('Error installing / updating'), FALSE);
+    _update_batch_create_message($context['results']['log'][$project], $e->getMessage(), FALSE);
+    $context['results']['log'][$project]['#abort'] = TRUE;
+    return;
+  }
+
+  _update_batch_create_message($context['results']['log'][$project], t('Installed %project_name successfully', array('%project_name' => $project)));
+  if (!empty($tasks)) {
+    $context['results']['tasks'] += $tasks;
+  }
+
+  // This particular operation is now complete, even though the batch might
+  // have other operations to perform.
+  $context['finished'] = 1;
 }

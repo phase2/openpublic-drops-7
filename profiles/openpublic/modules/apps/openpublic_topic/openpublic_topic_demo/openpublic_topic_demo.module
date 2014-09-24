@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenPublic Topic Demo feature.
+ */
+
+include_once 'openpublic_topic_demo.features.inc';

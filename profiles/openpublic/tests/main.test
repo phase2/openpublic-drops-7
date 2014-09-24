@@ -1,0 +1,95 @@
+<?php
+/**
+ * @file
+ * Base class for openPublic tests.
+ */
+
+/**
+ * Basic tests. Assumes an install with all apps enabled.
+ */
+abstract class OpenPublicMain extends SimpleTestCloneTestCase {
+
+  public function setUp($modules = array()) {
+    parent::setUp();
+    module_enable($modules);
+
+    // Flush all static caches.
+    drupal_static_reset();
+  }
+
+  public function assertXPath($xpath, $message = '', $group = 'Other') {
+    $found = $this->xpath($xpath);
+    return $this->assertTrue((bool)$found, $message, $group);
+  }
+
+  public function assertNotXPath($xpath, $message = '', $group = 'Other') {
+    $found = $this->xpath($xpath);
+    return $this->assertFalse((bool)$found, $message, $group);
+  }
+
+
+  /**
+   * Create sample content of a given type.
+   */
+  protected function create_sample_content($type = 'blog_entry', $edit = array()) {
+    // Toolbar needed for "login" test to return true as that's where logout is.
+    $web_user = $this->drupalCreateUser(array("create $type content", 'access toolbar', 'view the administration theme', 'administer nodes'));
+    $this->drupalLogin($web_user);
+    $edit = array();
+    $edit["title"] = $this->randomName(8);
+    $edit["body[und][0][value]"] = $this->randomName(16);
+    $edit["status"] = 1;
+    $this->drupalPost('node/add/' . str_replace('_', '-', $type), $edit, t('Save'));
+    $this->drupalLogout();
+    return $edit;
+  }
+
+  protected function drupalCreateUserWithRoles(array $roles = array()) {
+    // Create a role with the given permission set, if any.
+    $rids = array();
+    if ($roles) {
+      foreach (array_intersect(user_roles(), $roles) as $rid => $role_name) {
+        $rids[$rid] = $rid;
+      }
+    }
+  
+    // Create a user assigned to that role.
+    $edit = array();
+    $edit['name'] = $this->randomName();
+    $edit['mail'] = $edit['name'] . '@example.com';
+    $edit['pass'] = user_password();
+    $edit['status'] = 1;
+    $edit['roles'] = $rids;
+  
+    $account = user_save(drupal_anonymous_user(), $edit);
+  
+    $this->assertTrue(!empty($account->uid), t('User created with name %name and pass %pass', array('%name' => $edit['name'], '%pass' => $edit['pass'])), t('User login'));
+    if (empty($account->uid)) {
+      return FALSE;
+    }
+  
+    // Add the raw password so that we can log in as this user.
+    $account->pass_raw = $edit['pass'];
+    return $account;
+  }
+
+  /**
+   * Overriden to check something other than Logout link since only exists with toolbar.
+   */
+  protected function drupalLogin(stdClass $account) {
+    if ($this->loggedInUser) {
+      $this->drupalLogout();
+    }
+  
+    $edit = array(
+      'name' => $account->name,
+      'pass' => $account->pass_raw,
+    );
+    $this->drupalPost('user', $edit, t('Log in'));
+
+    $found = (bool) $this->xpath('//h1[text()="' . $edit['name'] . '"]') || (bool) $this->xpath('//a[text()="Log out"]');
+    if ($this->assertTrue($found, 'User logged in successfully')) {
+      $this->loggedInUser = $account;
+    }
+  }
+}

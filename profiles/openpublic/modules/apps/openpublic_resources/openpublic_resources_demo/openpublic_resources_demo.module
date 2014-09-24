@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Module code for openpublic resources demo.
+ */
+
+/**
+ * Implements hook_features_pre_restore().
+ */
+function openpublic_resources_demo_features_pre_restore($op, $items) {
+  // menu links need to be rebuilt first else causes problems, so just rebuild twice.
+  if ($op == 'rebuild' && !empty($items['openpublic_resources_demo']) && array_search('menu_links', $items['openpublic_resources_demo']) > array_search('content', $items['openpublic_resources_demo'])) {
+    features_rebuild(array('openpublic_resources_demo' => array('menu_links')));
+  }
+}

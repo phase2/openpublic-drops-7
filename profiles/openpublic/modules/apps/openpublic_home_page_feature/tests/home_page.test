@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ * Tests for the OpenPublic Home Page Feature.
+ */
+
+/**
+ * Basic tests. Assumes an install with all apps enabled.
+ */
+class OpenPublicHomePageTest extends OpenPublicMain {
+  public static function getInfo() {
+    return array(
+      'name' => 'Open Public Home Page',
+      'description' => 'Test the Open Public Home Page.',
+      'group' => 'Open Public',
+    );
+  }
+
+  /**
+   * Test home page has default blocks and updates with new content.
+   */
+  public function testHomePage() {
+    // Going to test that these populate the page.
+    $blog = $this->create_sample_content('blog_entry');
+    $press_release = $this->create_sample_content('press_release');
+    $resource = $this->create_sample_content('resource');
+
+    $this->drupalGet("");
+    $this->assertResponse(200, 'User can view the home page.');
+    $this->assertXPath("//section[@id='block-views-press-release-list-block-1']", 'News Release Block Found');
+    $this->assertXPath("//section[@id='block-views-press-release-list-block-1']//a[normalize-space(text())='" . $press_release['title'] . "']", 'News Release entry Found');
+    $this->assertXPath("//div[@id='block-boxes-box-dc4059cc']", 'Home Page Feature Player');
+    $this->assertXPath("//div[@id='block-boxes-box-54682cbd']", 'Breaking News');
+    $this->assertXPath("//div[@id='block-boxes-box-e826276f']", 'Carousel');
+    $this->assertXPath("//section[@id='block-views-blog-entry-list-block-1']", 'Blog Block Found');
+    $this->assertXPath("//section[@id='block-views-blog-entry-list-block-1']//a[normalize-space(text())='" . $blog['title'] . "']", 'Blog Entry Found');
+    $this->assertXPath("//section[@id='block-views-resource-list-block-1']", 'Resource Block Found');
+    $this->assertXPath("//section[@id='block-views-resource-list-block-1']//a[normalize-space(text())='" . $resource['title'] . "']", 'Resource entry Found');
+    $this->assertXPath("//section[@id='block-boxes-box-41ba8a2d']", 'Twitter Found');
+    $this->assertXPath("//section[@id='block-boxes-box-41ba8a2d']//a[contains(@class, 'twitter-timeline')]", 'Twitter iframe Found');
+    
+  }
+}
+ 

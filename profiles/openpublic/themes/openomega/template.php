@@ -13,15 +13,21 @@ function openomega_preprocess_region(&$vars) {
   switch($vars['region']) {
     // menu region
     case 'menu':
-      $footer_menu = menu_tree_output(_openomega_menu_build_tree('main-menu', array('max_depth'=>2)));
+      $dropdown_menu = menu_tree_output(_openomega_menu_build_tree('main-menu', array('max_depth'=>2)));
       //set the active trail
       $active_trail = menu_get_active_trail();
       foreach($active_trail as $trail) {
-        if (isset($trail['mlid']) && isset($footer_menu[$trail['mlid'] ] )) {
-          $footer_menu[$trail['mlid']]['#attributes']['class'][] = 'active-trail';
+        if (isset($trail['mlid']) && isset($dropdown_menu[$trail['mlid'] ] )) {
+          $dropdown_menu[$trail['mlid']]['#attributes']['class'][] = 'active-trail';
         }
       }
-      $vars['dropdown_menu'] = $footer_menu;
+      // Set the tab index for those with drop downs so can access the links.
+      foreach ($dropdown_menu as $key => $item) {
+        if (!empty($dropdown_menu[$key]['#below'])) {
+          $dropdown_menu[$key]['#attributes']['tabindex'] = 0;
+        }
+      }
+      $vars['dropdown_menu'] = $dropdown_menu;
     break;
     // default footer content
     case 'footer_first':
@@ -178,6 +184,7 @@ function openomega_preprocess_node(&$vars) {
         $download .= '</span>';
         $vars['content']['field_document_attachment'][$id]['#suffix'] = $download;
         $vars['content']['field_document_attachment'][$id]['#suffix'] .= '</div>';
+        $vars['content']['field_document_attachment'][$id]['#file']->is_download_link = TRUE;
       }
     }
   }
@@ -265,7 +272,7 @@ function openomega_preprocess_views_view_field(&$vars, $hook) {
  * Changes title of the link to 'Download'.
  */
 function openomega_preprocess_file_link(&$vars) {
-  if (empty($vars['file']->description)) {
+  if (empty($vars['file']->description) && !empty($vars['file']->is_download_link)) {
     $vars['file']->description = t('Download');
   }
 }

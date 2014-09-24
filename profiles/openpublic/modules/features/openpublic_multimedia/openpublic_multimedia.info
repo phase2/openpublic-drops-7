@@ -27,16 +27,6 @@ features[field_instance][] = node-photo-field_photo_image
 features[image][] = media_gallery
 features[node][] = media_gallery
 features[node][] = photo
-features[user_permission][] = create media_gallery content
-features[user_permission][] = create photo content
-features[user_permission][] = delete any media_gallery content
-features[user_permission][] = delete any photo content
-features[user_permission][] = delete own media_gallery content
-features[user_permission][] = delete own photo content
-features[user_permission][] = edit any media_gallery content
-features[user_permission][] = edit any photo content
-features[user_permission][] = edit own media_gallery content
-features[user_permission][] = edit own photo content
 features[variable][] = addthis_nodetype_media_gallery
 features[variable][] = addthis_nodetype_photo
 features[variable][] = colorbox_load
@@ -71,9 +61,9 @@ features[views_view][] = photo_list
 features_exclude[dependencies][features_template] = features_template
 
 
-; Information added by drush on 2014-07-31
-version = "7.x-1.0-rc3+0-dev"
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1406773673"
+datestamp = "1411568609"
 

@@ -1,0 +1,17 @@
+name = OpenPublic Event Demo
+description = Demo content for the OpenPublic Event app.
+core = 7.x
+package = OpenPublic Demo Content
+dependencies[] = defaultcontent
+dependencies[] = openpublic_event
+features[content][] = op_event_holiday_lights
+features[content][] = op_event_townhall
+features[features_api][] = api:2
+
+
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1411568609"
+

@@ -1,0 +1,35 @@
+name = OpenPublic Topic
+description = Adds a topic vocabulary to the site.
+core = 7.x
+package = OpenPublic
+dependencies[] = entity_boxes
+dependencies[] = features
+dependencies[] = features_template
+dependencies[] = list
+dependencies[] = taxonomy
+dependencies[] = views
+apps[screenshots][] = app/screenshot.png
+apps[logo] = app/logo.png
+apps[author] = Phase2 Technology
+apps[author_url] = http://www.phase2technology.com/
+apps[description] = OpenPublic Topic adds a topic vocabulary and configurable topic field so that it can be added to any content type.
+features[ctools][] = views:views_default:3.0
+features[entity_boxes_type][] = topic_box
+features[features_api][] = api:2
+features[field_base][] = field_topic
+features[field_base][] = field_topic_box_display
+features[field_base][] = field_topic_box_topic
+features[field_instance][] = entity_boxes-topic_box-field_topic_box_display
+features[field_instance][] = entity_boxes-topic_box-field_topic_box_topic
+features[taxonomy][] = topic
+features[views_view][] = topic_content_list
+features_exclude[dependencies][ctools] = ctools
+features_exclude[dependencies][options] = options
+
+
+; Information added by drush on 2014-09-24
+version = "7.x-1.0-rc5+0-dev"
+core = "7.x"
+project = "openpublic"
+datestamp = "1411568609"
+
