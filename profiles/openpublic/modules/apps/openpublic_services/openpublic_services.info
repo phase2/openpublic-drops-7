@@ -37,10 +37,9 @@ features[views_view][] = services_list
 features_exclude[dependencies][openpublic_defaults] = openpublic_defaults
 features_exclude[field][node-services-field_files] = node-services-field_files
 
-
-; Information added by drush on 2014-09-24
-version = "7.x-1.0-rc5+0-dev"
+; Information added by Drupal.org packaging script on 2014-09-23
+version = "7.x-1.0-rc5"
 core = "7.x"
 project = "openpublic"
-datestamp = "1411568609"
+datestamp = "1411494640"
 

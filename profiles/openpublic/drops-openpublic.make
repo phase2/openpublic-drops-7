@@ -13,8 +13,4 @@ projects[drupal][patch][1441950] = https://www.drupal.org/files/issues/1441950-d
 projects[drupal][patch][2124397] = https://www.drupal.org/files/issues/2124397-drupal-file-upload-18-do-not-test.patch
 
 projects[openpublic][type] = profile
-
-projects[openpublic][download][type] = git
-projects[openpublic][download][url] = http://git.drupal.org/project/openpublic.git
-projects[openpublic][download][branch] = 7.x-1.x
-
+projects[openpublic][version] = 7.x-1.0-rc5

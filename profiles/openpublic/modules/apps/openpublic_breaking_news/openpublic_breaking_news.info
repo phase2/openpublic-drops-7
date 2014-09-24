@@ -21,10 +21,9 @@ features[field_instance][] = entity_boxes-breaking_news-field_breaking_news_titl
 features[views_view][] = breaking_news
 features_exclude[dependencies][views] = views
 
-
-; Information added by drush on 2014-09-24
-version = "7.x-1.0-rc5+0-dev"
+; Information added by Drupal.org packaging script on 2014-09-23
+version = "7.x-1.0-rc5"
 core = "7.x"
 project = "openpublic"
-datestamp = "1411568609"
+datestamp = "1411494640"
 
