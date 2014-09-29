@@ -29,7 +29,7 @@
     </div>
     <div id="home-top-read-more">
       <a href="<?php print $slide_url ?>">
-        <?php print t('Read More È'); ?>
+        <?php print t('Read More'); ?>
       </a>
     </div>
     <div id="home-top-numbers" class="clearfix">

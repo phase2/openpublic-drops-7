@@ -9,9 +9,10 @@ features[content][] = congress_debates_tax_cuts
 features[content][] = five_recent _abcs_agency_achievements_you_should_know_about
 features[features_api][] = api:2
 
-; Information added by Drupal.org packaging script on 2014-09-23
-version = "7.x-1.0-rc5"
+
+; Information added by drush on 2014-09-29
+version = "7.x-1.0+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1411494640"
+datestamp = "1411957377"
 

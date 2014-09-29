@@ -155,11 +155,19 @@ class entity_boxes_entity extends boxes_box {
           }
           
         }
-        elseif ($field_info['type'] == 'node_reference' && module_exists('defaultcontent')) {
+        elseif (($field_info['type'] == 'node_reference' || ($field_info['type'] == 'entityreference'))
+          && (module_exists('defaultcontent') || module_exists('uuid_features'))) {
+          $nidkey = $field_info['type'] == 'node_reference' ? 'nid' : 'target_id';
           foreach ($entity->{$field_name} as $language => $items) {
             foreach ($items as $key => $item) {
-              if (($node = node_load($item['nid'])) && !empty($node->machine_name)) {
-                $render[$field_name][$language][$key]['machine_name'] = $node->machine_name;
+              $entities = entity_load($field_info['settings']['target_type'], array($item[$nidkey]));
+              if ($ent = reset($entities)) {
+                if (!empty($ent->machine_name)) {
+                  $render[$field_name][$language][$key]['machine_name'] = $ent->machine_name;
+                }
+                elseif (!empty($ent->uuid)) {
+                  $render[$field_name][$language][$key]['uuid'] = $ent->uuid;
+                }
               }
             }
           }
@@ -272,11 +280,19 @@ class entity_boxes_entity extends boxes_box {
             }
           }
         }
-        elseif ($field_info['type'] == 'node_reference' && module_exists('defaultcontent')) {
+        elseif (($field_info['type'] == 'node_reference' || ($field_info['type'] == 'entityreference'))
+          && (module_exists('defaultcontent') || module_exists('uuid_features'))) {
+          $nidkey = $field_info['type'] == 'node_reference' ? 'nid' : 'target_id';
           foreach ($entity->{$field_name} as $language => $items) {
             foreach ($items as $key => $item) {
               if (!empty($item['machine_name']) && ($node = defaultcontent_get_node($item['machine_name']))) {
                 $entity->{$field_name}[$language][$key]['nid'] = $node->nid;
+              }
+              elseif (!empty($item['uuid']) && ($ids = entity_get_id_by_uuid($field_info['settings']['target_type'], array($item['uuid'])))) {
+                $entity->{$field_name}[$language][$key][$nidkey] = reset($ids);
+              }
+              elseif (isset($entity->{$field_name}[$language][$key])) {
+                unset($entity->{$field_name}[$language][$key]);
               }
             }
           }

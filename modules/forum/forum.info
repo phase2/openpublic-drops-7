@@ -10,8 +10,8 @@ configure = admin/structure/forum
 stylesheets[all][] = forum.css
 
 
-; Information added by drush on 2014-09-24
+; Information added by drush on 2014-09-29
 version = "master-dev"
 project = "drupal"
-datestamp = "1411571877"
+datestamp = "1411957371"
 

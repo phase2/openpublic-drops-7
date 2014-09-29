@@ -418,9 +418,11 @@ Drupal.ajax.prototype.success = function (response, status) {
 
    // If the element that triggered the ajax request is still in the DOM and
    // visible, set the focus back to that element.
-   var $element = this.$form.find('[name="' + this.element.name + '"]');
-   if ($element.length !== 0 && $element.is(':visible')) {
-     $element.focus();
+  if (this.form && this.element) {
+    var $element = this.form.find('[name="' + this.element.name + '"]');
+    if ($element.length !== 0 && $element.is(':visible')) {
+      $element.focus();
+    }
    }
 };
 

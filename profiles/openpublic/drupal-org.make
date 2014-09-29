@@ -55,7 +55,7 @@ projects[entity][patch][2307807] = https://www.drupal.org/files/issues/2307807-e
 projects[entity_autocomplete][version] = 1.0-beta3
 
 projects[entity_boxes][version] = 1.0-alpha2
-projects[entity_boxes][patch][2304797] = https://www.drupal.org/files/issues/2304797-entity-boxes-export-7.patch
+projects[entity_boxes][patch][2304797] = https://www.drupal.org/files/issues/2304797-entity-boxes-export-9.patch
 projects[entity_boxes][patch][2047875] = https://www.drupal.org/files/issues/2047875-entity_boxes-install-6.patch
 
 projects[entitycache][version] = 1.2

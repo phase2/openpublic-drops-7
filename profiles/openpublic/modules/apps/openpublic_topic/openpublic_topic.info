@@ -26,9 +26,10 @@ features[views_view][] = topic_content_list
 features_exclude[dependencies][ctools] = ctools
 features_exclude[dependencies][options] = options
 
-; Information added by Drupal.org packaging script on 2014-09-23
-version = "7.x-1.0-rc5"
+
+; Information added by drush on 2014-09-29
+version = "7.x-1.0+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1411494640"
+datestamp = "1411957377"
 

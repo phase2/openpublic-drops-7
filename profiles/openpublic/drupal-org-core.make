@@ -9,4 +9,4 @@ projects[drupal][patch][1369584] = https://www.drupal.org/files/1369584-form-err
 projects[drupal][patch][1697570] = https://www.drupal.org/files/drupal7.menu-system.1697570-29.patch
 ; Fixes disabling of node types when feature/app disabled.
 projects[drupal][patch][1441950] = https://www.drupal.org/files/issues/1441950-drupal_node_types_custom-8.patch
-projects[drupal][patch][2124397] = https://www.drupal.org/files/issues/2124397-drupal-file-upload-18-do-not-test.patch
+projects[drupal][patch][2124397] = https://www.drupal.org/files/issues/2124397-drupal-file-upload-19-do-not-test.patch
