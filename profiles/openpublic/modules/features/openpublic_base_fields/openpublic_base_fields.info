@@ -26,8 +26,8 @@ features[variable][] = pathauto_punctuation_underscore
 
 
 ; Information added by drush on 2014-09-29
-version = "7.x-1.0+0-dev"
+version = "7.x-1.1+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1411957377"
+datestamp = "1412024636"
 
