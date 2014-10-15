@@ -41,9 +41,9 @@ features[variable][] = captcha_log_wrong_responses
 features[variable][] = captcha_persistence
 
 
-; Information added by drush on 2014-09-29
-version = "7.x-1.1+0-dev"
+; Information added by drush on 2014-10-15
+version = "7.x-1.2+2-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1412024636"
+datestamp = "1413405446"
 

@@ -109,9 +109,9 @@ features_exclude[dependencies][xmlsitemap] = xmlsitemap
 project path = profiles/openpublic/modules/features
 
 
-; Information added by drush on 2014-09-29
-version = "7.x-1.1+0-dev"
+; Information added by drush on 2014-10-15
+version = "7.x-1.2+2-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1412024636"
+datestamp = "1413405446"
 

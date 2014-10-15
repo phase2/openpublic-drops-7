@@ -57,9 +57,9 @@ features_exclude[field][node-blog_entry-field_release_date] = node-blog_entry-fi
 features_exclude[field][node-blog_entry-field_files] = node-blog_entry-field_files
 
 
-; Information added by drush on 2014-09-29
-version = "7.x-1.1+0-dev"
+; Information added by drush on 2014-10-15
+version = "7.x-1.2+2-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1412024636"
+datestamp = "1413405446"
 

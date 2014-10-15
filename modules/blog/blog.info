@@ -6,8 +6,8 @@ core = 7.x
 files[] = blog.test
 
 
-; Information added by drush on 2014-09-29
+; Information added by drush on 2014-10-15
 version = "master-dev"
 project = "drupal"
-datestamp = "1412024632"
+datestamp = "1413405442"
 
