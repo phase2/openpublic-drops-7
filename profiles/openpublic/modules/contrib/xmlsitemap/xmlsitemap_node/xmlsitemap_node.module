@@ -40,7 +40,7 @@ function xmlsitemap_node_xmlsitemap_process_node_links(array $nids) {
   $nodes = node_load_multiple($nids);
   foreach ($nodes as $node) {
     $link = xmlsitemap_node_create_link($node);
-    xmlsitemap_link_save($link);
+    xmlsitemap_link_save($link, array($link['type'] => $node));
   }
 }
 
@@ -56,7 +56,7 @@ function xmlsitemap_node_node_insert(stdClass $node) {
  */
 function xmlsitemap_node_node_update(stdClass $node) {
   $link = xmlsitemap_node_create_link($node);
-  xmlsitemap_link_save($link);
+  xmlsitemap_link_save($link, array($link['type'] => $node));
 }
 
 /**

@@ -292,7 +292,14 @@ function apps_app_install($app) {
   switch ($action) {
     case 'install':
       $_SESSION['apps_install_next'] = apps_app_page_path($app, 'enable');
-      return apps_install_downloads();
+      $install = apps_install_downloads();
+      // Error encountered during install.
+      if ($install === FALSE) {
+        drupal_goto(apps_app_page_path($app));
+      }
+      else {
+        return $install;
+      }
     default:
       // Clear cache so downloads new files.
       apps_clear_update_disk_cache();
@@ -315,22 +322,45 @@ function apps_app_enable($app) {
   if ($confirm_form = apps_display_confirm_form(t('Are you sure you want to enable @name?', array('@name' => $app['name'])), $token_name)) {
     return $confirm_form;
   }
-  $next = apps_app_page_path($app, 'configure');
-  $success = module_enable(array($app['machine_name']), TRUE);
-  if ($success) {
-    drupal_flush_all_caches();
-    drupal_set_message(t("Enabled @name app", array('@name' => $app['name'])));
-    if (!$app['disabled'] && ($cb = apps_app_callback($app, "post install callback"))) {
-      $cb($app);
+  $next = apps_app_page_path($app);
+  if ($app['status'] === APPS_DISABLED) {
+    $success = module_enable(array($app['machine_name']), TRUE);
+    if ($success) {
+      drupal_flush_all_caches();
+      drupal_set_message(t("Enabled @name app", array('@name' => $app['name'])));
+      if (!$app['disabled'] && ($cb = apps_app_callback($app, "post install callback"))) {
+        $cb($app);
+      }
+      if (apps_app_access('administer apps', $app, 'configure')) {
+        $next = apps_app_page_path($app, 'configure');
+      }
     }
-    if (!apps_app_access('administer apps', $app, 'configure')) {
-      $next = apps_app_page_path($app);
+    else {
+      drupal_set_message(t("@name App Not Enabled", array('@name' => $app['name'])));
     }
   }
-  else {
-    drupal_set_message(t("@name App Not Enabled", array('@name' => $app['name'])));
-    $next = apps_app_page_path($app);
+  elseif ($app['status'] === APPS_ENABLED) {
+    drupal_set_message(t("@name App already Enabled", array('@name' => $app['name'])), 'warning');
   }
+  elseif ($app['status'] === APPS_INCOMPATIBLE) {
+    $incompatible = array();
+    foreach ($app['dependencies'] as $depedency_name => $depedency) {
+      if ($depedency['incompatible']) {
+        $incompatible[] = $depedency_name;
+      }
+    }
+    drupal_set_message(t("@name App not compatible (incompatible dependencies: @dependencies)", array('@name' => $app['name'], '@dependencies' => implode(', ', $incompatible))), 'error');
+  }
+  elseif ($app['status'] === APPS_INSTALLABLE) {
+    $missing = array();
+    foreach ($app['dependencies'] as $depedency_name => $depedency) {
+      if (empty($depedency['installed'])) {
+        $missing[] = $depedency_name;
+      }
+    }
+    drupal_set_message(t("@name App has missing depedencies (missing depedencies: @dependencies)", array('@name' => $app['name'], '@dependencies' => implode(', ', $missing))), 'error');
+  }
+  unset($_SESSION['apps_install_next']);
   drupal_goto($next);
 }
 
@@ -397,7 +427,7 @@ function apps_app_update($app) {
   $action = arg(5);
   switch ($action) {
     case 'updatedb';
-      drupal_set_message(t('Please check for any <a href="@url">updates</a> and run them.', array('@url' => url('update.php'))));
+      drupal_set_message($_SESSION['authorize_results']['page_message']['message'], $_SESSION['authorize_results']['page_message']['type']);
       unset($_SESSION['apps_install_next']);
       drupal_goto(apps_app_page_path($app));
       break;
@@ -543,4 +573,13 @@ function apps_app_status_report($items, $header = NULL) {
     '#header' => $header,
     '#rows' => $rows,
   );
+}
+
+/**
+ * Provide development information.
+ */
+function apps_devel_load_array($type, $array) {
+  module_load_include('pages.inc', 'devel');
+  // Wth krumo, array is fine, but devel_print_object needs an object.
+  return devel_load_object($type, has_krumo() ? $array : (object) $array);
 }
