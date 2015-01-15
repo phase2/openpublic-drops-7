@@ -22,7 +22,7 @@ projects[comment_notify][patch][1892658] = https://www.drupal.org/files/issues/1
 
 projects[conditional_styles][version] = 2.2
 
-projects[context][version] = 3.3
+projects[context][version] = 3.6
 projects[context][patch][1892658] = https://www.drupal.org/files/issues/455908-context-weight-123.patch
 
 projects[context_bool_field][version] = 1.0
@@ -60,7 +60,7 @@ projects[entity_boxes][patch][2047875] = https://www.drupal.org/files/issues/204
 
 projects[entitycache][version] = 1.2
 
-projects[features][version] = 2.2
+projects[features][version] = 2.3
 projects[features][patch][1064340] = https://www.drupal.org/files/issues/1064340-features-files-13.patch
 
 projects[features_template][type] = module
@@ -78,7 +78,7 @@ projects[fullcalendar][download][branch] = d41c651486ef247164a9d5fc22fae7be2c63c
 projects[fullcalendar][download][revision] = 7.x-2.x
 
 
-projects[google_analytics][version] = 2.0
+projects[google_analytics][version] = 2.1
 
 projects[imce][version] = 1.9
 

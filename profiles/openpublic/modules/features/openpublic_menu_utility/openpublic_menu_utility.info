@@ -6,9 +6,9 @@ dependencies[] = menu
 features[features_api][] = api:2
 features[menu_custom][] = menu-utility
 
-; Information added by Drupal.org packaging script on 2014-12-10
-version = "7.x-1.3"
+; Information added by Drupal.org packaging script on 2015-01-14
+version = "7.x-1.4"
 core = "7.x"
 project = "openpublic"
-datestamp = "1418219614"
+datestamp = "1421269377"
 
