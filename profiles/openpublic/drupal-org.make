@@ -33,8 +33,9 @@ projects[context_condition_admin_theme][version] = 1.0
 
 projects[context_field][version] = 1.0
 
-projects[ctools][version] = 1.5
-projects[ctools][patch][1901106] = https://www.drupal.org/files/ctools-views_content-exposed_form_override-1901106-20.patch
+projects[ctools][version] = 1.7
+projects[ctools][patch][1910608] = https://www.drupal.org/files/issues/views_content-ajax-1910608-29.patch
+projects[ctools][patch][1901106] = https://www.drupal.org/files/issues/ctools-views_content-exposed_form_override-1901106-27.patch
 
 projects[date][version] = 2.8
 
@@ -49,7 +50,7 @@ projects[delta][patch][1532196] = https://www.drupal.org/files/breadcrumb_empty_
 
 projects[diff][version] = 3.2
 
-projects[entity][version] = 1.5
+projects[entity][version] = 1.6
 projects[entity][patch][2307807] = https://www.drupal.org/files/issues/2307807-entity-reset-insert-1.patch
 
 projects[entity_autocomplete][version] = 1.0-beta3
@@ -132,13 +133,13 @@ projects[twitter][version] = 5.8
 
 projects[twitter_pull][version] = 2.0-alpha2
 
-projects[views][version] = 3.8
+projects[views][version] = 3.10
 
 projects[views_boxes][version] = 1.0
 
 projects[views_ical][version] = 1.0-beta2
 
-projects[webform][version] = 3.21
+projects[webform][version] = 3.23
 
 projects[wysiwyg][version] = 2.2
 

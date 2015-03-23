@@ -283,6 +283,41 @@ function _views_content_get_context_from_display($view, $id, $parent, $required 
 }
 
 /**
+ * Implements hook_get_pane_links_alter().
+ */
+function views_content_get_pane_links_alter(&$links, $pane, $content_type) {
+  if ($pane->type === 'views_panes') {
+    list($view_name, $display_name) = explode('-', $pane->subtype);
+    $destination = array('destination' => current_path());
+    $links['top'][] = array(
+      'title' => t('Edit view'),
+      'href' => url('admin/structure/views/view/' . $view_name . '/edit/' . $display_name, array('query' => $destination, 'absolute' => TRUE)),
+    );
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter()
+ */
+function views_content_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'views_pre_view') {
+    $group = $implementations['views_content'];
+    unset($implementations['views_content']);
+    $implementations = array('views_content' => $group) + $implementations;
+  }
+}
+
+/**
+ * Implements hook_views_pre_view()
+ */
+function views_content_views_pre_view(&$view) {
+  if (method_exists($view->display_handler, 'pane_process_conf')) {
+    // process the pane configuration to prevent loss when using ajax
+    $view->display_handler->pane_process_conf();
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function views_content_form_views_exposed_form_alter(&$form, $form_state) {
@@ -302,14 +337,11 @@ function views_content_form_views_exposed_form_alter_remove_access($form, $form_
   $using_form = FALSE;
   foreach ($form['#exposed_form_overrides_filters'] as $filter_id => $filter_info) {
     if (empty($form['#exposed_form_overrides']['filters'][$filter_id]) ||
-        (
-          ($form['#exposed_form_overrides']['filters'][$filter_id] == 'configureable') &&
-          !$form_state['input']['filter-' . $filter_id]['expose_to_visitor']
-        )
-       ) {
+      (($form['#exposed_form_overrides']['filters'][$filter_id] == 'configureable') &&
+        !$form_state['input']['filter-' . $filter_id]['expose_to_visitor'])) {
       $form[$filter_id]['#access'] = FALSE;
       unset($form['#info']['filter-' . $filter_id]);
-      if($form[$filter_id . '_op']) {
+      if (isset($form[$filter_id . '_op'])) {
         $form[$filter_id . '_op']['#access'] = FALSE;
         unset($form['#info']['filter-' . $filter_id . '-op']);
       }
@@ -318,6 +350,7 @@ function views_content_form_views_exposed_form_alter_remove_access($form, $form_
       $using_form = TRUE;
     }
   }
+
   // Only provide options if configured to.
   if (!empty($form['sort_by']['#options']) && isset($form['#exposed_form_overrides']['sorts'])) {
     $form['sort_by']['#options'] = array_intersect_key($form['sort_by']['#options'], array_filter($form['#exposed_form_overrides']['sorts']));
@@ -330,6 +363,10 @@ function views_content_form_views_exposed_form_alter_remove_access($form, $form_
       unset($form['sort_by']);
       unset($form['sort_order']);
     }
+  }
+  //If we have nerfed all of the filters then kill the submit as well
+  if (!$using_form) {
+    $form['submit']['#access'] = FALSE;
   }
   return $form;
 }

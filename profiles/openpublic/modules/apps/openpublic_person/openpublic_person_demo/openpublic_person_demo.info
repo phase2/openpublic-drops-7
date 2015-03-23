@@ -17,9 +17,9 @@ features[menu_links][] = main-menu_leadership:staff-directory/leadership
 features[menu_links][] = main-menu_staff-directory:staff-directory
 project path = /tmp/
 
-; Information added by Drupal.org packaging script on 2015-01-14
-version = "7.x-1.4"
+; Information added by Drupal.org packaging script on 2015-03-20
+version = "7.x-1.5"
 core = "7.x"
 project = "openpublic"
-datestamp = "1421269377"
+datestamp = "1426887234"
 

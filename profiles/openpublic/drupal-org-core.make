@@ -1,6 +1,6 @@
 api = 2
 core = 7.x
-projects[drupal][version] = 7.34
+projects[drupal][version] = 7.35
 projects[drupal][type] = core
 projects[drupal][patch][992540] = https://www.drupal.org/files/issues/992540-3-reset_flood_limit_on_password_reset-drush.patch
 projects[drupal][patch][1355984] = https://www.drupal.org/files/1355984-timeout_on_install_with_drush_si-make.patch
