@@ -41,3 +41,6 @@ Thumbs.db
 # SASS #
 ##########
 .sass-cache
+
+# Release scruff
+profiles/openpublic_old
