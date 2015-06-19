@@ -133,7 +133,7 @@ projects[twitter][version] = 5.8
 
 projects[twitter_pull][version] = 2.0-alpha2
 
-projects[views][version] = 3.10
+projects[views][version] = 3.11
 
 projects[views_boxes][version] = 1.0
 

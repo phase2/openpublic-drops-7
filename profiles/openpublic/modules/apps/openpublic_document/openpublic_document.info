@@ -35,9 +35,9 @@ features[variable][] = field_bundle_settings_node__document
 features[variable][] = node_options_document
 features[views_view][] = document_list
 
-; Information added by Drupal.org packaging script on 2015-03-20
-version = "7.x-1.5"
+; Information added by Drupal.org packaging script on 2015-06-19
+version = "7.x-1.6"
 core = "7.x"
 project = "openpublic"
-datestamp = "1426887234"
+datestamp = "1434747243"
 

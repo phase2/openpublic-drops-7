@@ -21,9 +21,9 @@ features[features_api][] = api:2
 features[page_manager_pages][] = media_room
 features_exclude[dependencies][openpublic_promotion_demo] = openpublic_promotion_demo
 
-; Information added by Drupal.org packaging script on 2015-03-20
-version = "7.x-1.5"
+; Information added by Drupal.org packaging script on 2015-06-19
+version = "7.x-1.6"
 core = "7.x"
 project = "openpublic"
-datestamp = "1426887234"
+datestamp = "1434747243"
 
