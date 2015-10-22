@@ -7,7 +7,7 @@ projects[addthis][version] = 2.1-beta1
 
 projects[addressfield][version] = 1.0-beta5
 
-projects[apps][version] = 1.0-beta20
+projects[apps][version] = 1.0
 
 projects[boxes][version] = 1.2
 projects[boxes][patch][2304795] = https://www.drupal.org/files/issues/2304795-boxes-revert-4.patch
@@ -15,7 +15,7 @@ projects[boxes][patch][2304795] = https://www.drupal.org/files/issues/2304795-bo
 projects[captcha][version] = 1.2
 projects[captcha][patch][825088] = https://www.drupal.org/files/issues/captcha-exportable_support_for_captcha_points-825088-66.patch
 
-projects[colorbox][version] = 1.6
+projects[colorbox][version] = 2.10
 
 projects[comment_notify][version] = 1.2
 projects[comment_notify][patch][1892658] = https://www.drupal.org/files/issues/1892658-comment_notify-node_type_default-6.patch
@@ -33,7 +33,7 @@ projects[context_condition_admin_theme][version] = 1.0
 
 projects[context_field][version] = 1.0
 
-projects[ctools][version] = 1.7
+projects[ctools][version] = 1.9
 projects[ctools][patch][1910608] = https://www.drupal.org/files/issues/views_content-ajax-1910608-29.patch
 projects[ctools][patch][1901106] = https://www.drupal.org/files/issues/ctools-views_content-exposed_form_override-1901106-27.patch
 
@@ -67,7 +67,7 @@ projects[features][patch][1064340] = https://www.drupal.org/files/issues/1064340
 projects[features_template][type] = module
 projects[features_template][version] = 1.0-beta1
 
-projects[field_collection][version] = 1.0-beta8
+projects[field_collection][version] = 1.0-beta9
 
 projects[field_group][version] = 1.4
 
@@ -85,7 +85,7 @@ projects[imce][version] = 1.9
 
 projects[imce_wysiwyg][version] = 1.0
 
-projects[libraries][version] = 1.0
+projects[libraries][version] = 2.2
 
 projects[link][version] = 1.3
 
@@ -129,7 +129,9 @@ projects[tao][subdir] = ''
 
 projects[token][version] = 1.5
 
-projects[twitter][version] = 5.8
+projects[oauth][version] = 3.2
+
+projects[twitter][version] = 5.9
 
 projects[twitter_pull][version] = 2.0-alpha2
 
@@ -139,13 +141,13 @@ projects[views_boxes][version] = 1.0
 
 projects[views_ical][version] = 1.0-beta2
 
-projects[webform][version] = 3.23
+projects[webform][version] = 3.24
 
 projects[wysiwyg][version] = 2.2
 
-projects[xmlsitemap][version] = 2.1
+projects[xmlsitemap][version] = 2.2
 
-libraries[colorbox][download][revision] = b357a79ff44d21b60b5ce42fcedfd85b01a5de64
+libraries[colorbox][download][revision] = d9b74f2
 libraries[colorbox][download][type] = git
 libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox.git
 

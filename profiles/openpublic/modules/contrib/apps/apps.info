@@ -13,9 +13,9 @@ files[] = apps.installer.inc
 files[] = apps.test
 
 
-; Information added by drush on 2015-06-19
-version = "7.x-1.0-beta20"
+; Information added by drush on 2015-10-22
+version = "7.x-1.0"
 core = "7.x"
 project = "apps"
-datestamp = "1434747270"
+datestamp = "1445550554"
 

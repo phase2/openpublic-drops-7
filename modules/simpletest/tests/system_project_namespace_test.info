@@ -5,3 +5,10 @@ version = VERSION
 core = 7.x
 hidden = TRUE
 dependencies[] = drupal:filter
+
+
+; Information added by drush on 2015-10-22
+version = "master-dev"
+project = "drupal"
+datestamp = "1445550446"
+

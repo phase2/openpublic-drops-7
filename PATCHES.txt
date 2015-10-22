@@ -1,6 +1,5 @@
 The following patches have been applied to this project:
 - https://www.drupal.org/files/issues/992540-3-reset_flood_limit_on_password_reset-drush.patch
-- https://www.drupal.org/files/1355984-timeout_on_install_with_drush_si-make.patch
 - https://www.drupal.org/files/1369024-theme-inc-add-messages-id-make-D7.patch
 - https://www.drupal.org/files/1369584-form-error-link-from-message-to-element-D7.patch
 - https://www.drupal.org/files/drupal7.menu-system.1697570-29.patch

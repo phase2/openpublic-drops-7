@@ -60,9 +60,10 @@ features[views_view][] = media_gallery_list
 features[views_view][] = photo_list
 features_exclude[dependencies][features_template] = features_template
 
-; Information added by Drupal.org packaging script on 2015-06-19
-version = "7.x-1.6"
+
+; Information added by drush on 2015-10-22
+version = "7.x-1.7+0-dev"
 core = "7.x"
 project = "openpublic"
-datestamp = "1434747243"
+datestamp = "1445550463"
 

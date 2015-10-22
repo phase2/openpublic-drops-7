@@ -481,9 +481,9 @@ settings[alpha_region_footer_second_equal_height_element] = '0'
 settings[alpha_region_footer_second_equal_height_container] = '0'
 
 
-; Information added by drush on 2015-06-19
+; Information added by drush on 2015-10-22
 version = "7.x-1.5"
 core = "7.x"
 project = "openomega"
-datestamp = "1434747263"
+datestamp = "1445550512"
 
