@@ -50,10 +50,9 @@ features[views_view][] = press_release_list
 features_exclude[dependencies][openpublic_defaults] = openpublic_defaults
 features_exclude[dependencies][openpublic_site_page] = openpublic_site_page
 
-
-; Information added by drush on 2015-10-22
-version = "7.x-1.7+0-dev"
+; Information added by Drupal.org packaging script on 2016-09-15
+version = "7.x-1.10"
 core = "7.x"
 project = "openpublic"
-datestamp = "1445550463"
+datestamp = "1473967553"
 

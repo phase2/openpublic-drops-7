@@ -4,10 +4,9 @@ description = Adds a block showing the current status of 3rd party api config
 package = OpenPublic
 core = 7.x
 
-
-; Information added by drush on 2015-10-22
-version = "7.x-1.7+0-dev"
+; Information added by Drupal.org packaging script on 2016-09-15
+version = "7.x-1.10"
 core = "7.x"
 project = "openpublic"
-datestamp = "1445550463"
+datestamp = "1473967553"
 

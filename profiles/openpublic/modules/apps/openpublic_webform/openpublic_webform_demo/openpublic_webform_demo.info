@@ -10,10 +10,9 @@ features[content][] = feedback
 features[features_api][] = api:2
 project path = /tmp/
 
-
-; Information added by drush on 2015-10-22
-version = "7.x-1.7+0-dev"
+; Information added by Drupal.org packaging script on 2016-09-15
+version = "7.x-1.10"
 core = "7.x"
 project = "openpublic"
-datestamp = "1445550463"
+datestamp = "1473967553"
 

@@ -6,7 +6,7 @@ projects[openomega][download][revision] = 7.x-1.x
 
 projects[devel][version] = 1.5
 
-projects[coder][version] = 2.2
+projects[coder][version] = 2.6
 
 projects[simpletest_clone][version] = 1.x-dev
 

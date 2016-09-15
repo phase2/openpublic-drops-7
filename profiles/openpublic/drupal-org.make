@@ -69,7 +69,7 @@ projects[features_template][version] = 1.0-beta1
 
 projects[field_collection][version] = 1.0-beta9
 
-projects[field_group][version] = 1.4
+projects[field_group][version] = 1.5
 
 projects[follow][version] = 2.0-alpha1
 
@@ -94,11 +94,13 @@ projects[node_reference_view_formatter][version] = 1.0
 projects[oauth][version] = 3.2
 
 projects[omega][version] = 3.1
+projects[omega][type] = 'theme'
 projects[omega][subdir] = ''
 
 projects[openidadmin][version] = 1.0
 
 projects[openomega][version] = 1.5
+projects[openomega][type] = 'theme'
 projects[openomega][subdir] = ''
 
 projects[panels][version] = 3.4
@@ -161,7 +163,7 @@ projects[openomega][download][revision] = 7.x-1.x
 
 projects[devel][version] = 1.5
 
-projects[coder][version] = 2.2
+projects[coder][version] = 2.6
 
 projects[simpletest_clone][version] = 1.x-dev
 

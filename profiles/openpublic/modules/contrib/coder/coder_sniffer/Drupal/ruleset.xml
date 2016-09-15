@@ -7,6 +7,7 @@
   <!-- Usually there is no code in txt or info files, so we suppress warnings about
     PHP short tags and what not. -->
   <exclude-pattern>*.txt</exclude-pattern>
+  <exclude-pattern>*.md</exclude-pattern>
   <exclude-pattern>*.info</exclude-pattern>
  </rule>
 
@@ -214,8 +215,8 @@
  <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
 
  <!-- Ignore various version control directories. -->
- <exclude-pattern>*/.git/*</exclude-pattern>
- <exclude-pattern>*/.svn/*</exclude-pattern>
- <exclude-pattern>*/.hg/*</exclude-pattern>
- <exclude-pattern>*/.bzr/*</exclude-pattern>
+ <exclude-pattern>*/\.git/*</exclude-pattern>
+ <exclude-pattern>*/\.svn/*</exclude-pattern>
+ <exclude-pattern>*/\.hg/*</exclude-pattern>
+ <exclude-pattern>*/\.bzr/*</exclude-pattern>
 </ruleset>

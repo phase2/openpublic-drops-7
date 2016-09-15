@@ -4,9 +4,9 @@ core = 7.x
 ; Specifying a lower PHP version than Drupal core requires anyway.
 php = "5.1"
 
-; Information added by Drupal.org packaging script on 2014-02-23
-version = "7.x-2.2"
+; Information added by Drupal.org packaging script on 2016-07-12
+version = "7.x-2.6"
 core = "7.x"
 project = "coder"
-datestamp = "1393152812"
+datestamp = "1468343435"
 

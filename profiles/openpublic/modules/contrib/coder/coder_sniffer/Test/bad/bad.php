@@ -1,4 +1,4 @@
-<?
+<?php
 
 #Discouraged comment style
 
@@ -716,7 +716,7 @@ $z = $foo ->x;
 // strings in l() should be translated.
 $x = l('Link text', '<front>');
 
-$x = 'Some markup text<br>';
+$x = 'Some markup text with allowed HTML5 <br> tag';
 
 $ip = $_SERVER['REMOTE_ADDR'];
 

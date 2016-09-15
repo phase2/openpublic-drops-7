@@ -534,7 +534,14 @@ function mymodule_foo_some_type_bar() {
 /**
  * Implements hook_foo_bar() for foo_bar.tpl.php.
  */
-function mymodule_foo_bar() {
+function mymodule_foo_bar_phptemplate() {
+
+}
+
+/**
+ * Implements hook_foo_bar() for foo-bar.html.twig.
+ */
+function mymodule_foo_bar_twig() {
 
 }
 
@@ -607,6 +614,16 @@ class Foo implements FooInterface {
   public function test2() {}
 
   /**
+   * Return docs are allowed to use $this.
+   *
+   * @return $this
+   *   This object for chaining method calls.
+   */
+  public function test3() {
+    return $this;
+  }
+
+  /**
    * Returns the string representatuion of this object.
    */
   public function __toString() {
@@ -616,3 +633,10 @@ class Foo implements FooInterface {
 
 t('Some long mulit-line 
   text is weird, but allowed.');
+
+l("<i class='icon icon-industrial-building'></i>", 'node/add/job', array(
+  'attributes' => array('title' => t('add job')),
+  'html'       => TRUE,
+));
+
+$x = 'Some markup text with allowed HTML5 <br> tag';
