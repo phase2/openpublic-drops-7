@@ -7,7 +7,7 @@ projects[addthis][version] = 2.1-beta1
 
 projects[addressfield][version] = 1.0-beta5
 
-projects[apps][version] = 1.0
+projects[apps][version] = 1.1
 
 projects[boxes][version] = 1.2
 projects[boxes][patch][2304795] = https://www.drupal.org/files/issues/2304795-boxes-revert-4.patch
@@ -33,9 +33,8 @@ projects[context_condition_admin_theme][version] = 1.0
 
 projects[context_field][version] = 1.0
 
-projects[ctools][version] = 1.9
-projects[ctools][patch][1910608] = https://www.drupal.org/files/issues/views_content-ajax-1910608-29.patch
-projects[ctools][patch][1901106] = https://www.drupal.org/files/issues/ctools-views_content-exposed_form_override-1901106-27.patch
+projects[ctools][version] = 1.12
+projects[ctools][patch][1901106] = https://www.drupal.org/files/issues/1901106-ctools-views_content-override-ajax-34.patch
 
 projects[date][version] = 2.8
 
@@ -61,8 +60,7 @@ projects[entity_boxes][patch][2047875] = https://www.drupal.org/files/issues/204
 
 projects[entitycache][version] = 1.2
 
-projects[features][version] = 2.3
-projects[features][patch][1064340] = https://www.drupal.org/files/issues/1064340-features-files-13.patch
+projects[features][version] = 2.10
 
 projects[features_template][type] = module
 projects[features_template][version] = 1.0-beta1
@@ -79,7 +77,7 @@ projects[fullcalendar][download][branch] = d41c651486ef247164a9d5fc22fae7be2c63c
 projects[fullcalendar][download][revision] = 7.x-2.x
 
 
-projects[google_analytics][version] = 2.1
+projects[google_analytics][version] = 2.3
 
 projects[imce][version] = 1.9
 
@@ -103,16 +101,16 @@ projects[openomega][version] = 1.5
 projects[openomega][type] = 'theme'
 projects[openomega][subdir] = ''
 
-projects[panels][version] = 3.4
+projects[panels][version] = 3.9
 
 projects[pathauto][version] = 1.2
 projects[pathauto][patch][936222] = https://www.drupal.org/files/issues/pathauto-persist-936222-195-pathauto-state.patch
 
-projects[recaptcha][version] = 1.11
+projects[recaptcha][version] = 2.2
 
-projects[references][version] = 2.1
+projects[references][version] = 2.2
 
-projects[references_dialog][version] = 1.0-beta1
+projects[references_dialog][version] = 1.0-beta2
 projects[references_dialog][patch][1774466] = https://www.drupal.org/files/issues/references_dialog_ui_improvements-1774466-24.patch
 
 projects[rubik][version] = 4.1
@@ -129,45 +127,27 @@ projects[strongarm][version] = 2.0
 projects[tao][version] = 3.1
 projects[tao][subdir] = ''
 
-projects[token][version] = 1.5
+projects[token][version] = 1.6
 
-projects[oauth][version] = 3.2
+projects[oauth][version] = 3.4
 
 projects[twitter][version] = 5.9
 
 projects[twitter_pull][version] = 2.0-alpha2
 
-projects[views][version] = 3.11
+projects[views][version] = 3.16
 
 projects[views_boxes][version] = 1.0
 
 projects[views_ical][version] = 1.0-beta2
 
-projects[webform][version] = 3.24
+projects[webform][version] = 3.27
 
 projects[wysiwyg][version] = 2.2
 
-projects[xmlsitemap][version] = 2.2
+projects[xmlsitemap][version] = 2.3
 
 libraries[colorbox][download][revision] = d9b74f2
 libraries[colorbox][download][type] = git
 libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox.git
 
-; REMOVE THIS BEFORE TAGGING.
-
-; This should be copied to bottom of .make but removed for releases
-;
-projects[openomega][download][type] = git
-projects[openomega][download][url] = http://git.drupal.org/project/openomega.git
-projects[openomega][download][revision] = 7.x-1.x
-
-projects[devel][version] = 1.5
-
-projects[coder][version] = 2.6
-
-projects[simpletest_clone][version] = 1.x-dev
-
-; Use -dev of apps for now till cutting a new release before stable.
-projects[apps][download][type] = git
-projects[apps][download][url] = http://git.drupal.org/project/apps.git
-projects[apps][download][revision] = 7.x-1.x

@@ -24,9 +24,9 @@ features[image][] = right-sidebar-thumbnails
 features[variable][] = pathauto_node_pattern
 features[variable][] = pathauto_punctuation_underscore
 
-; Information added by Drupal.org packaging script on 2016-09-15
-version = "7.x-1.10"
+; Information added by Drupal.org packaging script on 2017-04-19
+version = "7.x-1.11"
 core = "7.x"
 project = "openpublic"
-datestamp = "1473967553"
+datestamp = "1492627918"
 

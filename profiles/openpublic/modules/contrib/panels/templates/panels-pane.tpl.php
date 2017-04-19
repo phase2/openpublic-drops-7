@@ -1,7 +1,7 @@
 <?php
 /**
- * @file panels-pane.tpl.php
- * Main panel pane template
+ * @file Panels-pane.tpl.php
+ * Main panel pane template.
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -27,7 +27,9 @@
 
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
-    <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
+    <<?php print $title_heading; ?><?php print $title_attributes; ?>>
+      <?php print $title; ?>
+    </<?php print $title_heading; ?>>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
 

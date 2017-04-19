@@ -42,7 +42,7 @@
  *   are declared "dynamically" or are part of a family of components.
  *
  *   'alter_type': What type of alter hook this hook uses. 'normal' is called
- *   after the main hook is called. 'inline' is embeded within the default hook
+ *   after the main hook is called. 'inline' is embedded within the default hook
  *   and may not be implemented by some default hooks.
  *   'none' is no alter hook exists. Defaults to 'normal'
  *
@@ -310,7 +310,7 @@ function hook_features_pipe_COMPONENT_alter(&$pipe, $data, $export) {
  * The module being exported contained in $export['module_name'].
  */
 function hook_features_pipe_alter(&$pipe, $data, $export) {
-  if ($export['component'] == 'node' && in_array($data, 'my-node-type')) {
+  if ($export['component'] == 'node' && in_array('my-node-type', $data)) {
     $pipe['dependencies'][] = 'mymodule';
   }
 }
@@ -322,7 +322,7 @@ function hook_features_pipe_alter(&$pipe, $data, $export) {
  * @return array
  *   An array of files, keyed by file name that will appear in feature and
  *   with either file_path key to indicate where to copy the file from or
- *   file_content key to indicate the contents of the file. 
+ *   file_content key to indicate the contents of the file.
  */
 function hook_features_export_files($module_name, $export) {
   return array('css/main.css' => array('file_content' => 'body {background-color:blue;}'));

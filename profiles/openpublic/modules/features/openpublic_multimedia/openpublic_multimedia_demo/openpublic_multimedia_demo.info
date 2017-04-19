@@ -20,9 +20,9 @@ features[features_api][] = api:2
 features[menu_links][] = main-menu_media-room:media-room
 features[menu_links][] = main-menu_multimedia:multimedia
 
-; Information added by Drupal.org packaging script on 2016-09-15
-version = "7.x-1.10"
+; Information added by Drupal.org packaging script on 2017-04-19
+version = "7.x-1.11"
 core = "7.x"
 project = "openpublic"
-datestamp = "1473967553"
+datestamp = "1492627918"
 

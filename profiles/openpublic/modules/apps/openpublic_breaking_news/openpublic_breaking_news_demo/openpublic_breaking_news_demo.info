@@ -9,9 +9,9 @@ features[box][] = box-54682cbd
 features[ctools][] = boxes:box:1
 features[features_api][] = api:2
 
-; Information added by Drupal.org packaging script on 2016-09-15
-version = "7.x-1.10"
+; Information added by Drupal.org packaging script on 2017-04-19
+version = "7.x-1.11"
 core = "7.x"
 project = "openpublic"
-datestamp = "1473967553"
+datestamp = "1492627918"
 
