@@ -34,9 +34,9 @@ features[variable][] = comment_subject_field_event
 features[variable][] = node_options_event
 features[views_view][] = event_list
 
-; Information added by Drupal.org packaging script on 2017-06-22
-version = "7.x-1.12"
+; Information added by Drupal.org packaging script on 2017-08-17
+version = "7.x-1.13"
 core = "7.x"
 project = "openpublic"
-datestamp = "1498141801"
+datestamp = "1502975953"
 

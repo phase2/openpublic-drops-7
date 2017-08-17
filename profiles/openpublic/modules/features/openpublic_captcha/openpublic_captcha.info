@@ -40,9 +40,9 @@ features[variable][] = captcha_description
 features[variable][] = captcha_log_wrong_responses
 features[variable][] = captcha_persistence
 
-; Information added by Drupal.org packaging script on 2017-06-22
-version = "7.x-1.12"
+; Information added by Drupal.org packaging script on 2017-08-17
+version = "7.x-1.13"
 core = "7.x"
 project = "openpublic"
-datestamp = "1498141801"
+datestamp = "1502975953"
 

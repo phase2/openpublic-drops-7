@@ -12,9 +12,9 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[views_view][] = most_popular_content
 
-; Information added by Drupal.org packaging script on 2017-06-22
-version = "7.x-1.12"
+; Information added by Drupal.org packaging script on 2017-08-17
+version = "7.x-1.13"
 core = "7.x"
 project = "openpublic"
-datestamp = "1498141801"
+datestamp = "1502975953"
 
