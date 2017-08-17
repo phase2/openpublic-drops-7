@@ -38,8 +38,8 @@ features[field_instance][] = entity_boxes-promotion-field_promotion_summary
 features[field_instance][] = entity_boxes-promotion-field_promotion_thumbnail
 
 ; Information added by Drupal.org packaging script on 2017-08-17
-version = "7.x-1.13"
+version = "7.x-1.14"
 core = "7.x"
 project = "openpublic"
-datestamp = "1502975953"
+datestamp = "1502981667"
 

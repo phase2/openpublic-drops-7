@@ -51,7 +51,8 @@ function openpublic_multimedia_preprocess_views_view_field(&$vars) {
   if ($vars['view']->name == 'media_gallery_list' && $vars['view']->current_display == 'panel_pane_1' && $vars['field']->options['id'] == 'entity_id'
     && !empty($vars['row']->field_entity_id[0]['raw']['nid']) && !empty($vars['row']->field_entity_id[0]['rendered']['#access'])) {
     if (($media = node_load($vars['row']->field_entity_id[0]['raw']['nid']))
-      && ($photo = reset(field_get_items('node', $media, 'field_photo_image')))) {
+      && ($photo_field = field_get_items('node', $media, 'field_photo_image'))
+      && ($photo = reset($photo_field))) {
       $theme_data = array(
         'style_name' => 'media_gallery',
         'path' => $photo['uri'],
