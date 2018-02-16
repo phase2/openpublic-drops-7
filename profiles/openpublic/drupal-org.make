@@ -12,8 +12,7 @@ projects[apps][version] = 1.1
 projects[boxes][version] = 1.2
 projects[boxes][patch][2304795] = https://www.drupal.org/files/issues/2304795-boxes-revert-4.patch
 
-projects[captcha][version] = 1.2
-projects[captcha][patch][825088] = https://www.drupal.org/files/issues/captcha-exportable_support_for_captcha_points-825088-66.patch
+projects[captcha][version] = 1.5
 
 projects[colorbox][version] = 2.10
 
@@ -49,7 +48,7 @@ projects[delta][patch][1532196] = https://www.drupal.org/files/breadcrumb_empty_
 
 projects[diff][version] = 3.2
 
-projects[entity][version] = 1.6
+projects[entity][version] = 1.9
 projects[entity][patch][2307807] = https://www.drupal.org/files/issues/2307807-entity-reset-insert-1.patch
 
 projects[entity_autocomplete][version] = 1.0-beta3

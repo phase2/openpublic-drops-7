@@ -108,9 +108,9 @@ features_exclude[dependencies][views] = views
 features_exclude[dependencies][xmlsitemap] = xmlsitemap
 project path = profiles/openpublic/modules/features
 
-; Information added by Drupal.org packaging script on 2017-08-17
-version = "7.x-1.14"
+; Information added by Drupal.org packaging script on 2018-02-16
+version = "7.x-1.16"
 core = "7.x"
 project = "openpublic"
-datestamp = "1502981667"
+datestamp = "1518790228"
 
