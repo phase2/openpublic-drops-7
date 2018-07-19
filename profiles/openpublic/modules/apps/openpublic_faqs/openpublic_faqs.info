@@ -35,9 +35,8 @@ features[variable][] = node_preview_faqs
 features[variable][] = show_diff_inline_faqs
 features[views_view][] = faqs_list
 
-; Information added by Drupal.org packaging script on 2018-02-23
-version = "7.x-1.17"
+; Information added by Drupal.org packaging script on 2018-07-19
+version = "7.x-1.21"
 core = "7.x"
 project = "openpublic"
-datestamp = "1519394923"
-
+datestamp = "1532005517"

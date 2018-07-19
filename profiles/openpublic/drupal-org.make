@@ -144,7 +144,7 @@ projects[webform][version] = 3.27
 
 projects[wysiwyg][version] = 2.2
 
-projects[xmlsitemap][version] = 2.3
+projects[xmlsitemap][version] = 2.4
 
 libraries[colorbox][download][revision] = d9b74f2
 libraries[colorbox][download][type] = git
