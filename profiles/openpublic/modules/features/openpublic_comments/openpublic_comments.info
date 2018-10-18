@@ -29,8 +29,8 @@ features[variable][] = comment_services
 features[variable][] = comment_subject_field_services
 features[views_view][] = comment_list
 
-; Information added by Drupal.org packaging script on 2018-07-19
-version = "7.x-1.21"
+; Information added by Drupal.org packaging script on 2018-10-18
+version = "7.x-1.22"
 core = "7.x"
 project = "openpublic"
-datestamp = "1532005517"
+datestamp = "1539868858"

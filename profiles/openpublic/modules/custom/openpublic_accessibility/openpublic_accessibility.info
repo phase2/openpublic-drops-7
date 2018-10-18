@@ -2,8 +2,8 @@ name = "OpenPublic Accessibility"
 description = "OpenPublic Accessibility"
 core = 7.x
 files[] = openpublic_accessibility.module
-; Information added by Drupal.org packaging script on 2018-07-19
-version = "7.x-1.21"
+; Information added by Drupal.org packaging script on 2018-10-18
+version = "7.x-1.22"
 core = "7.x"
 project = "openpublic"
-datestamp = "1532005517"
+datestamp = "1539868858"

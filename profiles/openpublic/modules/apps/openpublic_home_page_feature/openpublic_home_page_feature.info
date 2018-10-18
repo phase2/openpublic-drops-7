@@ -75,8 +75,8 @@ features_exclude[dependencies][openpublic_topic_demo] = openpublic_topic_demo
 files[] = theme/home-page-rotator.css
 files[] = tests/home_page.test
 
-; Information added by Drupal.org packaging script on 2018-07-19
-version = "7.x-1.21"
+; Information added by Drupal.org packaging script on 2018-10-18
+version = "7.x-1.22"
 core = "7.x"
 project = "openpublic"
-datestamp = "1532005517"
+datestamp = "1539868858"
