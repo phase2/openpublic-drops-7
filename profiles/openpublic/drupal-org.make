@@ -21,7 +21,7 @@ projects[comment_notify][patch][1892658] = https://www.drupal.org/files/issues/1
 
 projects[conditional_styles][version] = 2.2
 
-projects[context][version] = 3.6
+projects[context][version] = 3.10
 projects[context][patch][1892658] = https://www.drupal.org/files/issues/455908-context-weight-123.patch
 
 projects[context_bool_field][version] = 1.0
@@ -84,7 +84,7 @@ projects[imce_wysiwyg][version] = 1.0
 
 projects[libraries][version] = 2.2
 
-projects[link][version] = 1.3
+projects[link][version] = 1.6
 
 projects[node_reference_view_formatter][version] = 1.0
 
