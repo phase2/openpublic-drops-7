@@ -71,8 +71,8 @@ features_exclude[dependencies][openpublic_defaults] = openpublic_defaults
 features_exclude[dependencies][openpublic_translation_content] = openpublic_translation_content
 features_exclude[dependencies][references_dialog] = references_dialog
 
-; Information added by Drupal.org packaging script on 2019-02-27
-version = "7.x-1.25"
+; Information added by Drupal.org packaging script on 2019-03-13
+version = "7.x-1.27"
 core = "7.x"
 project = "openpublic"
-datestamp = "1551296027"
+datestamp = "1552505334"
