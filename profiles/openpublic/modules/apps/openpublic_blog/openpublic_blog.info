@@ -56,8 +56,8 @@ features_exclude[field][node-blog_entry-field_author] = node-blog_entry-field_au
 features_exclude[field][node-blog_entry-field_release_date] = node-blog_entry-field_release_date
 features_exclude[field][node-blog_entry-field_files] = node-blog_entry-field_files
 
-; Information added by Drupal.org packaging script on 2019-03-20
-version = "7.x-1.28"
+; Information added by Drupal.org packaging script on 2019-04-18
+version = "7.x-1.29"
 core = "7.x"
 project = "openpublic"
-datestamp = "1553111532"
+datestamp = "1555619050"
