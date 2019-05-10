@@ -8,8 +8,8 @@ features[content][] = op_event_holiday_lights
 features[content][] = op_event_townhall
 features[features_api][] = api:2
 
-; Information added by Drupal.org packaging script on 2019-04-18
-version = "7.x-1.29"
+; Information added by Drupal.org packaging script on 2019-05-10
+version = "7.x-1.30"
 core = "7.x"
 project = "openpublic"
-datestamp = "1555619050"
+datestamp = "1557499113"

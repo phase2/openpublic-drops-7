@@ -26,8 +26,8 @@ features[views_view][] = topic_content_list
 features_exclude[dependencies][ctools] = ctools
 features_exclude[dependencies][options] = options
 
-; Information added by Drupal.org packaging script on 2019-04-18
-version = "7.x-1.29"
+; Information added by Drupal.org packaging script on 2019-05-10
+version = "7.x-1.30"
 core = "7.x"
 project = "openpublic"
-datestamp = "1555619050"
+datestamp = "1557499113"
